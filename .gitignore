@@ -5,3 +5,5 @@ node_modules/
 app/storage/
 .idea
 /dist
+/fonts/
+mix-manifest.json

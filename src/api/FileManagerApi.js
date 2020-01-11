@@ -1,6 +1,7 @@
 export default {
-  list(dir) {
-
-  },
-
+  list(dir) {},
+  copy() {},
+  move() {},
+  trash() {},
+  upload() {},
 };
