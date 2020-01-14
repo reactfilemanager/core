@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {setEntries, setWorkingPath} from '../state/actions';
-import {getApi} from '../GeneralAPI';
+import {getApi} from '../api/GeneralAPI';
 
 class TabContent extends Component {
   componentDidMount() {
