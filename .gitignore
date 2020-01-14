@@ -7,3 +7,4 @@ app/storage/
 /dist
 /fonts/
 mix-manifest.json
+/server
