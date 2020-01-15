@@ -67,14 +67,33 @@ class Rename extends Component {
         });
   };
 
+  handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.handleSave();
+    }
+  };
+
   render() {
     const selected = this.getSelected();
     const Body = selected ?
         <div className="form-inline p-1 bg-info">
           <div className="form-group mx-sm-3 mb-2">
-            <label htmlFor="name" className="sr-only">Enter {selected.is_dir ? 'Folder Name' : 'File Name'}</label>
-            <input type="text" className="form-control" id="name" placeholder="name" defaultValue={selected.name}
-                   ref="name"/>
+            <label htmlFor="name"
+                   className="sr-only"
+            >
+              Enter {selected.is_dir ? 'Folder Name' : 'File Name'}
+            </label>
+            <input type="text"
+                   className="form-control"
+                   id="name"
+                   placeholder="name"
+                   defaultValue={selected.name}
+                   ref="name"
+                   onKeyDown={this.handleKeyDown}
+            />
           </div>
           <button className="btn btn-primary mb-2"
                   onClick={this.handleSave}
