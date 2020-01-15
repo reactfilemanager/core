@@ -10,6 +10,7 @@ export default class FileInfo {
   size;
   extension;
   selected = false;
+  _components = {};
 
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,
@@ -24,6 +25,20 @@ export default class FileInfo {
     this.is_executable = is_executable;
     this.size = size;
     this.extension = extension;
+  }
+
+  addComponent(key, component) {
+    this._components[key] = component;
+  }
+
+  removeComponent(key) {
+    if (this._components[key] !== undefined) {
+      delete this._components[key];
+    }
+  }
+
+  get components() {
+    return Object.values(this._components);
   }
 
 }

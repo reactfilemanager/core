@@ -38,6 +38,7 @@ class Item extends Component {
 
   render() {
     const item = this.props.item;
+
     return (
         <div className={'col-md-2' + (item.selected ? ' selected' : '')}
              key={`${item.name}_${item.size}_${item.extension}`}
@@ -45,18 +46,19 @@ class Item extends Component {
              onClick={this.handleClick}
         >
           <div className="card">
-            <img src={thumb(this.props.item.path)} className="card-img-top" alt="..."/>
+            <img src={thumb(item.path)} className="card-img-top" alt="..."/>
             <div className="card-body">
               <p className="card-text">
                 {
-                  this.props.item.is_dir
+                  item.is_dir
                       ? <a href="#" onClick={this.handleClickName}
                       >
-                        {this.props.item.name}
+                        {item.name}
                       </a>
-                      : this.props.item.name
+                      : item.name
                 }
               </p>
+              {item.components}
             </div>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import APIMapper from './mappers/APIMapper';
+import {merge} from 'lodash';
 import {appendState} from './state/store/initialState';
 import {addReducer} from './state/reducers';
 
 const plugins = {};
+const config = {};
 const api = {};
 const tabs = [];
 let bootRequired = [];
@@ -35,8 +37,18 @@ export const registerPlugin = (_plugins) => {
       }
     }
 
+    // load config
+    if (plugin.config) {
+      for (const key of Object.keys(plugin.reducers)) {
+        const prevConf = config[key] !== undefined ? config[key] : {};
+        config[key] = merge(plugin.config[key]);
+      }
+    }
+
     // load the api
-    api[key] = APIMapper.mapAPIConfigToMethod(key.toProperCase(), plugin.api);
+    if (plugin.api) {
+      api[key] = APIMapper.mapAPIConfigToMethod(key.toProperCase(), plugin.api);
+    }
 
     if (plugin.boot) {
       bootRequired.push({boot: plugin.boot, key});
@@ -52,7 +64,7 @@ export const getTabs = () => {
 
 export const bootPlugins = () => {
   for (const entry of bootRequired) {
-    entry.boot({api: api[entry.key]});
+    entry.boot({api: api[entry.key], config: config[entry.key]});
   }
   bootRequired = [];
 };

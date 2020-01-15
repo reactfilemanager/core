@@ -1,15 +1,5 @@
 import FileInfoMapper from '../mappers/FileInfoMapper';
 
-let api = {};
-
-export const setApi = _api => {
-  api = _api;
-};
-
-export const getApi = () => {
-  return api;
-};
-
 export default {
   list: {
     mapper: FileInfoMapper.map,

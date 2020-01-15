@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {getApi} from '../../api/GeneralAPI';
 import {setEntries, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
+import {getApi} from '../../config';
 
 class ItemList extends Component {
 
@@ -30,7 +30,7 @@ class ItemList extends Component {
         });
   };
 
-  getFileBlock = (item) => {
+  getItemBlock = (item) => {
     return (
         <Item key={item.name} item={item} moveTo={this.setWorkingPath} dispatch={this.props.dispatch}/>
     );
@@ -42,8 +42,8 @@ class ItemList extends Component {
 
     return (
         <div className="row">
-          {dirs.map(dir => this.getFileBlock(dir))}
-          {files.map(file => this.getFileBlock(file))}
+          {dirs.map(dir => this.getItemBlock(dir))}
+          {files.map(file => this.getItemBlock(file))}
         </div>
     );
   }

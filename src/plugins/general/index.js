@@ -1,8 +1,8 @@
 import GeneralAPI from './api/GeneralAPI';
-import boot from './boot';
+import config from './config';
 import General from './Components/General';
 import reducers from './state/reducers';
-import initial_state from './state'
+import initial_state from './state';
 
 export default {
   // hook/name for the plugin
@@ -10,7 +10,7 @@ export default {
     // register API
     api: GeneralAPI,
     // load time function calls
-    boot,
+    boot: config,
     // add initial state
     initial_state,
     // add a tab entry

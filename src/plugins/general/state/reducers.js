@@ -36,12 +36,38 @@ export default {
       },
     };
   },
+  [types.UPDATE]: (state, {payload}) => {
+    const entries = state.general.entries;
+    if (payload.is_file) {
+      entries.files = findAndReplace(entries.files, payload);
+    }
+    if (payload.is_dir) {
+      entries.dirs = findAndReplace(entries.dirs, payload);
+    }
+
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        entries,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {
   return list.map(_item => {
-    if(item === _item) {
+    if (item === _item) {
       _item.selected = !_item.selected;
+    }
+    return _item;
+  });
+}
+
+function findAndReplace(list, item) {
+  return list.map(_item => {
+    if (item === _item) {
+      _item = item;
     }
     return _item;
   });

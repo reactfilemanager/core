@@ -1,18 +1,28 @@
 import React from 'react';
 import Breadcrumb from './Breadcrumb';
 import ItemList from './ItemList';
+import Toolbar from './Toolbar';
+import {getConfig, getDefaultConfig} from '../config';
 
 export default function() {
   const [state, dispatch] = window.useStore();
+  const defaultConfig = getDefaultConfig();
+  const config = getConfig();
 
   return (
       <div className="row">
         <div className="col-md-12">
-          toolbar 1
+          <Toolbar state={state.general}
+                   dispatch={dispatch}
+                   children={defaultConfig.toolbar}/>
         </div>
-        <div className="col-md-12">
-          toolbar 2
-        </div>
+        {config.toolbar ?
+            <div className="col-md-12">
+              <Toolbar state={state.general}
+                       dispatch={dispatch}
+                       children={config.toolbar}/>
+            </div>
+            : null}
         <div className="col-md-12">
           <div className="row">
             <div className="col-md-2">
