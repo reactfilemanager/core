@@ -93,6 +93,7 @@ class Rename extends Component {
                    defaultValue={selected.name}
                    ref="name"
                    onKeyDown={this.handleKeyDown}
+                   autoFocus
             />
           </div>
           <button className="btn btn-primary mb-2"

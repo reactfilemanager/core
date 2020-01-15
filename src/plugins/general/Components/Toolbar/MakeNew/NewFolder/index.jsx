@@ -65,6 +65,7 @@ class NewFolder extends Component {
                    defaultValue="New Folder"
                    ref="name"
                    onKeyDown={this.handleKeyDown}
+                   autoFocus
             />
           </div>
           <button className="btn btn-primary mb-2"
@@ -76,7 +77,6 @@ class NewFolder extends Component {
         </div>;
 
     return (
-
         <Popover
             body={Body}
             isOpen={this.state.isOpen}

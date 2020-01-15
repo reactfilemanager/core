@@ -10,8 +10,11 @@ class ItemList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.state.shouldReload) {
-      this.props.dispatch(setShouldReload(false));
+    if (this.props.state.shouldReload || prevProps.state.path !== this.props.state.path) {
+      if (this.props.state.shouldReload) {
+        this.props.dispatch(setShouldReload(false));
+      }
+
       this.readPath();
     }
   }

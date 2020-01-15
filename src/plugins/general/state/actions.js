@@ -5,3 +5,4 @@ export const setEntries = entries => ({type: types.SET_ENTRIES, payload: {...ent
 export const toggleSelect = item => ({type: types.TOGGLE_SELECT, payload: item});
 export const setShouldReload = (shouldReload) => ({type: types.SHOULD_RELOAD, payload: shouldReload});
 export const update = item => ({type: types.UPDATE, payload: item});
+export const remove = item => ({type: types.REMOVE, payload: item});

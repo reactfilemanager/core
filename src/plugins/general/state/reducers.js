@@ -37,19 +37,14 @@ export default {
     };
   },
   [types.UPDATE]: (state, {payload}) => {
-    const entries = state.general.entries;
-    if (payload.is_file) {
-      entries.files = findAndReplace(entries.files, payload);
-    }
-    if (payload.is_dir) {
-      entries.dirs = findAndReplace(entries.dirs, payload);
-    }
-
     return {
       ...state,
       general: {
         ...state.general,
-        entries,
+        entries: {
+          files: findAndReplace(state.general.entries.files, payload),
+          dirs: findAndReplace(state.general.entries.dirs, payload),
+        },
       },
     };
   },
@@ -59,6 +54,18 @@ export default {
       general: {
         ...state.general,
         shouldReload: payload,
+      },
+    };
+  },
+  [types.REMOVE]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        entries: {
+          files: findAndRemove(state.general.entries.files, payload),
+          dirs: findAndRemove(state.general.entries.dirs, payload),
+        },
       },
     };
   },
@@ -80,4 +87,8 @@ function findAndReplace(list, item) {
     }
     return _item;
   });
+}
+
+function findAndRemove(list, item) {
+  return list.filter(_item => _item !== item);
 }
