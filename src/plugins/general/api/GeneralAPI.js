@@ -1,4 +1,4 @@
-import FileInfoMapper from './FileInfoMapper';
+import FileInfoMapper from '../mappers/FileInfoMapper';
 
 let api = {};
 

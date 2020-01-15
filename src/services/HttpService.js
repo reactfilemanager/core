@@ -3,6 +3,7 @@ import ResponseMapperService from '../mappers/ResponseMapper';
 
 export function setBaseUrl(url) {
   Axios.defaults.baseURL = url;
+  window.thumb = _url => `${url}?thumb=${encodeURIComponent(_url)}`;
 }
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

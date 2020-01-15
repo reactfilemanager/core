@@ -32,8 +32,9 @@
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
-    "sweetalert2": "^9.5.4",
-    "sweetalert2-react-content": "^2.0.2",
+    "react-contextmenu": "^2.13.0",
+    "react-loading": "^2.0.3",
+    "react-popover": "^0.5.10",
     "toastr": "^2.1.4"
   }
 }

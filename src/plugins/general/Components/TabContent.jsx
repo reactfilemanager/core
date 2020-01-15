@@ -39,9 +39,9 @@ class TabContent extends Component {
   }
 
   getFileBlock(item) {
-    return (<div className="col-md-3" key={item.name} onDoubleClick={() => this.handleDoubleClick(item)}>
+    return (<div className="col-md-2" key={item.name} onDoubleClick={() => this.handleDoubleClick(item)}>
           <div className="card">
-            <img src="https://placehold.it/80x80" className="card-img-top" alt="..."/>
+            <img src={thumb(item.path)} className="card-img-top" alt="..."/>
             <div className="card-body">
               <p className="card-text">{item.name}</p>
             </div>

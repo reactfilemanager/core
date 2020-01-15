@@ -1,6 +1,6 @@
-import GeneralAPI from './GeneralAPI';
+import GeneralAPI from './api/GeneralAPI';
 import boot from './boot';
-import General from './General';
+import General from './Components/General';
 import reducers from './state/reducers';
 import initial_state from './state'
 

@@ -1,4 +1,4 @@
-import FileInfo from './FileInfo';
+import FileInfo from '../models/FileInfo';
 
 export default {
   map(list) {
