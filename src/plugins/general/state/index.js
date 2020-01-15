@@ -3,6 +3,7 @@ export default {
     files: [],
     dirs: [],
   },
+  shouldReload: true,
   filters: {},
   search: '',
   path: null,

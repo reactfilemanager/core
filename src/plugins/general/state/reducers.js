@@ -53,6 +53,15 @@ export default {
       },
     };
   },
+  [types.SHOULD_RELOAD]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        shouldReload: payload,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {

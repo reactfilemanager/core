@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {setEntries, setWorkingPath} from '../../state/actions';
+import {setEntries, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
 import {getApi} from '../../config';
 
@@ -10,7 +10,8 @@ class ItemList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.state.path !== this.props.state.path) {
+    if (this.props.state.shouldReload) {
+      this.props.dispatch(setShouldReload(false));
       this.readPath();
     }
   }
