@@ -19,4 +19,30 @@ export default {
       },
     };
   },
+  [types.TOGGLE_SELECT]: (state, {payload}) => {
+    const entries = state.general.entries;
+    if (payload.is_file) {
+      entries.files = toggleSelect(entries.files, payload);
+    }
+    if (payload.is_dir) {
+      entries.dirs = toggleSelect(entries.dirs, payload);
+    }
+
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        entries,
+      },
+    };
+  },
 };
+
+function toggleSelect(list, item) {
+  return list.map(_item => {
+    if(item === _item) {
+      _item.selected = !_item.selected;
+    }
+    return _item;
+  });
+}

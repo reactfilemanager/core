@@ -9,6 +9,7 @@ export default class FileInfo {
   is_executable;
   size;
   extension;
+  selected = false;
 
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,

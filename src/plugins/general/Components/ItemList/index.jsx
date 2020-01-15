@@ -32,7 +32,7 @@ class ItemList extends Component {
 
   getFileBlock = (item) => {
     return (
-        <Item key={item.name} item={item} moveTo={this.setWorkingPath}/>
+        <Item key={item.name} item={item} moveTo={this.setWorkingPath} dispatch={this.props.dispatch}/>
     );
   };
 
