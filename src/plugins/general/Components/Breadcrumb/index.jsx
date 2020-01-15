@@ -3,8 +3,10 @@ import {setWorkingPath} from '../../state/actions';
 
 class Breadcrumb extends Component {
 
-  moveTo = (path) => {
-    console.log(path);
+  moveTo = (e, path) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     this.props.dispatch(setWorkingPath(path));
   };
 
@@ -33,7 +35,7 @@ class Breadcrumb extends Component {
               >
                 {isActive
                     ? dir
-                    : <a href="#" onClick={() => this.moveTo(nPath)}>{dir}</a>}
+                    : <a href="#" onClick={e => this.moveTo(e, nPath)}>{dir}</a>}
               </li>
           );
         });
@@ -41,7 +43,7 @@ class Breadcrumb extends Component {
         // inject home to the top
         Breadcrumbs.unshift(
             <li className="breadcrumb-item" key="home">
-              <a href="#" onClick={() => this.moveTo('/')}>
+              <a href="#" onClick={e => this.moveTo(e, '/')}>
                 <i className="fa fa-home"/>
               </a>
             </li>,
