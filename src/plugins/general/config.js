@@ -1,6 +1,5 @@
 import Rename from './Components/Toolbar/Rename';
-import Copy from './Components/Toolbar/Copy';
-import Move from './Components/Toolbar/Move';
+import Select from './Components/Toolbar/Select';
 import Delete from './Components/Toolbar/Delete';
 import MakeNew from './Components/Toolbar/MakeNew';
 
@@ -9,8 +8,7 @@ const _defaultConfig = {
   toolbar: {
     make_new: MakeNew,
     rename_op: Rename,
-    copy_op: Copy,
-    move_op: Move,
+    select_op: Select,
     delete_op: Delete,
   },
 };
