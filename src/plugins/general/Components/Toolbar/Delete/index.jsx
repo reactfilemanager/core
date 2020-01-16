@@ -34,6 +34,7 @@ class Delete extends Component {
 
   handleDelete = () => {
     let items = this.getSelected();
+    this.setState({working: true});
     for(const item of items) {
       getApi()
           .delete('/', item.path)
@@ -56,7 +57,7 @@ class Delete extends Component {
     const Body = selected.length > 0 ?
         <div className=" p-1 bg-info">
           <div className="form-group mx-sm-3 mb-2">
-            <h3>Are you sure you want to delete this entries?</h3>
+            <h3>Are you sure you want to delete these entries?</h3>
             <ol className="list-group">
               {selected.map(item => <li className="list-group-item" key={`${item.name}`}>{item.name}</li>)}
             </ol>
