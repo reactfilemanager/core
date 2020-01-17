@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getApi} from '../../../../config';
 import toastr from 'toastr';
-import {setShouldReload} from '../../../../state/actions';
+import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
 
@@ -20,7 +20,7 @@ class Move extends Component {
   handlePaste = () => {
     this.setState({working: true});
     const promises = [];
-    for (const item of this.props.clipboard) {
+    for (const item of this.props.state.clipboard) {
       promises.push(getApi().move('/', item.path, this.props.state.path));
     }
 
@@ -30,7 +30,7 @@ class Move extends Component {
              toastr.success('Move successful');
              this.setState({isOpen: false});
              this.props.dispatch(setShouldReload(true));
-             this.props.reset();
+             this.props.dispatch(setClipboard([]));
            })
            .catch(error => {
              toastr.error('Could not move all file(s)/folder(s)');
@@ -42,7 +42,7 @@ class Move extends Component {
   };
 
   render() {
-    const clipboard = this.props.clipboard || [];
+    const clipboard = this.props.state.clipboard || [];
     const hasCopy = clipboard.length > 0;
     const Body =
         <div className=" p-1">

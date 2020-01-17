@@ -20,13 +20,12 @@ class Paste extends Component {
   handlePaste = () => {
     this.setState({working: true});
     const promises = [];
-    for (const item of this.props.clipboard) {
+    for (const item of this.props.state.clipboard) {
       promises.push(getApi().copy('/', item.path, this.props.state.path));
     }
 
     Promise.all(promises)
            .then(response => {
-             console.log(response);
              toastr.success('Copy successful');
              this.setState({isOpen: false});
              this.props.dispatch(setShouldReload(true));
@@ -41,7 +40,7 @@ class Paste extends Component {
   };
 
   render() {
-    const clipboard = this.props.clipboard || [];
+    const clipboard = this.props.state.clipboard || [];
     const hasCopy = clipboard.length > 0;
     const Body =
         <div className=" p-1">

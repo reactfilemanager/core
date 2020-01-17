@@ -5,3 +5,4 @@ export const SHOULD_RELOAD = 'SHOULD_RELOAD';
 export const UPDATE = 'UPDATE';
 export const REMOVE = 'REMOVE';
 export const RELOADING = 'RELOADING';
+export const SET_CLIPBOARD = 'SET_CLIPBOARD';

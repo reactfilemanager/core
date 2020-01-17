@@ -78,6 +78,15 @@ export default {
       },
     };
   },
+  [types.SET_CLIPBOARD]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        clipboard: payload,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {

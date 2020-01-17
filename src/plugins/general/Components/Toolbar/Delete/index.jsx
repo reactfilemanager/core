@@ -3,7 +3,7 @@ import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
 import {getApi} from '../../../config';
 import toastr from 'toastr';
-import {remove, update} from '../../../state/actions';
+import {remove, setClipboard, update} from '../../../state/actions';
 
 class Delete extends Component {
   state = {isOpen: false, working: false};
@@ -34,6 +34,8 @@ class Delete extends Component {
             toastr.success(response.message);
             this.props.dispatch(remove(item));
             this.setState({isOpen: false});
+            const clipboard = this.props.state.clipboard.filter(_item => _item !== item);
+            this.props.dispatch(setClipboard(clipboard));
           })
           .catch(error => {
             toastr.error(error.message);

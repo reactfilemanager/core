@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 import Move from './Move';
 import Paste from './Paste';
+import {setClipboard} from '../../../state/actions';
 
 class Copy extends Component {
 
-  state = {clipboard: []};
-
   componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
+    this.props.dispatch(setClipboard([]));
   }
 
   handleCopy = () => {
@@ -20,7 +15,7 @@ class Copy extends Component {
       return;
     }
 
-    this.setState({clipboard});
+    this.props.dispatch(setClipboard(clipboard));
   };
 
   getSelected = () => {
@@ -31,17 +26,14 @@ class Copy extends Component {
         .filter(item => item.selected);
   };
 
-  handleReset = () => {
-    this.setState({clipboard: []});
-  };
-
   render() {
     const attrs = {
       'data-toggle': 'tooltip',
       'data-placement': 'top',
       title: 'Select for Copy/Move',
     };
-    const count = this.state.clipboard.length;
+    const clipboard = this.props.state.clipboard || [];
+    const count = clipboard.length;
     if (count) {
       attrs.title = `Selected ${count} items`;
     }
@@ -50,9 +42,8 @@ class Copy extends Component {
           <button className="btn btn-primary" ref="copy" key="copy" onClick={this.handleCopy} {...attrs}>
             <i className={count ? 'fa fa-check-double' : 'fa fa-check-square'}/>
           </button>
-          <Paste key="paste" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}/>
-          <Move key="move" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}
-                reset={this.handleReset}/>
+          <Paste key="paste" state={this.props.state} dispatch={this.props.dispatch}/>
+          <Move key="move" state={this.props.state} dispatch={this.props.dispatch}/>
         </div>
     );
   }

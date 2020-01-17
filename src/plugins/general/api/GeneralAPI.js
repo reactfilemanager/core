@@ -26,7 +26,6 @@ export default {
     };
   },
   copy(path, source, destination) {
-    console.log(path, source, destination);
     return {
       action: 'copy',
       path,
