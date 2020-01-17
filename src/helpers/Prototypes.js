@@ -2,7 +2,7 @@ String.prototype.toProperCase = function() {
   return this.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
-Number.prototype.toHumanFileSize = function(si = true) {
+Number.prototype.toHumanFileSize = function(si = false) {
   const thresh = si ? 1000 : 1024;
   let bytes = this;
   if (Math.abs(bytes) < thresh) {

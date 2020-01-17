@@ -16,8 +16,10 @@ class Item extends Component {
     e.stopPropagation();
 
     if (this.props.item.is_dir) {
-      this.moveTo(this.props.item);
+      return this.moveTo(this.props.item);
     }
+
+    console.log('Use handler to handle this file', this.props.item);
   };
 
   handleClickName = e => {

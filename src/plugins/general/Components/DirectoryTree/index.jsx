@@ -132,6 +132,8 @@ class DirectoryTree extends Component {
   };
 
   render() {
+    const _path = this.props.state.path;
+    const path = _path === '' ? '/' : _path;
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
@@ -158,7 +160,7 @@ class DirectoryTree extends Component {
               loadData={this.onLoadData}
               onSelect={this.onSelect}
               checkable={false}
-              selectedKeys={[this.props.state.path]}
+              selectedKeys={[path]}
               icon={this.sendIcon}
               showLine
           >
