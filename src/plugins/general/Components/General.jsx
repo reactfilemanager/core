@@ -3,6 +3,7 @@ import Breadcrumb from './Breadcrumb';
 import ItemList from './ItemList';
 import Toolbar from './Toolbar';
 import {getConfig, getDefaultConfig} from '../config';
+import DirectoryTree from './DirectoryTree';
 
 export default function() {
   const [state, dispatch] = window.useStore();
@@ -12,29 +13,42 @@ export default function() {
   return (
       <div className="row">
         <div className="col-md-12">
-          <Toolbar state={state.general}
-                   dispatch={dispatch}
-                   children={defaultConfig.toolbar}/>
+          <Toolbar
+              state={state.general}
+              dispatch={dispatch}
+              children={defaultConfig.toolbar}
+          />
         </div>
         {config.toolbar ?
             <div className="col-md-12">
-              <Toolbar state={state.general}
-                       dispatch={dispatch}
-                       children={config.toolbar}/>
+              <Toolbar
+                  state={state.general}
+                  dispatch={dispatch}
+                  children={config.toolbar}
+              />
             </div>
             : null}
         <div className="col-md-12">
           <div className="row">
             <div className="col-md-2">
-              <p>Directory Tree</p>
+              <DirectoryTree
+                  state={state.general}
+                  dispatch={dispatch}
+              />
             </div>
             <div className="col-md-10">
               <div className="row">
                 <div className="col-md-12">
-                  <Breadcrumb path={state.general.path} dispatch={dispatch}/>
+                  <Breadcrumb
+                      path={state.general.path}
+                      dispatch={dispatch}
+                  />
                 </div>
                 <div className="col-md-12">
-                  <ItemList state={state.general} dispatch={dispatch}/>
+                  <ItemList
+                      state={state.general}
+                      dispatch={dispatch}
+                  />
                 </div>
               </div>
             </div>

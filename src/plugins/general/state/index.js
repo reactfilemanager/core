@@ -3,6 +3,7 @@ export default {
     files: [],
     dirs: [],
   },
+  resetDirectoryTree: false,
   shouldReload: true,
   reloading: false,
   filters: {},

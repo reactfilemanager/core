@@ -6,3 +6,4 @@ export const UPDATE = 'UPDATE';
 export const REMOVE = 'REMOVE';
 export const RELOADING = 'RELOADING';
 export const SET_CLIPBOARD = 'SET_CLIPBOARD';
+export const RESET_DIRECTORY_TREE = 'RESET_DIRECTORY_TREE';

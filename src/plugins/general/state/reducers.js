@@ -16,6 +16,16 @@ export default {
       general: {
         ...state.general,
         entries: payload,
+        resetDirectoryTree: true,
+      },
+    };
+  },
+  [types.RESET_DIRECTORY_TREE]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        resetDirectoryTree: payload,
       },
     };
   },

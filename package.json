@@ -36,5 +36,8 @@
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
     "toastr": "^2.1.4"
+  },
+  "dependencies": {
+    "rc-tree": "2.1.0"
   }
 }
