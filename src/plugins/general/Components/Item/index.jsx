@@ -6,7 +6,7 @@ class Item extends Component {
 
   moveTo = (item) => {
     if (item.is_dir) {
-      const path = item.path.replace(/\/$/, '') + '/';
+      const path = item.path.replace(/\/$/, '');
       this.props.moveTo(path);
     }
   };

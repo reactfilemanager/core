@@ -55,11 +55,11 @@ class DirectoryTree extends Component {
     if (!_dir) {
       // not found? add it
       _dir = {
-        name: dir,
+        name: dir === '' ? '/' : dir,
         path: _path,
         key: _path,
         loaded: false,
-        children: null,
+        children: [],
       };
       dirs.push(_dir);
     }
@@ -68,6 +68,8 @@ class DirectoryTree extends Component {
     if (_path_ === _path) {
       const _children = _dirs_.map(dir => {
         dir.key = dir.path;
+        dir.isLeaf = false;
+        dir.children = [];
         return dir;
       });
 
@@ -102,7 +104,7 @@ class DirectoryTree extends Component {
   };
 
   onLoadData = (treeNode) => {
-    if (Array.isArray(treeNode.props.children)) {
+    if (Array.isArray(treeNode.props.children) && treeNode.props.children.length > 0) {
       // we loaded this before
       return new Promise((resolve) => resolve());
     }
@@ -129,6 +131,12 @@ class DirectoryTree extends Component {
     });
   };
 
+  sendIcon = props => {
+    return props.expanded
+        ? <i className="far fa-folder-open"/>
+        : <i className="far fa-folder"/>;
+  };
+
   render() {
     const loop = (data) => {
       return data.map((item) => {
@@ -143,7 +151,6 @@ class DirectoryTree extends Component {
         return (
             <TreeNode title={item.name}
                       key={item.key}
-                      isLeaf={item.isLeaf}
                       path={item.path}
             />
         );
@@ -158,6 +165,8 @@ class DirectoryTree extends Component {
               onSelect={this.onSelect}
               checkable={false}
               selectedKeys={[this.props.state.path]}
+              icon={this.sendIcon}
+              showLine
           >
             {_dirs}
           </Tree>

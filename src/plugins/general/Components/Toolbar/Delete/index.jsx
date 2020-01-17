@@ -3,7 +3,7 @@ import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
 import {getApi} from '../../../config';
 import toastr from 'toastr';
-import {remove, setClipboard, update} from '../../../state/actions';
+import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
 
 class Delete extends Component {
   state = {isOpen: false, working: false};
@@ -32,8 +32,11 @@ class Delete extends Component {
           .delete('/', item.path)
           .then(response => {
             toastr.success(response.message);
-            this.props.dispatch(remove(item));
+            if (item.is_dir) {
+              this.props.dispatch(resetDirectoryTree(true));
+            }
             this.setState({isOpen: false});
+            this.props.dispatch(remove(item));
             const clipboard = this.props.state.clipboard.filter(_item => _item !== item);
             this.props.dispatch(setClipboard(clipboard));
           })
