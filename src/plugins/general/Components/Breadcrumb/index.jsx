@@ -12,43 +12,40 @@ class Breadcrumb extends Component {
 
   getBreadCrumbs = () => {
     let Breadcrumbs = [];
-    if (this.props.path) {
-      // remove first and last "/"
-      const cleanPath = this.props.path.replace(/^\//, '').replace(/\/$/, '');
+    if (this.props.path !== null) {
+      const cleanPath = this.props.path;
       const _path = cleanPath.split('/');
+      const sPath = this.props.path === '' ? '/' : this.props.path;
+      let path = '';
 
-      if (_path.length === 1 && _path[0] === '') {
-        // we're at root
-        Breadcrumbs.push(<li className="breadcrumb-item" key="home"><i className="fa fa-home"/></li>);
-      }
-      else {
-        let path = '/'; // root
+      Breadcrumbs = _path.map(dir => {
+        path += `/${dir}`;
+        path = path.replace(/\/\//, '/');
 
-        Breadcrumbs = _path.map(dir => {
-          path += `${dir}/`;
-          const isActive = this.props.path === path;
-          const nPath = path;
-          return (
-              <li className={'breadcrumb-item' + (isActive ? ' active' : '')}
-                  aria-current={isActive ? 'page' : undefined}
-                  key={nPath}
-              >
-                {isActive
-                    ? dir
-                    : <a href="#" onClick={e => this.moveTo(e, nPath)}>{dir}</a>}
-              </li>
-          );
-        });
+        const isActive = sPath === path;
 
-        // inject home to the top
-        Breadcrumbs.unshift(
-            <li className="breadcrumb-item" key="home">
-              <a href="#" onClick={e => this.moveTo(e, '/')}>
-                <i className="fa fa-home"/>
-              </a>
-            </li>,
+        const nPath = path;
+        if (dir === '') {
+          return isActive
+              ? <li className="breadcrumb-item" key="home"><i className="fa fa-home"/></li>
+              : <li className="breadcrumb-item" key="home">
+                <a href="#" onClick={e => this.moveTo(e, '/')}>
+                  <i className="fa fa-home"/>
+                </a>
+              </li>;
+        }
+
+        return (
+            <li className={'breadcrumb-item' + (isActive ? ' active' : '')}
+                aria-current={isActive ? 'page' : undefined}
+                key={nPath}
+            >
+              {isActive
+                  ? dir
+                  : <a href="#" onClick={e => this.moveTo(e, nPath)}>{dir}</a>}
+            </li>
         );
-      }
+      });
     }
     return Breadcrumbs;
   };

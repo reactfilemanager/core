@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Tree, {TreeNode} from 'rc-tree';
 import {resetDirectoryTree, setWorkingPath} from '../../state/actions';
+import {getApi} from '../../config';
 
 class DirectoryTree extends Component {
   state = {
@@ -15,80 +16,116 @@ class DirectoryTree extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.state.resetDirectoryTree) {
       this.populateDirs();
-      this.props.dispatch(resetDirectoryTree(false));
     }
   }
 
   populateDirs = () => {
-    if (!this.props.state.path) {
+    if (this.props.state.path === null) {
       return;
     }
+    this.props.dispatch(resetDirectoryTree(false));
+    let path = this.props.state.path;
+    let _path = path;
+    if (_path === '') {
+      _path = '/';
+    }
+    path = path.split('/');
 
-    const path = (this.props.state.path)
-        .replace(/\/$/, '')
-        .split('/');
-
-    const _dirs = [...this.state.dirs];
-    const dirs = this.loopDir(_dirs, path);
+    const _dirs = this.state.dirs;
+    const dirs = this.loopDir(_dirs, path, '', _path, this.props.state.entries.dirs);
 
     this.setState({dirs});
   };
 
-  loopDir = (dirs, path, _path = '') => {
+  loopDir = (dirs, path, _path = '', _path_, _dirs_) => {
+    // get next segment
     const dir = path.shift();
 
+    // dir ended
+    if (dir === undefined) {
+      return [];
+    }
+
+    // append and clean up the path
     _path += '/' + dir;
+    _path = _path.replace(/\/\//, '/');
 
+    // let's find existing dir
     let _dir = dirs.find(_dir => _dir.path === _path);
-
     if (!_dir) {
+      // not found? add it
       _dir = {
         name: dir,
-        path: _path === '/' ? _path : _path.replace(/\/$/, ''),
+        path: _path,
         key: _path,
         loaded: false,
-        children: [],
+        children: null,
       };
       dirs.push(_dir);
     }
 
-    if (_path === '/') {
-      _path = '';
-    }
-
-    if (this.props.state.path === _path + '/') {
-      const _children = this.props.state.entries.dirs.map(dir => {
+    // check if we hit the end
+    if (_path_ === _path) {
+      const _children = _dirs_.map(dir => {
         dir.key = dir.path;
         return dir;
       });
 
       _dir.children = _dir.children || [];
 
+      // merge children
       for (const child of _children) {
         const exists = _dir.children.find(_child => _child.path === child.path);
         if (!exists) {
           _dir.children.push(child);
         }
         else if (!exists.loaded) {
-          child.children = exists.children;
+          child.children = exists.children || [];
           _dir.children[_dir.children.indexOf(exists)] = child;
         }
       }
     }
     else {
-      _dir.children = this.loopDir(_dir.children || [], path, _path);
+      // we didn't hit the end yet, add children
+      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_, _dirs_);
     }
 
     return dirs;
   };
 
   onSelect = (info) => {
-    this.props.dispatch(setWorkingPath(info + '/'));
+    if (!info.length) {
+      return;
+    }
+    // select event, set path
+    this.props.dispatch(setWorkingPath(info[0]));
   };
 
   onLoadData = (treeNode) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 100);
+    if (Array.isArray(treeNode.props.children)) {
+      // we loaded this before
+      return new Promise((resolve) => resolve());
+    }
+
+    return new Promise((resolve, reject) => {
+      getApi()
+          .list(treeNode.props.path)
+          .then(({dirs}) => {
+            let path = treeNode.props.path;
+            let _path = path;
+            if (_path === '') {
+              _path = '/';
+            }
+            path = path.split('/');
+            dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+
+            this.setState({dirs});
+            resolve();
+          })
+          .catch(error => {
+            console.log(error);
+            reject();
+          });
     });
   };
 
@@ -97,7 +134,9 @@ class DirectoryTree extends Component {
       return data.map((item) => {
         if (item.children) {
           return <TreeNode title={item.name}
-                           key={item.key}>
+                           key={item.key}
+                           path={item.path}
+          >
             {loop(item.children)}
           </TreeNode>;
         }
@@ -105,7 +144,7 @@ class DirectoryTree extends Component {
             <TreeNode title={item.name}
                       key={item.key}
                       isLeaf={item.isLeaf}
-                      disabled={item.key === '0-0-0'}
+                      path={item.path}
             />
         );
       });
@@ -115,8 +154,10 @@ class DirectoryTree extends Component {
     return (
         <div>
           <Tree
-              onSelect={this.onSelect}
               loadData={this.onLoadData}
+              onSelect={this.onSelect}
+              checkable={false}
+              selectedKeys={[this.props.state.path]}
           >
             {_dirs}
           </Tree>

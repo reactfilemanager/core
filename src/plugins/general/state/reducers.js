@@ -6,7 +6,7 @@ export default {
       ...state,
       general: {
         ...state.general,
-        path: payload,
+        path: payload.replace(/\/\//g, '/').replace(/\/$/, ''),
         shouldReload: true,
       },
     };
