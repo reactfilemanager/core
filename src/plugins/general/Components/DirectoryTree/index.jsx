@@ -128,9 +128,11 @@ class DirectoryTree extends Component {
   };
 
   sendIcon = props => {
-    return props.expanded
-        ? <i className="far fa-folder-open"/>
-        : <i className="far fa-folder"/>;
+    return props.loading
+        ? <i className="fa fa-spin fa-spinner"/>
+        : props.expanded
+            ? <i className="far fa-folder-open"/>
+            : <i className="far fa-folder"/>;
   };
 
   render() {
