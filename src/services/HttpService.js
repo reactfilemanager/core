@@ -21,8 +21,8 @@ export default {
     const promise = Axios.get(route, makeGetRequest(params, config));
     return withMappedPromise(promise);
   },
-  post(route, data = {}) {
-    const promise = Axios.post(route, makeFormRequest(data));
+  post(route, data = {}, config = {}) {
+    const promise = Axios.post(route, makeFormRequest(data), config);
     return withMappedPromise(promise);
   },
   postJSON(route, data = {}) {
@@ -46,6 +46,9 @@ export default {
     const promise = Axios.delete(route, {data});
     return withMappedPromise(promise);
   },
+  getCancelSource() {
+    return Axios.CancelToken.source();
+  }
 };
 
 function withMappedPromise(promise) {

@@ -31,3 +31,34 @@
 .toolbar > button:not(:first-child), .toolbar > .btn-group {
   margin-left: 4px;
 }
+
+.hidden {
+  display: none;
+}
+
+.Popover-body {
+  background: #fff;
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid #ccc;
+}
+
+.Popover-tipShape {
+  color: #fff;
+  fill: #fff;
+  outline: #ccc;
+}
+
+.min-w-300px {
+  min-width: 300px;
+}
+
+.top-right-absolute {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.pointer {
+  cursor: pointer;
+}

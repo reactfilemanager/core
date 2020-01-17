@@ -53,7 +53,7 @@ class CloudDownload extends Component {
 
   render() {
     const Body =
-        <div className="form-inline p-1 bg-info">
+        <div className="form-inline p-1">
           <div className="form-group mx-sm-3 mb-2">
             <label htmlFor="url"
                    className="sr-only"
@@ -94,11 +94,14 @@ class CloudDownload extends Component {
             onOuterAction={this.handleOutsideClick}
         >
           <button className="btn btn-primary"
-                  disabled={this.state.working}
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-cloud-download-alt"/>
+            {
+              this.state.working
+                  ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-cloud-download-alt"/>
+            }
           </button>
         </Popover>
     );

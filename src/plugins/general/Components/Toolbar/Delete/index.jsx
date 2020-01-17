@@ -47,7 +47,7 @@ class Delete extends Component {
   render() {
     const selected = this.getSelected();
     const Body = selected.length > 0 ?
-        <div className=" p-1 bg-info">
+        <div className=" p-1">
           <div className="form-group mx-sm-3 mb-2">
             <h3>Are you sure you want to delete these entries?</h3>
             <ol className="list-group">

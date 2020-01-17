@@ -44,7 +44,7 @@ class Paste extends Component {
     const clipboard = this.props.clipboard || [];
     const hasCopy = clipboard.length > 0;
     const Body =
-        <div className=" p-1 bg-info">
+        <div className=" p-1">
           <div className="form-group mx-sm-3 mb-2">
             <h3>Are you sure you want to paste these entries here?</h3>
             <ol className="list-group">

@@ -52,7 +52,7 @@ class NewFile extends Component {
 
   render() {
     const Body =
-        <div className="form-inline p-1 bg-info">
+        <div className="form-inline p-1">
           <div className="form-group mx-sm-3 mb-2">
             <label htmlFor="name"
                    className="sr-only"

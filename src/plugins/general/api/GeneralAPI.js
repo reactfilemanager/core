@@ -65,12 +65,18 @@ export default {
       target,
     };
   },
-  upload(path, file) {
-    return {
-      action: 'upload',
-      path,
-      file,
-    };
+  upload: {
+    conf: (path, file, onUploadProgress) => {
+      return {
+        formData: {
+          action: 'upload',
+          path,
+          file,
+        },
+        config: {onUploadProgress},
+        cancellable: true,
+      };
+    },
   },
   remote_download(path, url) {
     return {
