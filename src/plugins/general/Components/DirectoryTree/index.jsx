@@ -66,24 +66,20 @@ class DirectoryTree extends Component {
 
     // check if we hit the end
     if (_path_ === _path) {
-      const _children = _dirs_.map(dir => {
+      const _children = _dir.children || [];
+
+      _dir.children = _dirs_.map(dir => {
         dir.key = dir.path;
         dir.isLeaf = false;
         dir.children = [];
         return dir;
       });
 
-      _dir.children = _dir.children || [];
-
       // merge children
       for (const child of _children) {
         const exists = _dir.children.find(_child => _child.path === child.path);
-        if (!exists) {
-          _dir.children.push(child);
-        }
-        else if (!exists.loaded) {
-          child.children = exists.children || [];
-          _dir.children[_dir.children.indexOf(exists)] = child;
+        if (exists) {
+          exists.children = child.children || [];
         }
       }
     }

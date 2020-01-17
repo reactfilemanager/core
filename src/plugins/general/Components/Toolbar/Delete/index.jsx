@@ -32,13 +32,13 @@ class Delete extends Component {
           .delete('/', item.path)
           .then(response => {
             toastr.success(response.message);
-            if (item.is_dir) {
-              this.props.dispatch(resetDirectoryTree(true));
-            }
             this.setState({isOpen: false});
             this.props.dispatch(remove(item));
             const clipboard = this.props.state.clipboard.filter(_item => _item !== item);
             this.props.dispatch(setClipboard(clipboard));
+            if (item.is_dir) {
+              this.props.dispatch(resetDirectoryTree(true));
+            }
           })
           .catch(error => {
             toastr.error(error.message);
