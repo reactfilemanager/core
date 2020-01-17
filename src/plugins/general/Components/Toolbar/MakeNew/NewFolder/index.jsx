@@ -3,6 +3,7 @@ import Popover from 'react-popover';
 import toastr from 'toastr';
 import {getApi} from '../../../../config';
 import {setShouldReload, update} from '../../../../state/actions';
+import ReactLoading from 'react-loading';
 
 class NewFolder extends Component {
 
@@ -72,9 +73,19 @@ class NewFolder extends Component {
                   onClick={this.handleSave}
                   disabled={this.state.working}
           >
-            {this.state.working ? 'Spinner' : 'Save'}
+            {
+              this.state.working ?
+                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-folder-plus"/>
+            }
           </button>
         </div>;
+
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'New Folder',
+    };
 
     return (
         <Popover
@@ -85,8 +96,9 @@ class NewFolder extends Component {
           <button className="btn btn-primary"
                   disabled={this.state.isOpen}
                   onClick={this.handleClick}
+                  {...attrs}
           >
-            New Folder
+            <i className="fa fa-folder-plus"/>
           </button>
         </Popover>
     );

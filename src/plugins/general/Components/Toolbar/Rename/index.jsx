@@ -3,6 +3,7 @@ import toastr from 'toastr';
 import Popover from 'react-popover';
 import {getApi} from '../../../config';
 import {update} from '../../../state/actions';
+import ReactLoading from 'react-loading';
 
 class Rename extends Component {
 
@@ -100,10 +101,20 @@ class Rename extends Component {
                   onClick={this.handleSave}
                   disabled={this.state.working}
           >
-            {this.state.working ? 'Spinner' : 'Save'}
+            {
+              this.state.working ?
+                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-edit"/>
+            }
           </button>
         </div>
         : <p>Please select single item</p>;
+
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'Rename',
+    };
 
     return (
         <Popover
@@ -114,8 +125,9 @@ class Rename extends Component {
           <button className="btn btn-primary"
                   disabled={selected === false}
                   onClick={this.handleClick}
+                  {...attrs}
           >
-            Rename
+            <i className="fa fa-edit"/>
           </button>
         </Popover>
     );

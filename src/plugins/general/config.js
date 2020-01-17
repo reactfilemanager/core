@@ -2,6 +2,7 @@ import Rename from './Components/Toolbar/Rename';
 import Select from './Components/Toolbar/Select';
 import Delete from './Components/Toolbar/Delete';
 import MakeNew from './Components/Toolbar/MakeNew';
+import Refresh from './Components/Toolbar/Refresh';
 
 let _api = {};
 const _defaultConfig = {
@@ -10,6 +11,7 @@ const _defaultConfig = {
     rename_op: Rename,
     select_op: Select,
     delete_op: Delete,
+    refresh_op: Refresh,
   },
 };
 

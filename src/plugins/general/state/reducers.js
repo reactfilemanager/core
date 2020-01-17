@@ -57,6 +57,15 @@ export default {
       },
     };
   },
+  [types.RELOADING]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        reloading: payload,
+      },
+    };
+  },
   [types.REMOVE]: (state, {payload}) => {
     return {
       ...state,

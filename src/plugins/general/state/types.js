@@ -4,3 +4,4 @@ export const SET_WORKING_PATH = 'SET_WORKING_PATH';
 export const SHOULD_RELOAD = 'SHOULD_RELOAD';
 export const UPDATE = 'UPDATE';
 export const REMOVE = 'REMOVE';
+export const RELOADING = 'RELOADING';

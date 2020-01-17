@@ -13,7 +13,7 @@ class Toolbar extends Component {
     });
 
     return (
-        <div className="btn-group">
+        <div className="toolbar">
           {Children}
         </div>
     );

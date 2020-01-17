@@ -45,12 +45,25 @@ class Copy extends Component {
   };
 
   render() {
-    return [
-      <button className="btn btn-primary" ref="copy" key="copy" onClick={this.handleCopy}>Select</button>,
-      <Paste key="paste" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}/>,
-      <Move key="move" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}
-            reset={this.handleReset}/>,
-    ];
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'Select for Copy/Move',
+    };
+    const count = this.state.clipboard.length;
+    if (count) {
+      attrs.title = `Selected ${count} items`;
+    }
+    return (
+        <div className="btn-group">
+          <button className="btn btn-primary" ref="copy" key="copy" onClick={this.handleCopy} {...attrs}>
+            <i className={count ? 'fa fa-check-double' : 'fa fa-check-square'}/>
+          </button>
+          <Paste key="paste" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}/>
+          <Move key="move" state={this.props.state} dispatch={this.props.dispatch} clipboard={this.state.clipboard}
+                reset={this.handleReset}/>
+        </div>
+    );
   }
 }
 

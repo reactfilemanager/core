@@ -3,6 +3,7 @@ import {getApi} from '../../../../config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
+import ReactLoading from 'react-loading';
 
 class Move extends Component {
 
@@ -55,9 +56,18 @@ class Move extends Component {
                   onClick={this.handlePaste}
                   disabled={this.state.working}
           >
-            {this.state.working ? 'Spinner' : 'Move'}
+            {
+              this.state.working ?
+                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-file-import"/>
+            }
           </button>
         </div>;
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'Move Here',
+    };
     return (
         <Popover
             key="paste"
@@ -65,8 +75,12 @@ class Move extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary" ref="move" onClick={this.handleClick}
-                  disabled={!hasCopy}>Move
+          <button className="btn btn-primary" ref="move"
+                  onClick={this.handleClick}
+                  disabled={!hasCopy}
+                  {...attrs}
+          >
+            <i className="fa fa-file-import"/>
           </button>
         </Popover>
     );

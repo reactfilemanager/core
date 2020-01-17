@@ -3,6 +3,7 @@ import Popover from 'react-popover';
 import {getApi} from '../../../../config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
+import ReactLoading from 'react-loading';
 
 class Paste extends Component {
 
@@ -54,9 +55,18 @@ class Paste extends Component {
                   onClick={this.handlePaste}
                   disabled={this.state.working}
           >
-            {this.state.working ? 'Spinner' : 'Paste'}
+            {
+              this.state.working ?
+                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-copy"/>
+            }
           </button>
         </div>;
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'Copy Here',
+    };
     return (
         <Popover
             key="paste"
@@ -64,8 +74,13 @@ class Paste extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary" ref="paste" onClick={this.handleClick}
-                  disabled={!hasCopy}>Paste
+          <button className="btn btn-primary"
+                  ref="paste"
+                  onClick={this.handleClick}
+                  disabled={!hasCopy}
+                  {...attrs}
+          >
+            <i className="fa fa-copy"/>
           </button>
         </Popover>
     );

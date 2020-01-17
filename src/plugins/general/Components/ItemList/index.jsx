@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {setEntries, setShouldReload, setWorkingPath} from '../../state/actions';
+import toastr from 'toastr';
+import {setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
 import {getApi} from '../../config';
 
@@ -24,6 +25,7 @@ class ItemList extends Component {
   };
 
   readPath = () => {
+    this.props.dispatch(setReloading(true));
     getApi()
         .list(this.props.state.path)
         .then(response => {
@@ -31,6 +33,10 @@ class ItemList extends Component {
         })
         .catch(error => {
           console.log(error);
+          toastr.error(error.message);
+        })
+        .finally(() => {
+          this.props.dispatch(setReloading(false));
         });
   };
 

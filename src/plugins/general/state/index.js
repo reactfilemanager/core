@@ -4,6 +4,7 @@ export default {
     dirs: [],
   },
   shouldReload: true,
+  reloading: false,
   filters: {},
   search: '',
   path: null,

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Popover from 'react-popover';
+import ReactLoading from 'react-loading';
 import {getApi} from '../../../config';
 import toastr from 'toastr';
 import {remove, update} from '../../../state/actions';
@@ -35,7 +36,7 @@ class Delete extends Component {
   handleDelete = () => {
     let items = this.getSelected();
     this.setState({working: true});
-    for(const item of items) {
+    for (const item of items) {
       getApi()
           .delete('/', item.path)
           .then(response => {
@@ -48,7 +49,7 @@ class Delete extends Component {
           })
           .finally(() => {
             this.setState({working: false});
-          })
+          });
     }
   };
 
@@ -66,10 +67,20 @@ class Delete extends Component {
                   onClick={this.handleDelete}
                   disabled={this.state.working}
           >
-            {this.state.working ? 'Spinner' : 'DELETE'}
+            {
+              this.state.working ?
+                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  : <i className="fa fa-trash-alt"/>
+            }
           </button>
         </div>
         : <p>Please select at least one item</p>;
+
+    const attrs = {
+      'data-toggle': 'tooltip',
+      'data-placement': 'top',
+      title: 'Delete',
+    };
 
     return (
         <Popover
@@ -80,8 +91,9 @@ class Delete extends Component {
           <button className="btn btn-primary"
                   disabled={selected.length === 0}
                   onClick={this.handleClick}
+                  {...attrs}
           >
-            Delete
+            <i className="fa fa-trash-alt"/>
           </button>
         </Popover>
     );
