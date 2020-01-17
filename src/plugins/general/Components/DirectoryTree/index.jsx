@@ -9,10 +9,6 @@ class DirectoryTree extends Component {
     path: null,
   };
 
-  componentDidMount() {
-    this.populateDirs();
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.state.resetDirectoryTree) {
       this.populateDirs();

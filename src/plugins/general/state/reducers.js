@@ -17,7 +17,6 @@ export default {
       general: {
         ...state.general,
         entries: payload,
-        resetDirectoryTree: true,
       },
     };
   },

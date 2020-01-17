@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {setEntries, toggleSelect} from '../../state/actions';
+import {setEntries} from '../../state/actions';
 import moment from 'moment';
 
 class Item extends Component {

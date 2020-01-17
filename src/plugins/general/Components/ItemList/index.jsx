@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import toastr from 'toastr';
-import {setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
+import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
 import {getApi} from '../../config';
 
@@ -28,6 +28,7 @@ class ItemList extends Component {
         .list(this.props.state.path)
         .then(response => {
           this.props.dispatch(setEntries(response));
+          this.props.dispatch(resetDirectoryTree(true));
         })
         .catch(error => {
           console.log(error);
