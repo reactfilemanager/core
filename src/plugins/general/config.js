@@ -3,12 +3,14 @@ import Select from './Components/Toolbar/Select';
 import Delete from './Components/Toolbar/Delete';
 import MakeNew from './Components/Toolbar/MakeNew';
 import Refresh from './Components/Toolbar/Refresh';
+import Upload from './Components/Toolbar/Upload';
 
 let _api = {};
 const _defaultConfig = {
   toolbar: {
     make_new: MakeNew,
     rename_op: Rename,
+    upload_op: Upload,
     select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,

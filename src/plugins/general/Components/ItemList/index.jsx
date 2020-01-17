@@ -47,13 +47,11 @@ class ItemList extends Component {
   };
 
   render() {
-    const dirs = this.props.state.entries.dirs;
-    const files = this.props.state.entries.files;
+    const items = [...this.props.state.entries.dirs, ...this.props.state.entries.files];
 
     return (
         <div className="row">
-          {dirs.map(dir => this.getItemBlock(dir))}
-          {files.map(file => this.getItemBlock(file))}
+          {items.map(item => this.getItemBlock(item))}
         </div>
     );
   }

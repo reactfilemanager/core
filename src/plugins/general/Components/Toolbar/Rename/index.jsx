@@ -10,23 +10,11 @@ class Rename extends Component {
   state = {isOpen: false, working: false};
 
   getSelected = () => {
-    let items = [];
-    this.props.state.entries.dirs.forEach(dir => {
-      if (dir.selected) {
-        items.push(dir);
-      }
-    });
-
-    this.props.state.entries.files.forEach(file => {
-      if (file.selected) {
-        items.push(file);
-      }
-    });
-
-    if (items.length !== 1) {
-      return false;
-    }
-    return items[0];
+    return [
+      ...this.props.state.entries.dirs,
+      ...this.props.state.entries.files,
+    ]
+        .filter(item => item.selected);
   };
 
   handleClick = () => {
