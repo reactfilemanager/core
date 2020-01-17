@@ -11,10 +11,8 @@ class ItemList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.state.shouldReload || prevProps.state.path !== this.props.state.path) {
-      if (this.props.state.shouldReload) {
-        this.props.dispatch(setShouldReload(false));
-      }
+    if (this.props.state.shouldReload) {
+      this.props.dispatch(setShouldReload(false));
 
       this.readPath();
     }
@@ -42,7 +40,8 @@ class ItemList extends Component {
 
   getItemBlock = (item) => {
     return (
-        <Item key={item.name} item={item} state={this.props.state} moveTo={this.setWorkingPath} dispatch={this.props.dispatch}/>
+        <Item key={item.name} item={item} state={this.props.state} moveTo={this.setWorkingPath}
+              dispatch={this.props.dispatch}/>
     );
   };
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree} from '../../state/actions';
+import {resetDirectoryTree, setWorkingPath} from '../../state/actions';
 
 class DirectoryTree extends Component {
   state = {
@@ -30,7 +30,6 @@ class DirectoryTree extends Component {
 
     const _dirs = [...this.state.dirs];
     const dirs = this.loopDir(_dirs, path);
-    console.log(dirs);
 
     this.setState({dirs});
   };
@@ -84,7 +83,7 @@ class DirectoryTree extends Component {
   };
 
   onSelect = (info) => {
-    console.log('selected', info);
+    this.props.dispatch(setWorkingPath(info + '/'));
   };
 
   onLoadData = (treeNode) => {

@@ -7,6 +7,7 @@ export default {
       general: {
         ...state.general,
         path: payload,
+        shouldReload: true,
       },
     };
   },
