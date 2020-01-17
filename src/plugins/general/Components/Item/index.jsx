@@ -99,6 +99,28 @@ class Item extends Component {
     return item;
   };
 
+  get perms() {
+    const item = this.props.item;
+    let perm = '';
+
+    perm += item.is_readable ? 'r' : '-';
+    perm += item.is_writable ? 'w' : '-';
+    perm += item.is_executable ? 'x' : '-';
+
+    return perm;
+  }
+
+  get title() {
+    const item = this.props.item;
+    const parts = [
+      item.name,
+      item.size.toHumanFileSize(),
+      this.perms,
+    ];
+
+    return parts.join('\n');
+  }
+
   render() {
     const item = this.props.item;
 
@@ -107,9 +129,12 @@ class Item extends Component {
              key={`${item.name}_${item.size}_${item.extension}`}
              onDoubleClick={this.handleDoubleClick}
              onClick={this.handleClick}
+             title={this.title}
         >
-          <div className="card">
-            <img src={thumb(item.path)} className="card-img-top" alt="..."/>
+          <div className="card item">
+            <div className="item-img card-img-top">
+              <img src={thumb(item.path)} className="img-thumbnail" alt="..."/>
+            </div>
             <div className="card-body">
               <p className="card-text">
                 {

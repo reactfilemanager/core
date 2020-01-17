@@ -13,6 +13,21 @@
   background: #4dc0b5;
 }
 
+.item p {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.item-img {
+  min-width: 126px;
+  min-height: 126px;
+}
+
+.item .card-body {
+  padding: 4px;
+}
+
 .toolbar > button:not(:first-child), .toolbar > .btn-group {
   margin-left: 4px;
 }
