@@ -1,3 +1,4 @@
+export let ADD_FILTER = 'ADD_FILTER';
 export const TOGGLE_SELECT = 'TOGGLE_SELECT';
 export const SET_ENTRIES = 'SET_ENTRIES';
 export const SET_WORKING_PATH = 'SET_WORKING_PATH';
@@ -8,3 +9,4 @@ export const RELOADING = 'RELOADING';
 export const SET_CLIPBOARD = 'SET_CLIPBOARD';
 export const RESET_DIRECTORY_TREE = 'RESET_DIRECTORY_TREE';
 export const SET_VIEWMODE = 'SET_VIEWMODE';
+export const SET_QUERY = 'SET_QUERY';

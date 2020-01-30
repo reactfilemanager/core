@@ -7,7 +7,7 @@ export default {
   shouldReload: true,
   reloading: false,
   filters: {},
-  search: '',
+  query: '',
   viewmode: 'grid',
   path: null,
 };

@@ -3,6 +3,7 @@ import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
 import {getApi} from '../../config';
+import {cloneDeep} from 'lodash';
 
 class ItemList extends Component {
 
@@ -46,8 +47,17 @@ class ItemList extends Component {
     );
   };
 
+  getItems = () => {
+    const entries = cloneDeep(this.props.state.entries);
+    const items = Object.values(this.props.state.filters).reduce((entries, fn) => {
+      return fn(entries);
+    }, entries);
+
+    return [...items.dirs, ...items.files];
+  };
+
   render() {
-    const items = [...this.props.state.entries.dirs, ...this.props.state.entries.files];
+    const items = this.getItems();
 
     return (
         <div className="row">

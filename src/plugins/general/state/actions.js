@@ -10,3 +10,5 @@ export const remove = item => ({type: types.REMOVE, payload: item});
 export const setClipboard = items => ({type: types.SET_CLIPBOARD, payload: items});
 export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_TREE, payload: shouldReset});
 export const setViewmode = viewmode => ({type: types.SET_VIEWMODE, payload: viewmode});
+export const setQuery = query => ({type: types.SET_QUERY, payload: query});
+export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});

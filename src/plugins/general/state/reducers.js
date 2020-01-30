@@ -106,6 +106,27 @@ export default {
       },
     };
   },
+  [types.SET_QUERY]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        query: payload,
+      },
+    };
+  },
+  [types.ADD_FILTER]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        filters: {
+          ...state.general.filters,
+          ...payload,
+        },
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {
