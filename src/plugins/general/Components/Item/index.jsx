@@ -123,9 +123,7 @@ class Item extends Component {
     return parts.join('\n');
   }
 
-  render() {
-    const item = this.props.item;
-
+  getGridItem = (item) => {
     return (
         <div className={'col-md-2' + (item.selected ? ' selected' : '')}
              key={`${item.name}_${item.size}_${item.extension}`}
@@ -153,7 +151,51 @@ class Item extends Component {
           </div>
         </div>
     );
+  };
+
+  getListItem = (item) => {
+    return (
+        <tr>
+          <td><input type="checkbox"/></td>
+          <td>
+            {
+              item.is_dir
+                  ? <a href="#" onClick={this.handleClickName}
+                  >
+                    {item.name}
+                  </a>
+                  : item.name
+            }
+          </td>
+          <td>
+            {item.is_dir ? 'Folder' : ''}
+            {item.is_link ? 'Symlink' : ''}
+            {item.is_file ? 'File' : ''}
+          </td>
+          <td>
+            {item.is_readable ? 'r' : '-'}
+            {item.is_writable ? 'w' : '-'}
+            {item.is_executable ? 'x' : '-'}
+          </td>
+        </tr>
+    );
+  };
+
+  render() {
+    const viewmode = this.props.state.viewmode;
+    const item = this.props.item;
+
+    if (viewmode === 'grid') {
+      return this.getGridItem(item);
+    }
+    else if (viewmode === 'list') {
+      return this.getListItem(item);
+    }
+    else {
+      return <div>Invalid viewmode</div>;
+    }
   }
+
 }
 
 export default Item;

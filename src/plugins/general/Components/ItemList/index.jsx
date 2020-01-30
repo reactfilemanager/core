@@ -51,7 +51,16 @@ class ItemList extends Component {
 
     return (
         <div className="row">
-          {items.map(item => this.getItemBlock(item))}
+          {this.props.state.viewmode === 'grid'
+              ? items.map(item => this.getItemBlock(item))
+              : (
+                  <table>
+                    <tbody>
+                    {items.map(item => this.getItemBlock(item))}
+                    </tbody>
+                  </table>
+              )
+          }
         </div>
     );
   }

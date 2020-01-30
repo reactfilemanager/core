@@ -21,7 +21,7 @@ export default {
       },
     },
     // add context menu entry
-    context_menu: {},
+    context_menu: [],
     // add toolbar entry
     toolbar: {},
     // access to directory tree

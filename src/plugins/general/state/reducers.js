@@ -97,6 +97,15 @@ export default {
       },
     };
   },
+  [types.SET_VIEWMODE]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        viewmode: payload,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {

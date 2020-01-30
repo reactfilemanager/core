@@ -7,6 +7,7 @@ const plugins = {};
 const config = {};
 const api = {};
 const tabs = [];
+const context_menu_items = [];
 let bootRequired = [];
 
 export const registerPlugin = (_plugins) => {
@@ -41,7 +42,7 @@ export const registerPlugin = (_plugins) => {
     if (plugin.config) {
       for (const key of Object.keys(plugin.reducers)) {
         const prevConf = config[key] !== undefined ? config[key] : {};
-        config[key] = merge(plugin.config[key]);
+        config[key] = merge(prevConf, plugin.config[key]);
       }
     }
 
@@ -50,8 +51,15 @@ export const registerPlugin = (_plugins) => {
       api[key] = APIMapper.mapAPIConfigToMethod(key.toProperCase(), plugin.api);
     }
 
+    // load the context menu
+    if (plugin.context_menu) {
+      context_menu_items.push(...plugin.context_menu);
+    }
+
+    // load the boot manager
     if (plugin.boot) {
       bootRequired.push({boot: plugin.boot, key});
+
     }
 
     plugins[key] = plugin;
@@ -60,6 +68,10 @@ export const registerPlugin = (_plugins) => {
 
 export const getTabs = () => {
   return tabs;
+};
+
+export const getContextMenu = () => {
+  return context_menu_items;
 };
 
 export const bootPlugins = () => {

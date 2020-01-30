@@ -4,6 +4,7 @@ import Delete from './Components/Toolbar/Delete';
 import MakeNew from './Components/Toolbar/MakeNew';
 import Refresh from './Components/Toolbar/Refresh';
 import Uploader from './Components/Toolbar/Uploader';
+import ViewMode from './Components/Toolbar/ViewMode';
 
 let _api = {};
 const _defaultConfig = {
@@ -14,6 +15,7 @@ const _defaultConfig = {
     select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,
+    viewmode: ViewMode,
   },
 };
 

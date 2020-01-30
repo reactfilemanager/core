@@ -8,7 +8,14 @@ import {registerPlugin} from './pluggable';
 
 registerPlugin(General);
 
-export default function(element, config = {}) {
+const mount = (element, config = {}) => {
   setBaseUrl(config.url);
   render(<App/>, element);
-}
+};
+
+export {
+  registerPlugin,
+  mount,
+};
+
+export default mount;

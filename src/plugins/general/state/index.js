@@ -8,5 +8,6 @@ export default {
   reloading: false,
   filters: {},
   search: '',
+  viewmode: 'grid',
   path: null,
 };
