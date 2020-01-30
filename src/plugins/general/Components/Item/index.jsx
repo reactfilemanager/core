@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import moment from 'moment';
+import {ContextMenuTrigger} from 'react-contextmenu';
+import {CONTEXT_MENU_ID} from '../ContextMenu';
 
 class Item extends Component {
 
@@ -42,7 +44,7 @@ class Item extends Component {
 
       function mark(item) {
         let skip = false;
-        if (!shouldMark && (item === lastSelectedItem || item === self.props.item)) {
+        if (!shouldMark && (item.path === lastSelectedItem.path || item.path === self.props.item.path)) {
           // marking start
           shouldMark = true;
           skip = true;
@@ -57,7 +59,7 @@ class Item extends Component {
           item.selection_time = null;
         }
 
-        if (!skip && shouldMark && (item === lastSelectedItem || item === self.props.item)) {
+        if (!skip && shouldMark && (item.path === lastSelectedItem.path || item.path === self.props.item.path)) {
           // marking end
           shouldMark = false;
         }
@@ -94,11 +96,21 @@ class Item extends Component {
       item.selected = false;
     }
 
-    if (this.props.item === item) {
+    if (this.props.item.path === item.path) {
       item.selected = !item.selected;
       item.selection_time = moment();
     }
     return item;
+  };
+
+  handleContextMenu = e => {
+    if (this.getSelectedItems().length < 2) {
+      this.handleClick(e);
+    }
+  };
+
+  collect = () => {
+    return this.props.item;
   };
 
   get perms() {
@@ -123,13 +135,24 @@ class Item extends Component {
     return parts.join('\n');
   }
 
+  getAttributes = (item) => {
+    return {
+      onDoubleClick: this.handleDoubleClick,
+      onClick: this.handleClick,
+      onContextMenu: this.handleContextMenu,
+      title: this.title,
+      className: 'col-md-2' + (item.selected ? ' selected' : ''),
+    };
+  };
+
   getGridItem = (item) => {
     return (
-        <div className={'col-md-2' + (item.selected ? ' selected' : '')}
-             key={`${item.name}_${item.size}_${item.extension}`}
-             onDoubleClick={this.handleDoubleClick}
-             onClick={this.handleClick}
-             title={this.title}
+        <ContextMenuTrigger key={`${item.name}_${item.size}_${item.extension}`}
+                            id={CONTEXT_MENU_ID}
+                            holdToDisplay={1000}
+                            name={item.name}
+                            collect={this.collect}
+                            attributes={this.getAttributes(item)}
         >
           <div className="card item">
             <div className="item-img card-img-top">
@@ -149,14 +172,20 @@ class Item extends Component {
               {item.components}
             </div>
           </div>
-        </div>
+        </ContextMenuTrigger>
     );
   };
 
   getListItem = (item) => {
     return (
-        <tr>
-          <td><input type="checkbox"/></td>
+        <ContextMenuTrigger key={`${item.name}_${item.size}_${item.extension}`}
+                            id={CONTEXT_MENU_ID}
+                            holdToDisplay={1000}
+                            name={item.name}
+                            attributes={this.getAttributes(item)}
+                            renderTag="tr"
+        >
+          <td><input type="checkbox" checked={item.selected}/></td>
           <td>
             {
               item.is_dir
@@ -177,7 +206,7 @@ class Item extends Component {
             {item.is_writable ? 'w' : '-'}
             {item.is_executable ? 'x' : '-'}
           </td>
-        </tr>
+        </ContextMenuTrigger>
     );
   };
 

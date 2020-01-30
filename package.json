@@ -35,9 +35,7 @@
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
-    "toastr": "^2.1.4"
-  },
-  "dependencies": {
+    "toastr": "^2.1.4",
     "rc-tree": "2.1.0",
     "tailwindcss": "^1.1.4"
   }

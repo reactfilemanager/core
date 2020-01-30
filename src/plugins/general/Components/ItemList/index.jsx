@@ -4,6 +4,7 @@ import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkin
 import Item from '../Item';
 import {getApi} from '../../config';
 import {cloneDeep} from 'lodash';
+import ContextMenu from '../ContextMenu';
 
 class ItemList extends Component {
 
@@ -71,6 +72,7 @@ class ItemList extends Component {
                   </table>
               )
           }
+          <ContextMenu/>
         </div>
     );
   }
