@@ -1,3 +1,4 @@
+const tailwindCss  = require('tailwindcss');
 const mix = require('laravel-mix');
 
 /*
@@ -10,7 +11,12 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+mix.setPublicPath('dist');
 mix.react('build.js', 'dist/build.js')
    .sass('style.scss', 'dist/build.css')
+   .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'dist/fonts')
+   .options({
+              processCssUrls: false,
+              postCss: [tailwindCss(path.join(__dirname, 'tailwind.config.js'))],
+            })
    .sourceMaps();

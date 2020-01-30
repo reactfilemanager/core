@@ -38,6 +38,7 @@
     "toastr": "^2.1.4"
   },
   "dependencies": {
-    "rc-tree": "2.1.0"
+    "rc-tree": "2.1.0",
+    "tailwindcss": "^1.1.4"
   }
 }
