@@ -7,4 +7,4 @@ require('bootstrap');
 
 const element = document.querySelector('#file-manager');
 
-FileManager(element, {url: '/server/'});
+FileManager(element, {url: 'http://127.0.0.1:8000/'});

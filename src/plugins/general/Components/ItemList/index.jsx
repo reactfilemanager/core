@@ -65,7 +65,7 @@ class ItemList extends Component {
           {this.props.state.viewmode === 'grid'
               ? items.map(item => this.getItemBlock(item))
               : (
-                  <table>
+                  <table className="table">
                     <tbody>
                     {items.map(item => this.getItemBlock(item))}
                     </tbody>
