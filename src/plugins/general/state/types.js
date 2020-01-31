@@ -10,3 +10,5 @@ export const SET_CLIPBOARD = 'SET_CLIPBOARD';
 export const RESET_DIRECTORY_TREE = 'RESET_DIRECTORY_TREE';
 export const SET_VIEWMODE = 'SET_VIEWMODE';
 export const SET_QUERY = 'SET_QUERY';
+export const SET_SORT = 'SET_SORT';
+export const SET_SORT_BY = 'SET_SORT_BY';

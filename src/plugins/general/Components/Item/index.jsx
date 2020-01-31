@@ -72,8 +72,10 @@ class Item extends Component {
       this.props.dispatch(setEntries({dirs, files}));
     }
     else {
-      const dirs = this.props.state.entries.dirs.map(dir => this.markItemSelected(dir, e.ctrlKey, e.shiftKey));
-      const files = this.props.state.entries.files.map(file => this.markItemSelected(file, e.ctrlKey, e.shiftKey));
+      const dirs = this.props.state.entries.dirs.map(
+          dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
+      const files = this.props.state.entries.files.map(
+          file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
       this.props.dispatch(setEntries({dirs, files}));
     }
   };

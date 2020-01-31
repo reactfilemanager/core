@@ -1,9 +1,9 @@
 import React from 'react';
-import Breadcrumb from './Breadcrumb';
-import ItemList from './ItemList';
-import Toolbar from './Toolbar';
-import {getConfig, getDefaultConfig} from '../config';
-import DirectoryTree from './DirectoryTree';
+import Breadcrumb from '../Breadcrumb';
+import ItemList from '../ItemList';
+import Toolbar from '../Toolbar';
+import {getConfig, getDefaultConfig} from '../../config';
+import DirectoryTree from '../DirectoryTree';
 
 export default function() {
   const [state, dispatch] = window.useStore();
