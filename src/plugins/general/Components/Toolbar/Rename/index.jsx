@@ -10,11 +10,12 @@ class Rename extends Component {
   state = {isOpen: false, working: false};
 
   getSelected = () => {
-    return [
+    const all_selected = [
       ...this.props.state.entries.dirs,
       ...this.props.state.entries.files,
     ]
         .filter(item => item.selected);
+    return all_selected.length === 1 ? all_selected[0] : null;
   };
 
   handleClick = () => {
