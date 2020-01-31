@@ -13,7 +13,9 @@ const defaultConfig = getDefaultConfig();
 const config = getConfig();
 
   return (
-    <Flex>
+    <Flex sx={{
+      minHeight: '100vh'
+    }}>
       <Box
         sx={{ 
           background: 'gray',

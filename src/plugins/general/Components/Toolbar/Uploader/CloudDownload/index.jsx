@@ -76,7 +76,7 @@ class CloudDownload extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-cloud-download-alt"/>
+                  : 'Cloud Download'
             }
           </button>
         </div>;
@@ -100,7 +100,7 @@ class CloudDownload extends Component {
             {
               this.state.working
                   ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-cloud-download-alt"/>
+                  : 'Cloud Download'
             }
           </button>
         </Popover>

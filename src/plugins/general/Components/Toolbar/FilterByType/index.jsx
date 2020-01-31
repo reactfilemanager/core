@@ -44,7 +44,7 @@ class FilterByType extends Component {
                   title={this.filterTypes[key].title}
                   onClick={() => this.handleClick(key)}
           >
-            <i className={this.filterTypes[key].icon}/>
+            {this.filterTypes[key].title}
           </button>
       );
     });

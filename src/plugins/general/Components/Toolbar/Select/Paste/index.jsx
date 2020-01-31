@@ -57,7 +57,7 @@ class Paste extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-copy"/>
+                  : 'Paste'
             }
           </button>
         </div>;
@@ -79,7 +79,7 @@ class Paste extends Component {
                   disabled={!hasCopy}
                   {...attrs}
           >
-            <i className="fa fa-copy"/>
+            Paste
           </button>
         </Popover>
     );

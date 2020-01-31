@@ -217,7 +217,7 @@ class Upload extends Component {
             </div>
 
             <button className="btn btn-primary" onClick={this.openFileInput}>
-              <i className="fa fa-file-upload"/>
+              Upload
             </button>
           </div>
         </div>;
@@ -243,7 +243,7 @@ class Upload extends Component {
             {
               this.uploading
                   ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-file-upload"/>
+                  : Upload
             }
           </button>
         </Popover>

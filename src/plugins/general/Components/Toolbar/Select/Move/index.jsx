@@ -59,7 +59,7 @@ class Move extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-file-import"/>
+                  : 'Move'
             }
           </button>
         </div>;
@@ -80,7 +80,7 @@ class Move extends Component {
                   disabled={!hasCopy}
                   {...attrs}
           >
-            <i className="fa fa-file-import"/>
+            Move
           </button>
         </Popover>
     );

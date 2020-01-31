@@ -222,7 +222,7 @@ class Permission extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-universal-access"/>
+            Permission
           </button>
         </Popover>
     );
