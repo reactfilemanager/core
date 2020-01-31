@@ -4,6 +4,7 @@ import {getApi} from '../../../../config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class Paste extends Component {
 
@@ -79,7 +80,7 @@ class Paste extends Component {
                   disabled={!hasCopy}
                   {...attrs}
           >
-            <i className="fa fa-copy"/>
+            {icons.copy}
           </button>
         </Popover>
     );

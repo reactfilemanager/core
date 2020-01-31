@@ -4,6 +4,7 @@ import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class Move extends Component {
 
@@ -80,7 +81,7 @@ class Move extends Component {
                   disabled={!hasCopy}
                   {...attrs}
           >
-            <i className="fa fa-file-import"/>
+            {icons.move}
           </button>
         </Popover>
     );

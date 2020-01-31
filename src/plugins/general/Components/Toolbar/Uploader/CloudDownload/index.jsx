@@ -4,6 +4,7 @@ import {getApi} from '../../../../config';
 import {setShouldReload} from '../../../../state/actions';
 import ReactLoading from 'react-loading';
 import Popover from 'react-popover';
+import icons from '../../../../../../assets/icons';
 
 class CloudDownload extends Component {
 
@@ -76,7 +77,7 @@ class CloudDownload extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-cloud-download-alt"/>
+                  : 'Save'
             }
           </button>
         </div>;
@@ -100,7 +101,7 @@ class CloudDownload extends Component {
             {
               this.state.working
                   ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-cloud-download-alt"/>
+                  : icons.cloud_download
             }
           </button>
         </Popover>

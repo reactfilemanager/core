@@ -4,6 +4,7 @@ import toastr from 'toastr';
 import {getApi} from '../../../../config';
 import {setShouldReload, update} from '../../../../state/actions';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class NewFolder extends Component {
 
@@ -98,7 +99,7 @@ class NewFolder extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            New Folder
+            {icons.plus} New Folder
           </button>
         </Popover>
     );

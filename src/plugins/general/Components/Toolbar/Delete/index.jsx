@@ -4,8 +4,8 @@ import ReactLoading from 'react-loading';
 import {getApi} from '../../../config';
 import toastr from 'toastr';
 import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
-
 import icons from '../../../../../assets/icons';
+
 console.log(icons);
 
 class Delete extends Component {
@@ -92,7 +92,7 @@ class Delete extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            Delete
+            {icons.trash} Delete
           </button>
         </Popover>
     );

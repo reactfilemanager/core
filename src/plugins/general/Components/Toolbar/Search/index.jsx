@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {debounce} from 'lodash';
 import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
 import {fuzzySearch} from '../../../../../helpers/Utils';
+import icons from '../../../../../assets/icons';
 
 class Search extends Component {
 
@@ -110,7 +111,7 @@ class Search extends Component {
              key={key}
              href="#"
              onClick={() => callback(key)}
-          >{check(key) ? <i className="fa fa-check"/> : null} {items[key]}</a>
+          >{check(key) ? icons.check : null} {items[key]}</a>
       );
     });
   };
@@ -129,7 +130,7 @@ class Search extends Component {
                  onChange={this.handleQueryChange}/>
           <div className="input-group-append">
             <button className="btn btn-outline-light dropdown-toggle btn-sort" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"/>
+                    aria-haspopup="true" aria-expanded="false">{icons.triangle_down}</button>
             <div className="dropdown-menu">
 
               {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
