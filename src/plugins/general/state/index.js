@@ -12,6 +12,7 @@ export default {
     sort: 'asc',
     sortBy: 'name',
   },
+  type: null,
   viewmode: 'grid',
   path: null,
 };

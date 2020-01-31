@@ -72,7 +72,6 @@ class Rename extends Component {
         <div className="form-inline p-1">
           <div className="form-group mx-sm-3 mb-2">
             <label htmlFor="name"
-                   className="sr-only"
             >
               Enter {selected.is_dir ? 'Folder Name' : 'File Name'}
             </label>

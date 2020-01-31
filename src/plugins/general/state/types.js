@@ -12,3 +12,4 @@ export const SET_VIEWMODE = 'SET_VIEWMODE';
 export const SET_QUERY = 'SET_QUERY';
 export const SET_SORT = 'SET_SORT';
 export const SET_SORT_BY = 'SET_SORT_BY';
+export const SET_TYPE_FILTER = 'SET_TYPE_FILTER';

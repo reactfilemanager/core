@@ -6,6 +6,8 @@ import Refresh from './Components/Toolbar/Refresh';
 import Uploader from './Components/Toolbar/Uploader';
 import ViewMode from './Components/Toolbar/ViewMode';
 import Search from './Components/Toolbar/Search';
+import FilterByType from './Components/Toolbar/FilterByType';
+import Permission from './Components/Toolbar/Permission';
 
 let _api = {};
 const _defaultConfig = {
@@ -13,10 +15,12 @@ const _defaultConfig = {
     uploader_op: Uploader,
     make_new: MakeNew,
     rename_op: Rename,
+    permission_op: Permission,
     select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,
     viewmode: ViewMode,
+    filter_by_type: FilterByType,
     search: Search,
   },
 };

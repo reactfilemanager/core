@@ -7,6 +7,7 @@ export default class FileInfo {
   is_readable;
   is_writable;
   is_executable;
+  perms;
   size;
   extension;
   selected = false;
@@ -14,7 +15,7 @@ export default class FileInfo {
 
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,
-      is_executable, size, extension) {
+      is_executable, perms, size, extension) {
     this.name = name;
     this.path = path;
     this.is_dir = is_dir;
@@ -23,6 +24,7 @@ export default class FileInfo {
     this.is_readable = is_readable;
     this.is_writable = is_writable;
     this.is_executable = is_executable;
+    this.perms = perms;
     this.size = size;
     this.extension = extension;
   }

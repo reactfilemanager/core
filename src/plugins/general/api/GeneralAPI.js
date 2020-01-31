@@ -41,6 +41,14 @@ export default {
       destination,
     };
   },
+  chmod(path, target, mod) {
+    return {
+      action: 'chmod',
+      path,
+      target,
+      mod,
+    };
+  },
   update(path, target, content) {
     return {
       action: 'update',

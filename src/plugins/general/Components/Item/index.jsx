@@ -117,23 +117,12 @@ class Item extends Component {
     return this.props.item;
   };
 
-  get perms() {
-    const item = this.props.item;
-    let perm = '';
-
-    perm += item.is_readable ? 'r' : '-';
-    perm += item.is_writable ? 'w' : '-';
-    perm += item.is_executable ? 'x' : '-';
-
-    return perm;
-  }
-
   get title() {
     const item = this.props.item;
     const parts = [
       item.name,
       item.size.toHumanFileSize(),
-      this.perms,
+      item.perms,
     ];
 
     return parts.join('\n');
@@ -201,9 +190,7 @@ class Item extends Component {
             {item.is_file ? 'File' : ''}
           </td>
           <td>
-            {item.is_readable ? 'r' : '-'}
-            {item.is_writable ? 'w' : '-'}
-            {item.is_executable ? 'x' : '-'}
+            {item.perms}
           </td>
         </ContextMenuTrigger>
     );

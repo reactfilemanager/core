@@ -142,6 +142,15 @@ export default {
       },
     };
   },
+  [types.SET_TYPE_FILTER]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        type: payload,
+      },
+    };
+  },
   [types.ADD_FILTER]: (state, {payload}) => {
     return {
       ...state,
