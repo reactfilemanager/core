@@ -76,7 +76,7 @@ class NewFolder extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-folder-plus"/>
+                  : 'New Folder'
             }
           </button>
         </div>;
@@ -98,7 +98,7 @@ class NewFolder extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-folder-plus"/>
+            New Folder
           </button>
         </Popover>
     );

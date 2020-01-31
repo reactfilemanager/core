@@ -93,7 +93,7 @@ class Rename extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-edit"/>
+                  : 'Rename'
             }
           </button>
         </div>
@@ -116,7 +116,7 @@ class Rename extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-edit"/>
+            Rename
           </button>
         </Popover>
     );

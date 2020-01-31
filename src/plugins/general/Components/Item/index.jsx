@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+/** @jsx jsx */
+import { jsx, Card, Text, Image } from 'theme-ui'
+import {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import moment from 'moment';
 import {ContextMenuTrigger} from 'react-contextmenu';
@@ -72,15 +74,10 @@ class Item extends Component {
       this.props.dispatch(setEntries({dirs, files}));
     }
     else {
-<<<<<<< HEAD
-      const dirs = this.props.state.entries.dirs.map(dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
-      const files = this.props.state.entries.files.map(file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
-=======
       const dirs = this.props.state.entries.dirs.map(
           dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
       const files = this.props.state.entries.files.map(
           file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
->>>>>>> 27a7e6f96974b0ffff773a763f2bfe59da0887be
       this.props.dispatch(setEntries({dirs, files}));
     }
   };
@@ -147,39 +144,34 @@ class Item extends Component {
       onDoubleClick: this.handleDoubleClick,
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
-      title: this.title,
-      className: 'col-md-2' + (item.selected ? ' selected' : ''),
+      className: (item.selected ? ' selected' : ''),
     };
   };
 
   getGridItem = (item) => {
     return (
-        <ContextMenuTrigger key={`${item.name}_${item.size}_${item.extension}`}
-                            id={CONTEXT_MENU_ID}
-                            holdToDisplay={1000}
-                            name={item.name}
-                            collect={this.collect}
-                            attributes={this.getAttributes(item)}
+      <Card>
+        <ContextMenuTrigger 
+          key={`${item.name}_${item.size}_${item.extension}`}
+          id={CONTEXT_MENU_ID}
+          holdToDisplay={1000}
+          name={item.name}
+          collect={this.collect}
+          attributes={this.getAttributes(item)}
         >
-          <div className="card item">
-            <div className="item-img card-img-top">
-              <img src={thumb(item.path)} className="img-thumbnail" alt="..."/>
-            </div>
-            <div className="card-body">
-              <p className="card-text">
-                {
-                  item.is_dir
-                      ? <a href="#" onClick={this.handleClickName}
-                      >
-                        {item.name}
-                      </a>
-                      : item.name
-                }
-              </p>
-              {item.components}
-            </div>
-          </div>
+          <Image
+            src={thumb(item.path)}
+          />
+          <Text>
+          {
+            item.is_dir ? 
+              <a href="#" onClick={this.handleClickName}>{item.name}</a>
+            : item.name
+          }
+          {item.components}
+          </Text>
         </ContextMenuTrigger>
+      </Card>
     );
   };
 

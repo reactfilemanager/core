@@ -5,6 +5,9 @@ import {getApi} from '../../../config';
 import toastr from 'toastr';
 import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
 
+import icons from '../../../../../assets/icons';
+console.log(icons);
+
 class Delete extends Component {
   state = {isOpen: false, working: false};
 
@@ -66,7 +69,7 @@ class Delete extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-trash-alt"/>
+                  : 'Delete'
             }
           </button>
         </div>
@@ -89,7 +92,7 @@ class Delete extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-trash-alt"/>
+            Delete
           </button>
         </Popover>
     );

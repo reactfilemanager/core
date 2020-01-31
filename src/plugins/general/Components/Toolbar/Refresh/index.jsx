@@ -19,7 +19,7 @@ class Refresh extends Component {
 
     return (
         <button className="btn btn-primary" onClick={this.handleClick} disabled={reloading} {...attrs}>
-          <i className={'fa fa-sync-alt' + (reloading ? ' fa-spin' : '')} aria-hidden="true"/>
+          { reloading ? 'Refreshing' : 'Refresh' }
         </button>
     );
   }

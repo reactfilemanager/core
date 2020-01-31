@@ -76,7 +76,7 @@ class NewFile extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-file-medical"/>
+                  : 'New File'
             }
           </button>
         </div>;
@@ -97,7 +97,7 @@ class NewFile extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            <i className="fa fa-file-medical"/>
+            New File
           </button>
         </Popover>
     );

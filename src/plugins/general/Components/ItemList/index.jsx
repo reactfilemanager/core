@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+/** @jsx jsx */
+import { jsx, Grid } from 'theme-ui'
+import {Component} from 'react';
 import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
@@ -61,9 +63,10 @@ class ItemList extends Component {
     const items = this.getItems();
 
     return (
-        <div className="row">
+        <div className="files-container" sx={{ padding: '16px' }}>
           {this.props.state.viewmode === 'grid'
-              ? items.map(item => this.getItemBlock(item))
+              ? 
+                <Grid width={[176]} gap={2} >{items.map(item => this.getItemBlock(item))}</Grid>
               : (
                   <table className="table">
                     <tbody>
