@@ -16,6 +16,7 @@ export default {
             fileInfo.is_readable,
             fileInfo.is_writable,
             fileInfo.is_executable,
+            fileInfo.perms,
             fileInfo.size,
             fileInfo.extension,
         );
