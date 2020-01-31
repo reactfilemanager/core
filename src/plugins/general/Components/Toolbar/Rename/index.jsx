@@ -112,7 +112,7 @@ class Rename extends Component {
             onOuterAction={this.handleOutsideClick}
         >
           <button className="btn btn-primary"
-                  disabled={selected === false}
+                  disabled={selected === null}
                   onClick={this.handleClick}
                   {...attrs}
           >
