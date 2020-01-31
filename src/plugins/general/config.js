@@ -6,6 +6,7 @@ import Refresh from './Components/Toolbar/Refresh';
 import Uploader from './Components/Toolbar/Uploader';
 import ViewMode from './Components/Toolbar/ViewMode';
 import Search from './Components/Toolbar/Search';
+import FilterByType from './Components/Toolbar/FilterByType';
 
 let _api = {};
 const _defaultConfig = {
@@ -17,6 +18,7 @@ const _defaultConfig = {
     delete_op: Delete,
     refresh_op: Refresh,
     viewmode: ViewMode,
+    filter_by_type: FilterByType,
     search: Search,
   },
 };

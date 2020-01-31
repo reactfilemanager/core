@@ -1,4 +1,5 @@
 import * as types from './types';
+import {SET_TYPE_FILTER} from './types';
 
 export const setWorkingPath = path => ({type: types.SET_WORKING_PATH, payload: path});
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
@@ -14,3 +15,4 @@ export const setQuery = query => ({type: types.SET_QUERY, payload: query});
 export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});
 export const setSort = sort => ({type: types.SET_SORT, payload: sort});
 export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
+export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});
