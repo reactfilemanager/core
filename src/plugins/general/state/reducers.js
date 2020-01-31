@@ -111,7 +111,34 @@ export default {
       ...state,
       general: {
         ...state.general,
-        query: payload,
+        search: {
+          ...state.general.search,
+          query: payload,
+        },
+      },
+    };
+  },
+  [types.SET_SORT]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        search: {
+          ...state.general.search,
+          sort: payload,
+        },
+      },
+    };
+  },
+  [types.SET_SORT_BY]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        search: {
+          ...state.general.search,
+          sortBy: payload,
+        },
       },
     };
   },

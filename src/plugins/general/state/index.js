@@ -7,7 +7,11 @@ export default {
   shouldReload: true,
   reloading: false,
   filters: {},
-  query: '',
+  search: {
+    query: '',
+    sort: 'asc',
+    sortBy: 'name',
+  },
   viewmode: 'grid',
   path: null,
 };

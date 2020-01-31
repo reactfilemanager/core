@@ -72,8 +72,15 @@ class Item extends Component {
       this.props.dispatch(setEntries({dirs, files}));
     }
     else {
+<<<<<<< HEAD
       const dirs = this.props.state.entries.dirs.map(dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
       const files = this.props.state.entries.files.map(file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
+=======
+      const dirs = this.props.state.entries.dirs.map(
+          dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
+      const files = this.props.state.entries.files.map(
+          file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
+>>>>>>> 27a7e6f96974b0ffff773a763f2bfe59da0887be
       this.props.dispatch(setEntries({dirs, files}));
     }
   };

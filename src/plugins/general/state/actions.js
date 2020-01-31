@@ -12,3 +12,5 @@ export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_T
 export const setViewmode = viewmode => ({type: types.SET_VIEWMODE, payload: viewmode});
 export const setQuery = query => ({type: types.SET_QUERY, payload: query});
 export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});
+export const setSort = sort => ({type: types.SET_SORT, payload: sort});
+export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
