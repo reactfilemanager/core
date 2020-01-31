@@ -27,6 +27,9 @@
     "moment": "^2.24.0",
     "popper.js": "^1.16.0",
     "prop-types": "^15.7.2",
+    "purgecss": "^2.0.5",
+    "purgecss-webpack-plugin": "^2.0.5",
+    "rc-tree": "2.1.0",
     "react": "^16.2.0",
     "react-contextmenu": "^2.13.0",
     "react-dom": "^16.2.0",
@@ -35,8 +38,7 @@
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
-    "toastr": "^2.1.4",
-    "rc-tree": "2.1.0",
-    "tailwindcss": "^1.1.4"
-  }
+    "tailwindcss": "^1.1.4",
+    "toastr": "^2.1.4"
+  },
 }

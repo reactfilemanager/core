@@ -1,62 +1,64 @@
-// Variables
-@import 'variables';
-@import "fontawesome";
-@import "contextmenu";
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-@import "~toastr/toastr";
-@import "~rc-tree/assets/index.css";
 
-.selected {
-  background: #4dc0b5;
-}
+// // Variables
+// @import 'variables';
+// @import "fontawesome";
+// @import "contextmenu";
+// // Bootstrap
+// @import '~bootstrap/scss/bootstrap';
 
-.item p {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
+// @import "~toastr/toastr";
+// @import "~rc-tree/assets/index.css";
 
-.item-img {
-  min-width: 126px;
-  min-height: 126px;
-}
+// .selected {
+//   background: #4dc0b5;
+// }
 
-.item .card-body {
-  padding: 4px;
-}
+// .item p {
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   overflow: hidden;
+// }
 
-.toolbar > button:not(:first-child), .toolbar > .btn-group {
-  margin-left: 4px;
-}
+// .item-img {
+//   min-width: 126px;
+//   min-height: 126px;
+// }
 
-.hidden {
-  display: none;
-}
+// .item .card-body {
+//   padding: 4px;
+// }
 
-.Popover-body {
-  background: #fff;
-  border-radius: 10px;
-  padding: 4px;
-  border: 1px solid #ccc;
-}
+// .toolbar > button:not(:first-child), .toolbar > .btn-group {
+//   margin-left: 4px;
+// }
 
-.Popover-tipShape {
-  color: #fff;
-  fill: #fff;
-  outline: #ccc;
-}
+// .hidden {
+//   display: none;
+// }
 
-.min-w-300px {
-  min-width: 300px;
-}
+// .Popover-body {
+//   background: #fff;
+//   border-radius: 10px;
+//   padding: 4px;
+//   border: 1px solid #ccc;
+// }
 
-.top-right-absolute {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
+// .Popover-tipShape {
+//   color: #fff;
+//   fill: #fff;
+//   outline: #ccc;
+// }
 
-.pointer {
-  cursor: pointer;
-}
+// .min-w-300px {
+//   min-width: 300px;
+// }
+
+// .top-right-absolute {
+//   position: absolute;
+//   top: 5px;
+//   right: 10px;
+// }
+
+// .pointer {
+//   cursor: pointer;
+// }
