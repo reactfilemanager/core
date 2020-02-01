@@ -189,6 +189,24 @@ export default {
       },
     };
   },
+  [types.INJECT_MODAL]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        modal: payload,
+      },
+    };
+  },
+  [types.REMOVE_MODAL]: (state) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        modal: null,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {

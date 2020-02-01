@@ -18,3 +18,5 @@ export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by}
 export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});
 export const injectSidePanel = (id, panel) => ({type: types.INJECT_SIDE_PANEL, payload: {[id]: panel}});
 export const removeSidePanel = payload => ({type: types.REMOVE_SIDE_PANEL, payload});
+export const injectModal = modal => ({type: types.INJECT_MODAL, payload: modal});
+export const removeModal = () => ({type: types.REMOVE_MODAL});

@@ -1,9 +1,26 @@
 import React from 'react';
 import icons from '../../../../assets/icons';
 import InfoPanel from '../../Components/InfoPanel';
-import {injectSidePanel} from '../../state/actions';
+import {injectModal, injectSidePanel} from '../../state/actions';
+import Permission from '../../Components/Permission';
 
 export default {
+  change_permission: {
+    shouldShow(item) {
+      return true;
+    },
+    menu_item: {
+      icon: null,
+      title: 'Change Permission',
+    },
+    handle(item, state, dispatch) {
+      const modal = (props) => {
+        return <Permission item={item} {...props}/>;
+      };
+
+      dispatch(injectModal(modal));
+    },
+  },
   details: {
     shouldShow(item) {
       return true; //can download everything

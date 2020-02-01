@@ -7,7 +7,8 @@ import Toolbar from '../Toolbar';
 import {getConfig, getDefaultConfig} from '../../tools/config';
 import DirectoryTree from '../DirectoryTree';
 import icons from '../../../../assets/icons';
-import {removeSidePanel} from '../../state/actions';
+import {removeModal, removeSidePanel} from '../../state/actions';
+import Dialog from 'rc-dialog';
 
 export default function() {
 const [state, dispatch] = window.useStore();
@@ -15,6 +16,8 @@ const defaultConfig = getDefaultConfig();
 const config = getConfig();
 const sidebar_components = state.general.sidebar_components;
 const hasSidebarComponent = Object.keys(sidebar_components).length;
+const Modal = state.general.modal;
+const hasModal = !!Modal;
 
 const closeSidebar = () => {
   dispatch(removeSidePanel());
@@ -78,6 +81,11 @@ const closeSidebar = () => {
               );
         })}
       </Box>
+          : null}
+      {hasModal
+          ? <Dialog onClose={() => dispatch(removeModal())} visible>
+              <Modal state={state} dispatch={dispatch}/>
+            </Dialog>
           : null}
     </Flex>
   );

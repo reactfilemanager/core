@@ -14,4 +14,6 @@ export const SET_SORT = 'SET_SORT';
 export const SET_SORT_BY = 'SET_SORT_BY';
 export const SET_TYPE_FILTER = 'SET_TYPE_FILTER';
 export const INJECT_SIDE_PANEL = 'INJECT_SIDE_PANEL';
-export let REMOVE_SIDE_PANEL = 'REMOVE_SIDE_PANEL';
+export const REMOVE_SIDE_PANEL = 'REMOVE_SIDE_PANEL';
+export const INJECT_MODAL = 'INJECT_MODAL';
+export const REMOVE_MODAL = 'REMOVE_MODAL';
