@@ -18,7 +18,6 @@ const _defaultConfig = {
     uploader_op: Uploader,
     make_new: MakeNew,
     rename_op: Rename,
-    permission_op: Permission,
     select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,
