@@ -26,11 +26,11 @@ class FilterByType extends Component {
 
   get filterTypes() {
     return {
-      null: {title: 'All', icon: '*'},
+      null: {title: 'All', icon: 'All'},
       video: {title: 'Video', icon: icons.video},
-      audio: {title: 'Audio', icon: 'audio'},
+      audio: {title: 'Audio', icon: icons.play},
       image: {title: 'Image', icon: icons.image},
-      docs: {title: 'Document', icon: 'file'},
+      docs: {title: 'Document', icon: icons.file},
     };
   }
 

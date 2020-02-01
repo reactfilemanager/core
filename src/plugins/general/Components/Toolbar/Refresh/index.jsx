@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button, Spinner } from 'theme-ui'
 import {setShouldReload} from '../../../state/actions';
 import icons from '../../../../../assets/icons';
 
@@ -19,9 +20,9 @@ class Refresh extends Component {
     }
 
     return (
-        <button className="btn btn-primary" onClick={this.handleClick} disabled={reloading} {...attrs}>
-          {icons.refresh} { reloading ? 'Refreshing' : 'Refresh' }
-        </button>
+        <Button variant="secondary" onClick={this.handleClick} disabled={reloading} {...attrs}>
+          {icons.refresh} { reloading ? <Spinner/> : 'Refresh' }
+        </Button>
     );
   }
 }

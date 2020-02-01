@@ -24,7 +24,9 @@ const closeSidebar = () => {
 };
 
   return (
-    <Flex>
+    <Flex sx={{
+      minHeight: '100vh'
+    }}>
       <Box
         sx={{
           background: 'gray',
@@ -44,7 +46,7 @@ const closeSidebar = () => {
        sx={{
           flex: '1 1 auto',
         }}>
-        <div>
+
           <Toolbar
             state={state.general}
             dispatch={dispatch}
@@ -63,7 +65,7 @@ const closeSidebar = () => {
               path={state.general.path}
               dispatch={dispatch}
           />
-        </div>
+
         <div>
           <ItemList
             state={state.general}
@@ -82,11 +84,11 @@ const closeSidebar = () => {
         })}
       </Box>
           : null}
-      {hasModal
-          ? <Dialog onClose={() => dispatch(removeModal())} visible>
-              <Modal state={state} dispatch={dispatch}/>
-            </Dialog>
-          : null}
+          <Dialog onClose={() => dispatch(removeModal())} visible={hasModal}>
+            {hasModal
+              ? <Modal state={state} dispatch={dispatch}/>
+              : null}
+          </Dialog>
     </Flex>
   );
 }

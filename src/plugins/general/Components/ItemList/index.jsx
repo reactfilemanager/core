@@ -66,7 +66,7 @@ class ItemList extends Component {
         <div className="files-container" sx={{ padding: '16px' }}>
           {this.props.state.viewmode === 'grid'
               ? 
-                <Grid width={[176]} gap={2} >{items.map(item => this.getItemBlock(item))}</Grid>
+                <Grid width={[176]} gap={3} >{items.map(item => this.getItemBlock(item))}</Grid>
               : (
                   <table className="table">
                     <tbody>

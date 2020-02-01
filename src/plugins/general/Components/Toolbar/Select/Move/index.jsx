@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import {getApi} from '../../../../tools/config';
 import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
@@ -60,7 +61,7 @@ class Move extends Component {
             {
               this.state.working ?
                   <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : <i className="fa fa-file-import"/>
+                  : 'Move'
             }
           </button>
         </div>;
@@ -76,13 +77,15 @@ class Move extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary" ref="move"
-                  onClick={this.handleClick}
-                  disabled={!hasCopy}
-                  {...attrs}
+          <Button 
+            variant="secondary" 
+            ref="move"
+            onClick={this.handleClick}
+            disabled={!hasCopy}
+            {...attrs}
           >
             {icons.move}
-          </button>
+          </Button>
         </Popover>
     );
   }
