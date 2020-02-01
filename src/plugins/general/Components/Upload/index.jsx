@@ -1,26 +1,15 @@
 import React, {Component} from 'react';
-import {Button, Spinner} from 'theme-ui'
-import Popover from 'react-popover';
-import FileInfo from '../../../../models/FileInfo';
-import {getApi} from '../../../../tools/config';
-import icons from '../../../../../../assets/icons';
+import {Button, Spinner} from 'theme-ui';
+import {getApi} from '../../tools/config';
+import FileInfo from '../../models/FileInfo';
+import icons from '../../../../assets/icons';
+import {setShouldReload} from '../../state/actions';
 
 class Upload extends Component {
-  state = {working: false, isOpen: false, uploads: []};
-
-  handleClick = () => {
-    this.setState({isOpen: true});
-    // if (this.state.uploads.length === 0) {
-    //   this.openFileInput();
-    // }
-  };
+  state = {working: false, uploads: []};
 
   openFileInput = () => {
     this.refs.fileInput.click();
-  };
-
-  handleOutsideClick = () => {
-    this.setState({isOpen: false});
   };
 
   handleSelect = () => {
@@ -75,7 +64,7 @@ class Upload extends Component {
     setTimeout(() => {
       const uploads = this.state.uploads.filter(_file => _file !== file);
       this.setState({uploads});
-    }, wait*1000);
+    }, wait * 1000);
   };
 
   setUploadStatus = (file, message, success) => {
@@ -89,6 +78,8 @@ class Upload extends Component {
       return _file;
     });
     this.setState({uploads});
+
+    this.reloadOnComplete();
   };
 
   handleProgress = file => {
@@ -202,11 +193,17 @@ class Upload extends Component {
   };
 
   get uploading() {
-    return this.state.uploads.find(file => !file.upload_complete);
+    return this.state.uploads.find(file => !file.upload_complete) !== undefined;
   }
 
+  reloadOnComplete = () => {
+    if (!this.uploading) {
+      this.props.dispatch(setShouldReload(true));
+    }
+  };
+
   render() {
-    const Body =
+    return (
         <div className="p-1 min-w-300px">
           <div className="form-group mx-sm-3 mb-2">
             <h3>Uploading files</h3>
@@ -217,35 +214,12 @@ class Upload extends Component {
               </div>
             </div>
 
-            <Button  onClick={this.openFileInput}>
+            <Button onClick={this.openFileInput}>
               {icons.cloud_upload} Upload
             </Button>
+            <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden/>
           </div>
-        </div>;
-
-    const attrs = {
-      'data-toggle': 'tooltip',
-      'data-placement': 'top',
-      title: 'Upload',
-    };
-
-    return (
-      
-        <Popover
-            body={Body}
-            isOpen={this.state.isOpen}
-            onOuterAction={this.handleOutsideClick}
-        >
-          <Button className="btn btn-primary"
-            onClick={this.handleClick}
-            disabled={this.state.isOpen}
-            {...attrs}
-          >
-            <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden />
-            
-            { this.uploading ? <Spinner/> : icons.cloud_upload } Upload
-          </Button>
-        </Popover>
+        </div>
     );
   }
 }
