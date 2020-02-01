@@ -1,5 +1,5 @@
 import GeneralAPI from './api/GeneralAPI';
-import config from './tools/config';
+import config, {inject} from './tools/config';
 import General from './Components/General';
 import reducers from './state/reducers';
 import initial_state from './state';
@@ -30,5 +30,6 @@ export default {
     info_panel: {},
     // add reducers
     reducers,
+    inject,
   },
 };

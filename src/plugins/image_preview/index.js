@@ -1,6 +1,31 @@
+import ImagePreview from './Components/ImagePreview';
+import React from 'react';
+
 export default {
   image_preview: {
-    initial_state: {},
-    context_menu: {},
-  }
-}
+    injects: {
+      general: {
+        handlers: {
+          image_preview: {
+            handles(item) {
+              return ['jpg', 'jpeg', 'bmp', 'svg', 'ico', 'gif', 'webp', 'png'].indexOf(item.extension) > -1;
+            },
+            menu_item: {
+              icon: '',
+              title: 'Preview',
+            },
+            handle(item, state, dispatch) {
+              const modal = (props) => {
+                return <ImagePreview item={item} {...props}/>;
+              };
+
+              dispatch({type: 'INJECT_MODAL', payload: modal});
+            },
+            type: 'preview',
+          },
+        },
+      },
+    },
+
+  },
+};

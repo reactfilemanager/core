@@ -28,7 +28,7 @@ const _defaultConfig = {
   handlers,
 };
 
-let _config = {};
+const _config = {};
 
 export const getApi = () => {
   return _api;
@@ -40,6 +40,12 @@ export const getDefaultConfig = () => {
 
 export const getConfig = () => {
   return _config;
+};
+
+export const inject = injection => {
+  for (const key of Object.keys(injection)) {
+    _config[key] = Object.assign({}, _config[key] || {}, injection[key]);
+  }
 };
 
 export const getContextMenu = item => {
@@ -82,7 +88,6 @@ export const addContextMenuItem = menuItems => {
   _config.context_menu = menu_items;
 };
 
-export default function({api, config}) {
+export default function({api}) {
   _api = api || {};
-  _config = config || {};
 }

@@ -19,15 +19,7 @@ export const registerPlugin = (_plugins) => {
 
     // load tabs
     if (plugin.tabs) {
-      for (const key of Object.keys(plugin.tabs)) {
-        const tab = plugin.tabs[key];
-        tabs
-            .push({
-                    title: tab.title,
-                    key,
-                    component: tab.component,
-                  });
-      }
+      addTabs(plugin.tabs);
     }
 
     // load reducers
@@ -53,10 +45,49 @@ export const registerPlugin = (_plugins) => {
     // load the boot manager
     if (plugin.boot) {
       bootRequired.push({boot: plugin.boot, key});
+    }
 
+    // injector
+    if (plugin.injects) {
+      inject(plugin.injects);
     }
 
     plugins[key] = plugin;
+  }
+};
+
+const addTabs = _tabs => {
+  for (const key of Object.keys(_tabs)) {
+    const tab = _tabs[key];
+    const existing = tabs.find(tab => tab.key === key);
+    if (existing) {
+      throw new Error(`${key} tab exists`);
+    }
+
+    tabs.push({
+                title: tab.title,
+                key,
+                component: tab.component,
+              });
+  }
+};
+
+const inject = injects => {
+  for(const key of Object.keys(injects)) {
+    if(!plugins[key]) {
+      console.log(`Plugin ${key} is not registered`);
+      continue;
+    }
+
+    const inject = plugins[key].inject;
+
+    if(!inject) {
+      console.log(`Plugin ${key} does not have injection enabled`);
+      continue;
+    }
+
+    // inject
+    inject(injects[key]);
   }
 };
 
@@ -66,7 +97,7 @@ export const getTabs = () => {
 
 export const bootPlugins = () => {
   for (const entry of bootRequired) {
-    entry.boot({api: api[entry.key], config: config[entry.key]});
+    entry.boot({api: api[entry.key]});
   }
   bootRequired = [];
 };
