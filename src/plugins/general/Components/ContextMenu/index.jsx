@@ -7,6 +7,8 @@ export const CONTEXT_MENU_ID = 'hive-fm-context-menu';
 
 export default connectMenu(CONTEXT_MENU_ID)(function(props) {
 
+  const [state, dispatch] = useStore();
+
   const {trigger} = props;
   if (trigger === null) {
     return (<ContextMenu id={CONTEXT_MENU_ID}>
@@ -26,17 +28,17 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   return (
       <ContextMenu id={CONTEXT_MENU_ID}>
         {firstHandler
-            ? <MenuItem onClick={firstHandler.handle}>
+            ? <MenuItem onClick={() => firstHandler.handle(item, state, dispatch)}>
               {icons.preview}
               {firstHandler.type === 'preview'
-                  ? 'Preview'
-                  : 'Open'}
+                  ? ' Preview'
+                  : ' Open'}
             </MenuItem>
             : null}
-        {handlersKeys.length
+        {handlersKeys.length > 1
             ? <SubMenu title="Open With">
               {handlersKeys.map(key => (
-                  <MenuItem key={key} onClick={handlers[key].handle}>
+                  <MenuItem key={key} onClick={() => handlers[key].handle(item, state, dispatch)}>
                     {handlers[key].menu_item.icon} {handlers[key].menu_item.title}
                   </MenuItem>
               ))}
@@ -44,7 +46,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
             : null}
         {
           Object.keys(menu_items).map(key => (
-              <MenuItem key={key} onClick={menu_items[key].handle}>
+              <MenuItem key={key} onClick={() => menu_items[key].handle(item, state, dispatch)}>
                 {menu_items[key].menu_item.icon} {menu_items[key].menu_item.title}
               </MenuItem>
           ))

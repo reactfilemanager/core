@@ -1,4 +1,7 @@
+import React from 'react';
 import icons from '../../../../assets/icons';
+import InfoPanel from '../../Components/InfoPanel';
+import {injectSidePanel} from '../../state/actions';
 
 export default {
   details: {
@@ -9,20 +12,24 @@ export default {
       icon: icons.info,
       title: 'Details',
     },
-    handle(item) {
-      console.log('Open Info Panel', item);
+    handle(item, state, dispatch) {
+      const panel = (props) => {
+        return <InfoPanel item={item} {...props}/>;
+      };
+
+      dispatch(injectSidePanel('info', panel));
     },
   },
   download: {
     shouldShow(item) {
-      return true; //can download everything
+      return !item.is_dir; //can download everything except for folders
     },
     menu_item: {
       icon: icons.download,
       title: 'Download',
     },
     handle(item) {
-      console.log('Download', item);
+      window.open(download(item.path));
     },
   },
 };

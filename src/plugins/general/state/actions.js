@@ -16,3 +16,5 @@ export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});
 export const setSort = sort => ({type: types.SET_SORT, payload: sort});
 export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
 export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});
+export const injectSidePanel = (id, panel) => ({type: types.INJECT_SIDE_PANEL, payload: {[id]: panel}});
+export const removeSidePanel = payload => ({type: types.REMOVE_SIDE_PANEL, payload});
