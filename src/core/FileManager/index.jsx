@@ -40,10 +40,10 @@ export default () => {
           <tab.component/>
         </div>,
     );
-    if (!activeFirst) {
-      setTimeout(() => $('#' + tab.key + '-tab').tab('show'), 100);
-      activeFirst = true;
-    }
+    // if (!activeFirst) {
+    //   setTimeout(() => $('#' + tab.key + '-tab').tab('show'), 100);
+    //   activeFirst = true;
+    // }
   }
 
   return (

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactLoading from 'react-loading';
 import Popover from 'react-popover';
 import toastr from 'toastr';
-import {getApi} from '../../../config';
+import {getApi} from '../../../tools/config';
 import {setShouldReload, update} from '../../../state/actions';
 
 class Permission extends Component {

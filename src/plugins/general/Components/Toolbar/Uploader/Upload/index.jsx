@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Popover from 'react-popover';
 import FileInfo from '../../../../models/FileInfo';
-import {getApi} from '../../../../config';
+import {getApi} from '../../../../tools/config';
 import ReactLoading from 'react-loading';
 import icons from '../../../../../../assets/icons';
 

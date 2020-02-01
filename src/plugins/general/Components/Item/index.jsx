@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Card, Text, Image } from 'theme-ui'
+import {jsx, Card, Text, Image} from 'theme-ui';
 import {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import moment from 'moment';
@@ -114,7 +114,9 @@ class Item extends Component {
   };
 
   collect = () => {
-    return this.props.item;
+    return {
+      item: this.props.item,
+    };
   };
 
   get title() {
@@ -132,35 +134,35 @@ class Item extends Component {
     return {
       onDoubleClick: this.handleDoubleClick,
       onClick: this.handleClick,
-      onContextMenu: this.handleContextMenu,
+      // onContextMenu: this.handleContextMenu,
       className: (item.selected ? ' selected' : ''),
     };
   };
 
   getGridItem = (item) => {
     return (
-      <Card>
-        <ContextMenuTrigger 
-          key={`${item.name}_${item.size}_${item.extension}`}
-          id={CONTEXT_MENU_ID}
-          holdToDisplay={1000}
-          name={item.name}
-          collect={this.collect}
-          attributes={this.getAttributes(item)}
-        >
-          <Image
-            src={thumb(item.path)}
-          />
-          <Text>
-          {
-            item.is_dir ? 
-              <a href="#" onClick={this.handleClickName}>{item.name}</a>
-            : item.name
-          }
-          {item.components}
-          </Text>
-        </ContextMenuTrigger>
-      </Card>
+        <Card>
+          <ContextMenuTrigger
+              key={`${item.name}_${item.size}_${item.extension}`}
+              id={CONTEXT_MENU_ID}
+              holdToDisplay={1000}
+              name={item.name}
+              collect={this.collect}
+              attributes={this.getAttributes(item)}
+          >
+            <Image
+                src={thumb(item.path)}
+            />
+            <Text>
+              {
+                item.is_dir ?
+                    <a href="#" onClick={this.handleClickName}>{item.name}</a>
+                    : item.name
+              }
+              {item.components}
+            </Text>
+          </ContextMenuTrigger>
+        </Card>
     );
   };
 
@@ -170,6 +172,7 @@ class Item extends Component {
                             id={CONTEXT_MENU_ID}
                             holdToDisplay={1000}
                             name={item.name}
+                            collect={this.collect}
                             attributes={this.getAttributes(item)}
                             renderTag="tr"
         >
