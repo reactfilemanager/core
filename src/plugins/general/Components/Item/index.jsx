@@ -2,7 +2,6 @@
 import {jsx, Card, Text, Image} from 'theme-ui';
 import {Component} from 'react';
 import {setEntries} from '../../state/actions';
-import moment from 'moment';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
 
@@ -54,7 +53,7 @@ class Item extends Component {
 
         if (shouldMark) {
           item.selected = true;
-          item.selection_time = moment();
+          item.selection_time = new Date();
         }
         else {
           item.selected = false;
@@ -102,7 +101,7 @@ class Item extends Component {
 
     if (this.props.item.path === item.path) {
       item.selected = !item.selected;
-      item.selection_time = moment();
+      item.selection_time = new Date();
     }
     return item;
   };

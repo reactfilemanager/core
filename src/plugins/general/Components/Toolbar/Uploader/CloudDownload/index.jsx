@@ -3,7 +3,7 @@ import {Button} from 'theme-ui'
 import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 import Popover from 'react-popover';
 import icons from '../../../../../../assets/icons';
 
@@ -77,7 +77,7 @@ class CloudDownload extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'Save'
             }
           </button>
@@ -102,7 +102,7 @@ class CloudDownload extends Component {
           >
             {
               this.state.working
-                  ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  ? <Spinner/>
                   : icons.cloud_download
             }
           </Button>

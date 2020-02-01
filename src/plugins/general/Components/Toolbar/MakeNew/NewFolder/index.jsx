@@ -4,7 +4,7 @@ import Popover from 'react-popover';
 import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload, update} from '../../../../state/actions';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
 
 class NewFolder extends Component {
@@ -77,7 +77,7 @@ class NewFolder extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'New Folder'
             }
           </button>

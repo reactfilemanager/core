@@ -3,7 +3,7 @@ import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
 
 class NewFile extends Component {
@@ -76,7 +76,7 @@ class NewFile extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'New File'
             }
           </button>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {debounce} from 'lodash';
+import debounce from 'lodash.debounce';
 import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
 import {fuzzySearch} from '../../../../../helpers/Utils';
 import icons from '../../../../../assets/icons';

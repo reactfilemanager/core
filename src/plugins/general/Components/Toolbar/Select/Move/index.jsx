@@ -4,7 +4,7 @@ import {getApi} from '../../../../tools/config';
 import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
 
 class Move extends Component {
@@ -60,7 +60,7 @@ class Move extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'Move'
             }
           </button>

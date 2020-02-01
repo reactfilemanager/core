@@ -3,7 +3,6 @@ import {Button, Spinner} from 'theme-ui'
 import Popover from 'react-popover';
 import FileInfo from '../../../../models/FileInfo';
 import {getApi} from '../../../../tools/config';
-import ReactLoading from 'react-loading';
 import icons from '../../../../../../assets/icons';
 
 class Upload extends Component {
