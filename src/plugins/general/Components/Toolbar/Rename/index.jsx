@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import toastr from 'toastr';
 import Popover from 'react-popover';
 import {getApi} from '../../../tools/config';
@@ -110,13 +111,14 @@ class Rename extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  disabled={selected === null}
-                  onClick={this.handleClick}
-                  {...attrs}
+          <Button 
+            variant="secondary"
+            disabled={selected === null}
+            onClick={this.handleClick}
+            {...attrs}
           >
             Rename
-          </button>
+          </Button>
         </Popover>
     );
   }

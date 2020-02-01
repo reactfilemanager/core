@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button, Spinner} from 'theme-ui'
 import Popover from 'react-popover';
 import FileInfo from '../../../../models/FileInfo';
 import {getApi} from '../../../../tools/config';
@@ -10,9 +11,9 @@ class Upload extends Component {
 
   handleClick = () => {
     this.setState({isOpen: true});
-    if (this.state.uploads.length === 0) {
-      this.openFileInput();
-    }
+    // if (this.state.uploads.length === 0) {
+    //   this.openFileInput();
+    // }
   };
 
   openFileInput = () => {
@@ -217,9 +218,9 @@ class Upload extends Component {
               </div>
             </div>
 
-            <button className="btn btn-primary" onClick={this.openFileInput}>
+            <Button  onClick={this.openFileInput}>
               {icons.cloud_upload} Upload
-            </button>
+            </Button>
           </div>
         </div>;
 
@@ -230,23 +231,21 @@ class Upload extends Component {
     };
 
     return (
+      
         <Popover
             body={Body}
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  onClick={this.handleClick}
-                  disabled={this.state.isOpen}
-                  {...attrs}
+          <Button className="btn btn-primary"
+            onClick={this.handleClick}
+            disabled={this.state.isOpen}
+            {...attrs}
           >
-            <input type="file" className="hidden" ref="fileInput" onChange={this.handleSelect} multiple/>
-            {
-              this.uploading
-                  ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : icons.cloud_upload
-            }
-          </button>
+            <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden />
+            
+            { this.uploading ? <Spinner/> : icons.cloud_upload } Upload
+          </Button>
         </Popover>
     );
   }

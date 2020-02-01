@@ -39,13 +39,13 @@ class Copy extends Component {
       attrs.title = `Selected ${count} items`;
     }
     return (
-        <div className="btn-group">
+        <>
           <button className="btn btn-primary" ref="copy" key="copy" onClick={this.handleCopy} {...attrs}>
             {icons.check}
           </button>
           <Paste key="paste" state={this.props.state} dispatch={this.props.dispatch}/>
           <Move key="move" state={this.props.state} dispatch={this.props.dispatch}/>
-        </div>
+        </>
     );
   }
 }

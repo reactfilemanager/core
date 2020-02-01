@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
@@ -94,16 +95,17 @@ class CloudDownload extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  onClick={this.handleClick}
-                  {...attrs}
+          <Button 
+            variant="secondary"
+            onClick={this.handleClick}
+            {...attrs}
           >
             {
               this.state.working
                   ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
                   : icons.cloud_download
             }
-          </button>
+          </Button>
         </Popover>
     );
   }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import Popover from 'react-popover';
 import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
@@ -94,13 +95,14 @@ class NewFolder extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  disabled={this.state.isOpen}
-                  onClick={this.handleClick}
-                  {...attrs}
+          <Button 
+            variant="secondary"
+            disabled={this.state.isOpen}
+            onClick={this.handleClick}
+            {...attrs}
           >
             {icons.plus} New Folder
-          </button>
+          </Button>
         </Popover>
     );
   }
