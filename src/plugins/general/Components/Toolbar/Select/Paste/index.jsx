@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'theme-ui'
 import Popover from 'react-popover';
-import {getApi} from '../../../../config';
+import {getApi} from '../../../../tools/config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
 import ReactLoading from 'react-loading';

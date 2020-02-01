@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Popover from 'react-popover';
 import toastr from 'toastr';
-import {getApi} from '../../../../config';
+import {getApi} from '../../../../tools/config';
 import {setShouldReload, update} from '../../../../state/actions';
 import ReactLoading from 'react-loading';
 import icons from '../../../../../../assets/icons';

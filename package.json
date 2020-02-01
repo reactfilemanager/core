@@ -23,6 +23,7 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "raw-loader": "^4.0.0",
+    "rc-dialog": "^7.6.0",
     "rc-tree": "2.1.0",
     "react": "^16.2.0",
     "react-contextmenu": "^2.13.0",

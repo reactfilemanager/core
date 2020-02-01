@@ -4,20 +4,28 @@ import { jsx, Flex, Box } from 'theme-ui'
 import Breadcrumb from '../Breadcrumb';
 import ItemList from '../ItemList';
 import Toolbar from '../Toolbar';
-import {getConfig, getDefaultConfig} from '../../config';
+import {getConfig, getDefaultConfig} from '../../tools/config';
 import DirectoryTree from '../DirectoryTree';
+import icons from '../../../../assets/icons';
+import {removeSidePanel} from '../../state/actions';
 
 export default function() {
 const [state, dispatch] = window.useStore();
 const defaultConfig = getDefaultConfig();
 const config = getConfig();
+const sidebar_components = state.general.sidebar_components;
+const hasSidebarComponent = Object.keys(sidebar_components).length;
+
+const closeSidebar = () => {
+  dispatch(removeSidePanel());
+};
 
   return (
     <Flex sx={{
       minHeight: '100vh'
     }}>
       <Box
-        sx={{ 
+        sx={{
           background: 'gray',
           flex: '0 0 auto',
           width: '272px',
@@ -31,8 +39,8 @@ const config = getConfig();
           dispatch={dispatch}
         />
       </Box>
-      <Box 
-       sx={{ 
+      <Box
+       sx={{
           flex: '1 1 auto',
         }}>
         
@@ -62,26 +70,17 @@ const config = getConfig();
           />
         </div>
       </Box>
+      {hasSidebarComponent
+      ? <Box>
+            <span onClick={closeSidebar}>{icons.close}</span>
+        {Object.keys(sidebar_components).map(key => {
+          const Component = sidebar_components[key];
+          return (
+                <Component key={key} id={key} state={state} dispatch={dispatch}/>
+              );
+        })}
+      </Box>
+          : null}
     </Flex>
-      // <div className="row">
-      
-      
-      //   <div className="col-md-12">
-      //     <div className="row">
-      //      
-      //       <div className="col-md-10">
-      //         <div className="row">
-      //           <div className="col-md-12">
-      //             <Breadcrumb
-      //                 path={state.general.path}
-      //                 dispatch={dispatch}
-      //             />
-      //           </div>
-      //           
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // </div>
   );
 }

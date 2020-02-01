@@ -15,4 +15,5 @@ export default {
   type: null,
   viewmode: 'grid',
   path: null,
+  sidebar_components: {},
 };

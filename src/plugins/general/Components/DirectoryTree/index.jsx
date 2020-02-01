@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Tree, {TreeNode} from 'rc-tree';
 import {resetDirectoryTree, setWorkingPath} from '../../state/actions';
-import {getApi} from '../../config';
+import {getApi} from '../../tools/config';
 
 class DirectoryTree extends Component {
   state = {

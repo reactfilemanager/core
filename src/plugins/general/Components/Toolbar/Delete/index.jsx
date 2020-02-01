@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import { Button, Spinner } from 'theme-ui'
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
-import {getApi} from '../../../config';
+import {getApi} from '../../../tools/config';
 import toastr from 'toastr';
 import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
 import icons from '../../../../../assets/icons';
-
-console.log(icons);
 
 class Delete extends Component {
   state = {isOpen: false, working: false};

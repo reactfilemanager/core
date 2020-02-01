@@ -1,5 +1,5 @@
 import GeneralAPI from './api/GeneralAPI';
-import config from './config';
+import config from './tools/config';
 import General from './Components/General';
 import reducers from './state/reducers';
 import initial_state from './state';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'theme-ui'
-import {getApi} from '../../../../config';
+import {getApi} from '../../../../tools/config';
 import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import toastr from 'toastr';
-import {getApi} from '../../../../config';
+import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
