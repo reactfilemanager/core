@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {addFilter, setTypeFilter} from '../../../state/actions';
+import icons from '../../../../../assets/icons';
 
 export const FILE_TYPES = {
   video: ['mp4', 'mkv', 'flv', 'webm', 'fla', 'vob', '3gp'],
@@ -25,11 +26,11 @@ class FilterByType extends Component {
 
   get filterTypes() {
     return {
-      null: {title: 'All', icon: 'fa fa-asterisk'},
-      video: {title: 'Video', icon: 'fa fa-video'},
-      audio: {title: 'Audio', icon: 'fa fa-file-audio'},
-      image: {title: 'Image', icon: 'fa fa-image'},
-      docs: {title: 'Document', icon: 'fa fa-file'},
+      null: {title: 'All', icon: 'All'},
+      video: {title: 'Video', icon: icons.video},
+      audio: {title: 'Audio', icon: icons.play},
+      image: {title: 'Image', icon: icons.image},
+      docs: {title: 'Document', icon: icons.file},
     };
   }
 
@@ -44,7 +45,7 @@ class FilterByType extends Component {
                   title={this.filterTypes[key].title}
                   onClick={() => this.handleClick(key)}
           >
-            {this.filterTypes[key].title}
+            {this.filterTypes[key].icon}
           </button>
       );
     });

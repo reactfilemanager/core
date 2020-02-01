@@ -3,6 +3,7 @@ import Popover from 'react-popover';
 import FileInfo from '../../../../models/FileInfo';
 import {getApi} from '../../../../config';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class Upload extends Component {
   state = {working: false, isOpen: false, uploads: []};
@@ -217,7 +218,7 @@ class Upload extends Component {
             </div>
 
             <button className="btn btn-primary" onClick={this.openFileInput}>
-              Upload
+              {icons.cloud_upload} Upload
             </button>
           </div>
         </div>;
@@ -243,7 +244,7 @@ class Upload extends Component {
             {
               this.uploading
                   ? <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : Upload
+                  : icons.cloud_upload
             }
           </button>
         </Popover>

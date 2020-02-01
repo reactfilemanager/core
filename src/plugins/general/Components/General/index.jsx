@@ -35,7 +35,7 @@ const config = getConfig();
        sx={{ 
           flex: '1 1 auto',
         }}>
-        <div>
+        
           <Toolbar
             state={state.general}
             dispatch={dispatch}
@@ -54,7 +54,7 @@ const config = getConfig();
               path={state.general.path}
               dispatch={dispatch}
           />
-        </div>
+
         <div>
           <ItemList
             state={state.general}

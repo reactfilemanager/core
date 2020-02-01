@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {setViewmode} from '../../../state/actions';
+import icons from '../../../../../assets/icons';
 
 class ViewMode extends Component {
   handleClick = e => {
@@ -13,11 +14,11 @@ class ViewMode extends Component {
         <div className="btn-group">
           <button className={viewmode === 'grid' ? 'btn btn-outline-primary' : 'btn btn-outline-secondary'}
                   data-viewmode="grid" onClick={this.handleClick}>
-            Grid
+            {icons.grid}
           </button>
           <button className={viewmode === 'list' ? 'btn btn-outline-primary' : 'btn btn-outline-secondary'}
                   data-viewmode="list" onClick={this.handleClick}>
-            List
+            {icons.list}
           </button>
         </div>
     );

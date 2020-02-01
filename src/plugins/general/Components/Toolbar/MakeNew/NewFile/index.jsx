@@ -4,6 +4,7 @@ import {getApi} from '../../../../config';
 import {setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class NewFile extends Component {
 
@@ -97,7 +98,7 @@ class NewFile extends Component {
                   onClick={this.handleClick}
                   {...attrs}
           >
-            New File
+            {icons.plus} New File
           </button>
         </Popover>
     );

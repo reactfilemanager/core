@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import Popover from 'react-popover';
 import {getApi} from '../../../../config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class Paste extends Component {
 
@@ -73,14 +75,15 @@ class Paste extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  ref="paste"
-                  onClick={this.handleClick}
-                  disabled={!hasCopy}
-                  {...attrs}
+          <Button 
+            variant="secondary"
+            ref="paste"
+            onClick={this.handleClick}
+            disabled={!hasCopy}
+            {...attrs}
           >
-            Paste
-          </button>
+            {icons.copy}
+          </Button>
         </Popover>
     );
   }

@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
+import { Button, Spinner } from 'theme-ui'
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
 import {getApi} from '../../../config';
 import toastr from 'toastr';
 import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
+import icons from '../../../../../assets/icons';
+
+console.log(icons);
 
 class Delete extends Component {
   state = {isOpen: false, working: false};
@@ -59,16 +63,13 @@ class Delete extends Component {
               {selected.map(item => <li className="list-group-item" key={`${item.name}`}>{item.name}</li>)}
             </ol>
           </div>
-          <button className="btn btn-primary mb-2"
-                  onClick={this.handleDelete}
-                  disabled={this.state.working}
-          >
-            {
-              this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
-                  : 'Delete'
-            }
-          </button>
+
+          <Button variant="highlight" onClick={this.handleDelete} disabled={this.state.working}>
+          {
+            this.state.working ? <Spinner title="Deleting"/> : 'Delete'
+          }
+          </Button>
+
         </div>
         : <p>Please select at least one item</p>;
 
@@ -84,13 +85,13 @@ class Delete extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary"
-                  disabled={selected.length === 0}
-                  onClick={this.handleClick}
-                  {...attrs}
-          >
-            Delete
-          </button>
+          <Button 
+            variant='secondary' 
+            disabled={selected.length === 0}
+            onClick={this.handleClick}
+            {...attrs}>
+              {icons.trash} Delete
+            </Button>
         </Popover>
     );
   }

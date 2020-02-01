@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {Button} from 'theme-ui'
 import {getApi} from '../../../../config';
 import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import ReactLoading from 'react-loading';
+import icons from '../../../../../../assets/icons';
 
 class Move extends Component {
 
@@ -75,13 +77,15 @@ class Move extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <button className="btn btn-primary" ref="move"
-                  onClick={this.handleClick}
-                  disabled={!hasCopy}
-                  {...attrs}
+          <Button 
+            variant="secondary" 
+            ref="move"
+            onClick={this.handleClick}
+            disabled={!hasCopy}
+            {...attrs}
           >
-            Move
-          </button>
+            {icons.move}
+          </Button>
         </Popover>
     );
   }

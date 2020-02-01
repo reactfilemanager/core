@@ -1,4 +1,3 @@
-const tailwindCss  = require('tailwindcss');
 const mix = require('laravel-mix');
 
 /*
@@ -14,10 +13,15 @@ const mix = require('laravel-mix');
 mix.setPublicPath('dist');
 mix.react('build.js', 'dist/build.js')
    .sass('style.scss', 'dist/build.css')
-   .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'dist/fonts')
    .copy('index.html', 'dist')
-   .options({
-              processCssUrls: false,
-              postCss: [tailwindCss(path.join(__dirname, 'tailwind.config.js'))],
-            })
+   .webpackConfig({
+                    module: {
+                      rules: [
+                        {
+                          test: /\.svg$/,
+                          loader: 'raw-loader',
+                        },
+                      ],
+                    },
+                  })
    .sourceMaps();
