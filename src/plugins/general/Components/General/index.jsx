@@ -24,71 +24,97 @@ const closeSidebar = () => {
 };
 
   return (
-    <Flex sx={{
-      minHeight: '100vh'
-    }}>
-      <Box
+    <div
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        minHeight: '100vh',
+      }}>
+      <aside
         sx={{
+          flexGrow: 1,
+          flexBasis: 'sidebar',
           background: 'gray',
-          flex: '0 0 auto',
-          width: '272px',
-          maxWidth: '272px',
-          borderRight: '1px solid #ccc',
-          height: 'auto'
-        }}
-      >
-        <DirectoryTree
-          state={state.general}
-          dispatch={dispatch}
-        />
-      </Box>
-      <Box
-       sx={{
-          flex: '1 1 auto',
+          borderRight: '1px solid #ddd',
+          height: 'auto',
         }}>
-
-          <Toolbar
-            state={state.general}
-            dispatch={dispatch}
-            children={defaultConfig.toolbar}
-          />
-
-          {config.toolbar ?
+        
+        <DirectoryTree state={state.general} dispatch={dispatch} />
+        
+      </aside>
+      <main
+        sx={{
+          flexGrow: 99999,
+          flexBasis: 0,
+          minWidth: 320,
+        }}>
+        <header sx={{
+          background: 'lightGray',
+        }}>
+          <div sx={{
+            borderBottom: '1px solid #ddd',
+            borderTop: '1px solid #ddd'
+          }}>
             <Toolbar
-                state={state.general}
-                dispatch={dispatch}
-                children={config.toolbar}
-            />
-          : null}
-
-          <Breadcrumb
-              path={state.general.path}
+              state={state.general}
               dispatch={dispatch}
-          />
+              children={defaultConfig.toolbar}
+            />
 
+            {config.toolbar ?
+              <Toolbar
+                  state={state.general}
+                  dispatch={dispatch}
+                  children={config.toolbar}
+              />
+            : null}
+          </div>
+          
+          <div
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              borderBottom: '1px solid #ddd',
+            }}>
+              <div sx={{
+                width: 'breadcrumb',
+              }}>
+                <Breadcrumb path={state.general.path} dispatch={dispatch} />
+              </div>
+            <div sx={{
+              width: 'utility',
+            }}>
+              Grid/List
+            </div>
+            <div
+            sx={{
+              width: 'search',
+            }}>Search...</div>
+          </div>
+
+        </header>
         <div>
-          <ItemList
-            state={state.general}
-            dispatch={dispatch}
-          />
+          <ItemList state={state.general} dispatch={dispatch} />
+
+          {hasSidebarComponent
+            ? <Box>
+                  <span onClick={closeSidebar}>{icons.close}</span>
+              {Object.keys(sidebar_components).map(key => {
+                const Component = sidebar_components[key];
+                return (
+                      <Component key={key} id={key} state={state} dispatch={dispatch}/>
+                    );
+              })}
+            </Box>
+                : null}
+            <Dialog onClose={() => dispatch(removeModal())} visible={hasModal}>
+              {hasModal
+                ? <Modal state={state} dispatch={dispatch}/>
+                : null}
+            </Dialog>
         </div>
-      </Box>
-      {hasSidebarComponent
-      ? <Box>
-            <span onClick={closeSidebar}>{icons.close}</span>
-        {Object.keys(sidebar_components).map(key => {
-          const Component = sidebar_components[key];
-          return (
-                <Component key={key} id={key} state={state} dispatch={dispatch}/>
-              );
-        })}
-      </Box>
-          : null}
-          <Dialog onClose={() => dispatch(removeModal())} visible={hasModal}>
-            {hasModal
-              ? <Modal state={state} dispatch={dispatch}/>
-              : null}
-          </Dialog>
-    </Flex>
+      </main>
+    </div>
+
   );
 }

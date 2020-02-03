@@ -36,6 +36,12 @@ export default {
     body: 1.5,
     heading: 1.125
   },
+  sizes: {
+    sidebar: 272,
+    breadcrumb: '70%',
+    utility: '15%',
+    search: '15%'
+  },
   colors: {
     text: '#000',
     background: '#fff',
