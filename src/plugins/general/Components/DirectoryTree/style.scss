@@ -1,28 +1,43 @@
 .rc-tree{
   list-style-type: none;
-  padding: 0 30px 0 0;
+  padding: 0 16px;
   margin: 0;
 
-  li{ cursor: pointer; }
+  li{ cursor: pointer; position: relative; }
 
   .rc-tree-node-content-wrapper{
     font-size: 13px;
     line-height: 26px;
     font-weight: bold;
-    color: #555;
+    color: #666;
     padding-left: 5px;  
+    display: inline-block;
   }
   .rc-tree-iconEle{
     padding-right: 8px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   ul{
     list-style-type: none;
-    padding: 0;
+    padding: 0 0 0 15px;
     
-    > li:hover{
-      background: #fff;
-      border-radius: 0 30px 30px 0;
+    .rc-tree-title{
+      display: inline-block;
+      &:hover{
+        color: #07c
+      }
+    }
+  }
+  // Selected
+  .rc-tree-treenode-selected{
+    > .rc-tree-node-content-wrapper{
+      *{
+        color: #07c;
+        stroke: #07c;
+      }
     }
   }
 }

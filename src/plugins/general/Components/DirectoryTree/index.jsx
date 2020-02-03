@@ -147,7 +147,7 @@ class DirectoryTree extends Component {
   };
 
   sendIcon = props => {
-    return props.loading ? <Spinner/> : icons.folder ;
+    return props.loading ? "" : icons.folder ;
   };
 
   render() {
@@ -189,13 +189,13 @@ class DirectoryTree extends Component {
             fontSize: 11,
           }}>Folders</Label>
           <Tree
-              loadData={this.onLoadData}
-              onSelect={this.onSelect}
-              checkable={false}
-              selectedKeys={[path]}
-              icon={this.sendIcon}
-              switcherIcon={switcherIcon}
-              showLine
+            loadData={this.onLoadData}
+            onSelect={this.onSelect}
+            checkable={false}
+            selectedKeys={[path]}
+            icon={this.sendIcon}
+            switcherIcon={switcherIcon}
+            showLine
           >
             {_dirs}
           </Tree>
