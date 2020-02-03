@@ -1,5 +1,5 @@
 import APIMapper from './mappers/APIMapper';
-import {merge} from 'lodash';
+import merge from 'lodash.merge';
 import {appendState} from './state/store/initialState';
 import {addReducer} from './state/reducers';
 

@@ -4,7 +4,7 @@ import Popover from 'react-popover';
 import {getApi} from '../../../../tools/config';
 import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
 
 class Paste extends Component {
@@ -58,7 +58,7 @@ class Paste extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'Paste'
             }
           </button>

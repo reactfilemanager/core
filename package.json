@@ -19,24 +19,23 @@
     "axios": "^0.19",
     "cross-env": "^5.1",
     "laravel-mix": "^4.0.7",
-    "lodash": "^4.17.13",
-    "moment": "^2.24.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.merge": "^4.6.2",
     "prop-types": "^15.7.2",
     "raw-loader": "^4.0.0",
     "rc-dialog": "^7.6.0",
+    "rc-dropdown": "^3.0.0-alpha.0",
     "rc-tree": "2.1.0",
     "react": "^16.2.0",
     "react-contextmenu": "^2.13.0",
     "react-dom": "^16.2.0",
-    "react-loading": "^2.0.3",
     "react-popover": "^0.5.10",
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
     "theme-ui": "^0.3.1",
-    "toastr": "^2.1.4"
-  },
-  "dependencies": {
-    "rc-dropdown": "^3.0.0-alpha.0"
+    "toastr": "^2.1.4",
+    "webpack-bundle-analyzer": "^3.6.0"
   }
 }

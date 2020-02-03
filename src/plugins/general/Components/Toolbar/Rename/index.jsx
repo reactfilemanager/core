@@ -4,7 +4,7 @@ import toastr from 'toastr';
 import Popover from 'react-popover';
 import {getApi} from '../../../tools/config';
 import {update} from '../../../state/actions';
-import ReactLoading from 'react-loading';
+import {Spinner } from 'theme-ui';
 
 class Rename extends Component {
 
@@ -92,7 +92,7 @@ class Rename extends Component {
           >
             {
               this.state.working ?
-                  <ReactLoading type="spin" height={23} width={12} color="#fff"/>
+                  <Spinner/>
                   : 'Rename'
             }
           </button>

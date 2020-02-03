@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
 import {getApi} from '../../tools/config';
-import {cloneDeep} from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 import ContextMenu from '../ContextMenu';
 
 class ItemList extends Component {
