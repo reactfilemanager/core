@@ -82,15 +82,21 @@ const closeSidebar = () => {
               }}>
                 <Breadcrumb path={state.general.path} dispatch={dispatch} />
               </div>
-            <div sx={{
-              width: 'utility',
-            }}>
-              Grid/List
-            </div>
-            <div
-            sx={{
-              width: 'search',
-            }}>Search...</div>
+            {defaultConfig.secondary_toolbar
+                ? <Toolbar
+                    state={state.general}
+                    dispatch={dispatch}
+                    children={defaultConfig.secondary_toolbar}/>
+                : null}
+            {/*<div sx={{*/}
+            {/*  width: 'utility',*/}
+            {/*}}>*/}
+            {/*  Grid/List*/}
+            {/*</div>*/}
+            {/*<div*/}
+            {/*sx={{*/}
+            {/*  width: 'search',*/}
+            {/*}}>Search...</div>*/}
           </div>
 
         </header>
