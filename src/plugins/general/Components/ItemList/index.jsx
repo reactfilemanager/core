@@ -68,10 +68,29 @@ class ItemList extends Component {
           {this.props.state.viewmode === 'grid'
               ?
               (<>
-                <Text>Folders</Text>
-                <Grid width={[176]} gap={3}>{items.dirs.map(item => this.getItemBlock(item))}</Grid>
+                <Text sx={{ 
+                  p: 2,
+                  my: 2,
+                  textTransform: 'uppercase',
+                  fontSize: 13,
+                  color: 'gray'
+                }}>Folders</Text>
 
-                <Text>Files</Text>
+                <Grid 
+                  columns={4}
+                  gap={3}
+                >
+                  {items.dirs.map(item => this.getItemBlock(item))}
+                </Grid>
+
+                <Text sx={{ 
+                  px: 2, 
+                  my: 3,
+                  textTransform: 'uppercase',
+                  fontSize: 13,
+                  color: 'gray'
+                }}>Files</Text>
+
                 <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
                   </>)
               : (

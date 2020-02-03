@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Card, Text, Image} from 'theme-ui';
+import {jsx, Card, Text, Image, Link} from 'theme-ui';
 import {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
@@ -156,19 +156,32 @@ class Item extends Component {
               collect={this.collect}
               attributes={this.getAttributes(item)}
           >
-            {item.is_dir
-                ? null
-                : <Image
-                    src={thumb(item.path)}
-                />}
-            <Text>
-              {
-                item.is_dir ?
-                    <a href="#" onClick={this.handleClickName}>{item.name}</a>
-                    : item.name
-              }
-              {item.components}
-            </Text>
+            {
+              item.is_dir ? 
+              <div
+                sx={{
+                  display: 'flex',
+                }}>
+                <Image src={thumb(item.path)} sx={{
+                  width: 32,
+                  maxWidth: 32,
+                  mr: 2
+                }} />
+                <Link 
+                  sx={{
+                    textDecoration: 'none',
+                    color: 'black'
+                  }}
+                  href="#!" 
+                  onClick={this.handleClickName}>{item.name}</Link> 
+              </div> :    
+              <div>
+                <Image src={thumb(item.path)} /> 
+                <Text>item.name {item.components}</Text>
+              </div>
+            }
+            
+            
           </ContextMenuTrigger>
         </Card>
     );
@@ -188,11 +201,7 @@ class Item extends Component {
           <td>
             {
               item.is_dir
-                  ? <a href="#" onClick={this.handleClickName}
-                  >
-                    {item.name}
-                  </a>
-                  : item.name
+                  ? <a href="#" onClick={this.handleClickName}> {item.name} </a> : item.name
             }
           </td>
           <td>

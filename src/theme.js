@@ -42,6 +42,8 @@ export default {
     utility: '15%',
     search: '15%'
   },
+
+
   colors: {
     text: '#000',
     background: '#fff',
