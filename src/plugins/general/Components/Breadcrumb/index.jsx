@@ -30,6 +30,7 @@ class Breadcrumb extends Component {
 
           return <NavLink
                   href="#!"
+                  key={nPath}
                   onClick={e => this.moveTo(e, '/')}>
                     {icons.home}
                 </NavLink>
