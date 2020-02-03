@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React from 'react';
-import {Text, jsx, Grid} from 'theme-ui';
+import {jsx, Text, Grid} from 'theme-ui';
 import {Component} from 'react';
 import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';

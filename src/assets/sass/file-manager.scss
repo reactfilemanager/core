@@ -11,9 +11,12 @@
 //@import "~rc-dialog/assets/bootstrap.css";
 // @import "~rc-dialog/assets/index.css";
 
-// .selected {
-//   background: #4dc0b5;
-// }
+.fm-item {
+  border: 1px solid #fff;
+}
+ .fm-item-selected {
+   border: 1px solid #222;
+ }
 
 // .item p {
 //   text-overflow: ellipsis;

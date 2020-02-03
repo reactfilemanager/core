@@ -134,13 +134,20 @@ class Item extends Component {
       onDoubleClick: this.handleDoubleClick,
       onClick: this.handleClick,
       // onContextMenu: this.handleContextMenu,
-      className: (item.selected ? ' selected' : ''),
     };
   };
 
+  get className() {
+    const className = ['fm-item'];
+    if(this.props.item.selected) {
+      className.push('fm-item-selected');
+    }
+    return className.join(' ');
+  }
+
   getGridItem = (item) => {
     return (
-        <Card>
+        <Card className={this.className}>
           <ContextMenuTrigger
               key={`${item.name}_${item.size}_${item.extension}`}
               id={CONTEXT_MENU_ID}
@@ -152,8 +159,8 @@ class Item extends Component {
             {item.is_dir
                 ? null
                 : <Image
-                src={thumb(item.path)}
-            />}
+                    src={thumb(item.path)}
+                />}
             <Text>
               {
                 item.is_dir ?
