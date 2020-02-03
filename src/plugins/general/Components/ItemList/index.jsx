@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { jsx, Grid } from 'theme-ui'
+import React from 'react';
+import {Text, jsx, Grid} from 'theme-ui';
 import {Component} from 'react';
 import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
@@ -56,21 +57,27 @@ class ItemList extends Component {
       return fn(entries);
     }, entries);
 
-    return [...items.dirs, ...items.files];
+    return entries;
   };
 
   render() {
     const items = this.getItems();
 
     return (
-        <div className="files-container" sx={{ padding: '16px' }}>
+        <div className="files-container" sx={{padding: '16px'}}>
           {this.props.state.viewmode === 'grid'
-              ? 
-                <Grid width={[176]} gap={3} >{items.map(item => this.getItemBlock(item))}</Grid>
+              ?
+              (<>
+                <Text>Folders</Text>
+                <Grid width={[176]} gap={3}>{items.dirs.map(item => this.getItemBlock(item))}</Grid>
+
+                <Text>Files</Text>
+                <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
+                  </>)
               : (
                   <table className="table">
                     <tbody>
-                    {items.map(item => this.getItemBlock(item))}
+                    {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
                     </tbody>
                   </table>
               )

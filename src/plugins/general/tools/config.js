@@ -20,10 +20,10 @@ const _defaultConfig = {
     select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,
-    filter_by_type: FilterByType,
   },
   secondary_toolbar: {
     viewmode: ViewMode,
+    filter_by_type: FilterByType,
     search: Search,
   },
   context_menu,

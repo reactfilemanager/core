@@ -149,9 +149,11 @@ class Item extends Component {
               collect={this.collect}
               attributes={this.getAttributes(item)}
           >
-            <Image
+            {item.is_dir
+                ? null
+                : <Image
                 src={thumb(item.path)}
-            />
+            />}
             <Text>
               {
                 item.is_dir ?
