@@ -1,0 +1,28 @@
+.rc-tree{
+  list-style-type: none;
+  padding: 0 30px 0 0;
+  margin: 0;
+
+  li{ cursor: pointer; }
+
+  .rc-tree-node-content-wrapper{
+    font-size: 13px;
+    line-height: 26px;
+    font-weight: bold;
+    color: #555;
+    padding-left: 5px;  
+  }
+  .rc-tree-iconEle{
+    padding-right: 8px;
+  }
+
+  ul{
+    list-style-type: none;
+    padding: 0;
+    
+    > li:hover{
+      background: #fff;
+      border-radius: 0 30px 30px 0;
+    }
+  }
+}
