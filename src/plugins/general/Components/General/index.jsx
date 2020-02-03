@@ -75,6 +75,7 @@ const closeSidebar = () => {
               display: 'flex',
               flexWrap: 'wrap',
               borderBottom: '1px solid #ddd',
+              p: 2
             }}>
               <div sx={{
                 width: 'breadcrumb',

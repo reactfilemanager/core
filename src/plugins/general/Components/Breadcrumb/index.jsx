@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import { NavLink, Flex } from 'theme-ui'
 import {setWorkingPath} from '../../state/actions';
-
+import icons from '../../../../assets/icons';
 class Breadcrumb extends Component {
 
   moveTo = (e, path) => {
@@ -26,24 +27,29 @@ class Breadcrumb extends Component {
 
         const nPath = path;
         if (dir === '') {
-          return isActive
-              ? <li className="breadcrumb-item" key="home"><i className="fa fa-home"/></li>
-              : <li className="breadcrumb-item" key="home">
-                <a href="#" onClick={e => this.moveTo(e, '/')}>
-                  <i className="fa fa-home"/>
-                </a>
-              </li>;
+
+          return <NavLink
+                  href="#!"
+                  onClick={e => this.moveTo(e, '/')}>
+                    {icons.home}
+                </NavLink>
         }
 
         return (
-            <li className={'breadcrumb-item' + (isActive ? ' active' : '')}
-                aria-current={isActive ? 'page' : undefined}
-                key={nPath}
-            >
-              {isActive
-                  ? dir
-                  : <a href="#" onClick={e => this.moveTo(e, nPath)}>{dir}</a>}
-            </li>
+          <NavLink 
+            href='#!' 
+            className={isActive ? 'active' : ''}
+            aria-current={isActive ? 'page' : undefined} 
+            key={nPath}
+            onClick={e => this.moveTo(e, nPath)} 
+            
+            sx={{
+              px: 2,
+              fontSize: 14,
+              fontWeight: 'body'
+            }}>
+            {dir}
+          </NavLink>
         );
       });
     }
@@ -54,11 +60,10 @@ class Breadcrumb extends Component {
     const Breadcrumbs = this.getBreadCrumbs();
 
     return (
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            {Breadcrumbs}
-          </ol>
-        </nav>
+        <Flex as='nav' aria-label="breadcrumb" className="breadcrumb">
+          {Breadcrumbs}
+        </Flex>
+      
     );
   }
 }
