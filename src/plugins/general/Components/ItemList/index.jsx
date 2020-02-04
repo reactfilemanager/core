@@ -7,7 +7,6 @@ import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkin
 import Item from '../Item';
 import {getApi} from '../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
-import ContextMenu from '../ContextMenu';
 
 class ItemList extends Component {
 
@@ -46,18 +45,17 @@ class ItemList extends Component {
 
   getItemBlock = (item) => {
     return (
-        <Item key={item.name} item={item} state={this.props.state} moveTo={this.setWorkingPath}
+        <Item key={`${item.name}_${item.size}_${item.extension}`} item={item} state={this.props.state}
+              moveTo={this.setWorkingPath}
               dispatch={this.props.dispatch}/>
     );
   };
 
   getItems = () => {
     const entries = cloneDeep(this.props.state.entries);
-    const items = Object.values(this.props.state.filters).reduce((entries, fn) => {
+    return Object.values(this.props.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, entries);
-
-    return entries;
   };
 
   render() {
@@ -68,31 +66,31 @@ class ItemList extends Component {
           {this.props.state.viewmode === 'grid'
               ?
               (<>
-                <Text sx={{ 
+                <Text sx={{
                   p: 2,
                   my: 2,
                   textTransform: 'uppercase',
                   fontSize: 13,
-                  color: 'gray'
+                  color: 'gray',
                 }}>Folders</Text>
 
-                <Grid 
-                  columns={4}
-                  gap={3}
+                <Grid
+                    columns={4}
+                    gap={3}
                 >
                   {items.dirs.map(item => this.getItemBlock(item))}
                 </Grid>
 
-                <Text sx={{ 
-                  px: 2, 
+                <Text sx={{
+                  px: 2,
                   my: 3,
                   textTransform: 'uppercase',
                   fontSize: 13,
-                  color: 'gray'
+                  color: 'gray',
                 }}>Files</Text>
 
                 <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
-                  </>)
+              </>)
               : (
                   <table className="table">
                     <tbody>
@@ -101,7 +99,6 @@ class ItemList extends Component {
                   </table>
               )
           }
-          <ContextMenu/>
         </div>
     );
   }

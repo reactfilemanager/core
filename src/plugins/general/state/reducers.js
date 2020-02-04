@@ -211,7 +211,7 @@ export default {
 
 function toggleSelect(list, item) {
   return list.map(_item => {
-    if (item === _item) {
+    if (item.id === _item.id) {
       _item.selected = !_item.selected;
     }
     return _item;
@@ -220,7 +220,7 @@ function toggleSelect(list, item) {
 
 function findAndReplace(list, item) {
   return list.map(_item => {
-    if (item === _item) {
+    if (item.id === _item.id) {
       _item = item;
     }
     return _item;
@@ -228,5 +228,5 @@ function findAndReplace(list, item) {
 }
 
 function findAndRemove(list, item) {
-  return list.filter(_item => _item !== item);
+  return list.filter(_item => item.id === _item.id);
 }

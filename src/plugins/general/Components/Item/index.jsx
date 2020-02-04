@@ -139,13 +139,13 @@ class Item extends Component {
     return {
       onDoubleClick: this.handleDoubleClick,
       onClick: this.handleClick,
-      // onContextMenu: this.handleContextMenu,
+      onContextMenu: this.handleContextMenu,
     };
   };
 
   get className() {
     const className = ['fm-item'];
-    if(this.props.item.selected) {
+    if (this.props.item.selected) {
       className.push('fm-item-selected');
     }
     return className.join(' ');
@@ -163,31 +163,31 @@ class Item extends Component {
               attributes={this.getAttributes(item)}
           >
             {
-              item.is_dir ? 
-              <div
-                sx={{
-                  display: 'flex',
-                }}>
-                <Image src={thumb(item.path)} sx={{
-                  width: 32,
-                  maxWidth: 32,
-                  mr: 2
-                }} />
-                <Link 
-                  sx={{
-                    textDecoration: 'none',
-                    color: 'black'
-                  }}
-                  href="#!" 
-                  onClick={this.handleClickName}>{item.getName(8)}</Link>
-              </div> :    
-              <div>
-                <Image src={thumb(item.path)} /> 
-                <Text>{item.getName(8)} {item.components}</Text>
-              </div>
+              item.is_dir ?
+                  <div
+                      sx={{
+                        display: 'flex',
+                      }}>
+                    <Image src={thumb(item.path)} sx={{
+                      width: 32,
+                      maxWidth: 32,
+                      mr: 2,
+                    }}/>
+                    <Link
+                        sx={{
+                          textDecoration: 'none',
+                          color: 'black',
+                        }}
+                        href="#!"
+                        onClick={this.handleClickName}>{item.getName(8)}</Link>
+                  </div> :
+                  <div>
+                    <Image src={thumb(item.path)}/>
+                    <Text>{item.getName(8)} {item.components}</Text>
+                  </div>
             }
-            
-            
+
+
           </ContextMenuTrigger>
         </Card>
     );
@@ -195,13 +195,14 @@ class Item extends Component {
 
   getListItem = (item) => {
     return (
-        <ContextMenuTrigger key={`${item.name}_${item.size}_${item.extension}`}
-                            id={CONTEXT_MENU_ID}
-                            holdToDisplay={1000}
-                            name={item.name}
-                            collect={this.collect}
-                            attributes={this.getAttributes(item)}
-                            renderTag="tr"
+        <ContextMenuTrigger
+            key={`${item.name}_${item.size}_${item.extension}`}
+            id={CONTEXT_MENU_ID}
+            holdToDisplay={1000}
+            name={item.name}
+            collect={this.collect}
+            attributes={this.getAttributes(item)}
+            renderTag="tr"
         >
           <td><input type="checkbox" checked={item.selected}/></td>
           <td>

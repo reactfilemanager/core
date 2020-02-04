@@ -1,4 +1,4 @@
-import Rename from '../Components/Toolbar/Rename';
+import Rename from '../Components/Rename';
 import Select from '../Components/Toolbar/Select';
 import Delete from '../Components/Toolbar/Delete';
 import MakeNew from '../Components/Toolbar/MakeNew';

@@ -877,7 +877,7 @@
     "@emotion/serialize" "^0.11.15"
     "@emotion/utils" "0.11.3"
 
-"@emotion/styled@^10.0.0":
+"@emotion/styled@^10.0.0", "@emotion/styled@^10.0.27":
   version "10.0.27"
   resolved "https://registry.yarnpkg.com/@emotion/styled/-/styled-10.0.27.tgz#12cb67e91f7ad7431e1875b1d83a94b814133eaf"
   integrity sha512-iK/8Sh7+NLJzyp9a5+vIQIXTYxfT4yB/OJbjzQanB2RZpvmzBQOHZWhpAMZWYEKRNNbsD6WfBw5sVWkb6WzS/Q==
@@ -5916,7 +5916,7 @@ rc-align@^3.0.0-rc.0:
     rc-util "^4.12.0"
     resize-observer-polyfill "^1.5.1"
 
-rc-animate@2.x, rc-animate@^2.10.2, rc-animate@^2.6.0:
+rc-animate@^2.10.2, rc-animate@^2.6.0:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/rc-animate/-/rc-animate-2.10.2.tgz#217fdc76ff26cbf425a5caf87cc8a36ba4598456"
   integrity sha512-cE/A7piAzoWFSgUD69NmmMraqCeqVBa51UErod8NS3LUEqWfppSVagHfa0qHAlwPVPiIBg3emRONyny3eiH0Dg==
@@ -5928,15 +5928,6 @@ rc-animate@2.x, rc-animate@^2.10.2, rc-animate@^2.6.0:
     raf "^3.4.0"
     rc-util "^4.15.3"
     react-lifecycles-compat "^3.0.4"
-
-rc-dialog@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/rc-dialog/-/rc-dialog-7.6.0.tgz#6467b75f5b60038129bf2e1b003b264281949c09"
-  integrity sha512-N48vBPW8I53WycFHI4KXhuTUkB4mx+hixq1a9tcFMLoE7EhkAjbHvs0vGg+Bh/uFg5V00jmZBgQOIEbhcNal/A==
-  dependencies:
-    babel-runtime "6.x"
-    rc-animate "2.x"
-    rc-util "^4.16.1"
 
 rc-dropdown@^3.0.0-alpha.0:
   version "3.0.0-alpha.0"
@@ -5972,7 +5963,7 @@ rc-trigger@^4.0.0-alpha.4:
     rc-animate "^2.10.2"
     rc-util "^4.15.2"
 
-rc-util@^4.12.0, rc-util@^4.15.2, rc-util@^4.15.3, rc-util@^4.16.1, rc-util@^4.5.1:
+rc-util@^4.12.0, rc-util@^4.15.2, rc-util@^4.15.3, rc-util@^4.5.1:
   version "4.19.0"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-4.19.0.tgz#f3b5e3a02cc0a667d127784068e1236c095dbcbf"
   integrity sha512-mptALlLwpeczS3nrv83DbwJNeupolbuvlIEjcvimSiWI8NUBjpF0HgG3kWp1RymiuiRCNm9yhaXqDz0a99dpgQ==
@@ -6019,6 +6010,13 @@ react-popover@^0.5.10:
     css-vendor "^0.3.1"
     debug "^2.6.8"
     lodash.throttle "^3.0.3"
+    prop-types "^15.5.10"
+
+react-skylight@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-skylight/-/react-skylight-0.5.1.tgz#bf7f9d7f2929a83fe16cac8edacdeda025218d40"
+  integrity sha512-gwzTlsKuSvDbKCASZZAeQ/Dma4XxHl2bVxe6u32t3KLDnlNtKO+P8Au4GdNi1sdCuSwhsP8A0/E3SMHKI4LMjg==
+  dependencies:
     prop-types "^15.5.10"
 
 react@^16.2.0:

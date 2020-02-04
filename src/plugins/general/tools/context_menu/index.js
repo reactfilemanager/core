@@ -3,8 +3,25 @@ import icons from '../../../../assets/icons';
 import InfoPanel from '../../Components/InfoPanel';
 import {injectModal, injectSidePanel} from '../../state/actions';
 import Permission from '../../Components/Permission';
+import Rename from '../../Components/Rename';
 
 export default {
+  rename: {
+    shouldShow(item) {
+      return true;
+    },
+    menu_item: {
+      icon: icons.rename,
+      title: 'Rename',
+    },
+    handle(item, state, dispatch) {
+      const modal = (props) => {
+        return <Rename item={item} {...props}/>;
+      };
+
+      dispatch(injectModal(modal));
+    },
+  },
   change_permission: {
     shouldShow(item) {
       return true;

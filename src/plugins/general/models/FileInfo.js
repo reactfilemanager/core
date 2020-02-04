@@ -1,3 +1,5 @@
+import {uuidv4} from '../../../helpers/Utils';
+
 export default class FileInfo {
   name;
   path;
@@ -13,6 +15,8 @@ export default class FileInfo {
   selected = false;
   _components = {};
 
+  id;
+
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,
       is_executable, perms, size, extension) {
@@ -27,6 +31,8 @@ export default class FileInfo {
     this.perms = perms;
     this.size = size;
     this.extension = extension;
+
+    this.id = uuidv4();
   }
 
   addComponent(key, component) {

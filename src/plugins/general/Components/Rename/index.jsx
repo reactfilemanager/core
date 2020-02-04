@@ -2,29 +2,16 @@ import React, {Component} from 'react';
 import {Button} from 'theme-ui'
 import toastr from 'toastr';
 import Popover from 'react-popover';
-import {getApi} from '../../../tools/config';
-import {update} from '../../../state/actions';
+import {getApi} from '../../tools/config';
+import {removeModal, update} from '../../state/actions';
 import {Spinner } from 'theme-ui';
 
 class Rename extends Component {
 
-  state = {isOpen: false, working: false};
+  state = {working: false};
 
   getSelected = () => {
-    const all_selected = [
-      ...this.props.state.entries.dirs,
-      ...this.props.state.entries.files,
-    ]
-        .filter(item => item.selected);
-    return all_selected.length === 1 ? all_selected[0] : null;
-  };
-
-  handleClick = () => {
-    this.setState({isOpen: true});
-  };
-
-  handleOutsideClick = () => {
-    this.setState({isOpen: false});
+    return this.props.item;
   };
 
   handleSave = () => {
@@ -48,12 +35,10 @@ class Rename extends Component {
           item.path = [...path, item.name].join('/');
 
           this.props.dispatch(update(item));
-          this.setState({isOpen: false});
+          this.props.dispatch(removeModal());
         })
         .catch(error => {
           toastr.error(error.message);
-        })
-        .finally(() => {
           this.setState({working: false});
         });
   };
@@ -69,7 +54,7 @@ class Rename extends Component {
 
   render() {
     const selected = this.getSelected();
-    const Body = selected ?
+    return (
         <div className="form-inline p-1">
           <div className="form-group mx-sm-3 mb-2">
             <label htmlFor="name"
@@ -97,29 +82,6 @@ class Rename extends Component {
             }
           </button>
         </div>
-        : <p>Please select single item</p>;
-
-    const attrs = {
-      'data-toggle': 'tooltip',
-      'data-placement': 'top',
-      title: 'Rename',
-    };
-
-    return (
-        <Popover
-            body={Body}
-            isOpen={this.state.isOpen}
-            onOuterAction={this.handleOutsideClick}
-        >
-          <Button 
-            variant="secondary"
-            disabled={selected === null}
-            onClick={this.handleClick}
-            {...attrs}
-          >
-            Rename
-          </Button>
-        </Popover>
     );
   }
 }
