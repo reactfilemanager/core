@@ -45,7 +45,7 @@ class ItemList extends Component {
 
   getItemBlock = (item) => {
     return (
-        <Item key={`${item.name}_${item.size}_${item.extension}`} item={item} state={this.props.state}
+        <Item key={item.id} item={item} state={this.props.state}
               moveTo={this.setWorkingPath}
               dispatch={this.props.dispatch}/>
     );

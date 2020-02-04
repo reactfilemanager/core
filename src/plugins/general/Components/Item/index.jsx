@@ -46,7 +46,7 @@ class Item extends Component {
 
       function mark(item) {
         let skip = false;
-        if (!shouldMark && (item.path === lastSelectedItem.path || item.path === self.props.item.path)) {
+        if (!shouldMark && (item.id === lastSelectedItem.id || item.id === self.props.item.id)) {
           // marking start
           shouldMark = true;
           skip = true;
@@ -61,7 +61,7 @@ class Item extends Component {
           item.selection_time = null;
         }
 
-        if (!skip && shouldMark && (item.path === lastSelectedItem.path || item.path === self.props.item.path)) {
+        if (!skip && shouldMark && (item.id === lastSelectedItem.id || item.id === self.props.item.id)) {
           // marking end
           shouldMark = false;
         }
@@ -105,7 +105,7 @@ class Item extends Component {
       item.selected = false;
     }
 
-    if (this.props.item.path === item.path) {
+    if (this.props.item.id === item.id) {
       item.selected = !item.selected;
       item.selection_time = new Date();
     }
@@ -155,7 +155,7 @@ class Item extends Component {
     return (
         <Card className={this.className}>
           <ContextMenuTrigger
-              key={`${item.name}_${item.size}_${item.extension}`}
+              key={item.id}
               id={CONTEXT_MENU_ID}
               holdToDisplay={1000}
               name={item.name}
@@ -196,7 +196,7 @@ class Item extends Component {
   getListItem = (item) => {
     return (
         <ContextMenuTrigger
-            key={`${item.name}_${item.size}_${item.extension}`}
+            key={item.id}
             id={CONTEXT_MENU_ID}
             holdToDisplay={1000}
             name={item.name}
