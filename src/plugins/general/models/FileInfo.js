@@ -39,6 +39,16 @@ export default class FileInfo {
     }
   }
 
+  getName(len) {
+    if (len >= this.name.length) {
+      return this.name;
+    }
+    if (!this.extension) {
+      return this.name.substr(0, len) + '...';
+    }
+    return this.name.substr(0, len - 3) + '...' + this.extension;
+  }
+
   get components() {
     return Object.values(this._components);
   }

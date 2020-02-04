@@ -4,6 +4,7 @@ import {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
+import cloneDeep from 'lodash.clonedeep';
 
 class Item extends Component {
 
@@ -67,8 +68,13 @@ class Item extends Component {
         return item;
       }
 
-      const dirs = this.props.state.entries.dirs.map(dir => mark(dir));
-      const files = this.props.state.entries.files.map(file => mark(file));
+      const entries = cloneDeep(this.props.state.entries);
+      const items = Object.values(this.props.state.filters).reduce((entries, fn) => {
+        return fn(entries);
+      }, entries);
+
+      const dirs = items.dirs.map(dir => mark(dir));
+      const files = items.files.map(file => mark(file));
 
       this.props.dispatch(setEntries({dirs, files}));
     }
@@ -173,11 +179,11 @@ class Item extends Component {
                     color: 'black'
                   }}
                   href="#!" 
-                  onClick={this.handleClickName}>{item.name}</Link> 
+                  onClick={this.handleClickName}>{item.getName(8)}</Link>
               </div> :    
               <div>
                 <Image src={thumb(item.path)} /> 
-                <Text>item.name {item.components}</Text>
+                <Text>{item.getName(8)} {item.components}</Text>
               </div>
             }
             
