@@ -173,11 +173,11 @@ class Item extends Component {
                     color: 'black'
                   }}
                   href="#!" 
-                  onClick={this.handleClickName}>{item.name}</Link> 
+                  onClick={this.handleClickName}>{item.getName(8)}</Link>
               </div> :    
               <div>
                 <Image src={thumb(item.path)} /> 
-                <Text>item.name {item.components}</Text>
+                <Text>{item.getName(8)} {item.components}</Text>
               </div>
             }
             
