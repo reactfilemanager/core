@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx, Button } from 'theme-ui'
 import React, {Component} from 'react';
 import CloudDownload from './CloudDownload';
 import icons from '../../../../../assets/icons';
@@ -17,7 +19,10 @@ class Uploader extends Component {
   render() {
     return (
         <>
-          <button onClick={this.handleUploadClick}>{icons.cloud_upload} Upload</button>
+          <Button onClick={this.handleUploadClick}>
+            {icons.cloud_upload}
+            <span sx={{ ml: 2 }}>Upload</span>
+          </Button>
           <CloudDownload state={this.props.state} dispatch={this.props.dispatch}/>
         </>
     );

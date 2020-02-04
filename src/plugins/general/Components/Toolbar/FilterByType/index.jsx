@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import {jsx, Flex, Button} from 'theme-ui';
 import React, {Component} from 'react';
 import {addFilter, setTypeFilter} from '../../../state/actions';
 import icons from '../../../../../assets/icons';
@@ -40,13 +42,15 @@ class FilterByType extends Component {
         key = null;
       }
       return (
-          <button className={this.props.state.type === key ? 'btn btn-primary' : 'btn btn-outline-secondary'}
-                  key={key}
-                  title={this.filterTypes[key].title}
-                  onClick={() => this.handleClick(key)}
+          <Button 
+            variant="utility"
+            className={this.props.state.type === key ? 'active' : ''}
+            key={key}
+            title={this.filterTypes[key].title}
+            onClick={() => this.handleClick(key)}
           >
             {this.filterTypes[key].icon}
-          </button>
+          </Button>
       );
     });
   };
@@ -63,9 +67,15 @@ class FilterByType extends Component {
 
   render() {
     return (
-        <div className="btn-group">
+        <Flex 
+          sx={{
+            float: 'left',
+            // flex: '56%',
+            // maxWidth: '56%'
+          }}
+        >
           {this.getFilters()}
-        </div>
+        </Flex>
     );
   }
 }

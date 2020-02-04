@@ -21,9 +21,11 @@ const _defaultConfig = {
     delete_op: Delete,
     refresh_op: Refresh,
   },
-  secondary_toolbar: {
-    viewmode: ViewMode,
+  utility:{
     filter_by_type: FilterByType,
+    viewmode: ViewMode,
+  },
+  search: {
     search: Search,
   },
   context_menu,

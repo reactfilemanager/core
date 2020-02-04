@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {Button} from 'theme-ui'
+/** @jsx jsx */
+import { jsx, Button } from 'theme-ui'
+import {Component} from 'react';
 import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
@@ -105,6 +106,7 @@ class CloudDownload extends Component {
                   ? <Spinner/>
                   : icons.cloud_download
             }
+            <span sx={{ ml: 2 }}>Remote Download</span>
           </Button>
         </Popover>
     );

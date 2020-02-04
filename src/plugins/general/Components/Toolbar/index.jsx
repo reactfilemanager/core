@@ -13,9 +13,9 @@ class Toolbar extends Component {
     });
 
     return (
-        <div className="toolbar">
+        <>
           {Children}
-        </div>
+        </>
     );
   }
 }

@@ -1,32 +1,12 @@
 // example theme.js
 export default {
-  space: [
-    0,
-    4,
-    8,
-    16,
-    32,
-    64,
-    128,
-    256,
-    512
-  ],
+  space: [ 0, 4, 8, 16, 32, 64, 128, 256, 512 ],
   fonts: {
     body: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     heading: 'inherit',
     monospace: 'Menlo, monospace'
   },
-  fontSizes: [
-    12,
-    14,
-    16,
-    20,
-    24,
-    32,
-    48,
-    64,
-    96
-  ],
+  fontSizes: [ 12, 14, 16, 20, 24, 32, 48, 64, 96 ],
   fontWeights: {
     body: 400,
     heading: 700,
@@ -38,8 +18,8 @@ export default {
   },
   sizes: {
     sidebar: 272,
-    breadcrumb: '70%',
-    utility: '15%',
+    breadcrumb: '60%',
+    utility: '25%',
     search: '15%'
   },
 
@@ -59,8 +39,9 @@ export default {
   cards: {
     primary: {
       padding: 2,
-      borderRadius: 4,
-      boxShadow: '0 0 8px rgba(0, 0, 0, 0.125)',
+      borderRadius: 3,
+      border: '1xp solid #ddd',
+      boxShadow: '0 0 5px rgba(0, 0, 0, 0.125)',
     },
     compact: {
       padding: 1,
@@ -71,16 +52,43 @@ export default {
   },
   buttons: {
     primary: {
+      py: 1,
+      px: 2,
+      mr: 2,
+      cursor: 'pointer',
       color: 'background',
       bg: 'primary',
-      '&:hover': {
-        bg: 'text',
-      }
     },
     secondary: {
-      color: 'background',
-      bg: 'secondary',
+      color: 'text',
+      bg: 'white',
+      border: '1px solid #ddd',
+      py: 1,
+      px: 2,
+      mr: 2,
+      cursor: 'pointer',
+      '&:hover': {
+        bg: 'muted',
+      },
+      '&:disabled':{
+        opacity: '0.6'
+      }
     },
+    utility:{
+      py: 1,
+      px: 2,
+      mr: 0,
+      color: 'text',
+      lineHeight: 0,
+      background: 'transparent',
+      border: '1px solid transparent',
+      borderRadius: '2px',
+      cursor: 'pointer',
+      '&:hover, &:focus, &.active': {
+        background: 'white',
+        borderColor: '#ddd'
+      }
+    }
   },
   styles: {
     root: {
