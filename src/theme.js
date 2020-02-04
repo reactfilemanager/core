@@ -18,11 +18,10 @@ export default {
   },
   sizes: {
     sidebar: 272,
-    breadcrumb: '60%',
-    utility: '25%',
-    search: '15%'
+    breadcrumb: '57%',
+    utility: '23%',
+    search: '20%'
   },
-
 
   colors: {
     text: '#000',
@@ -111,6 +110,19 @@ export default {
     },
     img: {
       maxWidth: '100%'
+    },
+    hr:{
+      color: '#ddd'
+    }
+  },
+  forms: {
+    input: {
+      bg: 'white',
+      borderColor: '#ddd',
+      borderRadius: '3px',
+      py: 1,
+      fontSizes: 12,
+      color: 'text'
     }
   }
 }

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, Box } from 'theme-ui'
+import { jsx, Box } from 'theme-ui'
 
 import Breadcrumb from '../Breadcrumb';
 import ItemList from '../ItemList';

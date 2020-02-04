@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx, Divider, Button, Input } from 'theme-ui'
 import React, {Component} from 'react';
 import debounce from 'lodash.debounce';
 import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
@@ -107,7 +109,30 @@ class Search extends Component {
   getSortDropdownItems = (items, check, callback) => {
     return Object.keys(items).map(key => {
       return (
-          <a className="dropdown-item"
+          <a sx={{
+            display: 'block',
+            color: 'gray',
+            textDecoration: 'none',
+            pl: 4,
+            py: 1,
+            position: 'relative',
+            fontSize: 13,
+            '&:hover':{
+              bg:'muted'
+            },
+            '> span':{
+              position: 'absolute',
+              top: '4px',
+              left: '6px'
+            },
+            'svg':{
+              width: 18,
+              height: 18
+            },
+            'svg *':{
+              stroke: 'primary'
+            }
+          }}
              key={key}
              href="#"
              onClick={() => callback(key)}
@@ -122,24 +147,51 @@ class Search extends Component {
 
   render() {
     return (
-        <div className="input-group">
-          <input type="text"
-                 placeholder="Search..."
-                 ref="searchInput"
-                 className="form-control"
-                 onChange={this.handleQueryChange}/>
-          <div className="input-group-append">
-            <button className="btn btn-outline-light dropdown-toggle btn-sort" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">{icons.triangle_down}</button>
-            <div className="dropdown-menu">
+        <div sx={{ position: 'relative' }}>
+          <Input 
+            type="text"
+            placeholder="Search..."
+            ref="searchInput"
+            className="form-control"
+            onChange={this.handleQueryChange}/>
+          
+            <Button  
+              sx={{
+                position: 'absolute',
+                right: '10px',
+                top: '6px',
+                right: '5px',
+                bg: 'muted',
+                p: 1,
+                borderRadius: '50px',
+                'svg':{
+                  width: 14,
+                  height: 14,
+                }
+              }}
+              variant="utility"
+              type="button"
+              aria-expanded="false">
+                {icons.triangle_down}
+            </Button>
+            
+            <div sx={{
+              position: 'absolute',
+              top: '36px',
+              right: '0px',
+              background: 'white',
+              py: 3,
+              boxShadow: '0 0 4px #ccc',
+              width: '100%',
+              borderRadius: '3px'
+            }}>
 
               {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
 
-              <div role="separator" className="dropdown-divider"/>
+              <Divider/>
 
               {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
             </div>
-          </div>
         </div>
     );
   }
