@@ -51,6 +51,56 @@ class ItemList extends Component {
     );
   };
 
+  getItemsBlockForGridViewMode = (items) => {
+    if (items.dirs.length === 0 && items.files.length === 0) {
+      return (<Text>No entry in this directory</Text>);
+    }
+
+    return (<>
+      {items.dirs.length
+          ? (<>
+            <Text sx={{
+              p: 2,
+              my: 2,
+              textTransform: 'uppercase',
+              fontSize: 13,
+              color: 'gray',
+            }}>Folders</Text>
+
+            <Grid
+                columns={4}
+                gap={3}
+            >
+              {items.dirs.map(item => this.getItemBlock(item))}
+            </Grid>
+          </>)
+          : null}
+
+      {items.files.length
+          ? (<>      <Text sx={{
+            px: 2,
+            my: 3,
+            textTransform: 'uppercase',
+            fontSize: 13,
+            color: 'gray',
+          }}>Files</Text>
+
+            <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
+          </>)
+          : null}
+    </>);
+  };
+
+  getItemsBlockForListViewMode = items => {
+    return (
+        <table className="table">
+          <tbody>
+          {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
+          </tbody>
+        </table>
+    );
+  };
+
   getItems = () => {
     const entries = cloneDeep(this.props.state.entries);
     return Object.values(this.props.state.filters).reduce((entries, fn) => {
@@ -64,40 +114,8 @@ class ItemList extends Component {
     return (
         <div className="files-container" sx={{padding: '16px'}}>
           {this.props.state.viewmode === 'grid'
-              ?
-              (<>
-                <Text sx={{
-                  p: 2,
-                  my: 2,
-                  textTransform: 'uppercase',
-                  fontSize: 13,
-                  color: 'gray',
-                }}>Folders</Text>
-
-                <Grid
-                    columns={4}
-                    gap={3}
-                >
-                  {items.dirs.map(item => this.getItemBlock(item))}
-                </Grid>
-
-                <Text sx={{
-                  px: 2,
-                  my: 3,
-                  textTransform: 'uppercase',
-                  fontSize: 13,
-                  color: 'gray',
-                }}>Files</Text>
-
-                <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
-              </>)
-              : (
-                  <table className="table">
-                    <tbody>
-                    {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
-                    </tbody>
-                  </table>
-              )
+              ? this.getItemsBlockForGridViewMode(items)
+              : this.getItemsBlockForListViewMode(items)
           }
         </div>
     );
