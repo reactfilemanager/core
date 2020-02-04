@@ -16,8 +16,8 @@ const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
     make_new: MakeNew,
-    rename_op: Rename,
-    select_op: Select,
+    // rename_op: Rename,
+    // select_op: Select,
     delete_op: Delete,
     refresh_op: Refresh,
   },

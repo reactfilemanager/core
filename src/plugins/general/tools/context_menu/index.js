@@ -10,7 +10,7 @@ export default {
       return true;
     },
     menu_item: {
-      icon: null,
+      icon: icons.unlock,
       title: 'Change Permission',
     },
     handle(item, state, dispatch) {

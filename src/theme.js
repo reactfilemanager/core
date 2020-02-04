@@ -81,7 +81,7 @@ export default {
       lineHeight: 0,
       background: 'transparent',
       border: '1px solid transparent',
-      borderRadius: '2px',
+      borderRadius: '3px',
       cursor: 'pointer',
       '&:hover, &:focus, &.active': {
         background: 'white',

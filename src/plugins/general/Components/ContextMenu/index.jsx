@@ -1,3 +1,6 @@
+/** @jsx jsx */
+import { jsx } from 'theme-ui'
+import styled from '@emotion/styled'
 import React from 'react';
 import {connectMenu, ContextMenu, MenuItem, SubMenu} from 'react-contextmenu';
 import {getContextMenu, getHandlers} from '../../tools/config';
@@ -26,31 +29,61 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   }
 
   return (
-      <ContextMenu id={CONTEXT_MENU_ID}>
+      <ContextMenu 
+        id={CONTEXT_MENU_ID}
+        sx={{
+          background: 'white',
+          boxShadow: '0 0 4px #ccc',
+          borderRadius: '3px',
+          width: '180px'
+        }}>
         {firstHandler
-            ? <MenuItem onClick={() => firstHandler.handle(item, state, dispatch)}>
+            ? <Menu onClick={() => firstHandler.handle(item, state, dispatch)}>
               {icons.preview}
-              {firstHandler.type === 'preview'
-                  ? ' Preview'
-                  : ' Open'}
-            </MenuItem>
+              {firstHandler.type === 'preview' ? ' Preview' : ' Open'}
+            </Menu>
             : null}
         {handlersKeys.length > 1
             ? <SubMenu title="Open With">
               {handlersKeys.map(key => (
-                  <MenuItem key={key} onClick={() => handlers[key].handle(item, state, dispatch)}>
+                  <Menu key={key} onClick={() => handlers[key].handle(item, state, dispatch)}>
                     {handlers[key].menu_item.icon} {handlers[key].menu_item.title}
-                  </MenuItem>
+                  </Menu>
               ))}
             </SubMenu>
             : null}
         {
           Object.keys(menu_items).map(key => (
-              <MenuItem key={key} onClick={() => menu_items[key].handle(item, state, dispatch)}>
+              <Menu 
+                key={key} 
+                onClick={() => menu_items[key].handle(item, state, dispatch)}
+                sx={{
+                  
+                }}
+                >
                 {menu_items[key].menu_item.icon} {menu_items[key].menu_item.title}
-              </MenuItem>
+              </Menu>
           ))
         }
       </ContextMenu>
   );
 });
+
+const Menu = styled(MenuItem)`
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999;
+  display: flex;
+  &:hover{
+    background: #eee;
+    color: #000;
+  }
+
+  svg{
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+`
