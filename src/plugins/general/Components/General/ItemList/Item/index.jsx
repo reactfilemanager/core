@@ -198,7 +198,7 @@ class Item extends Component {
                           color: 'black',
                         }}
                         href="#!"
-                        onClick={this.handleClickName}>{item.getName(8)}</Link>
+                        onClick={this.handleClickName}>{item.getName(20)}</Link>
                   </div> :
                   <Flex sx={{
                     flexDirection: 'column',
@@ -231,7 +231,7 @@ class Item extends Component {
                       textAlign: 'center',
                       fontSize: 12,
                       color: 'gray',
-                    }}>{item.getName(8)} {item.components}</Text>
+                    }}>{item.getName(20)} {item.components}</Text>
                   </Flex>
             }
 

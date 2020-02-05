@@ -23,7 +23,6 @@ class Delete extends Component {
           .delete('/', item.path)
           .then(response => {
             toastr.success(response.message);
-            this.setState({isOpen: false});
             this.props.dispatch(remove(item));
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));
