@@ -24,7 +24,7 @@ class Rename extends Component {
     this.setState({working: true});
     const item = this.getSelected();
     getApi()
-        .rename(this.props.state.path, item.name, name)
+        .rename(this.props.state.general.path, item.name, name)
         .then(response => {
           toastr.success(response.message);
           // update name

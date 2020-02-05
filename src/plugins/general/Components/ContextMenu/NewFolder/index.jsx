@@ -18,7 +18,7 @@ class NewFolder extends Component {
 
     this.setState({working: true});
     getApi()
-        .new_dir(this.props.state.path, name)
+        .new_dir(this.props.state.general.path, name)
         .then(response => {
           toastr.success(response.message);
           // reload
