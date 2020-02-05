@@ -179,6 +179,8 @@ class Search extends Component {
                   width: 14,
                   height: 14,
                 },
+                transition: 'transform 300ms',
+                transform: this.state.isOpen ? 'rotateZ(180deg)' : 'rotateZ(0deg)',
               }}
               variant="utility"
               type="button"
