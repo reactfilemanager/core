@@ -88,15 +88,6 @@ export default {
       },
     };
   },
-  [types.SET_CLIPBOARD]: (state, {payload}) => {
-    return {
-      ...state,
-      general: {
-        ...state.general,
-        clipboard: payload,
-      },
-    };
-  },
   [types.SET_VIEWMODE]: (state, {payload}) => {
     return {
       ...state,
@@ -228,5 +219,5 @@ function findAndReplace(list, item) {
 }
 
 function findAndRemove(list, item) {
-  return list.filter(_item => item.id === _item.id);
+  return list.filter(_item => item.id !== _item.id);
 }

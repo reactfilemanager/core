@@ -35,8 +35,6 @@ class Delete extends Component {
             toastr.success(response.message);
             this.setState({isOpen: false});
             this.props.dispatch(remove(item));
-            const clipboard = this.props.state.clipboard.filter(_item => _item !== item);
-            this.props.dispatch(setClipboard(clipboard));
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));
             }
