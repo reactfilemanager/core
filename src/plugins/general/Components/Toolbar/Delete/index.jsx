@@ -1,28 +1,18 @@
 import React, {Component} from 'react';
-import { Button, Spinner } from 'theme-ui'
-import Popover from 'react-popover';
+import {Button, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import toastr from 'toastr';
-import {remove, resetDirectoryTree, setClipboard, update} from '../../../state/actions';
-import icons from '../../../../../assets/icons';
+import {remove, removeModal, resetDirectoryTree} from '../../../state/actions';
 
 class Delete extends Component {
-  state = {isOpen: false, working: false};
+  state = {working: false};
 
   getSelected = () => {
     return [
-      ...this.props.state.entries.dirs,
-      ...this.props.state.entries.files,
+      ...this.props.state.general.entries.dirs,
+      ...this.props.state.general.entries.files,
     ]
         .filter(item => item.selected);
-  };
-
-  handleClick = () => {
-    this.setState({isOpen: true});
-  };
-
-  handleOutsideClick = () => {
-    this.setState({isOpen: false});
   };
 
   handleDelete = () => {
@@ -38,6 +28,7 @@ class Delete extends Component {
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));
             }
+            this.props.dispatch(removeModal());
           })
           .catch(error => {
             toastr.error(error.message);
@@ -50,7 +41,8 @@ class Delete extends Component {
 
   render() {
     const selected = this.getSelected();
-    const Body = selected.length > 0 ?
+
+    return (
         <div className=" p-1">
           <div className="form-group mx-sm-3 mb-2">
             <h3>Are you sure you want to delete these entries?</h3>
@@ -60,34 +52,12 @@ class Delete extends Component {
           </div>
 
           <Button variant="highlight" onClick={this.handleDelete} disabled={this.state.working}>
-          {
-            this.state.working ? <Spinner title="Deleting"/> : 'Delete'
-          }
+            {
+              this.state.working ? <Spinner title="Deleting"/> : 'Delete'
+            }
           </Button>
 
         </div>
-        : <p>Please select at least one item</p>;
-
-    const attrs = {
-      'data-toggle': 'tooltip',
-      'data-placement': 'top',
-      title: 'Delete',
-    };
-
-    return (
-        <Popover
-            body={Body}
-            isOpen={this.state.isOpen}
-            onOuterAction={this.handleOutsideClick}
-        >
-          <Button 
-            variant='secondary' 
-            disabled={selected.length === 0}
-            onClick={this.handleClick}
-            {...attrs}>
-              {icons.trash} Delete
-            </Button>
-        </Popover>
     );
   }
 }

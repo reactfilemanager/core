@@ -4,6 +4,7 @@ import InfoPanel from '../../Components/InfoPanel';
 import {injectModal, injectSidePanel} from '../../state/actions';
 import Permission from '../../Components/Permission';
 import Rename from '../../Components/Rename';
+import Delete from '../../Components/Toolbar/Delete';
 
 export default {
   rename: {
@@ -64,6 +65,22 @@ export default {
     },
     handle(item) {
       window.open(download(item.path));
+    },
+  },
+  trash: {
+    shouldShow(item) {
+      return true;
+    },
+    menu_item: {
+      icon: icons.trash,
+      title: 'Delete',
+    },
+    handle(item, state, dispatch) {
+      const modal = props => {
+        return <Delete {...props}/>;
+      };
+
+      dispatch(injectModal(modal));
     },
   },
 };

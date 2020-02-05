@@ -18,7 +18,6 @@ const _defaultConfig = {
     make_new: MakeNew,
     // rename_op: Rename,
     // select_op: Select,
-    delete_op: Delete,
     refresh_op: Refresh,
   },
   utility:{

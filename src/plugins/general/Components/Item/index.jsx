@@ -123,7 +123,7 @@ class Item extends Component {
   };
 
   handleContextMenu = e => {
-    if (this.getSelectedItems().length < 2) {
+    if (!this.props.item.selected || this.getSelectedItems().length < 2) {
       this.handleClick(e);
     }
   };
