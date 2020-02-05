@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import icons from '../../../../assets/icons';
+import icons from '../../../../../assets/icons';
 
 class InfoPanel extends Component {
   render() {

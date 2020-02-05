@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { NavLink, Flex } from 'theme-ui'
-import {setWorkingPath} from '../../state/actions';
-import icons from '../../../../assets/icons';
+import {setWorkingPath} from '../../../state/actions';
+import icons from '../../../../../assets/icons';
 class Breadcrumb extends Component {
 
   moveTo = (e, path) => {

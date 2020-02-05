@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {getApi} from '../../tools/config';
+import {getApi} from '../../../tools/config';
 import toastr from 'toastr';
-import {setShouldReload} from '../../state/actions';
+import {setShouldReload} from '../../../state/actions';
 import {Spinner} from 'theme-ui';
 
 class Permission extends Component {

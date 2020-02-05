@@ -18,3 +18,13 @@ Number.prototype.toHumanFileSize = function(si = false) {
   } while (Math.abs(bytes) >= thresh && u < units.length - 1);
   return bytes.toFixed(1) + ' ' + units[u];
 };
+
+String.prototype.isValidURL = function() {
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+                               '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                               '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                               '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                               '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                               '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+  return !!pattern.test(this);
+};

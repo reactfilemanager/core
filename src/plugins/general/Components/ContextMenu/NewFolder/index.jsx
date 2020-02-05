@@ -1,18 +1,13 @@
 import React, {Component} from 'react';
-import {Button} from 'theme-ui'
+import {Button, Label, Input} from 'theme-ui';
 import toastr from 'toastr';
-import Popover from 'react-popover';
-import {getApi} from '../../tools/config';
-import {removeModal, update} from '../../state/actions';
-import {Spinner } from 'theme-ui';
+import {Spinner} from 'theme-ui';
+import {getApi} from '../../../tools/config';
+import {removeModal, setShouldReload} from '../../../state/actions';
 
-class Rename extends Component {
+class NewFolder extends Component {
 
   state = {working: false};
-
-  getSelected = () => {
-    return this.props.item;
-  };
 
   handleSave = () => {
     const name = this.refs.name.value.trim();
@@ -22,19 +17,12 @@ class Rename extends Component {
     }
 
     this.setState({working: true});
-    const item = this.getSelected();
     getApi()
-        .rename(this.props.state.path, item.name, name)
+        .new_dir(this.props.state.path, name)
         .then(response => {
           toastr.success(response.message);
-          // update name
-          item.name = name;
-          // update path
-          const path = item.path.split('/');
-          path.pop();
-          item.path = [...path, item.name].join('/');
-
-          this.props.dispatch(update(item));
+          // reload
+          this.props.dispatch(setShouldReload(true));
           this.props.dispatch(removeModal());
         })
         .catch(error => {
@@ -53,37 +41,37 @@ class Rename extends Component {
   };
 
   render() {
-    const selected = this.getSelected();
     return (
         <div className="form-inline p-1">
           <div className="form-group mx-sm-3 mb-2">
-            <label htmlFor="name"
+            <Label htmlFor="name"
+                   className="sr-only"
             >
-              Enter {selected.is_dir ? 'Folder Name' : 'File Name'}
-            </label>
-            <input type="text"
+              Folder Name
+            </Label>
+            <Input type="text"
                    className="form-control"
                    id="name"
-                   placeholder="name"
-                   defaultValue={selected.name}
+                   placeholder="New Folder"
+                   defaultValue="New Folder"
                    ref="name"
                    onKeyDown={this.handleKeyDown}
                    autoFocus
             />
           </div>
-          <button className="btn btn-primary mb-2"
+          <Button className="btn btn-primary mb-2"
                   onClick={this.handleSave}
                   disabled={this.state.working}
           >
             {
               this.state.working ?
                   <Spinner/>
-                  : 'Rename'
+                  : 'New Folder'
             }
-          </button>
+          </Button>
         </div>
     );
   }
 }
 
-export default Rename;
+export default NewFolder;

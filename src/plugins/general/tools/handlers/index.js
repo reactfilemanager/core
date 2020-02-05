@@ -1,10 +1,11 @@
 import icons from '../../../../assets/icons';
 import {setWorkingPath} from '../../state/actions';
+import FileInfo from '../../models/FileInfo';
 
 export default {
   folder_open: {
     handles(item) {
-      return item.is_dir;
+      return item instanceof FileInfo && item.is_dir;
     },
     menu_item: {
       title: 'Open',

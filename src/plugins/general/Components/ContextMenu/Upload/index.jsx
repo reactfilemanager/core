@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Button, Spinner} from 'theme-ui';
-import {getApi} from '../../tools/config';
-import FileInfo from '../../models/FileInfo';
-import icons from '../../../../assets/icons';
-import {setShouldReload} from '../../state/actions';
+import {getApi} from '../../../tools/config';
+import FileInfo from '../../../models/FileInfo';
+import icons from '../../../../../assets/icons';
+import {setShouldReload} from '../../../state/actions';
 
 class Upload extends Component {
   state = {working: false, uploads: []};

@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import {jsx, Box} from 'theme-ui';
 
-import Breadcrumb from '../Breadcrumb';
-import ItemList from '../ItemList';
+import Breadcrumb from './Breadcrumb';
+import ItemList from './ItemList';
 import Toolbar from '../Toolbar';
 import {getConfig, getDefaultConfig} from '../../tools/config';
-import DirectoryTree from '../DirectoryTree';
+import DirectoryTree from './DirectoryTree';
 import icons from '../../../../assets/icons';
 import {removeModal, removeSidePanel} from '../../state/actions';
 import {SkyLightStateless} from 'react-skylight';

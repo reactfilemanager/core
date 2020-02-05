@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Label, Spinner } from 'theme-ui'
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree, setWorkingPath} from '../../state/actions';
-import {getApi} from '../../tools/config';
-import icons from '../../../../assets/icons';
+import {resetDirectoryTree, setWorkingPath} from '../../../state/actions';
+import {getApi} from '../../../tools/config';
+import icons from '../../../../../assets/icons';
 import './style.scss'
 
 const arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88' +

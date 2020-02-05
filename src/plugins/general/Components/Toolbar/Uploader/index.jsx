@@ -3,7 +3,7 @@ import { jsx, Button } from 'theme-ui'
 import React, {Component} from 'react';
 import CloudDownload from './CloudDownload';
 import icons from '../../../../../assets/icons';
-import Upload from '../../Upload';
+import Upload from '../../ContextMenu/Upload';
 import {injectModal} from '../../../state/actions';
 
 class Uploader extends Component {

@@ -3,10 +3,12 @@ import {jsx, Text, Grid, Checkbox, Label} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import toastr from 'toastr';
-import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
-import Item from '../Item';
-import {getApi} from '../../tools/config';
+import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../../state/actions';
+import Item from './Item';
+import {getApi} from '../../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
+import {ContextMenuTrigger} from 'react-contextmenu';
+import {CONTEXT_MENU_ID} from '../../ContextMenu';
 
 class ItemList extends Component {
 
@@ -156,16 +158,40 @@ class ItemList extends Component {
     }, entries);
   };
 
+  getAttributes = () => {
+    return {
+      className: 'files-container',
+      sx: {padding: '16px'},
+    };
+  };
+
+  collect = () => {
+    return {
+      item: {
+        path: this.props.state.path,
+        isCurrentDir: true,
+      },
+    };
+  };
+
   render() {
     const items = this.getItems();
 
     return (
-        <div className="files-container" sx={{padding: '16px'}}>
+        <ContextMenuTrigger
+            key={this.props.state.path}
+            id={CONTEXT_MENU_ID}
+            holdToDisplay={1000}
+            name={this.props.state.path}
+            collect={this.collect}
+            attributes={this.getAttributes()}
+            renderTag="div"
+        >
           {this.props.state.viewmode === 'grid'
               ? this.getItemsBlockForGridViewMode(items)
               : this.getItemsBlockForListViewMode(items)
           }
-        </div>
+        </ContextMenuTrigger>
     );
   }
 }
