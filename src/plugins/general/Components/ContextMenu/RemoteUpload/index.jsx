@@ -3,7 +3,7 @@ import {Button, Input, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import {setShouldReload} from '../../../state/actions';
-import toastr from 'toastr';
+import {toast} from 'react-toastify';
 
 class RemoteUpload extends Component {
   state = {working: false};
@@ -11,19 +11,19 @@ class RemoteUpload extends Component {
   handleUpload = e => {
     const url = this.refs.remote_url.value;
     if (!url.isValidURL()) {
-      toastr.warning('Invalid URL');
+      toast.warning('Invalid URL');
       return false;
     }
     this.setState({working: true});
     getApi()
         .remote_download(this.props.state.general.path, url)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           this.props.dispatch(setShouldReload(true));
           this.refs.remote_url.value = '';
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.setState({working: false});

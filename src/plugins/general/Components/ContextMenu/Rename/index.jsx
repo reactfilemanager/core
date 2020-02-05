@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Button} from 'theme-ui'
-import toastr from 'toastr';
-import Popover from 'react-popover';
 import {getApi} from '../../../tools/config';
 import {removeModal, update} from '../../../state/actions';
 import {Spinner } from 'theme-ui';
+import {toast} from 'react-toastify';
 
 class Rename extends Component {
 
@@ -17,7 +16,7 @@ class Rename extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toastr.warning('Empty name entered');
+      toast.warning('Empty name entered');
       return;
     }
 
@@ -26,7 +25,7 @@ class Rename extends Component {
     getApi()
         .rename(this.props.state.general.path, item.name, name)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           // update name
           item.name = name;
           // update path
@@ -38,7 +37,7 @@ class Rename extends Component {
           this.props.dispatch(removeModal());
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
           this.setState({working: false});
         });
   };

@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {Button} from 'theme-ui'
 import Popover from 'react-popover';
 import {getApi} from '../../../../tools/config';
-import toastr from 'toastr';
 import {setShouldReload} from '../../../../state/actions';
 import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
+import {toast} from 'react-toastify';
 
 class Paste extends Component {
 
@@ -28,12 +28,12 @@ class Paste extends Component {
 
     Promise.all(promises)
            .then(response => {
-             toastr.success('Copy successful');
+             toast.success('Copy successful');
              this.setState({isOpen: false});
              this.props.dispatch(setShouldReload(true));
            })
            .catch(error => {
-             toastr.error('Could not copy all file(s)/folder(s)');
+             toast.error('Could not copy all file(s)/folder(s)');
              console.log(error);
            })
            .finally(() => {

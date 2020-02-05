@@ -32,11 +32,11 @@
     "react-dom": "^16.2.0",
     "react-popover": "^0.5.10",
     "react-skylight": "^0.5.1",
+    "react-toastify": "^5.5.0",
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.15.2",
     "sass-loader": "^7.1.0",
     "theme-ui": "^0.3.1",
-    "toastr": "^2.1.4",
     "webpack-bundle-analyzer": "^3.6.0"
   }
 }

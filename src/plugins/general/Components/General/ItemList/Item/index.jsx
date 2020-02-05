@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import {jsx, Card, Text, Image, Link, Flex, Checkbox, Label} from 'theme-ui';
 import {Component} from 'react';
-import toastr from 'toastr';
 import styled from '@emotion/styled';
 import {setEntries} from '../../../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../../ContextMenu';
 import cloneDeep from 'lodash.clonedeep';
 import {getHandlers} from '../../../../tools/config';
+import {toast} from 'react-toastify';
 
 class Item extends Component {
 
@@ -28,7 +28,7 @@ class Item extends Component {
 
     const handlers = Object.values(getHandlers(this.props.item));
     if (!handlers.length) {
-      toastr.info('Unsupported file type.');
+      toast.info('Unsupported file type.');
       return;
     }
 

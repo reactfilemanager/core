@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Button, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import toastr from 'toastr';
 import {remove, removeModal, resetDirectoryTree} from '../../../state/actions';
+import {toast} from 'react-toastify';
 
 class Delete extends Component {
   state = {working: false};
@@ -22,7 +22,7 @@ class Delete extends Component {
       getApi()
           .delete('/', item.path)
           .then(response => {
-            toastr.success(response.message);
+            toast.success(response.message);
             this.props.dispatch(remove(item));
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));
@@ -30,7 +30,7 @@ class Delete extends Component {
             this.props.dispatch(removeModal());
           })
           .catch(error => {
-            toastr.error(error.message);
+            toast.error(error.message);
             this.setState({working: false});
           });
     }

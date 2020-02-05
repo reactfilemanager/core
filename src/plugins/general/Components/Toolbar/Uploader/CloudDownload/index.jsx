@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { jsx, Button } from 'theme-ui'
+import {jsx, Button} from 'theme-ui';
 import {Component} from 'react';
-import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
-import {Spinner } from 'theme-ui';
+import {Spinner} from 'theme-ui';
 import Popover from 'react-popover';
+import {toast} from 'react-toastify';
 import icons from '../../../../../../assets/icons';
 
 class CloudDownload extends Component {
@@ -23,7 +23,7 @@ class CloudDownload extends Component {
   handleDownload = () => {
     const url = this.refs.url.value.trim();
     if (url === '') {
-      toastr.warning('Empty URL entered');
+      toast.warning('Empty URL entered');
       return;
     }
 
@@ -32,13 +32,13 @@ class CloudDownload extends Component {
     getApi()
         .remote_download(this.props.state.path, url)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
 
           this.props.dispatch(setShouldReload(true));
           this.setState({isOpen: false});
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.setState({working: false});
@@ -96,17 +96,17 @@ class CloudDownload extends Component {
             isOpen={this.state.isOpen}
             onOuterAction={this.handleOutsideClick}
         >
-          <Button 
-            variant="secondary"
-            onClick={this.handleClick}
-            {...attrs}
+          <Button
+              variant="secondary"
+              onClick={this.handleClick}
+              {...attrs}
           >
             {
               this.state.working
                   ? <Spinner/>
                   : icons.cloud_download
             }
-            <span sx={{ ml: 2 }}>Remote Download</span>
+            <span sx={{ml: 2}}>Remote Download</span>
           </Button>
         </Popover>
     );

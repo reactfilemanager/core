@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Button, Label, Input} from 'theme-ui';
-import toastr from 'toastr';
 import {Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import {removeModal, setShouldReload} from '../../../state/actions';
+import {toast} from 'react-toastify';
 
 class NewFolder extends Component {
 
@@ -12,7 +12,7 @@ class NewFolder extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toastr.warning('Empty name entered');
+      toast.info('Empty name entered');
       return;
     }
 
@@ -20,13 +20,13 @@ class NewFolder extends Component {
     getApi()
         .new_dir(this.props.state.general.path, name)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           // reload
           this.props.dispatch(setShouldReload(true));
           this.props.dispatch(removeModal());
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
           this.setState({working: false});
         });
   };

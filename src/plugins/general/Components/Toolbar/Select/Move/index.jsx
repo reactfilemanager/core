@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Button} from 'theme-ui'
 import {getApi} from '../../../../tools/config';
-import toastr from 'toastr';
 import {setClipboard, setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
+import {toast} from 'react-toastify';
 
 class Move extends Component {
 
@@ -29,13 +29,13 @@ class Move extends Component {
     Promise.all(promises)
            .then(response => {
              console.log(response);
-             toastr.success('Move successful');
+             toast.success('Move successful');
              this.setState({isOpen: false});
              this.props.dispatch(setShouldReload(true));
              this.props.dispatch(setClipboard([]));
            })
            .catch(error => {
-             toastr.error('Could not move all file(s)/folder(s)');
+             toast.error('Could not move all file(s)/folder(s)');
              console.log(error);
            })
            .finally(() => {

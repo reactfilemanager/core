@@ -1,6 +1,7 @@
 import React from 'react';
 import {bootPlugins, getTabs} from '../../pluggable';
 import {useStore} from '../../state/store';
+import {ToastContainer, Flip} from 'react-toastify';
 
 export default () => {
 
@@ -56,6 +57,18 @@ export default () => {
             {contents}
           </div>
         </div>
+        <ToastContainer
+            position="top-right"
+            autoClose={2500}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+            transition={Flip}
+        />
       </div>
   );
 }

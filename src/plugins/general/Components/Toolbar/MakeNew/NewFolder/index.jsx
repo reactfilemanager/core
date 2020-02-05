@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Button} from 'theme-ui'
 import Popover from 'react-popover';
-import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload, update} from '../../../../state/actions';
 import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
+import {toast} from 'react-toastify';
 
 class NewFolder extends Component {
 
@@ -22,7 +22,7 @@ class NewFolder extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toastr.warning('Empty name entered');
+      toast.warning('Empty name entered');
       return;
     }
 
@@ -30,13 +30,13 @@ class NewFolder extends Component {
     getApi()
         .new_dir(this.props.state.path, name)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           // reload
           this.props.dispatch(setShouldReload(true));
           this.setState({isOpen: false});
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.setState({working: false});

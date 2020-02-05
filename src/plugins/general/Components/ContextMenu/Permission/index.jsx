@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {getApi} from '../../../tools/config';
-import toastr from 'toastr';
 import {setShouldReload} from '../../../state/actions';
 import {Spinner} from 'theme-ui';
+import {toast} from 'react-toastify';
 
 class Permission extends Component {
 
@@ -103,11 +103,11 @@ class Permission extends Component {
     getApi()
         .chmod(this.props.state.general.path, item.name, mod)
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           this.props.dispatch(setShouldReload(true));
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.setState({working: false, isOpen: false});

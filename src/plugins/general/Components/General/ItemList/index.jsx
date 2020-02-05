@@ -2,13 +2,13 @@
 import {jsx, Text, Grid, Checkbox, Label} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
-import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../../state/actions';
 import Item from './Item';
 import {getApi} from '../../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../ContextMenu';
+import {toast} from 'react-toastify';
 
 class ItemList extends Component {
 
@@ -38,7 +38,7 @@ class ItemList extends Component {
         })
         .catch(error => {
           console.log(error);
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.props.dispatch(setReloading(false));

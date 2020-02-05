@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import toastr from 'toastr';
 import {getApi} from '../../../../tools/config';
 import {setShouldReload} from '../../../../state/actions';
 import Popover from 'react-popover';
 import {Spinner } from 'theme-ui';
 import icons from '../../../../../../assets/icons';
+import {toast} from 'react-toastify';
 
 class NewFile extends Component {
 
@@ -21,7 +21,7 @@ class NewFile extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toastr.warning('Empty name entered');
+      toast.warning('Empty name entered');
       return;
     }
 
@@ -29,13 +29,13 @@ class NewFile extends Component {
     getApi()
         .new_file(this.props.state.path, name, "")
         .then(response => {
-          toastr.success(response.message);
+          toast.success(response.message);
           // reload
           this.props.dispatch(setShouldReload(true));
           this.setState({isOpen: false});
         })
         .catch(error => {
-          toastr.error(error.message);
+          toast.error(error.message);
         })
         .finally(() => {
           this.setState({working: false});
