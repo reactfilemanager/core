@@ -1,17 +1,17 @@
 /** @jsx jsx */
-import {jsx, Box} from 'theme-ui';
+import {jsx, Box, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import {viewport} from '../../../../helpers/Utils';
 
 class ImagePreview extends Component {
 
-  state = {width: 600, height: 400};
+  state = {width: 50, height: 50, loading: true};
 
   componentDidMount() {
     const image = new Image();
     image.onload = e => {
       const size = this.calculateSize({width: image.width, height: image.height});
-      this.setState({...size});
+      this.setState({...size, loading: false});
     };
     image.src = preview(this.props.item.path);
   }
@@ -79,28 +79,34 @@ class ImagePreview extends Component {
                  transform: 'translate(-50%,-50%)',
                  overflow: 'hidden',
                }}>
-            <span sx={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              zIndex: 99,
-              cursor: 'pointer',
-              color: '#fff',
-              background: '#222',
-              border: '1px solid #ccc',
-              borderRadius: '150px',
-              padding: '6px',
-              lineHeight: '0.7',
-            }} onClick={this.close}>X</span>
-            <Box sx={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              backgroundImage: `url("${preview(this.props.item.path)}")`,
-              backgroundSize: 'cover',
-            }}/>
+            {this.state.loading
+                ? <Spinner/>
+                : <>
+                  <span sx={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    zIndex: 99,
+                    cursor: 'pointer',
+                    color: '#fff',
+                    background: '#222',
+                    border: '1px solid #ccc',
+                    borderRadius: '150px',
+                    padding: '6px',
+                    lineHeight: '0.7',
+                  }} onClick={this.close}>X</span>
+
+                  <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    backgroundImage: `url("${preview(this.props.item.path)}")`,
+                    backgroundSize: 'cover',
+                  }}/>
+                </>
+            }
           </Box>
         </Box>
     );
