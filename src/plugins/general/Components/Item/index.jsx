@@ -1,6 +1,7 @@
 /** @jsx jsx */
-import {jsx, Card, Text, Image, Link, Flex} from 'theme-ui';
+import {jsx, Card, Text, Image, Link, Flex, Checkbox} from 'theme-ui';
 import {Component} from 'react';
+import styled from '@emotion/styled';
 import {setEntries} from '../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
@@ -234,21 +235,29 @@ class Item extends Component {
             attributes={this.getAttributes(item)}
             renderTag="tr"
         >
-          <td><input type="checkbox" checked={item.selected}/></td>
-          <td>
-            {
-              item.is_dir
-                  ? <a href="#" onClick={this.handleClickName}> {item.name} </a> : item.name
-            }
-          </td>
-          <td>
+          <TD><Checkbox checked={item.selected}/></TD>
+          <TD><Image src={thumb(item.path)} sx={{ maxWidth: '20px', maxHeight: '20px'}}/></TD>
+          <TD> { 
+                item.is_dir ? 
+                  <Link
+                      sx={{
+                        textDecoration: 'none',
+                        color: 'black',
+                      }}
+                      href="#!"
+                      onClick={this.handleClickName}>{item.name}</Link>
+                  : item.name 
+              } 
+          </TD>
+          <TD>
             {item.is_dir ? 'Folder' : ''}
             {item.is_link ? 'Symlink' : ''}
             {item.is_file ? 'File' : ''}
-          </td>
-          <td>
+          </TD>
+          <TD>
             {item.perms}
-          </td>
+          </TD>
+          <TD></TD>
         </ContextMenuTrigger>
     );
   };
@@ -271,3 +280,14 @@ class Item extends Component {
 }
 
 export default Item;
+
+const TD = styled.td`
+  padding: 8px;
+  white-space: nowrap;
+  text-align: left;
+  font-weight: 400;
+
+  svg{
+    margin-right: 0;
+  }
+`

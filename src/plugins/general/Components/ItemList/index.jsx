@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import React from 'react';
-import {jsx, Text, Grid} from 'theme-ui';
-import {Component} from 'react';
+import {jsx, Text, Grid, Checkbox} from 'theme-ui';
+import React, {Component} from 'react';
+import styled from '@emotion/styled';
 import toastr from 'toastr';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../state/actions';
 import Item from '../Item';
@@ -102,11 +102,25 @@ class ItemList extends Component {
 
   getItemsBlockForListViewMode = items => {
     return (
-        <table className="table">
+        <Table sx={{
+          width: '100%',
+          minWidth: '100%',
+          borderSpacing: 0
+        }}>
+          <thead>
+            <tr>
+              <TH width='1%'><Checkbox/></TH>
+              <TH width="1%"></TH>
+              <TH width="75%">Name</TH>
+              <TH>Size</TH>
+              <TH width="10%">Permission</TH>
+              <TH width="10%">Last Modified</TH>
+            </tr>
+          </thead>
           <tbody>
-          {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
+            {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
           </tbody>
-        </table>
+        </Table>
     );
   };
 
@@ -132,3 +146,24 @@ class ItemList extends Component {
 }
 
 export default ItemList;
+
+const Table = styled.table`
+  border: 1px solid #dcdcdc;
+  //Row
+  tr:nth-of-type(odd) td{ background: #fff }
+  tr:nth-of-type(even) td{ background: #f5f4f4 }
+  // Hover
+  tr:hover td{ background: #fafbfb;}
+`
+
+const TH = styled.th`
+  border-bottom: 1px solid #dcdcdc;
+  z-index: 1;
+  padding: 8px;
+  white-space: nowrap;
+  background: #fbfafa;
+  font-size: 11px;
+  text-align: left;
+  font-weight: 500;
+  text-transform: uppercase;
+`

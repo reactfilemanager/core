@@ -95,19 +95,24 @@ export default {
       lineHeight: 'body',
       fontWeight: 'body'
     },
-    table: {
-      width: '100%',
-      borderCollapse: 'separate',
-      borderSpacing: 0
-    },
-    th: {
-      textAlign: 'left',
-      borderBottomStyle: 'solid'
-    },
-    td: {
-      textAlign: 'left',
-      borderBottomStyle: 'solid'
-    },
+    // table: {
+    //   width: '100%',
+    //   minWidth: '100%',
+    //   borderCollapse: 'separate',
+    //   borderSpacing: 0
+    // },
+    // th: {
+    //   textAlign: 'left',
+    //   borderBottomStyle: 'solid',
+    //   py: 2,
+    //   px: 3,
+    // },
+    // td: {
+    //   textAlign: 'left',
+    //   borderBottomStyle: 'solid',
+    //   py: 2,
+    //   px: 3,
+    // },
     img: {
       maxWidth: '100%'
     },
@@ -123,6 +128,12 @@ export default {
       py: 1,
       fontSizes: 12,
       color: 'text'
+    }
+  },
+  table: {
+    td : {
+      py: 2,
+      px: 4
     }
   }
 }
