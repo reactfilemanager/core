@@ -32,8 +32,6 @@ class Delete extends Component {
           })
           .catch(error => {
             toastr.error(error.message);
-          })
-          .finally(() => {
             this.setState({working: false});
           });
     }
