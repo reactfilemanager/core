@@ -11,6 +11,7 @@ class RemoteUpload extends Component {
   handleUpload = e => {
     const url = this.refs.remote_url.value;
     if (!url.isValidURL()) {
+      toastr.warning('Invalid URL');
       return false;
     }
     this.setState({working: true});
