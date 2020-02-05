@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Card, Text, Image, Link, Flex, Checkbox} from 'theme-ui';
+import {jsx, Card, Text, Image, Link, Flex, Checkbox, Label} from 'theme-ui';
 import {Component} from 'react';
 import styled from '@emotion/styled';
 import {setEntries} from '../../state/actions';
@@ -36,13 +36,11 @@ class Item extends Component {
     }
   };
 
-  handleClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
+  toggleSelect = (ctrlKey, shiftKey) => {
 
     let shouldMark = false;
     const lastSelectedItem = this.findLastSelected();
-    if (e.shiftKey && lastSelectedItem) {
+    if (shiftKey && lastSelectedItem) {
       const self = this;
 
       function mark(item) {
@@ -80,12 +78,23 @@ class Item extends Component {
       this.props.dispatch(setEntries({dirs, files}));
     }
     else {
-      const dirs = this.props.state.entries.dirs.map(
-          dir => this.markItemSelected(dir, e.ctrlKey || e.metaKey, e.shiftKey));
-      const files = this.props.state.entries.files.map(
-          file => this.markItemSelected(file, e.ctrlKey || e.metaKey, e.shiftKey));
+      const dirs = this.props.state.entries.dirs.map(dir => this.markItemSelected(dir, ctrlKey, shiftKey));
+      const files = this.props.state.entries.files.map(file => this.markItemSelected(file, ctrlKey, shiftKey));
       this.props.dispatch(setEntries({dirs, files}));
     }
+  };
+
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleSelect(e.ctrlKey || e.metaKey, e.shiftKey);
+  };
+
+  toggleCheck = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.toggleSelect(true, false);
   };
 
   getSelectedItems = () => {
@@ -156,13 +165,13 @@ class Item extends Component {
     return (
         <Card className={this.className}>
           <ContextMenuTrigger
-            key={item.id}
-            id={CONTEXT_MENU_ID}
-            holdToDisplay={1000}
-            name={item.name}
-            collect={this.collect}
-            attributes={this.getAttributes(item)}
-            style={{ height: '100%' }}
+              key={item.id}
+              id={CONTEXT_MENU_ID}
+              holdToDisplay={1000}
+              name={item.name}
+              collect={this.collect}
+              attributes={this.getAttributes(item)}
+              style={{height: '100%'}}
           >
             {
               item.is_dir ?
@@ -187,24 +196,24 @@ class Item extends Component {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    height: '100%'
+                    height: '100%',
                   }}>
                     <div sx={{
                       position: 'relative',
                       width: '100%',
                       height: '140px',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
                     }}>
                       <div sx={{
                         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                         width: '100%', height: '100%',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
-                        <Image 
-                        src={thumb(item.path)}
-                        sx={{
-                          paddingBottom: '5px',
-                        }}/>
+                        <Image
+                            src={thumb(item.path)}
+                            sx={{
+                              paddingBottom: '5px',
+                            }}/>
                       </div>
                     </div>
                     <Text sx={{
@@ -213,7 +222,7 @@ class Item extends Component {
                       paddingTop: '4px',
                       textAlign: 'center',
                       fontSize: 12,
-                      color: 'gray'
+                      color: 'gray',
                     }}>{item.getName(8)} {item.components}</Text>
                   </Flex>
             }
@@ -235,19 +244,23 @@ class Item extends Component {
             attributes={this.getAttributes(item)}
             renderTag="tr"
         >
-          <TD><Checkbox checked={item.selected}/></TD>
-          <TD><Image src={thumb(item.path)} sx={{ maxWidth: '20px', maxHeight: '20px'}}/></TD>
-          <TD> { 
-                item.is_dir ? 
-                  <Link
-                      sx={{
-                        textDecoration: 'none',
-                        color: 'black',
-                      }}
-                      href="#!"
-                      onClick={this.handleClickName}>{item.name}</Link>
-                  : item.name 
-              } 
+          <TD onClick={this.toggleCheck}>
+            <Label>
+              <Checkbox checked={item.selected} onChange={e => e}/>
+            </Label>
+          </TD>
+          <TD><Image src={thumb(item.path)} sx={{maxWidth: '20px', maxHeight: '20px'}}/></TD>
+          <TD> {
+            item.is_dir ?
+                <Link
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'black',
+                    }}
+                    href="#!"
+                    onClick={this.handleClickName}>{item.name}</Link>
+                : item.name
+          }
           </TD>
           <TD>
             {item.is_dir ? 'Folder' : ''}
@@ -257,7 +270,7 @@ class Item extends Component {
           <TD>
             {item.perms}
           </TD>
-          <TD></TD>
+          <TD/>
         </ContextMenuTrigger>
     );
   };
@@ -290,4 +303,4 @@ const TD = styled.td`
   svg{
     margin-right: 0;
   }
-`
+`;

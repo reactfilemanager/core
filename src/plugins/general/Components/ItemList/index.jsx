@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Text, Grid, Checkbox} from 'theme-ui';
+import {jsx, Text, Grid, Checkbox, Label} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import toastr from 'toastr';
@@ -85,40 +85,65 @@ class ItemList extends Component {
             color: 'gray',
           }}>Files</Text>
 
-            <Grid 
-              width={[176]} 
-              gap={3}
-              sx={{
-                '.react-contextmenu-wrapper': {
-                  height: '100%'
-                }
-              }}>
-                {items.files.map(item => this.getItemBlock(item))}
+            <Grid
+                width={[176]}
+                gap={3}
+                sx={{
+                  '.react-contextmenu-wrapper': {
+                    height: '100%',
+                  },
+                }}>
+              {items.files.map(item => this.getItemBlock(item))}
             </Grid>
           </>)
           : null}
     </>);
   };
 
+  handleOnChange = e => {
+    const checked = e.target.checked;
+    const entries = cloneDeep(this.props.state.entries);
+    entries.dirs = entries.dirs.map(dir => {
+      dir.selected = checked === true;
+      return dir;
+    });
+    entries.files = entries.files.map(file => {
+      file.selected = checked === true;
+      return file;
+    });
+    this.props.dispatch(setEntries(entries));
+  };
+
   getItemsBlockForListViewMode = items => {
+    const _items = [...items.dirs, ...items.files];
+    const allChecked = items.length && _items.find(item => item.selected === false) === undefined;
     return (
         <Table sx={{
           width: '100%',
           minWidth: '100%',
-          borderSpacing: 0
+          borderSpacing: 0,
         }}>
           <thead>
-            <tr>
-              <TH width='1%'><Checkbox/></TH>
-              <TH width="1%"></TH>
-              <TH width="75%">Name</TH>
-              <TH>Size</TH>
-              <TH width="10%">Permission</TH>
-              <TH width="10%">Last Modified</TH>
-            </tr>
+          <tr>
+            <TH width="1%">
+              <Label>
+                <Checkbox checked={allChecked} onChange={this.handleOnChange}/>
+              </Label>
+            </TH>
+            <TH width="1%"/>
+            <TH width="75%">Name</TH>
+            <TH>Size</TH>
+            <TH width="10%">Permission</TH>
+            <TH width="10%">Last Modified</TH>
+          </tr>
           </thead>
           <tbody>
-            {[...items.dirs, ...items.files].map(item => this.getItemBlock(item))}
+          {_items.length
+              ? _items.map(item => this.getItemBlock(item))
+              : <tr>
+                <td colSpan={6} sx={{textAlign: 'center'}}>Empty</td>
+              </tr>
+          }
           </tbody>
         </Table>
     );
@@ -154,7 +179,7 @@ const Table = styled.table`
   tr:nth-of-type(even) td{ background: #f5f4f4 }
   // Hover
   tr:hover td{ background: #fafbfb;}
-`
+`;
 
 const TH = styled.th`
   border-bottom: 1px solid #dcdcdc;
@@ -166,4 +191,4 @@ const TH = styled.th`
   text-align: left;
   font-weight: 500;
   text-transform: uppercase;
-`
+`;

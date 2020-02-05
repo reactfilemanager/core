@@ -13,20 +13,22 @@ class ViewMode extends Component {
   render() {
     const viewmode = this.props.state.viewmode;
     return (
-        <Flex sx={{ float: 'left'}}>
-          <Button 
-            variant="utility"
-            className={viewmode === 'grid' ? 'active' : ''}
-            data-viewmode="grid" onClick={this.handleClick}
-          >
-            {icons.grid}
-          </Button>
-          <Button 
-            variant="utility"
-            className={viewmode === 'list' ? 'active' : ''}
-            data-viewmode="list" onClick={this.handleClick}>
-            {icons.list}
-          </Button>
+        <Flex sx={{float: 'left'}}>
+          {viewmode === 'list'
+              ? <Button
+                  variant="utility"
+                  className="active"
+                  data-viewmode="grid" onClick={this.handleClick}
+              >
+                {icons.grid}
+              </Button>
+              : <Button
+                  variant="utility"
+                  className="active"
+                  data-viewmode="list" onClick={this.handleClick}>
+                {icons.list}
+              </Button>
+          }
         </Flex>
     );
   }
