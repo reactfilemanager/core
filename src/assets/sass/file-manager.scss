@@ -18,55 +18,7 @@
   border: 1px solid #fff;
 }
  .fm-item-selected {
-   border: 1px solid #222;
+   border: 1px solid #07c;
+   box-shadow: 0 0 10px lighten(#07c, 40%);
  }
 
-// .item p {
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-//   overflow: hidden;
-// }
-
-// .item-img {
-//   min-width: 126px;
-//   min-height: 126px;
-// }
-
-// .item .card-body {
-//   padding: 4px;
-// }
-
-// .toolbar > button:not(:first-child), .toolbar > .btn-group {
-//   margin-left: 4px;
-// }
-
-// .hidden {
-//   display: none;
-// }
-
-// .Popover-body {
-//   background: #fff;
-//   border-radius: 10px;
-//   padding: 4px;
-//   border: 1px solid #ccc;
-// }
-
-// .Popover-tipShape {
-//   color: #fff;
-//   fill: #fff;
-//   outline: #ccc;
-// }
-
-// .min-w-300px {
-//   min-width: 300px;
-// }
-
-// .top-right-absolute {
-//   position: absolute;
-//   top: 5px;
-//   right: 10px;
-// }
-
-// .pointer {
-//   cursor: pointer;
-// }

@@ -85,7 +85,16 @@ class ItemList extends Component {
             color: 'gray',
           }}>Files</Text>
 
-            <Grid width={[176]} gap={3}>{items.files.map(item => this.getItemBlock(item))}</Grid>
+            <Grid 
+              width={[176]} 
+              gap={3}
+              sx={{
+                '.react-contextmenu-wrapper': {
+                  height: '100%'
+                }
+              }}>
+                {items.files.map(item => this.getItemBlock(item))}
+            </Grid>
           </>)
           : null}
     </>);

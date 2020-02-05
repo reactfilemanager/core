@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Card, Text, Image, Link} from 'theme-ui';
+import {jsx, Card, Text, Image, Link, Flex} from 'theme-ui';
 import {Component} from 'react';
 import {setEntries} from '../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
@@ -155,12 +155,13 @@ class Item extends Component {
     return (
         <Card className={this.className}>
           <ContextMenuTrigger
-              key={item.id}
-              id={CONTEXT_MENU_ID}
-              holdToDisplay={1000}
-              name={item.name}
-              collect={this.collect}
-              attributes={this.getAttributes(item)}
+            key={item.id}
+            id={CONTEXT_MENU_ID}
+            holdToDisplay={1000}
+            name={item.name}
+            collect={this.collect}
+            attributes={this.getAttributes(item)}
+            style={{ height: '100%' }}
           >
             {
               item.is_dir ?
@@ -181,10 +182,39 @@ class Item extends Component {
                         href="#!"
                         onClick={this.handleClickName}>{item.getName(8)}</Link>
                   </div> :
-                  <div>
-                    <Image src={thumb(item.path)}/>
-                    <Text>{item.getName(8)} {item.components}</Text>
-                  </div>
+                  <Flex sx={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    height: '100%'
+                  }}>
+                    <div sx={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '140px',
+                      overflow: 'hidden'
+                    }}>
+                      <div sx={{
+                        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                        width: '100%', height: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      }}>
+                        <Image 
+                        src={thumb(item.path)}
+                        sx={{
+                          paddingBottom: '5px',
+                        }}/>
+                      </div>
+                    </div>
+                    <Text sx={{
+                      width: '100%',
+                      borderTop: '1px solid #eee',
+                      paddingTop: '4px',
+                      textAlign: 'center',
+                      fontSize: 12,
+                      color: 'gray'
+                    }}>{item.getName(8)} {item.components}</Text>
+                  </Flex>
             }
 
 

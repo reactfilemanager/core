@@ -43,7 +43,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
                 {icons.preview}
                 {firstHandler.type === 'preview' ? ' Preview' : ' Open'}
               </Menu>
-              <Divider/>
+              {/* <Divider/> */}
             </>
             : null}
         {handlersKeys.length > 1
