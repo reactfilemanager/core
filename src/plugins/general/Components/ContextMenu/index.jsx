@@ -7,6 +7,12 @@ import {getContextMenu, getHandlers} from '../../tools/config';
 import icons from '../../../../assets/icons';
 
 export const CONTEXT_MENU_ID = 'hive-fm-context-menu';
+const style = {
+  background: 'white',
+  boxShadow: '0 0 4px #ccc',
+  borderRadius: '3px',
+  width: '180px',
+};
 
 export default connectMenu(CONTEXT_MENU_ID)(function(props) {
 
@@ -14,7 +20,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
 
   const {trigger} = props;
   if (trigger === null) {
-    return (<ContextMenu id={CONTEXT_MENU_ID}>
+    return (<ContextMenu id={CONTEXT_MENU_ID} sx={style}>
       <MenuItem>Patch for re-render</MenuItem>
     </ContextMenu>);
   }
@@ -31,12 +37,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   return (
       <ContextMenu
           id={CONTEXT_MENU_ID}
-          style={{
-            background: 'white',
-            boxShadow: '0 0 4px #ccc',
-            borderRadius: '3px',
-            width: '180px',
-          }}>
+          sx={style}>
         {firstHandler
             ? <>
               <Menu onClick={() => firstHandler.handle(item, state, dispatch)}>
