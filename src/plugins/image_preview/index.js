@@ -15,11 +15,11 @@ export default {
               title: 'Preview',
             },
             handle(item, state, dispatch) {
-              const modal = (props) => {
+              const component = (props) => {
                 return <ImagePreview item={item} {...props}/>;
               };
 
-              dispatch({type: 'INJECT_MODAL', payload: modal});
+              dispatch({type: 'INJECT_COMPONENT', payload: component});
             },
             type: 'preview',
           },

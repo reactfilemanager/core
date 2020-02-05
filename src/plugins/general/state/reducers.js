@@ -198,6 +198,24 @@ export default {
       },
     };
   },
+  [types.INJECT_COMPONENT]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        injected_component: payload,
+      },
+    };
+  },
+  [types.REMOVE_INJECTED_COMPONENT]: (state) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        injected_component: null,
+      },
+    };
+  },
 };
 
 function toggleSelect(list, item) {

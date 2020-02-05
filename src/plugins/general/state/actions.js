@@ -20,3 +20,5 @@ export const injectSidePanel = (id, panel) => ({type: types.INJECT_SIDE_PANEL, p
 export const removeSidePanel = payload => ({type: types.REMOVE_SIDE_PANEL, payload});
 export const injectModal = modal => ({type: types.INJECT_MODAL, payload: modal});
 export const removeModal = () => ({type: types.REMOVE_MODAL});
+export const injectComponent = component => ({type: types.INJECT_COMPONENT, payload: component});
+export const removeInjectedComponent = () => ({type: types.REMOVE_INJECTED_COMPONENT});

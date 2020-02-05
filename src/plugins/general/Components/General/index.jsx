@@ -19,6 +19,8 @@ export default function() {
   const hasSidebarComponent = Object.keys(sidebar_components).length;
   const Modal = state.general.modal;
   const hasModal = !!Modal;
+  const InjectedComponent = state.general.injected_component;
+  const hasInjectedComponent = !!InjectedComponent;
 
   const closeSidebar = () => {
     dispatch(removeSidePanel());
@@ -139,6 +141,9 @@ export default function() {
               ? <Modal state={state} dispatch={dispatch}/>
               : null}
         </SkyLightStateless>
+        {hasInjectedComponent
+            ? <InjectedComponent state={state} dispatch={dispatch}/>
+            : null}
         <ContextMenu/>
       </div>
 

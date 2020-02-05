@@ -17,4 +17,5 @@ export default {
   path: null,
   sidebar_components: {},
   modal: null,
+  injected_component: null,
 };
