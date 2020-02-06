@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
+import {Button, Text, Input, Checkbox, Flex} from 'theme-ui';
+import styled from '@emotion/styled';
 import {getApi} from '../../../tools/config';
 import {setShouldReload} from '../../../state/actions';
 import {Spinner} from 'theme-ui';
 import {toast} from 'react-toastify';
+import icons from '../../../../../assets/icons'
 
 class Permission extends Component {
 
@@ -87,9 +90,9 @@ class Permission extends Component {
       return (
           <tr key={user.title}>
             <td>{user.title}</td>
-            <td><input type="checkbox" checked={user.read} onChange={e => this.handleCheck(user, 4, e)}/></td>
-            <td><input type="checkbox" checked={user.write} onChange={e => this.handleCheck(user, 2, e)}/></td>
-            <td><input type="checkbox" checked={user.execute} onChange={e => this.handleCheck(user, 1, e)}/></td>
+            <td><Checkbox checked={user.read} onChange={e => this.handleCheck(user, 4, e)}/></td>
+            <td><Checkbox checked={user.write} onChange={e => this.handleCheck(user, 2, e)}/></td>
+            <td><Checkbox checked={user.execute} onChange={e => this.handleCheck(user, 1, e)}/></td>
           </tr>
       );
     });
@@ -156,41 +159,79 @@ class Permission extends Component {
 
   render() {
     return (
-        <div className="form-inline p-1">
-          <div className="form-group mx-sm-3 mb-2">
-            <h3>Change Permission</h3>
-            <table className="table">
-              <tbody>
-              <tr>
-                <td/>
-                <td>Read</td>
-                <td>Write</td>
-                <td>Execute</td>
-              </tr>
-              {this.getSelectables()}
-              <tr>
-                <td>
-                  <button className="btn btn-primary mb-2"
-                          onClick={this.handleSave}
-                          disabled={this.state.working}
-                  >
-                    {
-                      this.state.working ?
-                          <Spinner/>
-                          : 'Update'
-                    }
-                  </button>
-                </td>
-                <td colSpan={2}/>
-                <td><input type="text" value={this.state.mod} onChange={this.handleModChange} className="form-control"/>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        '> span > svg' : { width: '50px', height: '50px' }
+      }}>
+        {icons.unlock}
+        
+        <Text sx={{ fontSize: 22, py: 2,}}>Change Permission</Text>
+        
+        <Table>
+          <thead>
+            <tr>
+              <TH width="80%"/>
+              <TH>Read</TH>
+              <TH>Write</TH>
+              <TH>Execute</TH>
+            </tr>
+          </thead>
+          <tbody>
+          {this.getSelectables()}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td/>
+              <td colSpan={3}><Input type="text" value={this.state.mod} onChange={this.handleModChange} />
+              </td>
+            </tr>
+          </tfoot>
+        </Table>
+
+        <Button 
+          sx={{ 
+            py: 2, 
+            px: 5, 
+            marginTop: 3, 
+            alignSelf: 'stretch',
+            mx: '10%'
+          }}
+          onClick={this.handleSave} 
+          disabled={this.state.working}>
+          { this.state.working ? <Spinner/> : 'Update' }
+        </Button>
+        
+      </Flex>
+
     );
   }
 }
 
 export default Permission;
+
+
+const Table = styled.table`
+  border: 1px solid #dcdcdc;
+  border-spacing: 0;
+  width: 80%;
+  //Row
+  tr td{ padding: 8px; }
+  tr:nth-of-type(odd) td{ background: #fff }
+  tr:nth-of-type(even) td{ background: #f5f4f4 }
+  // Hover
+  tr:hover td{ background: #e7e7ff;}
+`;
+
+const TH = styled.th`
+  border-bottom: 1px solid #dcdcdc;
+  z-index: 1;
+  padding: 8px;
+  white-space: nowrap;
+  background: #fbfafa;
+  font-size: 11px;
+  text-align: left;
+  font-weight: 500;
+  text-transform: uppercase;
+`;

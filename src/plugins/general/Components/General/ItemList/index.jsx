@@ -212,7 +212,7 @@ const Table = styled.table`
   tr:nth-of-type(odd) td{ background: #fff }
   tr:nth-of-type(even) td{ background: #f5f4f4 }
   // Hover
-  tr:hover td{ background: #fafbfb;}
+  tr:hover td{ background: #e7e7ff;}
 `;
 
 const TH = styled.th`
