@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button} from 'theme-ui'
+import {Button, Text, Input, Flex} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import {removeModal, update} from '../../../state/actions';
 import {Spinner } from 'theme-ui';
 import {toast} from 'react-toastify';
+import icons from '../../../../../assets/icons'
 
 class Rename extends Component {
 
@@ -54,33 +55,33 @@ class Rename extends Component {
   render() {
     const selected = this.getSelected();
     return (
-        <div className="form-inline p-1">
-          <div className="form-group mx-sm-3 mb-2">
-            <label htmlFor="name"
-            >
-              Enter {selected.is_dir ? 'Folder Name' : 'File Name'}
-            </label>
-            <input type="text"
-                   className="form-control"
-                   id="name"
-                   placeholder="name"
-                   defaultValue={selected.name}
-                   ref="name"
-                   onKeyDown={this.handleKeyDown}
-                   autoFocus
-            />
-          </div>
-          <button className="btn btn-primary mb-2"
-                  onClick={this.handleSave}
-                  disabled={this.state.working}
-          >
-            {
-              this.state.working ?
-                  <Spinner/>
-                  : 'Rename'
-            }
-          </button>
-        </div>
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        'svg' : { width: '50px', height: '50px' }
+      }}>
+        {icons.rename}
+        
+        <Text sx={{ fontSize: 22, py: 2,}}>Rename {selected.is_dir ? 'Folder' : 'File'}</Text>
+        
+        <Input 
+          sx={{ lineHeight: 2 }}
+          placeholder="New Folder"
+          autoFocus
+          ref="name"
+          defaultValue={selected.name}
+          onKeyDown={this.handleKeyDown}
+          autoFocus
+        />
+        
+        <Button
+          sx={{ py: 2, px: 5, marginTop: 3 }}
+          onClick={this.handleSave}
+          disabled={this.state.working}
+        >
+          Rename
+        </Button>
+      </Flex>
     );
   }
 }
