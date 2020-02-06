@@ -21,10 +21,25 @@ Number.prototype.toHumanFileSize = function(si = false) {
 
 String.prototype.isValidURL = function() {
   const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-                               '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-                               '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-                               '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-                               '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-                               '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+                                 '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+                                 '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+                                 '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+                                 '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                                 '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
   return !!pattern.test(this);
+};
+
+Date.prototype.toHumanFormat = function() {
+  const monthNames = [
+    'Jan', 'Feb', 'Mar',
+    'Apr', 'May', 'Jun', 'Jul',
+    'Aug', 'Sep', 'Oct',
+    'Nov', 'Dec',
+  ];
+
+  const day = this.getDate();
+  const monthIndex = this.getMonth();
+  const year = this.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
 };
