@@ -78,6 +78,7 @@ export default function() {
                 sx={{
                   display: 'flex',
                   flexWrap: 'wrap',
+                  alignItems: 'center',
                   borderBottom: '1px solid #ddd',
                   p: 2,
                 }}>
@@ -132,10 +133,11 @@ export default function() {
           </div>
         </main>
         <SkyLightStateless
-            afterClose={() => dispatch(removeModal())}
-            closeOnEsc
-            isVisible={hasModal}
-            onCloseClicked={() => dispatch(removeModal())}
+          afterClose={() => dispatch(removeModal())}
+          closeOnEsc
+          isVisible={hasModal}
+          onCloseClicked={() => dispatch(removeModal())}
+          dialogStyles={ModalDialogStyle}
         >
           {hasModal
               ? <Modal state={state} dispatch={dispatch}/>
@@ -148,4 +150,12 @@ export default function() {
       </div>
 
   );
+}
+
+const ModalDialogStyle = {
+  minHeight: '200px'
+}
+const ModalTitleStyle = {
+  margin: '0',
+  display: 'none'
 }

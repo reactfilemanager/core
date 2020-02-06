@@ -19,13 +19,15 @@ class ViewMode extends Component {
                   variant="utility"
                   className="active"
                   data-viewmode="grid" onClick={this.handleClick}
+                  title="Grid"
               >
                 {icons.grid}
               </Button>
               : <Button
                   variant="utility"
                   className="active"
-                  data-viewmode="list" onClick={this.handleClick}>
+                  data-viewmode="list" onClick={this.handleClick}
+                  title="List">
                 {icons.list}
               </Button>
           }

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Text, Grid, Checkbox, Label} from 'theme-ui';
+import {jsx, Text, Grid, Checkbox, Label, Flex} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../../state/actions';
@@ -55,10 +55,18 @@ class ItemList extends Component {
 
   getItemsBlockForGridViewMode = (items) => {
     if (items.dirs.length === 0 && items.files.length === 0) {
-      return (<Text>No entry in this directory</Text>);
+      return (
+        <Flex sx={{
+          height: '70vh',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Text>No entry in this directory</Text>
+        </Flex>
+      );
     }
 
-    return (<>
+    return (<div sx={{ p: 3 }}>
       {items.dirs.length
           ? (<>
             <Text sx={{
@@ -99,7 +107,7 @@ class ItemList extends Component {
             </Grid>
           </>)
           : null}
-    </>);
+    </div>);
   };
 
   handleOnChange = e => {

@@ -18,8 +18,8 @@ export default {
   },
   sizes: {
     sidebar: 272,
-    breadcrumb: '57%',
-    utility: '23%',
+    breadcrumb: '60%',
+    utility: '20%',
     search: '20%'
   },
 
@@ -95,30 +95,12 @@ export default {
       lineHeight: 'body',
       fontWeight: 'body'
     },
-    // table: {
-    //   width: '100%',
-    //   minWidth: '100%',
-    //   borderCollapse: 'separate',
-    //   borderSpacing: 0
-    // },
-    // th: {
-    //   textAlign: 'left',
-    //   borderBottomStyle: 'solid',
-    //   py: 2,
-    //   px: 3,
-    // },
-    // td: {
-    //   textAlign: 'left',
-    //   borderBottomStyle: 'solid',
-    //   py: 2,
-    //   px: 3,
-    // },
     img: {
       maxWidth: '100%'
     },
     hr:{
       color: '#ddd'
-    }
+    },
   },
   forms: {
     input: {
@@ -127,8 +109,13 @@ export default {
       borderRadius: '3px',
       py: 1,
       fontSizes: 12,
-      color: 'text'
-    }
+      color: 'text',
+      '&:focus': {
+        borderColor: 'primary',
+        boxShadow: t => `0 0 0 2px ${t.colors.primary}`,
+        outline: 'none',
+      },
+    },
   },
   table: {
     td : {

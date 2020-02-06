@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Label, Input} from 'theme-ui';
+import {Button, Text, Input, Flex} from 'theme-ui';
 import {Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import {removeModal, setShouldReload} from '../../../state/actions';
 import {toast} from 'react-toastify';
+import icons from '../../../../../assets/icons'
 
 class NewFolder extends Component {
 
@@ -42,34 +43,30 @@ class NewFolder extends Component {
 
   render() {
     return (
-        <div className="form-inline p-1">
-          <div className="form-group mx-sm-3 mb-2">
-            <Label htmlFor="name"
-                   className="sr-only"
-            >
-              Folder Name
-            </Label>
-            <Input type="text"
-                   className="form-control"
-                   id="name"
-                   placeholder="New Folder"
-                   defaultValue="New Folder"
-                   ref="name"
-                   onKeyDown={this.handleKeyDown}
-                   autoFocus
-            />
-          </div>
-          <Button className="btn btn-primary mb-2"
-                  onClick={this.handleSave}
-                  disabled={this.state.working}
-          >
-            {
-              this.state.working ?
-                  <Spinner/>
-                  : 'New Folder'
-            }
-          </Button>
-        </div>
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        'svg' : { width: '50px', }
+      }}>
+        {icons.folder_add}
+        
+        <Text sx={{ fontSize: 22, py: 2,}}>Create New Folder</Text>
+        
+        <Input 
+          sx={{ lineHeight: 2 }}
+          placeholder="New Folder"
+          autoFocus
+          ref="name"
+          onKeyDown={this.handleKeyDown}
+        />
+        <Button
+        sx={{ py: 2, px: 5, marginTop: 3 }}
+          onClick={this.handleSave}
+          disabled={this.state.working}
+        >
+        { this.state.working ? <Spinner/> : 'New Folder' }
+        </Button>
+      </Flex>
     );
   }
 }
