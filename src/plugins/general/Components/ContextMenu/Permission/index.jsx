@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Text, Input, Checkbox, Flex} from 'theme-ui';
+import {Button, Text, Input, Checkbox, Label, Flex} from 'theme-ui';
 import styled from '@emotion/styled';
 import {getApi} from '../../../tools/config';
 import {setShouldReload} from '../../../state/actions';
-import {Spinner} from 'theme-ui';
 import {toast} from 'react-toastify';
 import icons from '../../../../../assets/icons'
 
@@ -90,9 +89,9 @@ class Permission extends Component {
       return (
           <tr key={user.title}>
             <td>{user.title}</td>
-            <td><Checkbox checked={user.read} onChange={e => this.handleCheck(user, 4, e)}/></td>
-            <td><Checkbox checked={user.write} onChange={e => this.handleCheck(user, 2, e)}/></td>
-            <td><Checkbox checked={user.execute} onChange={e => this.handleCheck(user, 1, e)}/></td>
+            <td><Label><Checkbox checked={user.read} onChange={e => this.handleCheck(user, 4, e)}/></Label></td>
+            <td><Label><Checkbox checked={user.write} onChange={e => this.handleCheck(user, 2, e)}/></Label></td>
+            <td><Label><Checkbox checked={user.execute} onChange={e => this.handleCheck(user, 1, e)}/></Label></td>
           </tr>
       );
     });
