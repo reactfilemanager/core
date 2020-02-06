@@ -158,6 +158,7 @@ class Item extends Component {
       onDoubleClick: this.handleDoubleClick,
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
+      className: item.selected ? 'selected' : '',
     };
   };
 
@@ -271,12 +272,13 @@ class Item extends Component {
           }
           </TD>
           <TD>
-            {item.is_dir ? 'Folder' : ''}
-            {item.is_link ? 'Symlink' : ''}
-            {item.is_file ? 'File' : ''}
+            {item.is_file ? item.size.toHumanFileSize() : ''}
           </TD>
           <TD>
             {item.perms}
+          </TD>
+          <TD>
+            {item.last_modified.toHumanFormat()}
           </TD>
           <TD/>
         </ContextMenuTrigger>

@@ -19,6 +19,7 @@ export default {
             fileInfo.perms,
             fileInfo.size,
             fileInfo.extension,
+            new Date(fileInfo.last_modified*1000),
         );
       },
     };

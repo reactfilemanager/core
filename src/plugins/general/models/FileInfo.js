@@ -16,10 +16,11 @@ export default class FileInfo {
   _components = {};
 
   id;
+  last_modified;
 
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,
-      is_executable, perms, size, extension) {
+      is_executable, perms, size, extension, last_modified) {
     this.name = name;
     this.path = path;
     this.is_dir = is_dir;
@@ -31,6 +32,7 @@ export default class FileInfo {
     this.perms = perms;
     this.size = size;
     this.extension = extension;
+    this.last_modified = last_modified;
 
     this.id = uuidv4();
   }
