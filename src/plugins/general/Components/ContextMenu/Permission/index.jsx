@@ -200,7 +200,7 @@ class Permission extends Component {
           }}
           onClick={this.handleSave} 
           disabled={this.state.working}>
-          { this.state.working ? <Spinner/> : 'Update' }
+          { this.state.working ? 'Updating...' : 'Update' }
         </Button>
         
       </Flex>
