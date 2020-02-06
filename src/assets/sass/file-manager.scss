@@ -1,4 +1,4 @@
-
+$primary: #3333ee;
 // // Variables
 @import "~react-toastify/scss/main";
 
@@ -10,7 +10,7 @@
   border: 1px solid #fff;
 }
  .fm-item-selected {
-   border: 1px solid #07c;
-   box-shadow: 0 0 10px lighten(#07c, 40%);
+   border: 1px solid $primary;
+   box-shadow: 0 0 10px lighten($primary, 40%);
  }
 

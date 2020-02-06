@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Input, Spinner} from 'theme-ui';
+import {Button, Text, Input, Flex, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import icons from '../../../../../assets/icons';
 import {setShouldReload} from '../../../state/actions';
 import {toast} from 'react-toastify';
+import icons from '../../../../../assets/icons'
 
 class RemoteUpload extends Component {
   state = {working: false};
@@ -32,24 +32,32 @@ class RemoteUpload extends Component {
 
   render() {
     return (
-        <div className="p-1 min-w-300px">
-          <div className="form-group mx-sm-3 mb-2">
-            <h3>Upload File</h3>
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        'svg' : { width: '50px', height: '50px' }
+      }}>
+        {icons.cloud_upload}
 
-            <div className="row">
-              <div className="col-md-12">
-                <Input type="text" className="form-control" ref="remote_url" placeholder="Enter remote file URL"/>
-              </div>
-            </div>
+        <Text sx={{ fontSize: 22, py: 2,}}>Upload From URL</Text>
 
-            {this.state.working
-                ? <Spinner/>
-                : <Button onClick={this.handleUpload}>
-                  {icons.cloud_upload} Upload
-                </Button>
-            }
-          </div>
-        </div>
+        <Input 
+          sx={{ lineHeight: 2 }}
+          placeholder="Enter remote file url here"
+          autoFocus
+          ref="name"
+          onKeyDown={this.handleKeyDown}
+        />
+
+        <Button
+          sx={{ py: 2, px: 5, marginTop: 3 }}
+          onClick={this.handleUpload}
+          disabled={this.state.working}
+        >
+        { this.state.working ? <Spinner/> : 'Upload Now' }
+        </Button>
+
+      </Flex>
     );
   }
 }
