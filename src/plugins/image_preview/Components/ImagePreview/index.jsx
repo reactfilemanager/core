@@ -5,16 +5,44 @@ import {viewport} from '../../../../helpers/Utils';
 
 class ImagePreview extends Component {
 
-  state = {width: 50, height: 50, loading: true};
+  state = {width: 50, height: 50, loading: true, closing: false};
 
   componentDidMount() {
     const image = new Image();
     image.onload = e => {
-      const size = this.calculateSize({width: image.width, height: image.height});
+      const size = this.calculateSize(
+          {width: image.width, height: image.height});
       this.setState({...size, loading: false});
     };
     image.src = preview(this.props.item.path);
+    this.attachEvent();
   }
+
+  componentWillUnmount() {
+    this.detachEvent();
+  }
+
+  attachEvent = () => {
+    window.document.addEventListener('keydown', this.handleEscPress, false);
+  };
+
+  detachEvent = () => {
+    window.document.removeEventListener('keydown', this.handleEscPress, false);
+  };
+
+  handleEscPress = e => {
+    let isEscape = false;
+    if ('key' in e) {
+      isEscape = (e.key === 'Escape' || e.key === 'Esc');
+    }
+    else {
+      isEscape = (e.keyCode === 27);
+    }
+
+    if (isEscape) {
+      this.close();
+    }
+  };
 
   calculateSize = image => {
     const max = viewport();
@@ -45,12 +73,21 @@ class ImagePreview extends Component {
   };
 
   close = () => {
-    this.props.dispatch({type: 'REMOVE_INJECTED_COMPONENT'});
+    this.setState({closing: true});
+    setTimeout(() => {
+      this.props.dispatch({type: 'REMOVE_INJECTED_COMPONENT'});
+    }, 250);
   };
 
   render() {
+    const size = {
+      width: this.state.closing ? 0 : this.state.width,
+      height: this.state.closing ? 0 : this.state.height,
+    };
+
     return (
         <Box className="show"
+             ref="imagePreview"
              sx={{
                zIndex: 999,
                position: 'fixed',
@@ -63,39 +100,46 @@ class ImagePreview extends Component {
                sx={{
                  width: '100%',
                  height: '100%',
-                 background: 'rgba(0,0,0,.66)',
+                 background: 'rgba(0,0,0,.33)',
                  position: 'absolute',
                  top: 0,
                  left: 0,
-               }}/>
+               }}
+               onClick={this.close}/>
           <Box className="img-show"
                sx={{
-                 width: `${this.state.width}px`,
-                 height: `${this.state.height}px`,
+                 width: `${size.width}px`,
+                 height: `${size.height}px`,
                  background: '#fff',
                  position: 'absolute',
                  top: '50%',
                  left: '50%',
                  transform: 'translate(-50%,-50%)',
-                 overflow: 'hidden',
+                 transition: 'all 0.25s ease',
                }}>
             {this.state.loading
                 ? <Spinner/>
                 : <>
-                  <span sx={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                    zIndex: 99,
-                    cursor: 'pointer',
-                    color: '#fff',
-                    background: '#222',
-                    border: '1px solid #ccc',
-                    borderRadius: '150px',
-                    padding: '6px',
-                    lineHeight: '0.7',
-                  }} onClick={this.close}>X</span>
-
+                  {this.state.closing ? null :
+                      <span sx={{
+                        position: 'absolute',
+                        top: '-20px',
+                        right: '-20px',
+                        zIndex: 99,
+                        cursor: 'pointer',
+                        color: '#fff',
+                        background: '#222',
+                        border: '2px solid #ccc',
+                        borderRadius: '150px',
+                        padding: '6px',
+                        lineHeight: '0.7',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          background: '#fff',
+                          color: '#222',
+                        },
+                      }} onClick={this.close}>X</span>
+                  }
                   <Box sx={{
                     width: '100%',
                     height: '100%',
