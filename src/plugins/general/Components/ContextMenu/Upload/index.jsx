@@ -147,9 +147,16 @@ class Upload extends Component {
         p: 0,
       }}>
         <li>
-          <Flex sx={{ p: 2 }}>
-            <span sx={{ p: 2, widht: '70%' }}>{file.name}</span>
-            <span sx={{ p: 2, width: '10%'}}>
+          <Flex>
+            <span sx={{ 
+              p: 2, 
+              flex: '1',
+              borderRadius: 1,
+              '&:hover':{
+                bg: '#f4f4fe'
+              }
+            }}>{file.name}</span>
+            <span sx={{ p: 2, width: '15%'}}>
               {
                 file.upload_complete ? file.upload_success ? file.size.toHumanFileSize() : 'Failed' : <Progress max={1} value={file.progress}/>
               }
@@ -160,7 +167,16 @@ class Upload extends Component {
             }
             
             {
-              file.upload_complete && file.upload_error ? <span sx={{ p: 2, width: '10%'}} onClick={() => this.retry(file)}>Retry</span> : ''
+              file.upload_complete && file.upload_error ? 
+                <span 
+                  sx={{ 
+                    p: 2, 
+                    width: '10%',
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                    color: 'primary',
+                    cursor: 'pointer'
+                  }} onClick={() => this.retry(file)}>Retry</span> : ''
             }
           </Flex>
           <Box>{file.upload_error}</Box>
@@ -190,11 +206,15 @@ class Upload extends Component {
         <Box sx={{
           my: 3,
           p: 4,
-          border: '1px solid #ddd',
-          borderRadius: '3px',
+          border: '2px dashed #ddd',
+          borderRadius: 1,
           textAlign: 'center'
         }}>
-          <span onClick={this.openFileInput}>{icons.link} Add file</span>
+          <strong 
+            onClick={this.openFileInput}
+            sx={{
+              color: 'primary'
+            }}>{icons.link} Add file</strong> or drop file here
         </Box>
 
         {this.getUploads()}
