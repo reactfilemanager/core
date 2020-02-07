@@ -214,17 +214,14 @@ class Item extends Component {
                         width: '100%', height: '100%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
-                        <Image
-                            src={thumb(item.path)}
-                            sx={{
-                              paddingBottom: '5px',
-                            }}/>
+                        <Image src={thumb(item.path)}/>
                       </div>
                     </div>
                     <Text sx={{
                       width: '100%',
                       borderTop: '1px solid #eee',
                       paddingTop: '4px',
+                      marginTop: 2,
                       textAlign: 'center',
                       fontSize: 12,
                       color: 'gray',
