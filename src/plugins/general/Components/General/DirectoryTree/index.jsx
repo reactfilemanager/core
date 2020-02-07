@@ -7,6 +7,9 @@ import icons from '../../../../../assets/icons';
 import './style.scss';
 
 const getSvgIcon = (item) => {
+  if (item.loaded && item.children.length === 0) {
+    return '';
+  }
   return item.expanded ? icons.triangle_down : icons.triangle_right;
 };
 
@@ -157,10 +160,12 @@ class DirectoryTree extends Component {
   };
 
   handleExpand = expandedKeys => {
+    console.log(expandedKeys);
     const removed = this.state.expandedKeys.diff(expandedKeys);
-    if(removed.length) {
+    if (removed.length) {
       expandedKeys = expandedKeys.filter(key => !key.startsWith(removed[0]));
     }
+    console.log(expandedKeys);
     this.setState({expandedKeys});
   };
 
