@@ -114,16 +114,15 @@ class ImagePreview extends Component {
       pageX: this.refs.imageView.offsetLeft,
       pageY: this.refs.imageView.offsetTop,
     };
-    console.log(this.imagePosition);
-    if (!this.state.position) {
-      this.imagePosition.pageX += this.clickPosition.pageX - this.imagePosition.pageX;
-      this.imagePosition.pageY -= this.clickPosition.pageY - this.imagePosition.pageY;
-    }
-    console.log(this.imagePosition);
-    this.setState({dragging: true});
+
+    this.setState({
+      top: this.imagePosition.pageY,
+      left: this.imagePosition.pageX,
+      dragging: true,
+    });
   };
 
-  move = throttle(e => {
+  move = e => {
     if (!this.state.dragging) {
       return;
     }
@@ -138,7 +137,7 @@ class ImagePreview extends Component {
     };
 
     this.setState({position});
-  }, 100);
+  };
 
   stopMove = e => {
     this.setState({dragging: false});
@@ -158,7 +157,6 @@ class ImagePreview extends Component {
         : {
           top: '50%',
           left: '50%',
-          transform: 'translate(-50%,-50%)',
         };
 
     return (
@@ -190,7 +188,10 @@ class ImagePreview extends Component {
                  background: '#fff',
                  position: 'absolute',
                  ...imgShowAttrs,
-                 transition: 'all 0.25s ease',
+                 transform: 'translate(-50%,-50%)',
+                 transition: this.state.dragging
+                     ? 'all 0.1s ease'
+                     : 'all 0.25s ease',
                  cursor: this.state.dragging ? 'move' : '',
                }}
                onMouseDown={this.startMove}>
