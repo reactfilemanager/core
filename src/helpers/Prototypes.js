@@ -47,13 +47,5 @@ Date.prototype.toHumanFormat = function() {
 };
 
 Array.prototype.diff = function(array) {
-  const diff = [];
-
-  for (const el of this) {
-    if (array.indexOf(el) < 0) {
-      diff.push(el);
-    }
-  }
-
-  return diff;
+  return this.filter(i => !array.includes(i));
 };
