@@ -2,7 +2,9 @@
 import {jsx, Box, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import throttle from 'lodash.throttle';
+import icons from '../../../../assets/icons';
 import {viewport} from '../../../../helpers/Utils';
+import {toast} from 'react-toastify';
 
 class ImagePreview extends Component {
 
@@ -22,6 +24,11 @@ class ImagePreview extends Component {
       const size = this.calculateSize(
           {width: image.width, height: image.height});
       this.setState({...size, loading: false, ratio: size.width / size.height});
+    };
+    image.onerror = e => {
+      this.setState({loading: false});
+      this.close();
+      toast('Error occurred while loading the image');
     };
     image.src = preview(this.props.item.path);
     this.attachEvent();
@@ -51,8 +58,8 @@ class ImagePreview extends Component {
     e.stopPropagation();
 
     const inc = e.deltaY / this.state.ratio;
-    const width = this.state.width + e.deltaY;
-    const height = this.state.height + inc;
+    const width = this.state.width - e.deltaY;
+    const height = this.state.height - inc;
     if (width < 100) {
       return;
     }
@@ -122,7 +129,7 @@ class ImagePreview extends Component {
     });
   };
 
-  move = e => {
+  move = throttle(e => {
     if (!this.state.dragging) {
       return;
     }
@@ -137,7 +144,7 @@ class ImagePreview extends Component {
     };
 
     this.setState({position});
-  };
+  }, 100);
 
   stopMove = e => {
     this.setState({dragging: false});
@@ -180,6 +187,23 @@ class ImagePreview extends Component {
                  left: 0,
                }}
                onClick={this.close}/>
+          {this.state.closing ? null :
+              <span sx={{
+                position: 'absolute',
+                top: '-55px',
+                right: '-55px',
+                background: 'rgba(34, 34, 34, 0.1)',
+                padding: '60px 60px 40px 40px',
+                zIndex: 99,
+                cursor: 'pointer',
+                borderRadius: '150px',
+                lineHeight: '0.7',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  background: 'rgba(221,208,211,0.2)',
+                },
+              }} onClick={this.close}>{icons.close}</span>
+          }
           <Box className="img-show"
                ref="imageView"
                sx={{
@@ -189,45 +213,21 @@ class ImagePreview extends Component {
                  position: 'absolute',
                  ...imgShowAttrs,
                  transform: 'translate(-50%,-50%)',
-                 transition: this.state.dragging
-                     ? 'all 0.1s ease'
-                     : 'all 0.25s ease',
+                 transition: 'all 0.25s ease',
                  cursor: this.state.dragging ? 'move' : '',
                }}
                onMouseDown={this.startMove}>
             {this.state.loading
                 ? <Spinner/>
-                : <>
-                  {this.state.closing ? null :
-                      <span sx={{
-                        position: 'absolute',
-                        top: '-20px',
-                        right: '-20px',
-                        zIndex: 99,
-                        cursor: 'pointer',
-                        color: '#fff',
-                        background: '#222',
-                        border: '2px solid #ccc',
-                        borderRadius: '150px',
-                        padding: '6px',
-                        lineHeight: '0.7',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          background: '#fff',
-                          color: '#222',
-                        },
-                      }} onClick={this.close}>X</span>
-                  }
-                  <Box sx={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    backgroundImage: `url("${preview(this.props.item.path)}")`,
-                    backgroundSize: 'cover',
-                  }}/>
-                </>
+                : <Box sx={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  backgroundImage: `url("${preview(this.props.item.path)}")`,
+                  backgroundSize: 'cover',
+                }}/>
             }
           </Box>
         </Box>
