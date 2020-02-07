@@ -187,8 +187,14 @@ class Item extends Component {
                     <Text sx={{
                       width: '100%',
                       paddingTop: '4px',
+                      paddingRight: 2,
                       fontSize: 12,
+                      fontWeight: 'bold',
                       color: 'gray',
+                      width: 'calc(100% - 28px)',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
                     }}>{item.name} {item.components}</Text>
                   </div> :
                   <Flex sx={{
@@ -222,7 +228,18 @@ class Item extends Component {
                       textAlign: 'center',
                       fontSize: 12,
                       color: 'gray',
-                    }}>{item.name} {item.components}</Text>
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <span sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis'
+                      }}>{item.basename}</span> 
+                      <span>{item.getExtension(true)}</span>
+                      {item.components}
+                    </Text>
                   </Flex>
             }
 
