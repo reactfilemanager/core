@@ -1,31 +1,18 @@
 import React, {Component} from 'react';
-import { Label, Spinner } from 'theme-ui'
+import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
 import {resetDirectoryTree, setWorkingPath} from '../../../state/actions';
 import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
-import './style.scss'
+import './style.scss';
 
-const arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88' +
-  '.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.' +
-  '6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-0.7 5.' +
-  '2-2L869 536.2c14.7-12.8 14.7-35.6 0-48.4z';
+const getSvgIcon = (item) => {
+  if (item.loading) {
+    return <Spinner/>;
+  }
+  return item.expanded ? icons.triangle_down : icons.triangle_right;
+};
 
-const getSvgIcon = (path, iStyle = {}, style = {}) => {
-  return (
-    <i style={iStyle}>
-      <svg
-        viewBox="0 0 1024 1024"
-        width="1em"
-        height="1em"
-        fill="currentColor"
-        style={{ verticalAlign: '-.125em', ...style }}
-      >
-        <path d={path} />
-      </svg>
-    </i>
-  );
-}
 class DirectoryTree extends Component {
   state = {
     dirs: [],
@@ -51,7 +38,8 @@ class DirectoryTree extends Component {
     path = path.split('/');
 
     const _dirs = this.state.dirs;
-    const dirs = this.loopDir(_dirs, path, '', _path, this.props.state.entries.dirs);
+    const dirs = this.loopDir(_dirs, path, '', _path,
+        this.props.state.entries.dirs);
 
     this.setState({dirs});
   };
@@ -104,7 +92,8 @@ class DirectoryTree extends Component {
     }
     else {
       // we didn't hit the end yet, add children
-      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_, _dirs_);
+      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_,
+          _dirs_);
     }
 
     return dirs;
@@ -119,46 +108,50 @@ class DirectoryTree extends Component {
   };
 
   onLoadData = (treeNode) => {
-    if (Array.isArray(treeNode.props.children) && treeNode.props.children.length > 0) {
+    if (Array.isArray(treeNode.props.children) &&
+        treeNode.props.children.length > 0) {
       // we loaded this before
       return new Promise((resolve) => resolve());
     }
 
     return new Promise((resolve, reject) => {
-      getApi()
-          .list(treeNode.props.path)
-          .then(({dirs}) => {
-            let path = treeNode.props.path;
-            let _path = path;
-            if (_path === '') {
-              _path = '/';
-            }
-            path = path.split('/');
-            dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+      getApi().list(treeNode.props.path).then(({dirs}) => {
+        let path = treeNode.props.path;
+        let _path = path;
+        if (_path === '') {
+          _path = '/';
+        }
+        path = path.split('/');
+        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
 
-            this.setState({dirs});
-            resolve();
-          })
-          .catch(error => {
-            console.log(error);
-            reject();
-          });
+        this.setState({dirs});
+        setTimeout(() => resolve(), 15000);
+        // resolve();
+      }).catch(error => {
+        console.log(error);
+        reject();
+      });
     });
   };
 
   sendIcon = props => {
-    return props.loading ? "" : icons.folder ;
+    return props.loading ? '' : icons.folder;
   };
 
   render() {
     const _path = this.props.state.path;
     const path = _path === '' ? '/' : _path;
+    const expandedKeys  = [];
     const loop = (data) => {
       return data.map((item) => {
+        if(path.includes(item.path)) {
+          expandedKeys.push(item.path);
+        }
         if (item.children) {
           return <TreeNode title={item.name}
                            key={item.key}
                            path={item.path}
+                           expanded={path.includes(item.path)}
           >
             {loop(item.children)}
           </TreeNode>;
@@ -167,18 +160,14 @@ class DirectoryTree extends Component {
             <TreeNode title={item.name}
                       key={item.key}
                       path={item.path}
+                      expanded={path.includes(item.path)}
             />
         );
       });
     };
 
     const _dirs = loop(this.state.dirs);
-    
-    const switcherIcon = (obj) => {
-      return getSvgIcon(arrowPath,
-        { cursor: 'pointer', backgroundColor: '#eee' },
-        { transform: `rotate(${obj.expanded ? 90 : 0}deg)` });
-    };
+
     return (
         <>
           <Label sx={{
@@ -189,13 +178,14 @@ class DirectoryTree extends Component {
             fontSize: 11,
           }}>Folders</Label>
           <Tree
-            loadData={this.onLoadData}
-            onSelect={this.onSelect}
-            checkable={false}
-            selectedKeys={[path]}
-            icon={this.sendIcon}
-            switcherIcon={switcherIcon}
-            showLine
+              loadData={this.onLoadData}
+              onSelect={this.onSelect}
+              checkable={false}
+              selectedKeys={[path]}
+              expandedKeys={expandedKeys}
+              icon={this.sendIcon}
+              switcherIcon={getSvgIcon}
+              showLine
           >
             {_dirs}
           </Tree>
