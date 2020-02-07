@@ -160,12 +160,10 @@ class DirectoryTree extends Component {
   };
 
   handleExpand = expandedKeys => {
-    console.log(expandedKeys);
     const removed = this.state.expandedKeys.diff(expandedKeys);
     if (removed.length) {
       expandedKeys = expandedKeys.filter(key => !key.startsWith(removed[0]));
     }
-    console.log(expandedKeys);
     this.setState({expandedKeys});
   };
 
