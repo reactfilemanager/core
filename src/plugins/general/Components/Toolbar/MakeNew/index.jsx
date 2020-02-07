@@ -1,20 +1,36 @@
 import React, {Component} from 'react';
-import NewFolder from './NewFolder';
-import NewFile from './NewFile';
+import NewFolder from '../../ContextMenu/NewFolder';
+import {injectModal} from '../../../state/actions';
+import {Button} from 'theme-ui';
+import icons from '../../../../../assets/icons';
 
 class MakeNew extends Component {
+
+  handleNewFolderClick = () => {
+    const modal = (props) => {
+      return <NewFolder {...props}/>;
+    };
+
+    this.props.dispatch(injectModal(modal));
+  };
+
   render() {
     return (
-      <>
-        <NewFolder key="new_folder" state={this.props.state} dispatch={this.props.dispatch} />
-      </>
+        <>
+          <Button
+              variant="secondary"
+              onClick={this.handleNewFolderClick}
+          >
+            {icons.plus} New Folder
+          </Button>
+        </>
         // <div className="btn-group">
         //   <NewFile
         //       key="new_file"
         //       state={this.props.state}
         //       dispatch={this.props.dispatch}
         //   />
-          
+
         // </div>
     );
   }

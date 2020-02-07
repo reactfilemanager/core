@@ -29,7 +29,6 @@
     "react": "^16.2.0",
     "react-contextmenu": "^2.13.0",
     "react-dom": "^16.2.0",
-    "react-popover": "^0.5.10",
     "react-skylight": "^0.5.1",
     "react-toastify": "^5.5.0",
     "resolve-url-loader": "^2.3.1",

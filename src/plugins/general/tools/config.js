@@ -1,6 +1,3 @@
-import Rename from '../Components/ContextMenu/Rename';
-import Select from '../Components/Toolbar/Select';
-import Delete from '../Components/Toolbar/Delete';
 import MakeNew from '../Components/Toolbar/MakeNew';
 import Refresh from '../Components/Toolbar/Refresh';
 import Uploader from '../Components/Toolbar/Uploader';
@@ -16,8 +13,6 @@ const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
     make_new: MakeNew,
-    // rename_op: Rename,
-    // select_op: Select,
     refresh_op: Refresh,
   },
   utility:{
