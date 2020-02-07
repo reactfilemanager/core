@@ -7,9 +7,6 @@ import icons from '../../../../../assets/icons';
 import './style.scss';
 
 const getSvgIcon = (item) => {
-  if (item.loading) {
-    return <Spinner/>;
-  }
   return item.expanded ? icons.triangle_down : icons.triangle_right;
 };
 
@@ -145,9 +142,9 @@ class DirectoryTree extends Component {
         path = path.split('/');
         dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
 
-        this.setState({dirs});
-        // setTimeout(() => resolve(), 15000);
+        // setTimeout(() => resolve(), 3000);
         resolve();
+        this.setState({dirs});
       }).catch(error => {
         console.log(error);
         reject();
@@ -156,7 +153,7 @@ class DirectoryTree extends Component {
   };
 
   sendIcon = props => {
-    return props.loading ? '' : icons.folder;
+    return props.loading ? <Spinner/> : icons.folder;
   };
 
   handleExpand = expandedKeys => {
