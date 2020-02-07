@@ -12,7 +12,16 @@
     flex: 100%;
     max-width: 100%;
   }
-
+  .rc-tree-switcher{
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > svg{
+      width: 18px; height: 18px;
+    }
+    > span{ display: flex; }
+  }
   .rc-tree-node-content-wrapper{
     font-size: 13px;
     line-height: 26px;
