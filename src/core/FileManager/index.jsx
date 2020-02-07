@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import {jsx, Text, Box, Flex, Link} from 'theme-ui';
 import React from 'react';
 import {bootPlugins, getTabs} from '../../pluggable';
 import {useStore} from '../../state/store';
@@ -14,32 +16,35 @@ export default () => {
   let activeFirst = false;
   for (const tab of tabs) {
     navs.push(
-        <li className="nav-item"
-            key={tab.key}
-        >
-          <a
-              className="nav-link"
-              id={tab.key + '-tab'}
-              data-toggle="tab"
-              href={'#' + tab.key}
-              role="tab"
-              aria-controls={tab.key}
-              aria-selected="true"
-          >
-            {tab.title}
-          </a>
-        </li>,
+      <Link
+        id={tab.key + '-tab'}
+        href={'#' + tab.key}
+        role="tab"
+        aria-controls={tab.key}
+        aria-selected="true"
+        sx={{
+          px: 4,
+          py: 2,
+          bg: '#fafbfb',
+          textDecoration: 'none',
+          color: 'gray',
+          fontSize: 12,
+          textTransform: 'uppercase'
+        }}
+      >
+        {tab.title}
+      </Link>,
     );
     contents.push(
-        <div className="tab-pane fade"
-             key={tab.key}
-             id={tab.key}
-             role="tabpanel"
-             aria-selected={activeFirst ? 'false' : 'true'}
-             aria-labelledby={tab.key + '-tab'}
+        <Box 
+          key={tab.key}
+          id={tab.key}
+          role="tabpanel"
+          aria-selected={activeFirst ? 'false' : 'true'}
+          aria-labelledby={tab.key + '-tab'}
         >
           <tab.component/>
-        </div>,
+        </Box>,
     );
     // if (!activeFirst) {
     //   setTimeout(() => $('#' + tab.key + '-tab').tab('show'), 100);
@@ -48,27 +53,28 @@ export default () => {
   }
 
   return (
-      <div className="row file-manager">
-        <div className="col-md-12">
-          <ul className="nav nav-tabs" id="myTab" role="tablist">
-            {navs}
-          </ul>
-          <div className="tab-content" id="myTabContent">
-            {contents}
-          </div>
-        </div>
-        <ToastContainer
-            position="top-right"
-            autoClose={2500}
-            hideProgressBar
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnVisibilityChange
-            draggable
-            pauseOnHover
-            transition={Flip}
-        />
-      </div>
+    <Box>
+      <Flex sx={{
+      bg : '#f5f5f5'
+    }}>
+        {navs}
+      </Flex>
+      <Box>
+      {contents}
+      </Box>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+        transition={Flip}
+      />
+    </Box>
   );
 }
