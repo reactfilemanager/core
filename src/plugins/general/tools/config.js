@@ -4,6 +4,7 @@ import Uploader from '../Components/Toolbar/Uploader';
 import ViewMode from '../Components/Toolbar/ViewMode';
 import Search from '../Components/Toolbar/Search';
 import FilterByType from '../Components/Toolbar/FilterByType';
+import Delete from '../Components/Toolbar/Delete';
 
 import context_menu from './context_menu';
 import handlers from './handlers';
@@ -13,6 +14,7 @@ const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
     make_new: MakeNew,
+    delete_op: Delete,
     refresh_op: Refresh,
   },
   utility:{

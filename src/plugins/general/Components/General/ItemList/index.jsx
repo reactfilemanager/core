@@ -2,7 +2,13 @@
 import {jsx, Text, Grid, Checkbox, Label, Flex} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
-import {resetDirectoryTree, setEntries, setReloading, setShouldReload, setWorkingPath} from '../../../state/actions';
+import {
+  resetDirectoryTree,
+  setEntries,
+  setReloading,
+  setShouldReload,
+  setWorkingPath,
+} from '../../../state/actions';
 import Item from './Item';
 import {getApi} from '../../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
@@ -30,19 +36,15 @@ class ItemList extends Component {
 
   readPath = () => {
     this.props.dispatch(setReloading(true));
-    getApi()
-        .list(this.props.state.path)
-        .then(response => {
-          this.props.dispatch(setEntries(response));
-          this.props.dispatch(resetDirectoryTree(true));
-        })
-        .catch(error => {
-          console.log(error);
-          toast.error(error.message);
-        })
-        .finally(() => {
-          this.props.dispatch(setReloading(false));
-        });
+    getApi().list(this.props.state.path).then(response => {
+      this.props.dispatch(setEntries(response));
+      this.props.dispatch(resetDirectoryTree(true));
+    }).catch(error => {
+      console.log(error);
+      toast.error(error.message);
+    }).finally(() => {
+      this.props.dispatch(setReloading(false));
+    });
   };
 
   getItemBlock = (item) => {
@@ -56,17 +58,17 @@ class ItemList extends Component {
   getItemsBlockForGridViewMode = (items) => {
     if (items.dirs.length === 0 && items.files.length === 0) {
       return (
-        <Flex sx={{
-          height: '70vh',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <Text>No entry in this directory</Text>
-        </Flex>
+          <Flex sx={{
+            height: '70vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Text>No entry in this directory</Text>
+          </Flex>
       );
     }
 
-    return (<div sx={{ p: 3 }}>
+    return (<div sx={{p: 3}}>
       {items.dirs.length
           ? (<>
             <Text sx={{
@@ -112,6 +114,10 @@ class ItemList extends Component {
 
   handleOnChange = e => {
     const checked = e.target.checked;
+    this.markAll(checked);
+  };
+
+  markAll = checked => {
     const entries = cloneDeep(this.props.state.entries);
     entries.dirs = entries.dirs.map(dir => {
       dir.selected = checked === true;
@@ -124,9 +130,16 @@ class ItemList extends Component {
     this.props.dispatch(setEntries(entries));
   };
 
+  handleClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.markAll(false);
+  };
+
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
-    const allChecked = items.length && _items.find(item => item.selected === false) === undefined;
+    const allChecked = items.length &&
+        _items.find(item => item.selected === false) === undefined;
     return (
         <Table sx={{
           width: '100%',
@@ -170,6 +183,7 @@ class ItemList extends Component {
     return {
       className: 'files-container',
       sx: {padding: '16px'},
+      onClick: this.handleClick,
     };
   };
 

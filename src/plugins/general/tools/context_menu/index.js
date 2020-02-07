@@ -4,7 +4,7 @@ import InfoPanel from '../../Components/General/InfoPanel';
 import {injectModal, injectSidePanel} from '../../state/actions';
 import Permission from '../../Components/ContextMenu/Permission';
 import Rename from '../../Components/ContextMenu/Rename';
-import Delete from '../../Components/Toolbar/Delete';
+import Delete from '../../Components/ContextMenu/Delete';
 import FileInfo from '../../models/FileInfo';
 import Upload from '../../Components/ContextMenu/Upload';
 import RemoteUpload from '../../Components/ContextMenu/RemoteUpload';
