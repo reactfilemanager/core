@@ -2,8 +2,16 @@
   list-style-type: none;
   padding: 0 16px;
   margin: 0;
+  display: flex;
 
-  li{ cursor: pointer; position: relative; }
+  li{ 
+    cursor: pointer; 
+    position: relative; 
+    display: flex;
+    flex-wrap: wrap;
+    flex: 100%;
+    max-width: 100%;
+  }
 
   .rc-tree-node-content-wrapper{
     font-size: 13px;
@@ -12,6 +20,9 @@
     color: #666;
     padding-left: 5px;  
     display: inline-block;
+    width: calc(100% - 18px);
+    display: flex;
+    align-items: center;
   }
   .rc-tree-iconEle{
     padding-right: 8px;
@@ -23,9 +34,16 @@
   ul{
     list-style-type: none;
     padding: 0 0 0 15px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
     
     .rc-tree-title{
       display: inline-block;
+      width: calc(100% - 28px);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       &:hover{
         color: #07c
       }

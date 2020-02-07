@@ -40,6 +40,7 @@ export default function() {
               background: 'gray',
               borderRight: '1px solid #ddd',
               height: 'auto',
+              maxWidth: 'sidebar'
             }}>
 
           <DirectoryTree state={state.general} dispatch={dispatch}/>
