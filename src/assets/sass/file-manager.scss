@@ -10,6 +10,7 @@ $primary: #3333ee;
   border: 1px solid #fff;
 }
  .fm-item-selected {
+   background: lighten($primary, 41%);
    border: 1px solid $primary;
    box-shadow: 0 0 10px lighten($primary, 40%);
  }
