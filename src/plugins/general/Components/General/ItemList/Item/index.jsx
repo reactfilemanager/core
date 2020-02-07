@@ -228,8 +228,15 @@ class Item extends Component {
                       textAlign: 'center',
                       fontSize: 12,
                       color: 'gray',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}>
-                      <span>{item.basename}</span> 
+                      <span sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis'
+                      }}>{item.basename}</span> 
                       <span>{item.getExtension(true)}</span>
                       {item.components}
                     </Text>
