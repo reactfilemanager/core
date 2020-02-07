@@ -32,7 +32,7 @@ class FilterByType extends Component {
       video: {title: 'Video', icon: icons.video},
       audio: {title: 'Audio', icon: icons.play},
       image: {title: 'Image', icon: icons.image},
-      docs: {title: 'Document', icon: icons.file},
+      docs: {title: 'Document', icon: icons.file_text},
     };
   }
 

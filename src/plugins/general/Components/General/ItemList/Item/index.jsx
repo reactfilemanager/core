@@ -178,6 +178,7 @@ class Item extends Component {
                   <div
                       sx={{
                         display: 'flex',
+                        alignItems: 'center'
                       }}>
                     <Image src={thumb(item.path)} sx={{
                       width: 32,

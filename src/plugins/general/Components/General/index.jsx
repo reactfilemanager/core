@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Box} from 'theme-ui';
+import {jsx, Box, Flex} from 'theme-ui';
 
 import Breadcrumb from './Breadcrumb';
 import ItemList from './ItemList';
@@ -44,6 +44,32 @@ export default function() {
             }}>
 
           <DirectoryTree state={state.general} dispatch={dispatch}/>
+
+          <Flex sx={{
+            position: 'fixed',
+            justifyContent: 'space-between',
+            bottom: 0,
+            width: 'sidebar',
+            background: '#f5f5f5',
+            borderTop: '1px solid #ddd',
+            borderRight: '1px solid #ddd',
+            py: 2,
+            px: 3,
+
+            '*':{
+              fontSize: 12,
+              color: 'gray',
+              textTransform: 'uppercase'
+            },
+            'svg':{
+              widht: '12px', height: '12px'
+            }
+          }}>
+            <span>Version</span>
+            <span>
+              {icons.info} Help
+            </span>
+          </Flex>
 
         </aside>
         <main

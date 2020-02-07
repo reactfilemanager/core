@@ -1,5 +1,7 @@
+/** @jsx jsx */
+import { jsx, Flex, Progress, Box, Text } from 'theme-ui'
+
 import React, {Component} from 'react';
-import {Button, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import FileInfo from '../../../models/FileInfo';
 import icons from '../../../../../assets/icons';
@@ -71,6 +73,7 @@ class Upload extends Component {
     const uploads = this.state.uploads.map(_file => {
       if (_file === file) {
         _file.upload_complete = true;
+        // _file.upload_complete = false;
         _file.upload_success = success === true;
         _file.upload_error = success === false;
         _file.message = message || 'Server error occurred';
@@ -106,6 +109,7 @@ class Upload extends Component {
         true,
         true,
         false,
+        "",
         fileInfo.size,
         fileInfo.name.split('.').pop(),
     );
@@ -138,53 +142,30 @@ class Upload extends Component {
     }
 
     return (
-        <div className="card mb-1" key={`${file.name}_${file.size}`}>
-          <div className="card-body">
-
-            <span className="top-right-absolute pointer" onClick={() => this.removeFromUploads(file)}>
-              <i className="fa fa-times-circle"/>
-            </span>
-
-            <p className={nameClassName}>
+      <ul key={`${file.name}_${file.size}`} sx={{
+        listStyleType: 'none',
+        p: 0,
+      }}>
+        <li>
+          <Flex sx={{ p: 2 }}>
+            <span sx={{ p: 2, widht: '70%' }}>{file.name}</span>
+            <span sx={{ p: 2, width: '10%'}}>
               {
-                file.upload_complete
-                    ? file.upload_success
-                    ? <i className="fa fa-check"/>
-                    : <i className="fa fa-times"/>
-                    :
-                    <i className="fa fa-spin fa-circle-notch"/>
+                file.upload_complete ? file.upload_success ? file.size.toHumanFileSize() : 'Failed' : <Progress max={1} value={file.progress}/>
               }
-              &nbsp; {file.name}
-            </p>
+            </span>
+            
             {
-              file.message
-                  ? (
-                      <p className={nameClassName}>
-                        <small>{file.message}</small>
-                        {
-                          file.upload_error
-                              ? <button className="ml-1 btn btn-sm btn-default"
-                                        onClick={() => this.retry(file)}
-                                        title="Retry">
-                                <i className="fa fa-sync"/>
-                              </button>
-                              : null
-                        }
-                      </p>
-                  )
-                  : null
+              file.upload_success ? <span sx={{ p: 2, width: '5%'}} onClick={() => this.removeFromUploads(file)}>{icons.close}</span> : '' 
             }
-            <div className="progress">
-              <div className={progressClassName}
-                   role="progressbar"
-                   aria-valuenow={file.progress}
-                   aria-valuemin="0"
-                   aria-valuemax="100"
-                   style={{width: `${file.progress}%`}}
-              />
-            </div>
-          </div>
-        </div>
+            
+            {
+              file.upload_complete && file.upload_error ? <span sx={{ p: 2, width: '10%'}} onClick={() => this.retry(file)}>Retry</span> : ''
+            }
+          </Flex>
+          <Box>{file.upload_error}</Box>
+        </li>
+      </ul> 
     );
   };
 
@@ -204,22 +185,23 @@ class Upload extends Component {
 
   render() {
     return (
-        <div className="p-1 min-w-300px">
-          <div className="form-group mx-sm-3 mb-2">
-            <h3>Uploading files</h3>
+      <Box>
+        <Text>File Uploader</Text>
+        <Box sx={{
+          my: 3,
+          p: 4,
+          border: '1px solid #ddd',
+          borderRadius: '3px',
+          textAlign: 'center'
+        }}>
+          <span onClick={this.openFileInput}>{icons.link} Add file</span>
+        </Box>
 
-            <div className="row">
-              <div className="col-md-12">
-                {this.getUploads()}
-              </div>
-            </div>
+        {this.getUploads()}
 
-            <Button onClick={this.openFileInput}>
-              {icons.cloud_upload} Upload
-            </Button>
-            <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden/>
-          </div>
-        </div>
+        <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden/>
+
+      </Box>
     );
   }
 }
