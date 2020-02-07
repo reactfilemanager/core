@@ -17,9 +17,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    > svg{
-      width: 18px; height: 18px;
-    }
     > span{ display: flex; }
   }
   .rc-tree-node-content-wrapper{
@@ -38,6 +35,9 @@
     height: 20px;
     display: inline-block;
     vertical-align: middle;
+    > svg{
+      width: 18px; height: 18px;
+    }
   }
 
   ul{
