@@ -184,9 +184,16 @@ class Upload extends Component {
           p: 0,
         }}>
           <li>
-            <Flex sx={{p: 2}}>
-              <span sx={{p: 2, widht: '70%'}}>{file.name}</span>
-              <span sx={{p: 2, width: '10%'}}>
+            <Flex>
+            <span sx={{
+              p: 2,
+              flex: '1',
+              borderRadius: 1,
+              '&:hover': {
+                bg: '#f4f4fe',
+              },
+            }}>{file.name}</span>
+              <span sx={{p: 2, width: '15%'}}>
               {
                 file.upload_complete ? file.upload_success
                     ? file.size.toHumanFileSize()
@@ -195,18 +202,28 @@ class Upload extends Component {
             </span>
 
               {
-                file.upload_success ? <span sx={{p: 2, width: '5%'}}
-                                            onClick={() => this.removeFromUploads(
-                                                file)}>{icons.close}</span> : ''
+                file.upload_success
+                    ?
+                    <span sx={{p: 2, width: '5%'}}
+                          onClick={() => this.removeFromUploads(file)}>
+                      {icons.close}
+                    </span> : ''
               }
 
               {
-                file.upload_complete && file.upload_error ? <span
-                    sx={{p: 2, width: '10%'}}
-                    onClick={() => this.retry(file)}>Retry</span> : ''
+                file.upload_complete && file.upload_error ?
+                    <span
+                        sx={{
+                          p: 2,
+                          width: '10%',
+                          fontWeight: 'bold',
+                          fontSize: 14,
+                          color: 'primary',
+                          cursor: 'pointer',
+                        }} onClick={() => this.retry(file)}>Retry</span> : ''
               }
             </Flex>
-            <Box>{file.upload_error}</Box>
+            {file.upload_complete && file.upload_error ? <Box>{file.message}</Box> : null}
           </li>
         </ul>
     );
@@ -236,17 +253,19 @@ class Upload extends Component {
             border: this.state.enable_drop
                 ? '3px dashed #ccc'
                 : '1px solid #ddd',
-            borderRadius: '3px',
+            borderRadius: 1,
             textAlign: 'center',
           }} ref="dropArea">
-            <span onClick={this.openFileInput}>{icons.link} Add file</span>
+            <strong
+                onClick={this.openFileInput}
+                sx={{
+                  color: 'primary',
+                }}>{icons.link} Add file</strong> or drop file here
           </Box>
 
           {this.getUploads()}
-
           <input type="file" ref="fileInput" onChange={this.handleSelect}
                  multiple hidden/>
-
         </Box>
     );
   }
