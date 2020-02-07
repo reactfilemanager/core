@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Flex, Progress, Box, Text } from 'theme-ui'
+import {jsx, Flex, Progress, Box, Text} from 'theme-ui';
 
 import React, {Component} from 'react';
 import {getApi} from '../../../tools/config';
@@ -8,15 +8,67 @@ import icons from '../../../../../assets/icons';
 import {setShouldReload} from '../../../state/actions';
 
 class Upload extends Component {
-  state = {working: false, uploads: []};
+  state = {working: false, uploads: [], enable_drop: false};
+
+  componentDidMount() {
+    this.attachDragDropEvents();
+  }
+
+  componentWillUnmount() {
+    this.detachDragDropEvents();
+  }
+
+  attachDragDropEvents = () => {
+    this.refs.dropArea.addEventListener('dragenter', this.onDragEnter, false);
+    this.refs.dropArea.addEventListener('dragleave', this.onDragLeave, false);
+    this.refs.dropArea.addEventListener('dragover', this.onDragOver, false);
+    this.refs.dropArea.addEventListener('dragdrop', this.onDrop, false);
+    this.refs.dropArea.addEventListener('drop', this.onDrop, false);
+  };
+
+  detachDragDropEvents = () => {
+    this.refs.dropArea.removeEventListener('dragenter', this.onDragEnter);
+    this.refs.dropArea.removeEventListener('dragleave', this.onDragLeave);
+    this.refs.dropArea.removeEventListener('dragover', this.onDragOver);
+    this.refs.dropArea.removeEventListener('dragdrop', this.onDrop);
+    this.refs.dropArea.removeEventListener('drop', this.onDrop);
+  };
+
+  onDragEnter = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({enable_drop: true});
+  };
+
+  onDragOver = e => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  onDragLeave = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({enable_drop: false});
+  };
+
+  onDrop = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({enable_drop: false});
+    this.prepareAndUpload(e.dataTransfer.files);
+  };
 
   openFileInput = () => {
     this.refs.fileInput.click();
   };
 
   handleSelect = () => {
+    this.prepareAndUpload(this.refs.fileInput.files);
+  };
+
+  prepareAndUpload = files => {
     let uploads = this.state.uploads;
-    for (const _file of this.refs.fileInput.files) {
+    for (const _file of files) {
       const file = this.mapFile(_file);
       file._file = _file;
       file.cancelSource = getApi().getCancelSource();
@@ -28,12 +80,13 @@ class Upload extends Component {
   };
 
   upload = (file) => {
-    getApi()
-        .upload(this.props.state.general.path, file._file, this.handleProgress(file))
-        .then(response => {
+    getApi().
+        upload(this.props.state.general.path, file._file,
+            this.handleProgress(file)).
+        then(response => {
           this.setUploadStatus(file, response.message, true);
-        })
-        .catch(error => {
+        }).
+        catch(error => {
           console.log(error);
           this.setUploadStatus(file, error.message, false);
         });
@@ -109,7 +162,7 @@ class Upload extends Component {
         true,
         true,
         false,
-        "",
+        '',
         fileInfo.size,
         fileInfo.name.split('.').pop(),
     );
@@ -125,47 +178,37 @@ class Upload extends Component {
   };
 
   getUploadProgress = file => {
-    let progressClassName = 'progress-bar';
-    let nameClassName = 'font-weight-bold';
-
-    if (file.upload_success) {
-      progressClassName += ' bg-success';
-      nameClassName += ' text-success';
-    }
-    else if (file.upload_error) {
-      progressClassName += ' bg-danger';
-      nameClassName += ' text-danger';
-    }
-    else {
-      progressClassName += ' bg-info progress-bar-striped progress-bar-animated';
-      nameClassName += ' text-info';
-    }
-
     return (
-      <ul key={`${file.name}_${file.size}`} sx={{
-        listStyleType: 'none',
-        p: 0,
-      }}>
-        <li>
-          <Flex sx={{ p: 2 }}>
-            <span sx={{ p: 2, widht: '70%' }}>{file.name}</span>
-            <span sx={{ p: 2, width: '10%'}}>
+        <ul key={`${file.name}_${file.size}`} sx={{
+          listStyleType: 'none',
+          p: 0,
+        }}>
+          <li>
+            <Flex sx={{p: 2}}>
+              <span sx={{p: 2, widht: '70%'}}>{file.name}</span>
+              <span sx={{p: 2, width: '10%'}}>
               {
-                file.upload_complete ? file.upload_success ? file.size.toHumanFileSize() : 'Failed' : <Progress max={1} value={file.progress}/>
+                file.upload_complete ? file.upload_success
+                    ? file.size.toHumanFileSize()
+                    : 'Failed' : <Progress max={1} value={file.progress}/>
               }
             </span>
-            
-            {
-              file.upload_success ? <span sx={{ p: 2, width: '5%'}} onClick={() => this.removeFromUploads(file)}>{icons.close}</span> : '' 
-            }
-            
-            {
-              file.upload_complete && file.upload_error ? <span sx={{ p: 2, width: '10%'}} onClick={() => this.retry(file)}>Retry</span> : ''
-            }
-          </Flex>
-          <Box>{file.upload_error}</Box>
-        </li>
-      </ul> 
+
+              {
+                file.upload_success ? <span sx={{p: 2, width: '5%'}}
+                                            onClick={() => this.removeFromUploads(
+                                                file)}>{icons.close}</span> : ''
+              }
+
+              {
+                file.upload_complete && file.upload_error ? <span
+                    sx={{p: 2, width: '10%'}}
+                    onClick={() => this.retry(file)}>Retry</span> : ''
+              }
+            </Flex>
+            <Box>{file.upload_error}</Box>
+          </li>
+        </ul>
     );
   };
 
@@ -185,23 +228,26 @@ class Upload extends Component {
 
   render() {
     return (
-      <Box>
-        <Text>File Uploader</Text>
-        <Box sx={{
-          my: 3,
-          p: 4,
-          border: '1px solid #ddd',
-          borderRadius: '3px',
-          textAlign: 'center'
-        }}>
-          <span onClick={this.openFileInput}>{icons.link} Add file</span>
+        <Box>
+          <Text>File Uploader</Text>
+          <Box sx={{
+            my: 3,
+            p: 4,
+            border: this.state.enable_drop
+                ? '3px dashed #ccc'
+                : '1px solid #ddd',
+            borderRadius: '3px',
+            textAlign: 'center',
+          }} ref="dropArea">
+            <span onClick={this.openFileInput}>{icons.link} Add file</span>
+          </Box>
+
+          {this.getUploads()}
+
+          <input type="file" ref="fileInput" onChange={this.handleSelect}
+                 multiple hidden/>
+
         </Box>
-
-        {this.getUploads()}
-
-        <input type="file" ref="fileInput" onChange={this.handleSelect} multiple hidden/>
-
-      </Box>
     );
   }
 }
