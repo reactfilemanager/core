@@ -17,11 +17,13 @@ class DirectoryTree extends Component {
   state = {
     dirs: [],
     path: null,
+    expandedKeys: [],
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.state.resetDirectoryTree) {
       this.populateDirs();
+      this.setOpenDirs();
     }
   }
 
@@ -42,6 +44,25 @@ class DirectoryTree extends Component {
         this.props.state.entries.dirs);
 
     this.setState({dirs});
+  };
+
+  setOpenDirs = () => {
+    let expandedKeys = [];
+
+    const path = this.props.state.path.split('/');
+    let __dir = '';
+    for (const _dir of path) {
+      if (__dir === '/') {
+        __dir = '';
+      }
+      __dir += `/${_dir}`;
+      if (this.state.expandedKeys.indexOf(__dir) < 0) {
+        expandedKeys.push(__dir);
+      }
+    }
+
+    expandedKeys = [...this.state.expandedKeys, ...expandedKeys];
+    this.setState({expandedKeys});
   };
 
   loopDir = (dirs, path, _path = '', _path_, _dirs_) => {
@@ -125,8 +146,8 @@ class DirectoryTree extends Component {
         dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
 
         this.setState({dirs});
-        setTimeout(() => resolve(), 15000);
-        // resolve();
+        // setTimeout(() => resolve(), 15000);
+        resolve();
       }).catch(error => {
         console.log(error);
         reject();
@@ -138,15 +159,19 @@ class DirectoryTree extends Component {
     return props.loading ? '' : icons.folder;
   };
 
+  handleExpand = expandedKeys => {
+    const removed = this.state.expandedKeys.diff(expandedKeys);
+    if(removed.length) {
+      expandedKeys = expandedKeys.filter(key => !key.startsWith(removed[0]));
+    }
+    this.setState({expandedKeys});
+  };
+
   render() {
     const _path = this.props.state.path;
     const path = _path === '' ? '/' : _path;
-    const expandedKeys  = [];
     const loop = (data) => {
       return data.map((item) => {
-        if(path.includes(item.path)) {
-          expandedKeys.push(item.path);
-        }
         if (item.children) {
           return <TreeNode title={item.name}
                            key={item.key}
@@ -182,9 +207,12 @@ class DirectoryTree extends Component {
               onSelect={this.onSelect}
               checkable={false}
               selectedKeys={[path]}
-              expandedKeys={expandedKeys}
+              defaultExpandedKeys={['/']}
+              expandedKeys={this.state.expandedKeys}
+              onExpand={this.handleExpand}
               icon={this.sendIcon}
               switcherIcon={getSvgIcon}
+              autoExpandParent
               showLine
           >
             {_dirs}

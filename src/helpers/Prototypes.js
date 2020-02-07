@@ -1,5 +1,7 @@
 String.prototype.toProperCase = function() {
-  return this.replace(/\w\S*/g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  return this.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 };
 
 Number.prototype.toHumanFileSize = function(si = false) {
@@ -21,11 +23,11 @@ Number.prototype.toHumanFileSize = function(si = false) {
 
 String.prototype.isValidURL = function() {
   const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-                                 '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-                                 '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-                                 '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-                                 '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-                                 '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
   return !!pattern.test(this);
 };
 
@@ -42,4 +44,16 @@ Date.prototype.toHumanFormat = function() {
   const year = this.getFullYear();
 
   return day + ' ' + monthNames[monthIndex] + ' ' + year;
+};
+
+Array.prototype.diff = function(array) {
+  const diff = [];
+
+  for (const el of this) {
+    if (array.indexOf(el) < 0) {
+      diff.push(el);
+    }
+  }
+
+  return diff;
 };
