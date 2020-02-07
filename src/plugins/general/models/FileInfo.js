@@ -75,10 +75,12 @@ export default class FileInfo {
     if(!this.extension) {
       return '';
     }
+    const _name = this.name.split('.');
+    const extension = _name.pop();
     if(!withDot) {
-      return this.extension;
+      return extension;
     }
-    return `.${this.extension}`;
+    return `.${extension}`;
   }
 
 }
