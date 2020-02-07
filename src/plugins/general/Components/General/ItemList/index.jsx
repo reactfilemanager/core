@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Text, Grid, Checkbox, Label, Flex} from 'theme-ui';
+import {jsx, Text, Grid, Checkbox, Label, Flex, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import {
@@ -63,7 +63,10 @@ class ItemList extends Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <Text>No entry in this directory</Text>
+            { 
+              this.props.state.reloading ? 
+                <Spinner/> :  
+                <Text>No entry in this directory</Text> }
           </Flex>
       );
     }

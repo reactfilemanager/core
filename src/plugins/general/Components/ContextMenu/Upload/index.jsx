@@ -179,53 +179,53 @@ class Upload extends Component {
 
   getUploadProgress = file => {
     return (
-        <ul key={`${file.name}_${file.size}`} sx={{
-          listStyleType: 'none',
-          p: 0,
+      <li key={`${file.name}_${file.size}`}>
+        <Flex>
+        <span sx={{
+          p: 2,
+          flex: '1',
+          borderRadius: 1,
+          '&:hover': {
+            bg: '#f4f4fe',
+          },
         }}>
-          <li>
-            <Flex>
-            <span sx={{
-              p: 2,
-              flex: '1',
-              borderRadius: 1,
-              '&:hover': {
-                bg: '#f4f4fe',
-              },
-            }}>{file.name}</span>
-              <span sx={{p: 2, width: '15%'}}>
-              {
-                file.upload_complete ? file.upload_success
-                    ? file.size.toHumanFileSize()
-                    : 'Failed' : <Progress max={1} value={file.progress}/>
-              }
-            </span>
+          {
+            file.upload_complete && file.upload_success ? icons.check : icons.warning
+          }
+          {file.name}
+        </span>
+          <span sx={{p: 2, width: '15%'}}>
+          {
+            file.upload_complete ? file.upload_success
+                ? file.size.toHumanFileSize()
+                : 'Failed' : <Progress max={1} value={file.progress}/>
+          }
+        </span>
 
-              {
-                file.upload_success
-                    ?
-                    <span sx={{p: 2, width: '5%'}}
-                          onClick={() => this.removeFromUploads(file)}>
-                      {icons.close}
-                    </span> : ''
-              }
+          {
+            file.upload_success
+                ?
+                <span sx={{p: 2, width: '5%'}}
+                      onClick={() => this.removeFromUploads(file)}>
+                  {icons.close}
+                </span> : ''
+          }
 
-              {
-                file.upload_complete && file.upload_error ?
-                    <span
-                        sx={{
-                          p: 2,
-                          width: '10%',
-                          fontWeight: 'bold',
-                          fontSize: 14,
-                          color: 'primary',
-                          cursor: 'pointer',
-                        }} onClick={() => this.retry(file)}>Retry</span> : ''
-              }
-            </Flex>
-            {file.upload_complete && file.upload_error ? <Box>{file.message}</Box> : null}
-          </li>
-        </ul>
+          {
+            file.upload_complete && file.upload_error ?
+                <span
+                    sx={{
+                      p: 2,
+                      width: '10%',
+                      fontWeight: 'bold',
+                      fontSize: 14,
+                      color: 'primary',
+                      cursor: 'pointer',
+                    }} onClick={() => this.retry(file)}>Retry</span> : ''
+          }
+        </Flex>
+        {file.upload_complete && file.upload_error ? <Box>{file.message}</Box> : null}
+      </li>
     );
   };
 
@@ -250,10 +250,10 @@ class Upload extends Component {
           <Box sx={{
             my: 3,
             p: 4,
-            border: this.state.enable_drop
-                ? '3px dashed #ccc'
-                : '1px solid #ddd',
-            borderRadius: 1,
+            borderWidth: '2px',
+            borderStyle: 'dashed',
+            borderColor: this.state.enable_drop ? 'primary' : 'gray',
+            borderRadius: 4,
             textAlign: 'center',
           }} ref="dropArea">
             <strong
@@ -263,7 +263,15 @@ class Upload extends Component {
                 }}>{icons.link} Add file</strong> or drop file here
           </Box>
 
-          {this.getUploads()}
+          <ul sx={{
+            listStyleType: 'none',
+            p: 0,
+            maxHeight: '200px',
+            overflow: 'scroll'
+          }}>
+            {this.getUploads()}
+          </ul>
+
           <input type="file" ref="fileInput" onChange={this.handleSelect}
                  multiple hidden/>
         </Box>
