@@ -35,15 +35,6 @@ class Item extends Component {
     handlers[0].handle(this.props.item, this.props.state, this.props.dispatch);
   };
 
-  handleClickName = e => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (this.props.item.is_dir) {
-      this.moveTo(this.props.item);
-    }
-  };
-
   toggleSelect = (ctrlKey, shiftKey) => {
 
     let shouldMark = false;
@@ -193,13 +184,12 @@ class Item extends Component {
                       maxWidth: 32,
                       mr: 2,
                     }}/>
-                    <Link
-                        sx={{
-                          textDecoration: 'none',
-                          color: 'black',
-                        }}
-                        href="#!"
-                        onClick={this.handleClickName}>{item.getName(20)}</Link>
+                    <Text sx={{
+                      width: '100%',
+                      paddingTop: '4px',
+                      fontSize: 12,
+                      color: 'gray',
+                    }}>{item.name} {item.components}</Text>
                   </div> :
                   <Flex sx={{
                     flexDirection: 'column',
@@ -232,7 +222,7 @@ class Item extends Component {
                       textAlign: 'center',
                       fontSize: 12,
                       color: 'gray',
-                    }}>{item.getName(20)} {item.components}</Text>
+                    }}>{item.name} {item.components}</Text>
                   </Flex>
             }
 

@@ -55,6 +55,7 @@ export default {
           files: findAndReplace(state.general.entries.files, payload),
           dirs: findAndReplace(state.general.entries.dirs, payload),
         },
+        resetDirectoryTree: payload.is_dir === true,
       },
     };
   },
