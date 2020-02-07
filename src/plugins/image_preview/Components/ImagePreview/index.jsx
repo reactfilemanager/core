@@ -1,18 +1,27 @@
 /** @jsx jsx */
 import {jsx, Box, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
+import throttle from 'lodash.throttle';
 import {viewport} from '../../../../helpers/Utils';
 
 class ImagePreview extends Component {
 
-  state = {width: 50, height: 50, loading: true, closing: false};
+  state = {
+    width: 50,
+    height: 50,
+    position: null,
+    ratio: 0,
+    loading: true,
+    closing: false,
+    dragging: false,
+  };
 
   componentDidMount() {
     const image = new Image();
     image.onload = e => {
       const size = this.calculateSize(
           {width: image.width, height: image.height});
-      this.setState({...size, loading: false});
+      this.setState({...size, loading: false, ratio: size.width / size.height});
     };
     image.src = preview(this.props.item.path);
     this.attachEvent();
@@ -24,10 +33,30 @@ class ImagePreview extends Component {
 
   attachEvent = () => {
     window.document.addEventListener('keydown', this.handleEscPress, false);
+    window.document.addEventListener('mousemove', this.move, false);
+    window.document.addEventListener('mouseup', this.stopMove, false);
+    window.document.addEventListener('wheel', this.handleScroll,
+        {passive: false});
   };
 
   detachEvent = () => {
     window.document.removeEventListener('keydown', this.handleEscPress, false);
+    window.document.removeEventListener('mousemove', this.move, false);
+    window.document.removeEventListener('mouseup', this.stopMove, false);
+    window.document.removeEventListener('wheel', this.handleScroll, false);
+  };
+
+  handleScroll = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const inc = e.deltaY / this.state.ratio;
+    const width = this.state.width + e.deltaY;
+    const height = this.state.height + inc;
+    if (width < 100) {
+      return;
+    }
+    this.setState({width, height});
   };
 
   handleEscPress = e => {
@@ -79,11 +108,58 @@ class ImagePreview extends Component {
     }, 250);
   };
 
+  startMove = e => {
+    this.clickPosition = {pageX: e.pageX, pageY: e.pageY};
+    this.imagePosition = {
+      pageX: this.refs.imageView.offsetLeft,
+      pageY: this.refs.imageView.offsetTop,
+    };
+    console.log(this.imagePosition);
+    if (!this.state.position) {
+      this.imagePosition.pageX += this.clickPosition.pageX - this.imagePosition.pageX;
+      this.imagePosition.pageY -= this.clickPosition.pageY - this.imagePosition.pageY;
+    }
+    console.log(this.imagePosition);
+    this.setState({dragging: true});
+  };
+
+  move = throttle(e => {
+    if (!this.state.dragging) {
+      return;
+    }
+    const movement = {
+      pageX: e.pageX - this.clickPosition.pageX,
+      pageY: e.pageY - this.clickPosition.pageY,
+    };
+
+    const position = {
+      top: this.imagePosition.pageY + movement.pageY,
+      left: this.imagePosition.pageX + movement.pageX,
+    };
+
+    this.setState({position});
+  }, 100);
+
+  stopMove = e => {
+    this.setState({dragging: false});
+  };
+
   render() {
     const size = {
       width: this.state.closing ? 0 : this.state.width,
       height: this.state.closing ? 0 : this.state.height,
     };
+
+    const imgShowAttrs = this.state.position
+        ? {
+          top: `${this.state.position.top}px`,
+          left: `${this.state.position.left}px`,
+        }
+        : {
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+        };
 
     return (
         <Box className="show"
@@ -107,16 +183,17 @@ class ImagePreview extends Component {
                }}
                onClick={this.close}/>
           <Box className="img-show"
+               ref="imageView"
                sx={{
                  width: `${size.width}px`,
                  height: `${size.height}px`,
                  background: '#fff',
                  position: 'absolute',
-                 top: '50%',
-                 left: '50%',
-                 transform: 'translate(-50%,-50%)',
+                 ...imgShowAttrs,
                  transition: 'all 0.25s ease',
-               }}>
+                 cursor: this.state.dragging ? 'move' : '',
+               }}
+               onMouseDown={this.startMove}>
             {this.state.loading
                 ? <Spinner/>
                 : <>
