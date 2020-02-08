@@ -8,12 +8,16 @@ import Delete from '../Components/Toolbar/Delete';
 
 import context_menu from './context_menu';
 import handlers from './handlers';
+import CopyTo from '../Components/Toolbar/CopyTo';
+import MoveTo from '../Components/Toolbar/MoveTo';
 
 let _api = {};
 const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
     make_new: MakeNew,
+    copy_op: CopyTo,
+    move_op: MoveTo,
     delete_op: Delete,
     refresh_op: Refresh,
   },
@@ -48,12 +52,12 @@ export const inject = injection => {
   }
 };
 
-export const getContextMenu = item => {
+export const getContextMenu = (item, state) => {
   const _menu_items = Object.assign({}, _defaultConfig.context_menu, _config.context_menu || {});
   const menu_items = {};
 
   for (const key of Object.keys(_menu_items)) {
-    if (_menu_items[key].shouldShow(item)) {
+    if (_menu_items[key].shouldShow(item, state)) {
       menu_items[key] = _menu_items[key];
     }
   }
@@ -61,11 +65,11 @@ export const getContextMenu = item => {
   return menu_items;
 };
 
-export const getHandlers = item => {
+export const getHandlers = (item, state) => {
   const handlers = {};
   const _handlers = Object.assign({}, _defaultConfig.handlers, _config.handlers || {});
   for (const key of Object.keys(_handlers)) {
-    if (_handlers[key].handles(item)) {
+    if (_handlers[key].handles(item, state)) {
       handlers[key] = _handlers[key];
     }
   }

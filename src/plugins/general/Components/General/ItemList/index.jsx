@@ -15,6 +15,7 @@ import cloneDeep from 'lodash.clonedeep';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../ContextMenu';
 import {toast} from 'react-toastify';
+import {getSelectedItems} from '../../../models/FileInfo';
 
 class ItemList extends Component {
 
@@ -63,10 +64,10 @@ class ItemList extends Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            { 
-              this.props.state.reloading ? 
-                <Spinner/> :  
-                <Text>No entry in this directory</Text> }
+            {
+              this.props.state.reloading ?
+                  <Spinner/> :
+                  <Text>No entry in this directory</Text>}
           </Flex>
       );
     }
@@ -133,12 +134,6 @@ class ItemList extends Component {
     this.props.dispatch(setEntries(entries));
   };
 
-  handleClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.markAll(false);
-  };
-
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
     const allChecked = items.length &&
@@ -182,11 +177,26 @@ class ItemList extends Component {
     }, entries);
   };
 
+  handleClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.markAll(false);
+  };
+
+  getSelectedItems = () => {
+    return getSelectedItems(this.props.state.entries);
+  };
+
+  handleContextMenu = e => {
+    this.markAll(false);
+  };
+
   getAttributes = () => {
     return {
       className: 'files-container',
       sx: {padding: '16px'},
       onClick: this.handleClick,
+      onContextMenu: this.handleContextMenu,
     };
   };
 

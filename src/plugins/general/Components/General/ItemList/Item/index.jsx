@@ -8,6 +8,7 @@ import {CONTEXT_MENU_ID} from '../../../ContextMenu';
 import cloneDeep from 'lodash.clonedeep';
 import {getHandlers} from '../../../../tools/config';
 import {toast} from 'react-toastify';
+import {getSelectedItems} from '../../../../models/FileInfo';
 
 class Item extends Component {
 
@@ -97,7 +98,7 @@ class Item extends Component {
   };
 
   getSelectedItems = () => {
-    return [...this.props.state.entries.dirs, ...this.props.state.entries.files].filter(item => item.selected);
+    return getSelectedItems(this.props.state.entries);
   };
 
   findLastSelected = () => {
@@ -186,7 +187,6 @@ class Item extends Component {
                       mr: 2,
                     }}/>
                     <Text sx={{
-                      width: '100%',
                       paddingTop: '4px',
                       paddingRight: 2,
                       fontSize: 12,
@@ -266,13 +266,11 @@ class Item extends Component {
           <TD><Image src={thumb(item.path)} sx={{maxWidth: '20px', maxHeight: '20px'}}/></TD>
           <TD> {
             item.is_dir ?
-                <Link
+                <Text
                     sx={{
                       textDecoration: 'none',
                       color: 'black',
-                    }}
-                    href="#!"
-                    onClick={this.handleClickName}>{item.name}</Link>
+                    }}>{item.name}</Text>
                 : item.name
           }
           </TD>
