@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Button, Box} from 'theme-ui';
+import {jsx, Button, Box, Flex, Text} from 'theme-ui';
 import React, {Component} from 'react';
 import icons from '../../../../../assets/icons';
 import Upload from '../../ContextMenu/Upload';
@@ -47,19 +47,22 @@ class Uploader extends Component {
                 top: '40px',
                 background: 'white',
                 boxShadow: '0 0 4px #ccc',
-                width: '100%',
+                width: '240px',
                 borderRadius: '3px',
-                zIndex: '1'
+                zIndex: '1',
+                textTransform: 'uppercase',
+                fontSize: 14,
+                cursor: 'pointer',
               }}>
-                <Box sx={{ p: 2 }} onClick={this.handleUploadClick}>
+                <Flex sx={{ p: 2, '&:hover, &:focus': { bg: 'primaryLight'} }} onClick={this.handleUploadClick}>
                   {icons.upload}
-                  <span sx={{ml: 2}}>Upload from computer</span>
-                </Box>
+                  <Text sx={{ ml: 2, }}>Upload from computer</Text>
+                </Flex>
 
-                <Box sx={{ p: 2 }} onClick={this.handleRemoteUploadClick}>
+                <Flex sx={{ p: 2 , '&:hover, &:focus': { bg: 'primaryLight' } }} onClick={this.handleRemoteUploadClick}>
                   {icons.cloud_upload}
-                  <span sx={{ml: 2}}>Upload From URL</span>
-                </Box>
+                  <Text sx={{ml: 2}}>Upload From URL</Text>
+                </Flex>
               </div>
             : null
           }

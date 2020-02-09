@@ -55,7 +55,7 @@ registerPlugin({
 
 FileManager(element, {
   // URL of the server installation
-  url: 'https://file-manager-server.m3r.dev/',
+  url: 'http://127.0.0.1:8000/',
   // HTTP request modifiers
   http: {
     query_params: {

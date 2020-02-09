@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Flex, Input, Spinner, Text} from 'theme-ui';
+import {Button, Flex, Box, Spinner, Text} from 'theme-ui';
 import icons from '../../../../../assets/icons';
 import SelectableDirectoryTree
   from '../../General/DirectoryTree/SelectableDirectoryTree';
@@ -61,21 +61,23 @@ class CopyTo extends Component {
         <Flex sx={{
           flexDirection: 'column', alignItems: 'center',
           p: 4,
-          'svg': {width: '50px'},
+          '> span > svg': {width: '50px', height: '50px' },
         }}>
           {this.icon}
 
           <Text sx={{fontSize: 22, py: 2}}>{this.title}</Text>
 
-          <Input
+          {/* <input
               sx={{lineHeight: 2}}
               value={this.state.path}
               readOnly
-          />
+          /> */}
 
-          <SelectableDirectoryTree onSelect={this.onSelect}
-                                   state={this.props.state.general}
-                                   dispatch={this.props.dispatch}/>
+          <Box bg={'muted'} pb={3} borderRadius={'3px'}>
+            <SelectableDirectoryTree onSelect={this.onSelect}
+                                    state={this.props.state.general}
+                                    dispatch={this.props.dispatch}/>
+          </Box>
 
           <Button
               sx={{py: 2, px: 5, marginTop: 3}}

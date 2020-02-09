@@ -27,6 +27,7 @@ export default {
     text: '#000',
     background: '#fff',
     primary: '#3333ee',
+    primaryLight: '#efeffe',
     secondary: '#111199',
     muted: '#f6f6f6'
   },
@@ -54,23 +55,53 @@ export default {
       py: 1,
       px: 2,
       mr: 2,
+      fontSize: 14, 
       cursor: 'pointer',
       color: 'background',
       bg: 'primary',
+      display: 'flex',
+      alignItems: 'center',
+      '> span':{
+        display: 'flex'
+      },
+      'svg':{
+        width: '14px',
+        height: '14px',
+        marginRight: 1,
+        '*':{
+          stroke: 'white'
+        }
+      }
     },
     secondary: {
-      color: 'text',
+      color: 'gray',
       bg: 'white',
       border: '1px solid #ddd',
       py: 1,
       px: 2,
       mr: 2,
+      fontSize: 14, 
+      textTransform: 'uppercase',
+      display: 'flex',
+      alignItems: 'center',
       cursor: 'pointer',
-      '&:hover': {
-        bg: 'muted',
+      '&:hover, &:focus': {
+        bg: 'primaryLight',
+        borderColor: 'primary',
+        color: 'text',
+        'svg *':{ stroke: 'text' }
       },
-      '&:disabled':{
-        opacity: '0.6'
+      '&:disabled':{ opacity: '0.6'},
+      '> span':{
+        display: 'flex'
+      },
+      'svg':{
+        width: '14px',
+        height: '14px',
+        marginRight: 1,
+        '*':{
+          stroke: 'gray'
+        }
       }
     },
     utility:{
@@ -85,7 +116,11 @@ export default {
       cursor: 'pointer',
       '&:hover, &:focus, &.active': {
         background: 'white',
-        borderColor: '#ddd'
+        borderColor: '#ddd',
+        color: 'primary',
+        'svg *':{
+          stroke: 'primary',
+        }
       }
     }
   },

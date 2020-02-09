@@ -30,7 +30,7 @@ class MoveTo extends Component {
             variant="secondary"
             onClick={this.handleMoveToClick}
         >
-          {icons.move} Move To
+          {icons.move} Move
         </Button>
     );
   }

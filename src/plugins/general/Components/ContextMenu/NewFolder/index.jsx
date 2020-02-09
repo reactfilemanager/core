@@ -46,7 +46,7 @@ class NewFolder extends Component {
       <Flex sx={{
         flexDirection: 'column', alignItems: 'center',
         p: 4,
-        'svg' : { width: '50px', }
+        'svg' : { width: '50px', height: '50px' }
       }}>
         {icons.folder_add}
         

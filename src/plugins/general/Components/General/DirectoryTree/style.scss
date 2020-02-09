@@ -42,7 +42,7 @@
 
   ul{
     list-style-type: none;
-    padding: 0 0 0 15px;
+    padding: 0 0 0 10px;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -54,7 +54,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       &:hover{
-        color: #07c
+        color: #3333ee;
       }
     }
   }

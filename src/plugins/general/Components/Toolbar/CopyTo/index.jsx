@@ -30,7 +30,7 @@ class CopyTo extends Component {
             variant="secondary"
             onClick={this.handleCopyToClick}
         >
-          {icons.copy} Copy To
+          {icons.copy} Copy
         </Button>
     );
   }
