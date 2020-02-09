@@ -18,7 +18,7 @@ export default {
   },
   sizes: {
     sidebar: 272,
-    breadcrumb: '60%',
+    toolbar: '60%',
     utility: '20%',
     search: '20%'
   },

@@ -81,12 +81,19 @@ export default function() {
           <header sx={{
             background: 'lightGray',
           }}>
-            <div sx={{
-              borderBottom: '1px solid #ddd',
-              borderTop: '1px solid #ddd',
-              p: 2,
-            }}>
-              <Toolbar
+
+            <Flex
+              sx={{
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                borderBottom: '1px solid #ddd',
+                p: 2,
+              }}>
+              <Flex sx={{
+                width: 'toolbar',
+              }}>
+                {/* <Breadcrumb path={state.general.path} dispatch={dispatch}/> */}
+                <Toolbar
                   state={state.general}
                   dispatch={dispatch}
                   children={defaultConfig.toolbar}
@@ -99,21 +106,7 @@ export default function() {
                       children={config.toolbar}
                   />
                   : null}
-            </div>
-
-            <div
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  borderBottom: '1px solid #ddd',
-                  p: 2,
-                }}>
-              <div sx={{
-                width: 'breadcrumb',
-              }}>
-                <Breadcrumb path={state.general.path} dispatch={dispatch}/>
-              </div>
+              </Flex>
 
               <div
                   sx={{
@@ -140,7 +133,7 @@ export default function() {
                           children={defaultConfig.search}/> : null
                 }
               </div>
-            </div>
+            </Flex>
 
           </header>
           <div>

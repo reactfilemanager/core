@@ -18,8 +18,8 @@ class MakeNew extends Component {
     return (
         <>
           <Button
-              variant="secondary"
-              onClick={this.handleNewFolderClick}
+            variant="secondary"
+            onClick={this.handleNewFolderClick}
           >
             {icons.plus} New Folder
           </Button>
