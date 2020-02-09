@@ -5,10 +5,11 @@ import {injectModal, injectSidePanel} from '../../state/actions';
 import Permission from '../../Components/ContextMenu/Permission';
 import Rename from '../../Components/ContextMenu/Rename';
 import Delete from '../../Components/ContextMenu/Delete';
-import FileInfo from '../../models/FileInfo';
+import FileInfo, {getSelectedItems} from '../../models/FileInfo';
 import Upload from '../../Components/ContextMenu/Upload';
 import RemoteUpload from '../../Components/ContextMenu/RemoteUpload';
 import NewFolder from '../../Components/ContextMenu/NewFolder';
+import CopyTo from '../../Components/ContextMenu/CopyTo';
 
 export default {
   rename: {
@@ -22,6 +23,38 @@ export default {
     handle(item, state, dispatch) {
       const modal = (props) => {
         return <Rename item={item} {...props}/>;
+      };
+
+      dispatch(injectModal(modal));
+    },
+  },
+  copy_to: {
+    shouldShow(item, state) {
+      return getSelectedItems(state.entries).length > 0;
+    },
+    menu_item: {
+      icon: icons.copy,
+      title: 'Copy To',
+    },
+    handle(item, state, dispatch) {
+      const modal = (props) => {
+        return <CopyTo {...props} move={false}/>;
+      };
+
+      dispatch(injectModal(modal));
+    },
+  },
+  move_to: {
+    shouldShow(item, state) {
+      return getSelectedItems(state.entries).length > 0;
+    },
+    menu_item: {
+      icon: icons.move,
+      title: 'Move To',
+    },
+    handle(item, state, dispatch) {
+      const modal = (props) => {
+        return <CopyTo {...props} move={true}/>;
       };
 
       dispatch(injectModal(modal));
@@ -61,7 +94,9 @@ export default {
   },
   download: {
     shouldShow(item) {
-      return item instanceof FileInfo && !item.is_dir; //can download everything except for folders
+      return item instanceof FileInfo && !item.is_dir; //can download
+                                                       // everything except for
+                                                       // folders
     },
     menu_item: {
       icon: icons.download,

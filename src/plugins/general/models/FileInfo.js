@@ -1,5 +1,8 @@
 import {uuidv4} from '../../../helpers/Utils';
 
+export const getSelectedItems = entries => [
+  ...entries.dirs,
+  ...entries.files].filter(item => item.selected);
 export default class FileInfo {
   name;
   path;
@@ -61,23 +64,22 @@ export default class FileInfo {
     return Object.values(this._components);
   }
 
-  get basename(){
-    if(this.name.indexOf('.')<0) {
+  get basename() {
+    if (this.name.indexOf('.') < 0) {
       return this.name;
     }
-    const _name = this.name.split('.')
-    _name.pop()
-    return _name.join('')
+    const _name = this.name.split('.');
+    _name.pop();
+    return _name.join('');
   }
 
-
-  getExtension(withDot = false){
-    if(!this.extension) {
+  getExtension(withDot = false) {
+    if (!this.extension) {
       return '';
     }
     const _name = this.name.split('.');
     const extension = _name.pop();
-    if(!withDot) {
+    if (!withDot) {
       return extension;
     }
     return `.${extension}`;

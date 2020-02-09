@@ -190,7 +190,7 @@ class Upload extends Component {
           },
         }}>
           {
-            file.upload_complete && file.upload_success ? icons.check : icons.warning
+            file.upload_complete ? file.upload_success ? icons.check : icons.warning : null
           }
           {file.name}
         </span>

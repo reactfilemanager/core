@@ -8,16 +8,20 @@ import Delete from '../Components/Toolbar/Delete';
 
 import context_menu from './context_menu';
 import handlers from './handlers';
+import CopyTo from '../Components/Toolbar/CopyTo';
+import MoveTo from '../Components/Toolbar/MoveTo';
 
 let _api = {};
 const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
     make_new: MakeNew,
+    copy_op: CopyTo,
+    move_op: MoveTo,
     delete_op: Delete,
     refresh_op: Refresh,
   },
-  utility:{
+  utility: {
     filter_by_type: FilterByType,
     viewmode: ViewMode,
   },
@@ -44,16 +48,22 @@ export const getConfig = () => {
 
 export const inject = injection => {
   for (const key of Object.keys(injection)) {
-    _config[key] = Object.assign({}, _config[key] || {}, injection[key]);
+    if (typeof injection[key] === 'object') {
+      _config[key] = {...(_config[key] || {}), ...injection[key]};
+    }
+    else {
+      _config[key] = injection[key];
+    }
   }
 };
 
-export const getContextMenu = item => {
-  const _menu_items = Object.assign({}, _defaultConfig.context_menu, _config.context_menu || {});
+export const getContextMenu = (item, state) => {
+  const _menu_items = Object.assign({}, _defaultConfig.context_menu,
+      _config.context_menu || {});
   const menu_items = {};
 
   for (const key of Object.keys(_menu_items)) {
-    if (_menu_items[key].shouldShow(item)) {
+    if (_menu_items[key].shouldShow(item, state)) {
       menu_items[key] = _menu_items[key];
     }
   }
@@ -61,15 +71,42 @@ export const getContextMenu = item => {
   return menu_items;
 };
 
-export const getHandlers = item => {
+export const getHandlers = (item, state) => {
   const handlers = {};
-  const _handlers = Object.assign({}, _defaultConfig.handlers, _config.handlers || {});
+  const _handlers = Object.assign({}, _defaultConfig.handlers,
+      _config.handlers || {});
   for (const key of Object.keys(_handlers)) {
-    if (_handlers[key].handles(item)) {
+    if (_handlers[key].handles(item, state)) {
       handlers[key] = _handlers[key];
     }
   }
-  return handlers;
+
+  const handlersKeys = Object.keys(handlers);
+  let handlersArray = [];
+  for (const key of handlersKeys) {
+    handlersArray.push({
+      key,
+      ...handlers[key],
+    });
+  }
+
+  return handlersArray.sort((a, b) => {
+    if (a.order === undefined) {
+      a.order = 10;
+    }
+    if (b.order === undefined) {
+      b.order = 10;
+    }
+    if (a.order > b.order) {
+      return 1;
+    }
+    else if (a.order < b.order) {
+      return -1;
+    }
+    else {
+      return 0;
+    }
+  });
 };
 
 export const addHandlers = handlers => {

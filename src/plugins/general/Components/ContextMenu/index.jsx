@@ -26,12 +26,12 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   }
 
   const {item} = trigger;
-  const menu_items = getContextMenu(item);
-  const handlers = getHandlers(item);
+  const menu_items = getContextMenu(item, state.general);
+  const handlers = getHandlers(item, state.general);
   let firstHandler = null;
-  const handlersKeys = Object.keys(handlers);
-  if (handlersKeys.length > 0) {
-    firstHandler = handlers[handlersKeys[0]];
+
+  if (handlers.length > 0) {
+    firstHandler = handlers[0];
   }
 
   return (
@@ -41,17 +41,21 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
         {firstHandler
             ? <>
               <Menu onClick={() => firstHandler.handle(item, state, dispatch)}>
-                {icons.preview}
-                {firstHandler.type === 'preview' ? ' Preview' : ' Open'}
+                {firstHandler.menu_item.icon}&nbsp;
+                {firstHandler.type === 'preview'
+                    ? 'Preview'
+                    : firstHandler.menu_item.title
+                }
               </Menu>
               {/* <Divider/> */}
             </>
             : null}
-        {handlersKeys.length > 1
+        {handlers.length > 1
             ? <SubMenu title="Open With">
-              {handlersKeys.map(key => (
-                  <Menu key={key} onClick={() => handlers[key].handle(item, state, dispatch)}>
-                    {handlers[key].menu_item.icon} {handlers[key].menu_item.title}
+              {handlers.map(handler => (
+                  <Menu key={handler.key}
+                        onClick={() => handler.handle(item, state, dispatch)}>
+                    {handler.menu_item.icon} {handler.menu_item.title}
                   </Menu>
               ))}
             </SubMenu>

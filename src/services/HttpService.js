@@ -8,6 +8,25 @@ export function setBaseUrl(url) {
   window.preview = _url => `${url}?preview=${encodeURIComponent(_url)}`;
 }
 
+const config = {
+  query_params: {},
+  post_data: {},
+};
+
+export function setQueryParams(query) {
+  config.query_params = query;
+}
+
+export function setPostData(data) {
+  config.post_data = data;
+}
+
+export function setHeaders(headers) {
+  for (const key of Object.keys(headers)) {
+    Axios.defaults.headers.common[key] = headers[key];
+  }
+}
+
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export function setHeader(name, content) {
@@ -23,25 +42,29 @@ export default {
     const promise = Axios.get(route, makeGetRequest(params, config));
     return withMappedPromise(promise);
   },
-  post(route, data = {}, config = {}) {
-    const promise = Axios.post(route, makeFormRequest(data), config);
+  post(route, data = {}, _config = {}) {
+    _config = {..._config, params: {..._config.params, ...config.query_params}};
+    const promise = Axios.post(route, makeFormRequest(data), _config);
     return withMappedPromise(promise);
   },
-  postJSON(route, data = {}) {
-    const promise = Axios.post(route, data);
+  postJSON(route, data = {}, _config = {}) {
+    _config = {..._config, params: {..._config.params, ...config.query_params}};
+    const promise = Axios.post(route, data, _config);
     return withMappedPromise(promise);
   },
-  put(route, data = {}) {
-    data['_method'] = 'PUT';
-    const promise = Axios.post(route, makeFormRequest(data));
+  put(route, data = {}, _config = {}) {
+    _config = {..._config, params: {..._config.params, ...config.query_params}};
+    const promise = Axios.put(route, makeFormRequest(data), _config);
     return withMappedPromise(promise);
   },
-  putJSON(route, data = {}) {
-    const promise = Axios.put(route, data);
+  putJSON(route, data = {}, _config = {}) {
+    _config = {..._config, params: {..._config.params, ...config.query_params}};
+    const promise = Axios.put(route, data, _config);
     return withMappedPromise(promise);
   },
-  patch(route, data = {}) {
-    const promise = Axios.patch(route, makeFormRequest(data));
+  patch(route, data = {}, _config = {}) {
+    _config = {..._config, params: {..._config.params, ...config.query_params}};
+    const promise = Axios.patch(route, makeFormRequest(data), _config);
     return withMappedPromise(promise);
   },
   delete(route, data = {}) {
@@ -50,23 +73,23 @@ export default {
   },
   getCancelSource() {
     return Axios.CancelToken.source();
-  }
+  },
 };
 
 function withMappedPromise(promise) {
   return new Promise((resolve, reject) => {
-    promise
-        .then(response => resolve(
-            ResponseMapperService.mapSuccessResponse(response)))
-        .catch(error => reject(ResponseMapperService.mapErrorResponse(error)),
+    promise.then(response => resolve(
+        ResponseMapperService.mapSuccessResponse(response))).
+        catch(error => reject(ResponseMapperService.mapErrorResponse(error)),
         );
   });
 }
 
-function makeFormRequest(data, form = null, parent = null) {
+function makeFormRequest(_data, form = null, parent = null) {
   if (!form) {
     form = new FormData();
   }
+  const data = {..._data, ...config.post_data};
   Object.keys(data).forEach(key => {
     const value = data[key];
     if (value === undefined) {
@@ -95,6 +118,7 @@ function makeGetRequest(params = {}, config = {}) {
   return {
     params: {
       ...params,
+      ...config.query_params,
     },
     ...config,
   };
