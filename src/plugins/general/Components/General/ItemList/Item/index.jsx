@@ -27,12 +27,11 @@ class Item extends Component {
       return this.moveTo(this.props.item);
     }
 
-    const handlers = Object.values(getHandlers(this.props.item));
+    const handlers = getHandlers(this.props.item, this.props.state);
     if (!handlers.length) {
       toast.info('Unsupported file type.');
       return;
     }
-
     handlers[0].handle(this.props.item, this.props.state, this.props.dispatch);
   };
 

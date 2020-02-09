@@ -30,7 +30,7 @@ export default {
   },
   copy_to: {
     shouldShow(item, state) {
-      return getSelectedItems(state.general.entries).length > 0;
+      return getSelectedItems(state.entries).length > 0;
     },
     menu_item: {
       icon: icons.copy,
@@ -46,7 +46,7 @@ export default {
   },
   move_to: {
     shouldShow(item, state) {
-      return getSelectedItems(state.general.entries).length > 0;
+      return getSelectedItems(state.entries).length > 0;
     },
     menu_item: {
       icon: icons.move,

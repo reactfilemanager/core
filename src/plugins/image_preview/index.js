@@ -1,5 +1,6 @@
 import ImagePreview from './Components/ImagePreview';
 import React from 'react';
+import icons from '../../assets/icons';
 
 export default {
   image_preview: {
@@ -11,7 +12,7 @@ export default {
               return ['jpg', 'jpeg', 'bmp', 'svg', 'ico', 'gif', 'webp', 'png'].indexOf(item.extension) > -1;
             },
             menu_item: {
-              icon: '',
+              icon: icons.preview,
               title: 'Preview',
             },
             handle(item, state, dispatch) {
