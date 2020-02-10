@@ -49,7 +49,7 @@ class InfoPanel extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>Color Channels</td>
+                  <td>Channels</td>
                   <td>
                     {item.image_info.channels}
                   </td>
