@@ -107,3 +107,7 @@ Date.prototype.toHumanFormat = function() {
 Array.prototype.diff = function(array) {
   return this.filter(i => !array.includes(i));
 };
+
+HTMLElement.prototype.isIn = function(path) {
+  return path.find(node => node === this) !== undefined;
+};
