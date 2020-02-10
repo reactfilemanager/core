@@ -18,12 +18,6 @@ class InfoPanel extends Component {
           <tr>
             <td colSpan={2}><h3> {icons.info} Details</h3></td>
           </tr>
-          {this.isImage ?
-              <tr>
-                <td>Dimension</td>
-                <td>{item.name}</td>
-              </tr>
-              : null}
           <tr>
             <td>Name</td>
             <td>{item.name}</td>
@@ -35,6 +29,10 @@ class InfoPanel extends Component {
           <tr>
             <td>Permission</td>
             <td>{item.perms}</td>
+          </tr>
+          <tr>
+            <td>Last Modified</td>
+            <td>{item.last_modified.toHumanFormat()}</td>
           </tr>
           {this.isImage ?
               <>
