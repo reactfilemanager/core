@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx} from 'theme-ui';
+import {jsx, Divider} from 'theme-ui';
 import styled from '@emotion/styled';
 import React from 'react';
 import {connectMenu, ContextMenu, MenuItem, SubMenu} from 'react-contextmenu';
@@ -27,37 +27,21 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   const {item} = trigger;
   const menu_items = getContextMenu(item, state.general);
   const handlers = getHandlers(item, state.general);
-  let firstHandler = null;
-
-  if (handlers.length > 0) {
-    firstHandler = handlers[0];
-  }
 
   return (
       <ContextMenu
           id={CONTEXT_MENU_ID}
           sx={style}>
-        {firstHandler
+        {handlers.length > 0
             ? <>
-              <Menu onClick={() => firstHandler.handle(item, state, dispatch)}>
-                {firstHandler.menu_item.icon}&nbsp;
-                {firstHandler.type === 'preview'
-                    ? 'Preview'
-                    : firstHandler.menu_item.title
-                }
-              </Menu>
-              {/* <Divider/> */}
-            </>
-            : null}
-        {handlers.length > 1
-            ? <SubMenu title="Open With">
               {handlers.map(handler => (
                   <Menu key={handler.key}
                         onClick={() => handler.handle(item, state, dispatch)}>
                     {handler.menu_item.icon} {handler.menu_item.title}
                   </Menu>
               ))}
-            </SubMenu>
+              <Divider/>
+            </>
             : null}
         {
           Object.keys(menu_items).map(key => (
