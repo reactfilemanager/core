@@ -45,7 +45,7 @@ class RemoteUpload extends Component {
           sx={{ lineHeight: 2 }}
           placeholder="Enter remote file url here"
           autoFocus
-          ref="name"
+          ref="remote_url"
           onKeyDown={this.handleKeyDown}
         />
 
