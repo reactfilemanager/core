@@ -66,9 +66,9 @@ export default function() {
             }
           }}>
             <span>Version</span>
-            <span>
-              {icons.info} Help
-            </span>
+            <a href="https://www.themexpert.com" target="_blank">
+              {icons.info} ThemeXpert
+            </a>
           </Flex>
 
         </aside>
