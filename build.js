@@ -16,15 +16,10 @@ registerPlugin({
         root_url: ROOT_URL,
         // selection handler
         handlers: {
-          selector: {
+          default: {
             // if context menu item should be shown/handle should be called
             handles(item, state) {
               return !item.is_dir && getSelectedItems(state.entries).length > 0;
-            },
-            // menu item to show when `handles(item, state)` returns `true`
-            menu_item: {
-              icon: icons.check,
-              title: 'Select',
             },
             // handle the item/items
             handle(item, state) {

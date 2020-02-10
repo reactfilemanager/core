@@ -71,12 +71,28 @@ export const getContextMenu = (item, state) => {
   return menu_items;
 };
 
+export const getDefaultHandler = (item, state) => {
+  const _handlers = Object.assign({}, _defaultConfig.handlers,
+      _config.handlers || {});
+  if (_handlers.default && _handlers.default.handles(item, state)) {
+    return _handlers.default;
+  }
+  else {
+    const handlers = getHandlers(item, state);
+    if (handlers.length > 0) {
+      return handlers[0];
+    }
+  }
+  return null;
+};
+
 export const getHandlers = (item, state) => {
   const handlers = {};
   const _handlers = Object.assign({}, _defaultConfig.handlers,
       _config.handlers || {});
   for (const key of Object.keys(_handlers)) {
-    if (_handlers[key].handles(item, state)) {
+    if (_handlers[key].menu_item !== undefined &&
+        _handlers[key].handles(item, state)) {
       handlers[key] = _handlers[key];
     }
   }
