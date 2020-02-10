@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx,Button, Text, Flex, Image} from 'theme-ui';
+import {jsx,Button, Text, Flex, Image, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import {getApi} from '../../../tools/config';
 import {remove, removeModal, resetDirectoryTree} from '../../../state/actions';

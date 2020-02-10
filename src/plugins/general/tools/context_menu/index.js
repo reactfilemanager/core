@@ -28,38 +28,38 @@ export default {
       dispatch(injectModal(modal));
     },
   },
-  copy_to: {
-    shouldShow(item, state) {
-      return getSelectedItems(state.entries).length > 0;
-    },
-    menu_item: {
-      icon: icons.copy,
-      title: 'Copy To',
-    },
-    handle(item, state, dispatch) {
-      const modal = (props) => {
-        return <CopyTo {...props} move={false}/>;
-      };
+  // copy_to: {
+  //   shouldShow(item, state) {
+  //     return getSelectedItems(state.entries).length > 0;
+  //   },
+  //   menu_item: {
+  //     icon: icons.copy,
+  //     title: 'Copy To',
+  //   },
+  //   handle(item, state, dispatch) {
+  //     const modal = (props) => {
+  //       return <CopyTo {...props} move={false}/>;
+  //     };
 
-      dispatch(injectModal(modal));
-    },
-  },
-  move_to: {
-    shouldShow(item, state) {
-      return getSelectedItems(state.entries).length > 0;
-    },
-    menu_item: {
-      icon: icons.move,
-      title: 'Move To',
-    },
-    handle(item, state, dispatch) {
-      const modal = (props) => {
-        return <CopyTo {...props} move={true}/>;
-      };
+  //     dispatch(injectModal(modal));
+  //   },
+  // },
+  // move_to: {
+  //   shouldShow(item, state) {
+  //     return getSelectedItems(state.entries).length > 0;
+  //   },
+  //   menu_item: {
+  //     icon: icons.move,
+  //     title: 'Move To',
+  //   },
+  //   handle(item, state, dispatch) {
+  //     const modal = (props) => {
+  //       return <CopyTo {...props} move={true}/>;
+  //     };
 
-      dispatch(injectModal(modal));
-    },
-  },
+  //     dispatch(injectModal(modal));
+  //   },
+  // },
   change_permission: {
     shouldShow(item) {
       return item instanceof FileInfo;
@@ -172,7 +172,7 @@ export default {
     },
     menu_item: {
       icon: icons.cloud_upload,
-      title: 'Upload Remote File',
+      title: 'Upload From Url',
     },
     handle(item, state, dispatch) {
       const modal = (props) => {

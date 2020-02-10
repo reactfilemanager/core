@@ -1,10 +1,9 @@
 /** @jsx jsx */
-import {jsx, Divider} from 'theme-ui';
+import {jsx} from 'theme-ui';
 import styled from '@emotion/styled';
 import React from 'react';
 import {connectMenu, ContextMenu, MenuItem, SubMenu} from 'react-contextmenu';
 import {getContextMenu, getHandlers} from '../../tools/config';
-import icons from '../../../../assets/icons';
 
 export const CONTEXT_MENU_ID = 'hive-fm-context-menu';
 const style = {
