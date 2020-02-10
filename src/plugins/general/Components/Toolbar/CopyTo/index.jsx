@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CopyToM from '../../ContextMenu/CopyTo';
+import CopyToM from '../../Modals/CopyTo';
 import {injectModal} from '../../../state/actions';
 import {Button} from 'theme-ui';
 import icons from '../../../../../assets/icons';

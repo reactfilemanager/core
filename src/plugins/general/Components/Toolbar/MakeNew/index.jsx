@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NewFolder from '../../ContextMenu/NewFolder';
+import NewFolder from '../../Modals/NewFolder';
 import {injectModal} from '../../../state/actions';
 import {Button} from 'theme-ui';
 import icons from '../../../../../assets/icons';

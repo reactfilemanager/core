@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import DeleteM from '../../ContextMenu/Delete';
+import DeleteM from '../../Modals/Delete';
 import {injectModal} from '../../../state/actions';
 import {Button} from 'theme-ui';
 import icons from '../../../../../assets/icons';

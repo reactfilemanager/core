@@ -2,9 +2,9 @@
 import {jsx, Button, Box, Flex, Text} from 'theme-ui';
 import React, {Component} from 'react';
 import icons from '../../../../../assets/icons';
-import Upload from '../../ContextMenu/Upload';
+import Upload from '../../Modals/Upload';
 import {injectModal} from '../../../state/actions';
-import RemoteUpload from '../../ContextMenu/RemoteUpload';
+import RemoteUpload from '../../Modals/RemoteUpload';
 
 class Uploader extends Component {
 

@@ -13,7 +13,9 @@ class DirectoryTree extends Component {
   };
 
   render() {
-    return <SelectableDirectoryTree onSelect={this.onSelect} {...this.props}/>
+    return <SelectableDirectoryTree onSelect={this.onSelect}
+                                    path={this.props.state.path}
+                                    {...this.props}/>;
   }
 }
 

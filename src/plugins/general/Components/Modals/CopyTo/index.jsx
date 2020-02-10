@@ -61,7 +61,7 @@ class CopyTo extends Component {
         <Flex sx={{
           flexDirection: 'column', alignItems: 'center',
           p: 4,
-          '> span > svg': {width: '50px', height: '50px' },
+          '> span > svg': {width: '50px', height: '50px'},
         }}>
           {this.icon}
 
@@ -73,10 +73,12 @@ class CopyTo extends Component {
               readOnly
           /> */}
 
-          <Box className="fm-modal-overflow-content" bg={'muted'} pb={3} borderRadius={'3px'}>
+          <Box className="fm-modal-overflow-content" bg={'muted'} pb={3}
+               borderRadius={'3px'}>
             <SelectableDirectoryTree onSelect={this.onSelect}
-                                    state={this.props.state.general}
-                                    dispatch={this.props.dispatch}/>
+                                     state={this.props.state.general}
+                                     path={this.state.path}
+                                     dispatch={this.props.dispatch}/>
           </Box>
 
           <Button

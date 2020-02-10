@@ -2,14 +2,14 @@ import React from 'react';
 import icons from '../../../../assets/icons';
 import InfoPanel from '../../Components/General/InfoPanel';
 import {injectModal, injectSidePanel} from '../../state/actions';
-import Permission from '../../Components/ContextMenu/Permission';
-import Rename from '../../Components/ContextMenu/Rename';
-import Delete from '../../Components/ContextMenu/Delete';
+import Permission from '../../Components/Modals/Permission';
+import Rename from '../../Components/Modals/Rename';
+import Delete from '../../Components/Modals/Delete';
 import FileInfo, {getSelectedItems} from '../../models/FileInfo';
-import Upload from '../../Components/ContextMenu/Upload';
-import RemoteUpload from '../../Components/ContextMenu/RemoteUpload';
-import NewFolder from '../../Components/ContextMenu/NewFolder';
-import CopyTo from '../../Components/ContextMenu/CopyTo';
+import Upload from '../../Components/Modals/Upload';
+import RemoteUpload from '../../Components/Modals/RemoteUpload';
+import NewFolder from '../../Components/Modals/NewFolder';
+import CopyTo from '../../Components/Modals/CopyTo';
 
 export default {
   rename: {

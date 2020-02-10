@@ -33,11 +33,11 @@ class SelectableDirectoryTree extends Component {
   }
 
   populateDirs = () => {
-    if (this.props.state.path === null) {
+    if (this.props.path === null) {
       return;
     }
     this.props.dispatch(resetDirectoryTree(false));
-    let path = this.props.state.path;
+    let path = this.props.path;
     let _path = path;
     if (_path === '') {
       _path = '/';
@@ -52,12 +52,12 @@ class SelectableDirectoryTree extends Component {
   };
 
   setOpenDirs = () => {
-    if (this.props.state.path === null) {
+    if (this.props.path === null) {
       return;
     }
     let expandedKeys = [];
 
-    const path = this.props.state.path.split('/');
+    const path = this.props.path.split('/');
     let __dir = '';
     for (const _dir of path) {
       if (__dir === '/') {
@@ -173,7 +173,7 @@ class SelectableDirectoryTree extends Component {
   };
 
   render() {
-    const _path = this.props.state.path;
+    const _path = this.props.path;
     const path = _path === '' ? '/' : _path;
     const loop = (data) => {
       return data.map((item) => {
