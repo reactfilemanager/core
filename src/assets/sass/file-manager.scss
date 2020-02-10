@@ -15,3 +15,8 @@ $primary: #3333ee;
    box-shadow: 0 0 10px lighten($primary, 40%);
  }
 
+.fm-modal-overflow-content{
+  height: 100%;
+  max-height: 220px;
+  overflow: scroll;
+}

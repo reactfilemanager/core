@@ -73,7 +73,7 @@ class CopyTo extends Component {
               readOnly
           /> */}
 
-          <Box bg={'muted'} pb={3} borderRadius={'3px'}>
+          <Box className="fm-modal-overflow-content" bg={'muted'} pb={3} borderRadius={'3px'}>
             <SelectableDirectoryTree onSelect={this.onSelect}
                                     state={this.props.state.general}
                                     dispatch={this.props.dispatch}/>

@@ -1,9 +1,10 @@
+/** @jsx jsx */
+import {jsx,Button, Text, Flex, Image} from 'theme-ui';
 import React, {Component} from 'react';
-import {Button, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
 import {remove, removeModal, resetDirectoryTree} from '../../../state/actions';
 import {toast} from 'react-toastify';
-
+import icons from '../../../../../assets/icons';
 class Delete extends Component {
   state = {working: false};
 
@@ -40,21 +41,57 @@ class Delete extends Component {
     const selected = this.getSelected();
 
     return (
-        <div className=" p-1">
-          <div className="form-group mx-sm-3 mb-2">
-            <h3>Are you sure you want to delete these entries?</h3>
-            <ol className="list-group">
-              {selected.map(item => <li className="list-group-item" key={`${item.name}`}>{item.name}</li>)}
-            </ol>
-          </div>
-
-          <Button variant="highlight" onClick={this.handleDelete} disabled={this.state.working}>
-            {
-              this.state.working ? <Spinner title="Deleting"/> : 'Delete'
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        'svg' : { width: '50px', height: '50px' }
+      }}>
+        {icons.trash}
+        
+        <Text sx={{ fontSize: 22, py: 2,}}>Delete these entries</Text>
+        
+        <div className="fm-modal-overflow-content" sx={{ my: 2, width: '100%',}}>
+          <ul sx={{
+            listStyleType: 'none',
+            p: 0,
+            m: 0,
+            border: '1px solid #ddd',
+            'li':{
+              py: 2,
+              px: 3
+            },
+            'li:not(:last-child)': {
+              borderBottom: '1px solid #ddd'
+            },          
+            'li:hover': {
+              bg: 'primaryLight'
             }
-          </Button>
-
+          }}>
+            {selected.map(item => <li className="list-group-item" key={`${item.name}`}>
+              <Image src={thumb(item.path)} sx={{ width: 20,mr: 2,}}/> {item.name}
+            </li>)}
+          </ul>
         </div>
+        
+        <div sx={{
+          bg: 'primaryLight',
+          borderColor: 'primary',
+          borderWidth: '0 0 0 3px',
+          borderStyle: 'solid',
+          borderRadius: 4,
+          py: 2,
+          px: 3,
+        }}>
+          <strong>Are you absolutely sure?</strong> This action cannot be undone!
+        </div>
+        <Button
+        sx={{ py: 2, px: 5, marginTop: 3 }}
+          onClick={this.handleDelete}
+          disabled={this.state.working}
+        >
+          { this.state.working ? <Spinner title="Deleting"/> : 'Delete' }
+        </Button>
+      </Flex>
     );
   }
 }
