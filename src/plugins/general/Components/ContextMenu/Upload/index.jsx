@@ -183,11 +183,13 @@ class Upload extends Component {
         <Flex>
         <span sx={{
           p: 2,
+          display: 'flex',
           flex: '1',
           borderRadius: 1,
           '&:hover': {
             bg: '#f4f4fe',
           },
+          'svg': { marginRight: 2 }
         }}>
           {
             file.upload_complete ? file.upload_success ? icons.check : icons.warning : null
@@ -200,6 +202,7 @@ class Upload extends Component {
                 ? file.size.toHumanFileSize()
                 : 'Failed' : <Progress max={1} value={file.progress}/>
           }
+          {file.upload_complete && file.upload_error ? <Box sx={{ fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</Box> : null}
         </span>
 
           {
@@ -224,7 +227,6 @@ class Upload extends Component {
                     }} onClick={() => this.retry(file)}>Retry</span> : ''
           }
         </Flex>
-        {file.upload_complete && file.upload_error ? <Box>{file.message}</Box> : null}
       </li>
     );
   };
@@ -247,21 +249,26 @@ class Upload extends Component {
     return (
         <Box>
           <Text>File Uploader</Text>
-          <Box sx={{
+          <Flex sx={{
             my: 3,
             p: 4,
             borderWidth: '2px',
             borderStyle: 'dashed',
-            borderColor: this.state.enable_drop ? 'primary' : 'gray',
+            borderColor: this.state.enable_drop ? 'primary' : '#ddd',
             borderRadius: 4,
             textAlign: 'center',
+            alignItems: 'center',
+            justifyContent: 'center'
           }} ref="dropArea">
             <strong
                 onClick={this.openFileInput}
                 sx={{
                   color: 'primary',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  marginRight: 2,
                 }}>{icons.link} Add file</strong> or drop file here
-          </Box>
+          </Flex>
 
           <ul sx={{
             listStyleType: 'none',
