@@ -198,6 +198,7 @@ class Search extends Component {
                 boxShadow: '0 0 4px #ccc',
                 width: '100%',
                 borderRadius: '3px',
+                zIndex: 99,
               }}>
 
                 {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
