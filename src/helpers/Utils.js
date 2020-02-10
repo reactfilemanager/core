@@ -1,3 +1,5 @@
+import {toast} from 'react-toastify';
+
 function viewport() {
   const w = window,
       d = document,
@@ -67,11 +69,25 @@ const EventBus = {
   },
 };
 
+const getImageDimensionAsync = imageUrl => {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = e => {
+      resolve({width: image.width, height: image.height});
+    };
+    image.onerror = e => {
+      reject(e);
+    };
+    image.src = imageUrl;
+  });
+};
+
 export {
   viewport,
   fuzzySearch,
   uuidv4,
   EventBus,
+  getImageDimensionAsync,
 };
 
 export default {};

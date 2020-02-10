@@ -7,7 +7,7 @@ export default {
         return files.map(file => this.one(file));
       },
       one(fileInfo) {
-        return new FileInfo(
+        const file = new FileInfo(
             fileInfo.name,
             fileInfo.path,
             fileInfo.is_dir,
@@ -19,8 +19,13 @@ export default {
             fileInfo.perms,
             fileInfo.size,
             fileInfo.extension,
-            new Date(fileInfo.last_modified*1000),
+            new Date(fileInfo.last_modified * 1000),
         );
+        if (fileInfo.image_info) {
+          file.image_info = fileInfo.image_info;
+        }
+
+        return file;
       },
     };
 
