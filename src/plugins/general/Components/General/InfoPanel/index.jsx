@@ -1,8 +1,17 @@
+/** @jsx jsx*/
+import {jsx, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import icons from '../../../../../assets/icons';
+import {FILE_TYPES} from '../../Toolbar/FilterByType';
 
 class InfoPanel extends Component {
+
+  get isImage() {
+    return FILE_TYPES.image.indexOf(this.props.item.extension) >= 0;
+  }
+
   render() {
+    const item = this.props.item;
     return (
         <table>
           <tbody>
@@ -11,16 +20,48 @@ class InfoPanel extends Component {
           </tr>
           <tr>
             <td>Name</td>
-            <td>{this.props.item.name}</td>
+            <td>{item.name}</td>
           </tr>
           <tr>
             <td>Size</td>
-            <td>{this.props.item.size.toHumanFileSize()}</td>
+            <td>{item.size.toHumanFileSize()}</td>
           </tr>
           <tr>
             <td>Permission</td>
-            <td>{this.props.item.perms}</td>
+            <td>{item.perms}</td>
           </tr>
+          <tr>
+            <td>Last Modified</td>
+            <td>{item.last_modified.toHumanFormat()}</td>
+          </tr>
+          {this.isImage ?
+              <>
+                <tr>
+                  <td>Dimension</td>
+                  <td>
+                    {`${item.image_info.width}x${item.image_info.width}`}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Bits</td>
+                  <td>
+                    {item.image_info.bits}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Channels</td>
+                  <td>
+                    {item.image_info.channels}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mime Type</td>
+                  <td>
+                    {item.image_info.mime}
+                  </td>
+                </tr>
+              </>
+              : null}
           </tbody>
         </table>
     );

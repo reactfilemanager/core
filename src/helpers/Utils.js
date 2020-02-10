@@ -1,3 +1,5 @@
+import {toast} from 'react-toastify';
+
 function viewport() {
   const w = window,
       d = document,
@@ -41,10 +43,51 @@ function uuidv4() {
   });
 }
 
+const EventBus = {
+  listeners: {},
+  $on(type, handler) {
+    if (!this.listeners[type]) {
+      this.listeners[type] = [];
+    }
+    this.listeners[type].push(handler);
+  },
+  $off(type, handler) {
+    if (!this.listeners[type]) {
+      return;
+    }
+
+    this.listeners[type] = this.listeners[type].splice(
+        this.listeners[type].indexOf(handler), 1);
+  },
+  $emit(type, payload) {
+    if (!this.listeners[type]) {
+      return;
+    }
+    for (const handler of this.listeners[type]) {
+      handler(payload);
+    }
+  },
+};
+
+const getImageDimensionAsync = imageUrl => {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = e => {
+      resolve({width: image.width, height: image.height});
+    };
+    image.onerror = e => {
+      reject(e);
+    };
+    image.src = imageUrl;
+  });
+};
+
 export {
   viewport,
   fuzzySearch,
   uuidv4,
+  EventBus,
+  getImageDimensionAsync,
 };
 
 export default {};

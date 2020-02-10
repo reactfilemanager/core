@@ -3,7 +3,7 @@ import {jsx, Divider, Button, Input} from 'theme-ui';
 import React, {Component} from 'react';
 import debounce from 'lodash.debounce';
 import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
-import {fuzzySearch} from '../../../../../helpers/Utils';
+import {EventBus, fuzzySearch} from '../../../../../helpers/Utils';
 import icons from '../../../../../assets/icons';
 
 class Search extends Component {
@@ -12,7 +12,20 @@ class Search extends Component {
 
   componentDidMount() {
     this.props.dispatch(addFilter({search: this.filter}));
+    EventBus.$on('click', this.closeDropdown);
   }
+
+  componentWillUnmount() {
+    EventBus.$off('click', this.closeDropdown);
+  }
+
+  closeDropdown = e => {
+    if (this.refs.btn.isIn(e.path)) {
+      return;
+    }
+
+    this.setState({isOpen: false});
+  };
 
   sort = sort => {
     this.props.dispatch(setSort(sort));
@@ -180,12 +193,15 @@ class Search extends Component {
                   height: 14,
                 },
                 transition: 'transform 300ms',
-                transform: this.state.isOpen ? 'rotateZ(180deg)' : 'rotateZ(0deg)',
+                transform: this.state.isOpen
+                    ? 'rotateZ(180deg)'
+                    : 'rotateZ(0deg)',
               }}
               variant="utility"
               type="button"
               aria-expanded="false"
-              onClick={this.toggleDropdown}>
+              onClick={this.toggleDropdown}
+              ref="btn">
             {icons.triangle_down}
           </Button>
           {this.state.isOpen
@@ -201,11 +217,13 @@ class Search extends Component {
                 zIndex: 99,
               }}>
 
-                {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
+                {this.getSortDropdownItems(this.sortByItems, this.isEnabled,
+                    this.sortBy)}
 
                 <Divider/>
 
-                {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
+                {this.getSortDropdownItems(this.sortItems, this.isSort,
+                    this.sort)}
               </div>
               : null}
         </div>

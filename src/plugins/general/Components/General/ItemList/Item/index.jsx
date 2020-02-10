@@ -6,7 +6,7 @@ import {setEntries} from '../../../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../../ContextMenu';
 import cloneDeep from 'lodash.clonedeep';
-import {getHandlers} from '../../../../tools/config';
+import {getDefaultHandler, getHandlers} from '../../../../tools/config';
 import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../../../models/FileInfo';
 
@@ -27,12 +27,12 @@ class Item extends Component {
       return this.moveTo(this.props.item);
     }
 
-    const handlers = getHandlers(this.props.item, this.props.state);
-    if (!handlers.length) {
+    const handlers = getDefaultHandler(this.props.item, this.props.state);
+    if (!handlers) {
       toast.info('Unsupported file type.');
       return;
     }
-    handlers[0].handle(this.props.item, this.props.state, this.props.dispatch);
+    handlers.handle(this.props.item, this.props.state, this.props.dispatch);
   };
 
   toggleSelect = (ctrlKey, shiftKey) => {
@@ -44,7 +44,8 @@ class Item extends Component {
 
       function mark(item) {
         let skip = false;
-        if (!shouldMark && (item.id === lastSelectedItem.id || item.id === self.props.item.id)) {
+        if (!shouldMark && (item.id === lastSelectedItem.id || item.id ===
+            self.props.item.id)) {
           // marking start
           shouldMark = true;
           skip = true;
@@ -59,7 +60,9 @@ class Item extends Component {
           item.selection_time = null;
         }
 
-        if (!skip && shouldMark && (item.id === lastSelectedItem.id || item.id === self.props.item.id)) {
+        if (!skip && shouldMark &&
+            (item.id === lastSelectedItem.id || item.id ===
+                self.props.item.id)) {
           // marking end
           shouldMark = false;
         }
@@ -67,9 +70,10 @@ class Item extends Component {
       }
 
       const entries = cloneDeep(this.props.state.entries);
-      const items = Object.values(this.props.state.filters).reduce((entries, fn) => {
-        return fn(entries);
-      }, entries);
+      const items = Object.values(this.props.state.filters).
+          reduce((entries, fn) => {
+            return fn(entries);
+          }, entries);
 
       const dirs = items.dirs.map(dir => mark(dir));
       const files = items.files.map(file => mark(file));
@@ -77,8 +81,10 @@ class Item extends Component {
       this.props.dispatch(setEntries({dirs, files}));
     }
     else {
-      const dirs = this.props.state.entries.dirs.map(dir => this.markItemSelected(dir, ctrlKey, shiftKey));
-      const files = this.props.state.entries.files.map(file => this.markItemSelected(file, ctrlKey, shiftKey));
+      const dirs = this.props.state.entries.dirs.map(
+          dir => this.markItemSelected(dir, ctrlKey, shiftKey));
+      const files = this.props.state.entries.files.map(
+          file => this.markItemSelected(file, ctrlKey, shiftKey));
       this.props.dispatch(setEntries({dirs, files}));
     }
   };
@@ -101,7 +107,8 @@ class Item extends Component {
   };
 
   findLastSelected = () => {
-    const items = this.getSelectedItems().sort((a, b) => a.selection_time < b.selection_time ? 1 : -1);
+    const items = this.getSelectedItems().
+        sort((a, b) => a.selection_time < b.selection_time ? 1 : -1);
     if (items.length) {
       return items.shift();
     }
@@ -178,7 +185,7 @@ class Item extends Component {
                   <div
                       sx={{
                         display: 'flex',
-                        alignItems: 'center'
+                        alignItems: 'center',
                       }}>
                     <Image src={thumb(item.path)} sx={{
                       width: 32,
@@ -210,9 +217,16 @@ class Item extends Component {
                       overflow: 'hidden',
                     }}>
                       <div sx={{
-                        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                        width: '100%', height: '100%',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}>
                         <Image src={thumb(item.path)}/>
                       </div>
@@ -227,13 +241,13 @@ class Item extends Component {
                       color: 'gray',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
                     }}>
                       <span sx={{
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}>{item.basename}</span> 
+                        textOverflow: 'ellipsis',
+                      }}>{item.basename}</span>
                       <span>{item.getExtension(true)}</span>
                       {item.components}
                     </Text>
@@ -262,7 +276,8 @@ class Item extends Component {
               <Checkbox checked={item.selected} onChange={e => e}/>
             </Label>
           </TD>
-          <TD><Image src={thumb(item.path)} sx={{maxWidth: '20px', maxHeight: '20px'}}/></TD>
+          <TD><Image src={thumb(item.path)}
+                     sx={{maxWidth: '20px', maxHeight: '20px'}}/></TD>
           <TD> {
             item.is_dir ?
                 <Text

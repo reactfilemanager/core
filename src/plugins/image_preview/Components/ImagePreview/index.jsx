@@ -3,7 +3,7 @@ import {jsx, Box, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import throttle from 'lodash.throttle';
 import icons from '../../../../assets/icons';
-import {viewport} from '../../../../helpers/Utils';
+import {getImageDimensionAsync, viewport} from '../../../../helpers/Utils';
 import {toast} from 'react-toastify';
 
 class ImagePreview extends Component {
@@ -19,18 +19,16 @@ class ImagePreview extends Component {
   };
 
   componentDidMount() {
-    const image = new Image();
-    image.onload = e => {
-      const size = this.calculateSize(
-          {width: image.width, height: image.height});
+    getImageDimensionAsync(preview(this.props.item.path)).then(dim => {
+      const size = this.calculateSize({width: dim.width, height: dim.height});
       this.setState({...size, loading: false, ratio: size.width / size.height});
-    };
-    image.onerror = e => {
+    }).catch(error => {
       this.setState({loading: false});
       this.close();
       toast('Error occurred while loading the image');
-    };
-    image.src = preview(this.props.item.path);
+    }).finally(() => {
+      this.setState({loading: false});
+    });
     this.attachEvent();
   }
 
