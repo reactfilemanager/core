@@ -9,6 +9,7 @@ import icons from '../../../../assets/icons';
 import {removeModal, removeSidePanel} from '../../state/actions';
 import {SkyLightStateless} from 'react-skylight';
 import ContextMenu from '../ContextMenu';
+import {SmoothScroll} from '../../../../helpers/Utils';
 
 export default function() {
   const [state, dispatch] = window.useStore();
@@ -20,6 +21,8 @@ export default function() {
   const hasModal = !!Modal;
   const InjectedComponent = state.general.injected_component;
   const hasInjectedComponent = !!InjectedComponent;
+
+  const goToTop = () => SmoothScroll.scrollTo('fm-header');
 
   const closeSidebar = () => {
     dispatch(removeSidePanel());
@@ -39,7 +42,7 @@ export default function() {
               background: 'gray',
               borderRight: '1px solid #ddd',
               height: 'auto',
-              maxWidth: 'sidebar'
+              maxWidth: 'sidebar',
             }}>
 
           <DirectoryTree state={state.general} dispatch={dispatch}/>
@@ -55,16 +58,16 @@ export default function() {
             py: 2,
             px: 3,
 
-            '*':{
+            '*': {
               fontSize: 12,
               color: 'gray',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
             },
-            'svg':{
-              widht: '12px', height: '12px'
-            }
+            'svg': {
+              widht: '12px', height: '12px',
+            },
           }}>
-            <Link href="#fm-header">
+            <Link href="#!" onClick={goToTop}>
               {icons.arrow_up} Back To Top
             </Link>
             <Link href="https://www.themexpert.com" target="_blank">
@@ -84,29 +87,29 @@ export default function() {
           }}>
 
             <Flex
-              sx={{
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                borderBottom: '1px solid #ddd',
-                p: 2,
-              }}>
+                sx={{
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  borderBottom: '1px solid #ddd',
+                  p: 2,
+                }}>
               <Flex sx={{
                 width: 'toolbar',
               }}>
                 {/* <Breadcrumb path={state.general.path} dispatch={dispatch}/> */}
                 <Toolbar
-                  state={state.general}
-                  dispatch={dispatch}
-                  children={defaultConfig.toolbar}
-              />
+                    state={state.general}
+                    dispatch={dispatch}
+                    children={defaultConfig.toolbar}
+                />
 
-              {config.toolbar ?
-                  <Toolbar
-                      state={state.general}
-                      dispatch={dispatch}
-                      children={config.toolbar}
-                  />
-                  : null}
+                {config.toolbar ?
+                    <Toolbar
+                        state={state.general}
+                        dispatch={dispatch}
+                        children={config.toolbar}
+                    />
+                    : null}
               </Flex>
 
               <div
@@ -146,7 +149,8 @@ export default function() {
                   {Object.keys(sidebar_components).map(key => {
                     const Component = sidebar_components[key];
                     return (
-                        <Component key={key} id={key} state={state} dispatch={dispatch}/>
+                        <Component key={key} id={key} state={state}
+                                   dispatch={dispatch}/>
                     );
                   })}
                 </Box>
@@ -154,11 +158,11 @@ export default function() {
           </div>
         </main>
         <SkyLightStateless
-          afterClose={() => dispatch(removeModal())}
-          closeOnEsc
-          isVisible={hasModal}
-          onCloseClicked={() => dispatch(removeModal())}
-          dialogStyles={ModalDialogStyle}
+            afterClose={() => dispatch(removeModal())}
+            closeOnEsc
+            isVisible={hasModal}
+            onCloseClicked={() => dispatch(removeModal())}
+            dialogStyles={ModalDialogStyle}
         >
           {hasModal
               ? <Modal state={state} dispatch={dispatch}/>
@@ -174,8 +178,8 @@ export default function() {
 }
 
 const ModalDialogStyle = {
-  minHeight: '200px'
-}
+  minHeight: '200px',
+};
 const Link = styled.a`
   text-decoration: none;
-`
+`;
