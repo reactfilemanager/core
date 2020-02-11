@@ -81,14 +81,13 @@ class Upload extends Component {
 
   upload = (file) => {
     getApi().
-        upload(this.props.state.general.path, file._file,
-            this.handleProgress(file)).
+        upload(this.props.state.general.path, file._file, file.option, this.handleProgress(file)).
         then(response => {
-          this.setUploadStatus(file, response.message, true);
+          this.setUploadStatus(file, response.message, true, response);
         }).
         catch(error => {
           console.log(error);
-          this.setUploadStatus(file, error.message, false);
+          this.setUploadStatus(file, error.message, false, error);
         });
   };
 
@@ -100,6 +99,7 @@ class Upload extends Component {
         _file.upload_complete = false;
         _file.upload_success = false;
         _file.upload_error = false;
+        _file.option_required = false;
         _file.attempt += 1;
         _file.progress = 0;
         _file.message = null;
@@ -108,6 +108,16 @@ class Upload extends Component {
     });
 
     this.setState({uploads});
+  };
+
+  keepBoth = file => {
+    file.option = 'keep-both';
+    this.retry(file);
+  };
+
+  replaceExisting = file => {
+    file.option = 'replace';
+    this.retry(file);
   };
 
   removeFromUploads = file => {
@@ -122,13 +132,14 @@ class Upload extends Component {
     }, wait * 1000);
   };
 
-  setUploadStatus = (file, message, success) => {
+  setUploadStatus = (file, message, success, response) => {
     const uploads = this.state.uploads.map(_file => {
       if (_file === file) {
         _file.upload_complete = true;
         // _file.upload_complete = false;
         _file.upload_success = success === true;
         _file.upload_error = success === false;
+        _file.option_required = response.status === 412;
         _file.message = message || 'Server error occurred';
       }
       return _file;
@@ -170,6 +181,8 @@ class Upload extends Component {
     file.upload_complete = false;
     file.upload_success = false;
     file.upload_error = false;
+    file.option_required = false;
+    file.option = undefined;
     file.progress = 0;
     file.message = null;
     file.attempt = 1;
@@ -179,8 +192,8 @@ class Upload extends Component {
 
   getUploadProgress = file => {
     return (
-      <li key={`${file.name}_${file.size}`}>
-        <Flex>
+        <li key={`${file.name}_${file.size}`}>
+          <Flex>
         <span sx={{
           p: 2,
           display: 'flex',
@@ -189,45 +202,51 @@ class Upload extends Component {
           '&:hover': {
             bg: '#f4f4fe',
           },
-          'svg': { marginRight: 2 }
+          'svg': {marginRight: 2},
         }}>
           {
             file.upload_complete ? file.upload_success ? icons.check : icons.warning : null
           }
           {file.name}
         </span>
-          <span sx={{p: 2, width: '15%'}}>
+            <span sx={{p: 2, width: '15%'}}>
           {
             file.upload_complete ? file.upload_success
                 ? file.size.toHumanFileSize()
                 : 'Failed' : <Progress max={1} value={file.progress}/>
           }
-          {file.upload_complete && file.upload_error ? <Box sx={{ fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</Box> : null}
+              {file.upload_complete && file.upload_error ? <Box
+                  sx={{fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</Box> : null}
         </span>
 
-          {
-            file.upload_success
-                ?
-                <span sx={{p: 2, width: '5%'}}
-                      onClick={() => this.removeFromUploads(file)}>
+            {
+              file.upload_success
+                  ?
+                  <span sx={{p: 2, width: '5%'}}
+                        onClick={() => this.removeFromUploads(file)}>
                   {icons.close}
                 </span> : ''
-          }
+            }
 
-          {
-            file.upload_complete && file.upload_error ?
-                <span
-                    sx={{
-                      p: 2,
-                      width: '10%',
-                      fontWeight: 'bold',
-                      fontSize: 14,
-                      color: 'primary',
-                      cursor: 'pointer',
-                    }} onClick={() => this.retry(file)}>Retry</span> : ''
-          }
-        </Flex>
-      </li>
+            {
+              file.upload_complete && file.upload_error ?
+                  file.option_required ?
+                      <>
+                        <span onClick={() => this.replaceExisting(file)}>Replace</span>
+                        <span onClick={() => this.keepBoth(file)}>Keep Both</span>
+                      </>
+                      : <span
+                          sx={{
+                            p: 2,
+                            width: '10%',
+                            fontWeight: 'bold',
+                            fontSize: 14,
+                            color: 'primary',
+                            cursor: 'pointer',
+                          }} onClick={() => this.retry(file)}>Retry</span> : ''
+            }
+          </Flex>
+        </li>
     );
   };
 
@@ -258,7 +277,7 @@ class Upload extends Component {
             borderRadius: 4,
             textAlign: 'center',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }} ref="dropArea">
             <strong
                 onClick={this.openFileInput}
@@ -274,7 +293,7 @@ class Upload extends Component {
             listStyleType: 'none',
             p: 0,
             maxHeight: '200px',
-            overflow: 'scroll'
+            overflow: 'scroll',
           }}>
             {this.getUploads()}
           </ul>

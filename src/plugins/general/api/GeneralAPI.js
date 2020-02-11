@@ -73,12 +73,13 @@ export default {
     };
   },
   upload: {
-    conf: (path, file, onUploadProgress) => {
+    conf: (path, file, option, onUploadProgress) => {
       return {
         formData: {
           action: 'upload',
           path,
           file,
+          option,
         },
         config: {onUploadProgress},
         cancellable: true,
