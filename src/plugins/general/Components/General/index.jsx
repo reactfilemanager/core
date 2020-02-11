@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import {jsx, Box, Flex} from 'theme-ui';
-
-import Breadcrumb from './Breadcrumb';
+import styled from '@emotion/styled';
 import ItemList from './ItemList';
 import Toolbar from '../Toolbar';
 import {getConfig, getDefaultConfig} from '../../tools/config';
@@ -65,10 +64,12 @@ export default function() {
               widht: '12px', height: '12px'
             }
           }}>
-            <span>Version</span>
-            <a href="https://www.themexpert.com" target="_blank">
+            <Link href="#fm-header">
+              {icons.arrow_up} Back To Top
+            </Link>
+            <Link href="https://www.themexpert.com" target="_blank">
               {icons.info} ThemeXpert
-            </a>
+            </Link>
           </Flex>
 
         </aside>
@@ -78,7 +79,7 @@ export default function() {
               flexBasis: 0,
               minWidth: 320,
             }}>
-          <header sx={{
+          <header id="fm-header" sx={{
             background: 'lightGray',
           }}>
 
@@ -175,7 +176,6 @@ export default function() {
 const ModalDialogStyle = {
   minHeight: '200px'
 }
-const ModalTitleStyle = {
-  margin: '0',
-  display: 'none'
-}
+const Link = styled.a`
+  text-decoration: none;
+`
