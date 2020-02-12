@@ -139,7 +139,7 @@ export const addHandler = (pluginKey, key, handles, handle, menu_item = null, or
   });
 };
 
-export const addContextMenu = (pluginKey, key, shouldShow, handle, menu_item = null, order  = 10) => {
+export const addContextMenu = (pluginKey, key, shouldShow, handle, menu_item = null, order = 10) => {
   addToConfig(pluginKey, 'context_menu', key, {
     shouldShow,
     handle,
@@ -184,13 +184,17 @@ export const Pluggable = {
         addToolbarButton(pluginKey, key, button, order);
       },
       mergeConfig(_config) {
-        for(const key of _config) {
-          if(config[pluginKey][key]) {
+        for (const key of _config) {
+          if (config[pluginKey][key]) {
             config[pluginKey][key] = {...config[pluginKey][key], ..._config[key]};
-          } else {
+          }
+          else {
             config[pluginKey][key] = _config[key];
           }
         }
+      },
+      accessor() {
+        return this._plugin.accessor ? this._plugin.accessor() : null;
       },
     };
   },

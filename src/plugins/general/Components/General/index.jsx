@@ -3,16 +3,24 @@ import {jsx, Box, Flex} from 'theme-ui';
 import styled from '@emotion/styled';
 import ItemList from './ItemList';
 import Toolbar from '../Toolbar';
-import {getConfig, getDefaultConfig} from '../../tools/config';
+import {getConfig, getDefaultConfig, setAccessor} from '../../tools/config';
 import DirectoryTree from './DirectoryTree';
 import icons from '../../../../assets/icons';
 import {removeModal, removeSidePanel} from '../../state/actions';
 import {SkyLightStateless} from 'react-skylight';
 import ContextMenu from '../ContextMenu';
 import {SmoothScroll} from '../../../../helpers/Utils';
+import {getSelectedItems} from '../../models/FileInfo';
 
 export default function() {
   const [state, dispatch] = window.useStore();
+
+  setAccessor({
+    getSelectedItems() {
+      return getSelectedItems(state.general.entries);
+    },
+  });
+
   const defaultConfig = getDefaultConfig();
   const config = getConfig();
   const sidebar_components = state.general.sidebar_components;
@@ -30,65 +38,74 @@ export default function() {
 
   return (
       <Box>
-        <header id="fm-header" sx={{ background: 'lightGray', position: 'sticky', top: 0, left: 0, right: 0, width: '100%', height: '100%', zIndex: '9' }}>
+        <header id="fm-header" sx={{
+          background: 'lightGray',
+          position: 'sticky',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: '9',
+        }}>
           <Flex
-            sx={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottom: '1px solid #ddd',
-              p: 2,
-            }}>
+              sx={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '1px solid #ddd',
+                p: 2,
+              }}>
             <Flex>
               <Toolbar
-                state={state.general}
-                dispatch={dispatch}
-                children={defaultConfig.toolbar}
+                  state={state.general}
+                  dispatch={dispatch}
+                  children={defaultConfig.toolbar}
               />
 
               {config.toolbar ?
-                <Toolbar
-                  state={state.general}
-                  dispatch={dispatch}
-                  children={config.toolbar}
-                />
-                : null}
+                  <Toolbar
+                      state={state.general}
+                      dispatch={dispatch}
+                      children={config.toolbar}
+                  />
+                  : null}
             </Flex>
 
             <Flex>
               <div>
                 {
-                defaultConfig.utility ?
-                  <Toolbar
-                    state={state.general}
-                    dispatch={dispatch}
-                    children={defaultConfig.utility}/>
-                  : null
+                  defaultConfig.utility ?
+                      <Toolbar
+                          state={state.general}
+                          dispatch={dispatch}
+                          children={defaultConfig.utility}/>
+                      : null
                 }
               </div>
               <div>
                 {
                   defaultConfig.search ?
-                    <Toolbar
-                      state={state.general}
-                      dispatch={dispatch}
-                      children={defaultConfig.search}/> : null
+                      <Toolbar
+                          state={state.general}
+                          dispatch={dispatch}
+                          children={defaultConfig.search}/> : null
                 }
               </div>
             </Flex>
           </Flex>
         </header>
-        
-        <Flex bg="white" sx={{ width: '100%'}}>
+
+        <Flex bg="white" sx={{width: '100%'}}>
           <aside
-            sx={{
-              flexGrow: 1,
-              flexBasis: 'sidebar',
-              background: 'gray',
-              borderRight: '1px solid #ddd',
-              height: '100vh',
-              width: 'sidebar',
-              overflow: 'auto'
-            }}>
+              sx={{
+                flexGrow: 1,
+                flexBasis: 'sidebar',
+                background: 'gray',
+                borderRight: '1px solid #ddd',
+                height: '100vh',
+                width: 'sidebar',
+                overflow: 'auto',
+              }}>
 
             <DirectoryTree state={state.general} dispatch={dispatch}/>
 
@@ -122,12 +139,12 @@ export default function() {
 
           </aside>
           <main
-            sx={{
-              flexGrow: 99999,
-              flexBasis: 0,
-              height: '100vh',
-              overflow: 'scroll'
-          }}>
+              sx={{
+                flexGrow: 99999,
+                flexBasis: 0,
+                height: '100vh',
+                overflow: 'scroll',
+              }}>
             <ItemList state={state.general} dispatch={dispatch}/>
 
             {hasSidebarComponent
@@ -137,14 +154,14 @@ export default function() {
                     const Component = sidebar_components[key];
                     return (
                         <Component key={key} id={key} state={state}
-                                  dispatch={dispatch}/>
+                                   dispatch={dispatch}/>
                     );
                   })}
                 </Box>
                 : null}
           </main>
         </Flex>
-        
+
         <SkyLightStateless
             afterClose={() => dispatch(removeModal())}
             closeOnEsc

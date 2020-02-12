@@ -11,7 +11,7 @@ import handlers from './handlers';
 import CopyTo from '../Components/Toolbar/CopyTo';
 import MoveTo from '../Components/Toolbar/MoveTo';
 
-let _api = {};
+let _api = {}, _instance = null;
 let _getConfig = () => {};
 const _defaultConfig = {
   toolbar: {
@@ -108,6 +108,14 @@ export const getHandlers = (item, state) => {
       return 0;
     }
   });
+};
+
+export const setAccessor = instance => {
+  _instance = instance;
+};
+
+export const accessor = () => {
+  return _instance;
 };
 
 export default function({api, getConfig}) {
