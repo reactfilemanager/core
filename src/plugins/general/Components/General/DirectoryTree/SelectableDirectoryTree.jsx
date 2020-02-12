@@ -46,7 +46,7 @@ class SelectableDirectoryTree extends Component {
       return;
     }
 
-    let path = this.props.path;
+    let path = this.props.state.path;
     let _path = path;
     if (_path === '') {
       _path = '/';
@@ -66,7 +66,7 @@ class SelectableDirectoryTree extends Component {
     }
     let expandedKeys = [];
 
-    const path = this.props.path.split('/');
+    const path = this.props.state.path.split('/');
     let __dir = '';
     for (const _dir of path) {
       if (__dir === '/') {
