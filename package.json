@@ -1,6 +1,7 @@
 {
   "name": "@reactfilemanager/core",
   "description": "React based file manager",
+  "version": "1.0.0",
   "main": "src/file-manager.js",
   "private": true,
   "scripts": {
