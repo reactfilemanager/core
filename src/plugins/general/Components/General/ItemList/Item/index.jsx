@@ -153,8 +153,6 @@ class Item extends Component {
 
   getAttributes = (item) => {
     return {
-      onDoubleClick: this.handleDoubleClick,
-      onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
       className: item.selected ? 'selected' : '',
     };
@@ -170,7 +168,9 @@ class Item extends Component {
 
   getGridItem = (item) => {
     return (
-        <Card className={this.className}>
+        <Card className={this.className}
+              onDoubleClick={this.handleDoubleClick}
+              onClick={this.handleClick}>
           <ContextMenuTrigger
               key={item.id}
               id={CONTEXT_MENU_ID}

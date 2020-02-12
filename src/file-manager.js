@@ -10,10 +10,10 @@ import {
   setPostData,
   setQueryParams,
 } from './services/HttpService';
-import {registerPlugin} from './pluggable';
+import {registerPlugins, Pluggable} from './pluggable';
 
-registerPlugin(General);
-registerPlugin(ImagePreview);
+registerPlugins(General);
+registerPlugins(ImagePreview);
 
 const mount = (element, config = {}) => {
   setBaseUrl(config.url);
@@ -35,7 +35,7 @@ const mount = (element, config = {}) => {
 };
 
 export {
-  registerPlugin,
+  Pluggable,
   mount,
 };
 
