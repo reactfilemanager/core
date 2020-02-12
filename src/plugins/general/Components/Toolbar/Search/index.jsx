@@ -12,11 +12,11 @@ class Search extends Component {
 
   componentDidMount() {
     this.props.dispatch(addFilter({search: this.filter}));
-    EventBus.$on('click', this.closeDropdown);
+    EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
   }
 
   componentWillUnmount() {
-    EventBus.$off('click', this.closeDropdown);
+    EventBus.$off(['click', 'contextmenu'], this.closeDropdown);
   }
 
   closeDropdown = e => {

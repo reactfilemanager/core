@@ -12,11 +12,11 @@ class Uploader extends Component {
   state = {isOpen: false};
 
   componentDidMount() {
-    EventBus.$on('click', this.closeDropdown);
+    EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
   }
 
   componentWillUnmount() {
-    EventBus.$off('click', this.closeDropdown);
+    EventBus.$off(['click', 'contextmenu'], this.closeDropdown);
   }
 
   closeDropdown = e => {

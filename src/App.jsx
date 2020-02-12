@@ -12,14 +12,20 @@ class App extends Component {
 
   componentDidMount() {
     window.document.addEventListener('click', this.emitClickEvent, false);
+    window.document.addEventListener('contextmenu', this.emitContextMenuEvent, false);
   }
 
   componentWillUnmount() {
     window.document.removeEventListener('click', this.emitClickEvent, false);
+    window.document.removeEventListener('contextmenu', this.emitContextMenuEvent, false);
   }
 
   emitClickEvent = e => {
     EventBus.$emit('click', e);
+  };
+
+  emitContextMenuEvent = e => {
+    EventBus.$emit('contextmenu', e);
   };
 
   render() {
