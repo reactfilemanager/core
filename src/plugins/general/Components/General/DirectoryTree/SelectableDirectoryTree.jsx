@@ -185,7 +185,7 @@ class SelectableDirectoryTree extends Component {
 
   sendIcon = props => {
     return props.loading ? <Spinner/>
-        : (props.expanded ? icons.folder_open : icons.folder);
+        : (props.path === '/' ? icons.home : (props.expanded ? icons.folder_open : icons.folder));
   };
 
   handleExpand = expandedKeys => {
