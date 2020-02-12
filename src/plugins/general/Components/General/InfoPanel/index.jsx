@@ -1,5 +1,5 @@
 /** @jsx jsx*/
-import {jsx, Box, Heading, Text, Close } from 'theme-ui';
+import {jsx, Box, Heading, Text, Close, Image } from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import icons from '../../../../../assets/icons';
@@ -28,6 +28,10 @@ class InfoPanel extends Component {
   }
 
   closePanel = (e) => {
+    if(this.refs.panel.isIn(e.path)) {
+      return;
+    }
+
     this.setState({ isOpen: false });
     setTimeout(() => {
       this.componentWillUnmount();
@@ -38,7 +42,7 @@ class InfoPanel extends Component {
   render() {
     const item = this.props.item;
     return (
-      <div sx={{
+      <div ref="panel" sx={{
         position: 'fixed',
         top: 0,
         right: 0,
@@ -52,6 +56,9 @@ class InfoPanel extends Component {
       }}>
         <Heading as='h2'>{icons.info} Details</Heading>
         <div sx={{ marginTop: 4 }}>
+          <Block>
+            <Image src={thumb(item.path)}/>
+          </Block>
           <Block>
             <Label>Name</Label>
             <Text sx={{ wordBreak: 'break-word' }}>{item.name}</Text>
