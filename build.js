@@ -1,10 +1,10 @@
-import FileManager from './src/file-manager';
-import {Pluggable} from './src/pluggable';
+import React from 'react';
+import {render} from 'react-dom';
+import FileManager, {setConfig} from './src/file-manager';
 import icons from './src/assets/icons';
 import {toast} from 'react-toastify';
 import {getSelectedItems} from './src/plugins/general/models/FileInfo';
-
-const element = document.querySelector('#file-manager');
+import {Pluggable} from './src/pluggable';
 
 const ROOT_URL = 'https://file-manager-server.m3r.dev/tmp/storage';
 
@@ -34,7 +34,7 @@ generalPlugin.addHandler(
     },
 );
 
-FileManager(element, {
+setConfig({
   // URL of the server installation
   url: 'http://127.0.0.1:8000/',
   // HTTP request modifiers
@@ -50,3 +50,7 @@ FileManager(element, {
     // },
   },
 });
+
+const element = document.querySelector('#file-manager');
+
+render(<FileManager/>, element);
