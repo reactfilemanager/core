@@ -9,6 +9,7 @@ import icons from '../../../../assets/icons';
 import {removeModal, removeSidePanel} from '../../state/actions';
 import {SkyLightStateless} from 'react-skylight';
 import ContextMenu from '../ContextMenu';
+import Breadcrumb from './Breadcrumb'
 import {SmoothScroll} from '../../../../helpers/Utils';
 
 export default function() {
@@ -85,9 +86,9 @@ export default function() {
               flexBasis: 'sidebar',
               background: 'gray',
               borderRight: '1px solid #ddd',
-              height: '100vh',
+              height: 'calc(100vh - 85px)',
               width: 'sidebar',
-              overflow: 'auto'
+              overflow: 'auto',
             }}>
 
             <DirectoryTree state={state.general} dispatch={dispatch}/>
@@ -125,9 +126,17 @@ export default function() {
             sx={{
               flexGrow: 99999,
               flexBasis: 0,
-              height: '100vh',
-              overflow: 'scroll'
+              height: 'calc(100vh - 50px)',
+              overflow: 'scroll',
           }}>
+            
+            <Box sx={{ 
+              py: 2, px: 3, 
+              borderBottom: '1px solid #ddd'
+            }}>
+              <Breadcrumb path={state.general.path} dispatch={dispatch} />
+            </Box>
+
             <ItemList state={state.general} dispatch={dispatch}/>
 
             {hasSidebarComponent

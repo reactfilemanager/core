@@ -72,7 +72,7 @@ class ItemList extends Component {
       );
     }
 
-    return (<div sx={{p: 3}}>
+    return (<div>
       {items.dirs.length
           ? (<>
             <Text sx={{

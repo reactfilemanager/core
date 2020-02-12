@@ -203,6 +203,7 @@ class SelectableDirectoryTree extends Component {
           <Label sx={{
             px: 3,
             py: 3,
+            paddingBottom: 2,
             textTransform: 'uppercase',
             fontWeight: 'heading',
             fontSize: 11,
