@@ -1,7 +1,7 @@
+import FileManager from './App';
+
 require('./helpers/Prototypes');
 import React from 'react';
-import {render} from 'react-dom';
-import App from './App';
 import General from './plugins/general';
 import ImagePreview from './plugins/image_preview';
 import {
@@ -10,12 +10,12 @@ import {
   setPostData,
   setQueryParams,
 } from './services/HttpService';
-import {registerPlugin} from './pluggable';
+import {registerPlugins, Pluggable} from './pluggable';
 
-registerPlugin(General);
-registerPlugin(ImagePreview);
+registerPlugins(General);
+registerPlugins(ImagePreview);
 
-const mount = (element, config = {}) => {
+const setConfig = (config = {}) => {
   setBaseUrl(config.url);
   if (config.http) {
     if (config.http.headers) {
@@ -28,15 +28,11 @@ const mount = (element, config = {}) => {
       setPostData(config.http.post_data);
     }
   }
-
-
-
-  render(<App/>, element);
 };
 
 export {
-  registerPlugin,
-  mount,
+  Pluggable,
+  setConfig,
 };
 
-export default mount;
+export default FileManager;

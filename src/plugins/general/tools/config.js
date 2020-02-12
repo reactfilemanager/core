@@ -11,7 +11,8 @@ import handlers from './handlers';
 import CopyTo from '../Components/Toolbar/CopyTo';
 import MoveTo from '../Components/Toolbar/MoveTo';
 
-let _api = {};
+let _api = {}, _instance = null;
+let _getConfig = () => {};
 const _defaultConfig = {
   toolbar: {
     uploader_op: Uploader,
@@ -32,8 +33,6 @@ const _defaultConfig = {
   handlers,
 };
 
-const _config = {};
-
 export const getApi = () => {
   return _api;
 };
@@ -43,23 +42,11 @@ export const getDefaultConfig = () => {
 };
 
 export const getConfig = () => {
-  return _config;
-};
-
-export const inject = injection => {
-  for (const key of Object.keys(injection)) {
-    if (typeof injection[key] === 'object') {
-      _config[key] = {...(_config[key] || {}), ...injection[key]};
-    }
-    else {
-      _config[key] = injection[key];
-    }
-  }
+  return _getConfig();
 };
 
 export const getContextMenu = (item, state) => {
-  const _menu_items = Object.assign({}, _defaultConfig.context_menu,
-      _config.context_menu || {});
+  const _menu_items = Object.assign({}, _defaultConfig.context_menu, getConfig().context_menu || {});
   const menu_items = {};
 
   for (const key of Object.keys(_menu_items)) {
@@ -72,8 +59,7 @@ export const getContextMenu = (item, state) => {
 };
 
 export const getDefaultHandler = (item, state) => {
-  const _handlers = Object.assign({}, _defaultConfig.handlers,
-      _config.handlers || {});
+  const _handlers = Object.assign({}, _defaultConfig.handlers, getConfig().handlers || {});
   if (_handlers.default && _handlers.default.handles(item, state)) {
     return _handlers.default;
   }
@@ -88,8 +74,7 @@ export const getDefaultHandler = (item, state) => {
 
 export const getHandlers = (item, state) => {
   const handlers = {};
-  const _handlers = Object.assign({}, _defaultConfig.handlers,
-      _config.handlers || {});
+  const _handlers = Object.assign({}, _defaultConfig.handlers, getConfig().handlers || {});
   for (const key of Object.keys(_handlers)) {
     if (_handlers[key].menu_item !== undefined &&
         _handlers[key].handles(item, state)) {
@@ -125,22 +110,15 @@ export const getHandlers = (item, state) => {
   });
 };
 
-export const addHandlers = handlers => {
-  const _handlers = _config.handlers || {};
-  for (const key of Object.keys(handlers)) {
-    _handlers[key] = handlers[key];
-  }
-  _config.handlers = _handlers;
+export const setAccessor = instance => {
+  _instance = instance;
 };
 
-export const addContextMenuItem = menuItems => {
-  const menu_items = _config.context_menu || {};
-  for (const key of Object.keys(menuItems)) {
-    menu_items[key] = menuItems[key];
-  }
-  _config.context_menu = menu_items;
+export const accessor = () => {
+  return _instance;
 };
 
-export default function({api}) {
+export default function({api, getConfig}) {
   _api = api || {};
+  _getConfig = getConfig;
 }
