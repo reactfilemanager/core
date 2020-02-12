@@ -7,7 +7,11 @@ import {FILE_TYPES} from '../../Toolbar/FilterByType';
 
 class InfoPanel extends Component {
 
-  state = {isOpen: true};
+  state = {isOpen: false};
+
+  componentDidMount() {
+    this.setState({isOpen: true});
+  }
 
   get isImage() {
     return FILE_TYPES.image.indexOf(this.props.item.extension) >= 0;
@@ -57,7 +61,7 @@ class InfoPanel extends Component {
             <Text>{item.last_modified.toHumanFormat()}</Text>
           </Block>
         </Box>
-        
+
         <Close sx={{
           position: 'absolute',
           top: '10px',
@@ -65,7 +69,7 @@ class InfoPanel extends Component {
           cursor: 'pointer'
         }} onClick={this.closePanel} />
       </Box>
-        
+
         // <table>
         //   <tbody>
         //   {this.isImage ?
