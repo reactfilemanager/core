@@ -29,118 +29,104 @@ export default function() {
   };
 
   return (
-      <div
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            minHeight: '100vh',
-          }}>
-        <aside
+      <Box>
+        <header id="fm-header" sx={{ background: 'lightGray', position: 'sticky', top: 0, left: 0, right: 0, width: '100%', height: '100%', zIndex: '9' }}>
+          <Flex
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid #ddd',
+              p: 2,
+            }}>
+            <Flex>
+              <Toolbar
+                state={state.general}
+                dispatch={dispatch}
+                children={defaultConfig.toolbar}
+              />
+
+              {config.toolbar ?
+                <Toolbar
+                  state={state.general}
+                  dispatch={dispatch}
+                  children={config.toolbar}
+                />
+                : null}
+            </Flex>
+
+            <Flex>
+              <div>
+                {
+                defaultConfig.utility ?
+                  <Toolbar
+                    state={state.general}
+                    dispatch={dispatch}
+                    children={defaultConfig.utility}/>
+                  : null
+                }
+              </div>
+              <div>
+                {
+                  defaultConfig.search ?
+                    <Toolbar
+                      state={state.general}
+                      dispatch={dispatch}
+                      children={defaultConfig.search}/> : null
+                }
+              </div>
+            </Flex>
+          </Flex>
+        </header>
+        
+        <Flex bg="white" sx={{ width: '100%',}}>
+          <aside
             sx={{
               flexGrow: 1,
               flexBasis: 'sidebar',
               background: 'gray',
               borderRight: '1px solid #ddd',
               height: 'auto',
-              maxWidth: 'sidebar',
+              width: 'sidebar',
             }}>
 
-          <DirectoryTree state={state.general} dispatch={dispatch}/>
+            <DirectoryTree state={state.general} dispatch={dispatch}/>
 
-          <Flex sx={{
-            position: 'fixed',
-            justifyContent: 'space-between',
-            bottom: 0,
-            width: 'sidebar',
-            background: '#f5f5f5',
-            borderTop: '1px solid #ddd',
-            borderRight: '1px solid #ddd',
-            py: 2,
-            px: 3,
+            <Flex sx={{
+              position: 'fixed',
+              justifyContent: 'space-between',
+              bottom: 0,
+              width: 'sidebar',
+              background: '#f5f5f5',
+              borderTop: '1px solid #ddd',
+              borderRight: '1px solid #ddd',
+              py: 2,
+              px: 3,
 
-            '*': {
-              fontSize: 12,
-              color: 'gray',
-              textTransform: 'uppercase',
-            },
-            'svg': {
-              widht: '12px', height: '12px',
-            },
-          }}>
-            <Link href="#!" onClick={goToTop}>
-              {icons.arrow_up} Back To Top
-            </Link>
-            <Link href="https://www.themexpert.com" target="_blank">
-              {icons.info} ThemeXpert
-            </Link>
-          </Flex>
+              '*': {
+                fontSize: 12,
+                color: 'gray',
+                textTransform: 'uppercase',
+              },
+              'svg': {
+                widht: '12px', height: '12px',
+              },
+            }}>
+              <Link href="#!" onClick={goToTop}>
+                {icons.arrow_up} Back To Top
+              </Link>
+              <Link href="https://www.themexpert.com" target="_blank">
+                {icons.info} ThemeXpert
+              </Link>
+            </Flex>
 
-        </aside>
-        <main
+          </aside>
+          <main
             sx={{
               flexGrow: 99999,
               flexBasis: 0,
-              minWidth: 320,
-            }}>
-          <header id="fm-header" sx={{
-            background: 'lightGray',
+              height: '100vh',
+              overflow: 'scroll'
           }}>
-
-            <Flex
-                sx={{
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  borderBottom: '1px solid #ddd',
-                  p: 2,
-                }}>
-              <Flex sx={{
-                width: 'toolbar',
-              }}>
-                {/* <Breadcrumb path={state.general.path} dispatch={dispatch}/> */}
-                <Toolbar
-                    state={state.general}
-                    dispatch={dispatch}
-                    children={defaultConfig.toolbar}
-                />
-
-                {config.toolbar ?
-                    <Toolbar
-                        state={state.general}
-                        dispatch={dispatch}
-                        children={config.toolbar}
-                    />
-                    : null}
-              </Flex>
-
-              <div
-                  sx={{
-                    width: 'utility',
-                  }}>
-                {
-                  defaultConfig.utility ?
-                      <Toolbar
-                          state={state.general}
-                          dispatch={dispatch}
-                          children={defaultConfig.utility}/>
-                      : null
-                }
-              </div>
-              <div
-                  sx={{
-                    width: 'search',
-                  }}>
-                {
-                  defaultConfig.search ?
-                      <Toolbar
-                          state={state.general}
-                          dispatch={dispatch}
-                          children={defaultConfig.search}/> : null
-                }
-              </div>
-            </Flex>
-
-          </header>
-          <div>
             <ItemList state={state.general} dispatch={dispatch}/>
 
             {hasSidebarComponent
@@ -150,13 +136,14 @@ export default function() {
                     const Component = sidebar_components[key];
                     return (
                         <Component key={key} id={key} state={state}
-                                   dispatch={dispatch}/>
+                                  dispatch={dispatch}/>
                     );
                   })}
                 </Box>
                 : null}
-          </div>
-        </main>
+          </main>
+        </Flex>
+        
         <SkyLightStateless
             afterClose={() => dispatch(removeModal())}
             closeOnEsc
@@ -172,7 +159,7 @@ export default function() {
             ? <InjectedComponent state={state} dispatch={dispatch}/>
             : null}
         <ContextMenu/>
-      </div>
+      </Box>
 
   );
 }
