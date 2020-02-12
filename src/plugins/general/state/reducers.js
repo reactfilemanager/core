@@ -29,6 +29,16 @@ export default {
       },
     };
   },
+  [types.SET_DIRECTORY_TREE]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        directoryTree: payload,
+        resetDirectoryTree: true,
+      },
+    };
+  },
   [types.TOGGLE_SELECT]: (state, {payload}) => {
     const entries = state.general.entries;
     if (payload.is_file) {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree, setWorkingPath} from '../../../state/actions';
+import {resetDirectoryTree, setDirectoryTree, setWorkingPath} from '../../../state/actions';
 import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import './style.scss';
@@ -45,7 +45,7 @@ class SelectableDirectoryTree extends Component {
     if (this.props.path === null) {
       return;
     }
-    this.props.dispatch(resetDirectoryTree(false));
+
     let path = this.props.path;
     let _path = path;
     if (_path === '') {
@@ -53,11 +53,11 @@ class SelectableDirectoryTree extends Component {
     }
     path = path.split('/');
 
-    const _dirs = this.state.dirs;
-    const dirs = this.loopDir(_dirs, path, '', _path,
-        this.props.state.entries.dirs);
+    const _dirs = this.props.state.directoryTree;
+    const dirs = this.loopDir(_dirs, path, '', _path, this.props.state.entries.dirs);
 
-    this.setState({dirs});
+    this.props.dispatch(setDirectoryTree(dirs));
+    this.props.dispatch(resetDirectoryTree(false));
   };
 
   setOpenDirs = () => {
@@ -139,8 +139,7 @@ class SelectableDirectoryTree extends Component {
     }
     else {
       // we didn't hit the end yet, add children
-      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_,
-          _dirs_);
+      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_, _dirs_);
     }
 
     return dirs;
@@ -169,11 +168,11 @@ class SelectableDirectoryTree extends Component {
           _path = '/';
         }
         path = path.split('/');
-        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+        dirs = this.loopDir(this.props.state.directoryTree, path, '', _path, dirs);
 
         // setTimeout(() => resolve(), 3000);
         resolve();
-        this.setState({dirs});
+        this.props.dispatch(setDirectoryTree(dirs));
       }).catch(error => {
         console.log(error);
         reject();
@@ -196,7 +195,7 @@ class SelectableDirectoryTree extends Component {
     this.setState({expandedKeys});
   };
 
-  getSortedDirs = (dirs = cloneDeep(this.state.dirs)) => {
+  getSortedDirs = (dirs = cloneDeep(this.props.state.directoryTree)) => {
     return Object.values(this.props.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, {files: [], dirs}).dirs.map(dir => {
