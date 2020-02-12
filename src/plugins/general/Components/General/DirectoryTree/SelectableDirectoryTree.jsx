@@ -33,6 +33,11 @@ class SelectableDirectoryTree extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.props.path !== nextProps.path
+        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree);
+  }
+
   populateDirs = () => {
     if (this.props.path === null) {
       return;
@@ -219,7 +224,7 @@ class SelectableDirectoryTree extends Component {
     };
     const sortedDirs = this.getSortedDirs();
     const _dirs = loop(sortedDirs);
-
+    console.log('Render', sortedDirs);
     return (
         <>
           <Label sx={{
