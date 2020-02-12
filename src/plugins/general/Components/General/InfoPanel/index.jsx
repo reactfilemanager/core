@@ -4,10 +4,12 @@ import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import icons from '../../../../../assets/icons';
 import {FILE_TYPES} from '../../Toolbar/FilterByType';
+import {removeSidePanel} from '../../../state/actions';
 
 class InfoPanel extends Component {
 
   state = {isOpen: false};
+  timeout = 200;
 
   componentDidMount() {
     this.setState({isOpen: true});
@@ -18,7 +20,10 @@ class InfoPanel extends Component {
   }
 
   closePanel = () => {
-    this.setState({ isOpen: false })
+    this.setState({ isOpen: false });
+    setTimeout(() => {
+      this.props.dispatch(removeSidePanel('info'));
+    }, this.timeout+20);
   };
 
   render() {
@@ -33,7 +38,7 @@ class InfoPanel extends Component {
         bg: 'white',
         p: 3,
         borderLeft: '1px solid #ddd',
-        transition: 'transform 0.2s ease-out',
+        transition: `transform ${this.timeout}ms ease-out`,
         transform: (this.state.isOpen) ? 'translateX(0)' : 'translateX(340px)'
       }}>
         <Heading as='h2'>{icons.info} Details</Heading>

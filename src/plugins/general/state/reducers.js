@@ -168,10 +168,10 @@ export default {
     };
   },
   [types.REMOVE_SIDE_PANEL]: (state, {payload}) => {
-    const sidebar_components = {};//state.general.sidebar_components;
-    // if (sidebar_components[payload]) {
-    //   delete sidebar_components[payload];
-    // }
+    const sidebar_components = state.general.sidebar_components;
+    if (sidebar_components[payload]) {
+      delete sidebar_components[payload];
+    }
 
     return {
       ...state,
