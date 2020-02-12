@@ -1,10 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import FileManager, {setConfig} from './src/file-manager';
+import FileManager, {setConfig, Pluggable} from './src/file-manager';
 import icons from './src/assets/icons';
 import {toast} from 'react-toastify';
-import {getSelectedItems} from './src/plugins/general/models/FileInfo';
-import {Pluggable} from './src/pluggable';
 
 const ROOT_URL = 'https://file-manager-server.m3r.dev/tmp/storage';
 
@@ -27,7 +25,7 @@ generalPlugin.addContextMenu(
 generalPlugin.addHandler(
     'default',
     (item, state) => {
-      return !item.is_dir && getSelectedItems(state.entries).length > 0;
+      return !item.is_dir && generalPlugin.accessor().getSelectedItems().length > 0;
     },
     (item, state, dispatch) => {
       console.log(item, state);
