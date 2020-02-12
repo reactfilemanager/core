@@ -13,7 +13,7 @@ class NewFolder extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toast.info('Empty name entered');
+      toast.warning('You should enter a folder name');
       return;
     }
 

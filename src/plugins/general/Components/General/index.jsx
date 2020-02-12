@@ -38,7 +38,7 @@ export default function() {
   };
 
   return (
-      <Box>
+      <div>
         <header id="fm-header" sx={{
           background: 'lightGray',
           position: 'sticky',
@@ -147,17 +147,17 @@ export default function() {
               overflow: 'scroll',
           }}>
             
-            <Box sx={{ 
+            <div sx={{ 
               py: 2, px: 3, 
               borderBottom: '1px solid #ddd'
             }}>
               <Breadcrumb path={state.general.path} dispatch={dispatch} />
-            </Box>
+            </div>
 
             <ItemList state={state.general} dispatch={dispatch}/>
 
             {hasSidebarComponent
-                ? <Box>
+                ? <div>
                   <span onClick={closeSidebar}>{icons.close}</span>
                   {Object.keys(sidebar_components).map(key => {
                     const Component = sidebar_components[key];
@@ -166,7 +166,7 @@ export default function() {
                                    dispatch={dispatch}/>
                     );
                   })}
-                </Box>
+                </div>
                 : null}
           </main>
         </Flex>
@@ -186,7 +186,7 @@ export default function() {
             ? <InjectedComponent state={state} dispatch={dispatch}/>
             : null}
         <ContextMenu/>
-      </Box>
+      </div>
 
   );
 }

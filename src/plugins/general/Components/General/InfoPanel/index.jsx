@@ -38,7 +38,7 @@ class InfoPanel extends Component {
   render() {
     const item = this.props.item;
     return (
-      <Box sx={{
+      <div sx={{
         position: 'fixed',
         top: 0,
         right: 0,
@@ -51,7 +51,7 @@ class InfoPanel extends Component {
         transform: (this.state.isOpen ? 'translateX(0)' : 'translateX(340px)')
       }}>
         <Heading as='h2'>{icons.info} Details</Heading>
-        <Box sx={{ marginTop: 4 }}>
+        <div sx={{ marginTop: 4 }}>
           <Block>
             <Label>Name</Label>
             <Text sx={{ wordBreak: 'break-word' }}>{item.name}</Text>
@@ -74,7 +74,7 @@ class InfoPanel extends Component {
             <Label>Last Modified</Label>
             <Text>{item.last_modified.toHumanFormat()}</Text>
           </Block>
-        </Box>
+        </div>
 
         <Close sx={{
           position: 'absolute',
@@ -82,7 +82,7 @@ class InfoPanel extends Component {
           right: '10px',
           cursor: 'pointer'
         }} onClick={this.closePanel} />
-      </Box>
+      </div>
 
         // <table>
         //   <tbody>

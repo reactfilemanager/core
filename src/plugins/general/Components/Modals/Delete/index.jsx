@@ -23,7 +23,7 @@ class Delete extends Component {
       getApi()
           .delete('/', item.path)
           .then(response => {
-            toast.success(response.message);
+            toast.success('Deleted Successfully');
             this.props.dispatch(remove(item));
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));

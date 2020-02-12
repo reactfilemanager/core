@@ -50,7 +50,7 @@ class Uploader extends Component {
 
   render() {
     return (
-        <Box sx={{position: 'relative'}}>
+        <div sx={{position: 'relative'}}>
 
           <Button onClick={this.toggleDropdown} ref="btn">
             {icons.cloud_upload} Upload
@@ -84,7 +84,7 @@ class Uploader extends Component {
                 </div>
                 : null
           }
-        </Box>
+        </div>
     );
   }
 }

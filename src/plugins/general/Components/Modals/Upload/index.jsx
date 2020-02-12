@@ -215,8 +215,8 @@ class Upload extends Component {
                 ? file.size.toHumanFileSize()
                 : 'Failed' : <Progress max={1} value={file.progress}/>
           }
-              {file.upload_complete && file.upload_error ? <Box
-                  sx={{fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</Box> : null}
+              {file.upload_complete && file.upload_error ? <div
+                  sx={{fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</div> : null}
         </span>
 
             {
@@ -266,7 +266,7 @@ class Upload extends Component {
 
   render() {
     return (
-        <Box>
+        <div>
           <Text>File Uploader</Text>
           <Flex sx={{
             my: 3,
@@ -300,7 +300,7 @@ class Upload extends Component {
 
           <input type="file" ref="fileInput" onChange={this.handleSelect}
                  multiple hidden/>
-        </Box>
+        </div>
     );
   }
 }
