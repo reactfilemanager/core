@@ -46,18 +46,44 @@ function uuidv4() {
 const EventBus = {
   listeners: {},
   $on(type, handler) {
-    if (!this.listeners[type]) {
-      this.listeners[type] = [];
+    const $on = (type, handler) => {
+      if (!this.listeners[type]) {
+        this.listeners[type] = [];
+      }
+      this.listeners[type].push(handler);
+    };
+
+    if (Array.isArray(type)) {
+      for (const _type of type) {
+        $on(_type, handler);
+      }
     }
-    this.listeners[type].push(handler);
+    else {
+      $on(type, handler);
+    }
   },
   $off(type, handler) {
-    if (!this.listeners[type]) {
-      return;
-    }
+    const $off = (type, handler) => {
+      if (!this.listeners[type]) {
+        return;
+      }
 
-    this.listeners[type] = this.listeners[type].splice(
-        this.listeners[type].indexOf(handler), 1);
+      const index = this.listeners[type].indexOf(handler);
+      if(index<0) {
+        return;
+      }
+
+      this.listeners[type].splice(index, 1);
+    };
+
+    if (Array.isArray(type)) {
+      for (const _type of type) {
+        $off(_type, handler);
+      }
+    }
+    else {
+      $off(type, handler);
+    }
   },
   $emit(type, payload) {
     if (!this.listeners[type]) {

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import icons from '../../../../../assets/icons';
 import {FILE_TYPES} from '../../Toolbar/FilterByType';
 import {removeSidePanel} from '../../../state/actions';
+import {EventBus} from '../../../../../helpers/Utils';
 
 class InfoPanel extends Component {
 
@@ -13,17 +14,25 @@ class InfoPanel extends Component {
 
   componentDidMount() {
     this.setState({isOpen: true});
+    setTimeout(() => {
+      EventBus.$on(['click', 'contextmenu'], this.closePanel)
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    EventBus.$off(['click', 'contextmenu'], this.closePanel);
   }
 
   get isImage() {
     return FILE_TYPES.image.indexOf(this.props.item.extension) >= 0;
   }
 
-  closePanel = () => {
+  closePanel = (e) => {
     this.setState({ isOpen: false });
     setTimeout(() => {
+      this.componentWillUnmount();
       this.props.dispatch(removeSidePanel('info'));
-    }, this.timeout+20);
+    }, this.timeout+100);
   };
 
   render() {
@@ -39,7 +48,7 @@ class InfoPanel extends Component {
         p: 3,
         borderLeft: '1px solid #ddd',
         transition: `transform ${this.timeout}ms ease-out`,
-        transform: (this.state.isOpen) ? 'translateX(0)' : 'translateX(340px)'
+        transform: (this.state.isOpen ? 'translateX(0)' : 'translateX(340px)')
       }}>
         <Heading as='h2'>{icons.info} Details</Heading>
         <Box sx={{ marginTop: 4 }}>
