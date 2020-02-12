@@ -224,7 +224,7 @@ class SelectableDirectoryTree extends Component {
     };
     const sortedDirs = this.getSortedDirs();
     const _dirs = loop(sortedDirs);
-    console.log('Render', sortedDirs);
+
     return (
         <>
           <Label sx={{
