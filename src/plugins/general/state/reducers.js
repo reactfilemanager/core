@@ -69,12 +69,13 @@ export default {
       },
     };
   },
-  [types.SHOULD_RELOAD]: (state, {payload}) => {
+  [types.SHOULD_RELOAD]: (state, {payload, callback}) => {
     return {
       ...state,
       general: {
         ...state.general,
         shouldReload: payload,
+        callback,
       },
     };
   },
