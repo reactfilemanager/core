@@ -107,6 +107,7 @@ export default {
           ...state.general.search,
           query: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },
@@ -119,6 +120,7 @@ export default {
           ...state.general.search,
           sort: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },
@@ -131,6 +133,7 @@ export default {
           ...state.general.search,
           sortBy: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },

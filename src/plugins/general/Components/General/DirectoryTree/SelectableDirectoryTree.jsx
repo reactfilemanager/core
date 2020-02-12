@@ -19,6 +19,7 @@ class SelectableDirectoryTree extends Component {
     dirs: [],
     path: null,
     expandedKeys: [],
+    working: false,
   };
 
   componentDidMount() {
@@ -35,7 +36,8 @@ class SelectableDirectoryTree extends Component {
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return this.props.path !== nextProps.path
-        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree);
+        || this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree
+        || (this.state.working && !nextState.working);
   }
 
   populateDirs = () => {
@@ -148,31 +150,36 @@ class SelectableDirectoryTree extends Component {
   };
 
   onLoadData = (treeNode) => {
+    this.setState({working: true});
     if (Array.isArray(treeNode.props.children) &&
         treeNode.props.children.length > 0) {
       // we loaded this before
-      return new Promise((resolve) => resolve());
+      return new Promise((resolve) => {
+        resolve();
+        this.setState({working: false});
+      });
     }
 
     return new Promise((resolve, reject) => {
       getApi().list(treeNode.props.path).then(({dirs}) => {
         let path = treeNode.props.path;
-        this.resetDirs(path, this.state.dirs);
+        let _path = path;
+        if (_path === '') {
+          _path = '/';
+        }
+        path = path.split('/');
+        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+
+        // setTimeout(() => resolve(), 3000);
         resolve();
+        this.setState({dirs});
       }).catch(error => {
         console.log(error);
         reject();
+      }).finally(() => {
+        this.setState({working: false});
       });
     });
-  };
-
-  resetDirs = (_path, dirs) => {
-    if (_path === '') {
-      _path = '/';
-    }
-    const path = path.split('/');
-    dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
-    this.setState({dirs});
   };
 
   sendIcon = props => {
