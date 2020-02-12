@@ -37,7 +37,8 @@ class SelectableDirectoryTree extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return this.props.path !== nextProps.path
         || this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree
-        || (this.state.working && !nextState.working);
+        || (this.state.working && !nextState.working)
+        || this.state.expandedKeys.length !== nextState.expandedKeys.length;
   }
 
   populateDirs = () => {
