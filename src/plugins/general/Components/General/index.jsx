@@ -78,15 +78,16 @@ export default function() {
           </Flex>
         </header>
         
-        <Flex bg="white" sx={{ width: '100%',}}>
+        <Flex bg="white" sx={{ width: '100%'}}>
           <aside
             sx={{
               flexGrow: 1,
               flexBasis: 'sidebar',
               background: 'gray',
               borderRight: '1px solid #ddd',
-              height: 'auto',
+              height: '100vh',
               width: 'sidebar',
+              overflow: 'auto'
             }}>
 
             <DirectoryTree state={state.general} dispatch={dispatch}/>

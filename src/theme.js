@@ -128,7 +128,8 @@ export default {
     root: {
       fontFamily: 'body',
       lineHeight: 'body',
-      fontWeight: 'body'
+      fontWeight: 'body',
+      overflow: 'hidden'
     },
     img: {
       maxWidth: '100%'
