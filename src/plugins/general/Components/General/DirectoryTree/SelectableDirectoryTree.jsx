@@ -5,6 +5,7 @@ import {resetDirectoryTree, setWorkingPath} from '../../../state/actions';
 import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import './style.scss';
+import cloneDeep from 'lodash.clonedeep';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -73,6 +74,15 @@ class SelectableDirectoryTree extends Component {
     this.setState({expandedKeys});
   };
 
+  /**
+   *
+   * @param dirs - current directories in tree
+   * @param path - the path array
+   * @param _path - upper directory
+   * @param _path_ - current directory
+   * @param _dirs_ - new dirs
+   * @returns {*[]|*}
+   */
   loopDir = (dirs, path, _path = '', _path_, _dirs_) => {
     // get next segment
     const dir = path.shift();
@@ -142,21 +152,22 @@ class SelectableDirectoryTree extends Component {
     return new Promise((resolve, reject) => {
       getApi().list(treeNode.props.path).then(({dirs}) => {
         let path = treeNode.props.path;
-        let _path = path;
-        if (_path === '') {
-          _path = '/';
-        }
-        path = path.split('/');
-        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
-
-        // setTimeout(() => resolve(), 3000);
+        this.resetDirs(path, this.state.dirs);
         resolve();
-        this.setState({dirs});
       }).catch(error => {
         console.log(error);
         reject();
       });
     });
+  };
+
+  resetDirs = (_path, dirs) => {
+    if (_path === '') {
+      _path = '/';
+    }
+    const path = path.split('/');
+    dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+    this.setState({dirs});
   };
 
   sendIcon = props => {
@@ -170,6 +181,17 @@ class SelectableDirectoryTree extends Component {
       expandedKeys = expandedKeys.filter(key => !key.startsWith(removed[0]));
     }
     this.setState({expandedKeys});
+  };
+
+  getSortedDirs = (dirs = cloneDeep(this.state.dirs)) => {
+    return Object.values(this.props.state.filters).reduce((entries, fn) => {
+      return fn(entries);
+    }, {files: [], dirs}).dirs.map(dir => {
+      if (dir.children && dir.children.length) {
+        dir.children = this.getSortedDirs(dir.children);
+      }
+      return dir;
+    });
   };
 
   render() {
@@ -195,8 +217,8 @@ class SelectableDirectoryTree extends Component {
         );
       });
     };
-
-    const _dirs = loop(this.state.dirs);
+    const sortedDirs = this.getSortedDirs();
+    const _dirs = loop(sortedDirs);
 
     return (
         <>
