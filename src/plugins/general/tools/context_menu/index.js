@@ -103,7 +103,13 @@ export default {
       title: 'Download',
     },
     handle(item) {
-      window.open(download(item.path));
+      let iframe = document.getElementById('downloader_iframe');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = 'downloader_iframe';
+        document.body.append(iframe);
+      }
+      iframe.src = download(item.path);
     },
   },
   trash: {

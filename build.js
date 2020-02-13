@@ -4,7 +4,7 @@ import FileManager, {setConfig, Pluggable} from './src/file-manager';
 import icons from './src/assets/icons';
 import {toast} from 'react-toastify';
 
-const ROOT_URL = 'https://file-manager-server.m3r.dev/tmp/storage';
+const ROOT_URL = 'http://127.0.0.1:8000/tmp/storage';
 
 const generalPlugin = Pluggable.plugin('general');
 generalPlugin.addContextMenu(
@@ -21,16 +21,16 @@ generalPlugin.addContextMenu(
       title: 'Copy URL',
     },
 );
-
-generalPlugin.addHandler(
-    'default',
-    (item, state) => {
-      return !item.is_dir && generalPlugin.accessor().getSelectedItems().length > 0;
-    },
-    (item, state, dispatch) => {
-      console.log(item, state);
-    },
-);
+//
+// generalPlugin.addHandler(
+//     'default',
+//     (item, state) => {
+//       return !item.is_dir && generalPlugin.accessor().getSelectedItems().length > 0;
+//     },
+//     (item, state, dispatch) => {
+//       console.log(item, state);
+//     },
+// );
 
 setConfig({
   // URL of the server installation
