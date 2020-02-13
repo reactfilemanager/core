@@ -217,9 +217,14 @@ class ItemList extends Component {
     entries = Object.values(this.props.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, entries);
+    const maxDirs = entries.dirs.length <= this.state.max ? entries.dirs.length : this.state.max;
+    let maxFiles = this.state.max - maxDirs;
+    if(maxFiles < 0) {
+      maxFiles = 0;
+    }
     entries = {
-      dirs: entries.dirs.slice(0, this.state.max),
-      files: entries.files.slice(0, this.state.max),
+      dirs: entries.dirs.slice(0, maxDirs),
+      files: entries.files.slice(0, maxFiles),
     };
     return entries;
   };
