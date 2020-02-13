@@ -198,7 +198,7 @@ class ItemList extends Component {
   getAttributes = () => {
     return {
       className: 'files-container',
-      style: {padding: '16px'},
+      style: {padding: '16px', userSelect: 'none'},
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
       id: "fm-content-holder",

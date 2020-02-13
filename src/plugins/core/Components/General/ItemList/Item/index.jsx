@@ -151,11 +151,21 @@ class Item extends Component {
     return parts.join('\n');
   }
 
-  getAttributes = (item) => {
-    return {
+  getAttributes = (item, withHandlers = false) => {
+    let attrs = {
       onContextMenu: this.handleContextMenu,
       className: item.selected ? 'selected' : '',
     };
+
+    if (withHandlers) {
+      attrs = {
+        ...attrs,
+        onDoubleClick: this.handleDoubleClick,
+        onClick: this.handleClick,
+      };
+    }
+
+    return attrs;
   };
 
   get className() {
@@ -269,7 +279,7 @@ class Item extends Component {
             holdToDisplay={1000}
             name={item.name}
             collect={this.collect}
-            attributes={this.getAttributes(item)}
+            attributes={this.getAttributes(item, true)}
             renderTag="tr"
         >
           <TD onClick={this.toggleCheck}>

@@ -60,7 +60,7 @@ class NewFolder extends Component {
           onKeyDown={this.handleKeyDown}
         />
         <Button sx={{ 
-          marginTop: 3, width: '200px', height: '38px', justifyContent: 'center',
+          py: 2, px: 5, marginTop: 3,
           'svg': { width: '20px', height: '20px' }
         }}
           onClick={this.handleSave}

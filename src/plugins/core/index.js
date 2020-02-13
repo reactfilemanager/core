@@ -6,7 +6,7 @@ import initial_state from './state';
 
 export default {
   // hook/name for the plugin
-  core: {
+  general: {
     // register API
     api: CoreApi,
     // load time function calls
