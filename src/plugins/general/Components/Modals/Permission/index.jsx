@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Button, Text, Input, Checkbox, Label, Flex} from 'theme-ui';
 import styled from '@emotion/styled';
 import {getApi} from '../../../tools/config';
-import {setShouldReload} from '../../../state/actions';
+import {removeModal, setShouldReload} from '../../../state/actions';
 import {toast} from 'react-toastify';
-import icons from '../../../../../assets/icons'
+import icons from '../../../../../assets/icons';
 
 class Permission extends Component {
 
@@ -43,7 +43,7 @@ class Permission extends Component {
       return user;
     });
     const mod = this.calculateMod(users);
-    this.setState({isOpen: true, users, mod});
+    this.setState({users, mod});
   };
 
   handleCheck = (_user, val, e) => {
@@ -102,18 +102,14 @@ class Permission extends Component {
 
     this.setState({working: true, mod});
     const item = this.props.item;
-    getApi()
-        .chmod(this.props.state.general.path, item.name, mod)
-        .then(response => {
-          toast.success(response.message);
-          this.props.dispatch(setShouldReload(true));
-        })
-        .catch(error => {
-          toast.error(error.message);
-        })
-        .finally(() => {
-          this.setState({working: false, isOpen: false});
-        });
+    getApi().chmod(this.props.state.general.path, item.name, mod).then(response => {
+      toast.success(response.message);
+      this.props.dispatch(setShouldReload(true));
+      this.props.dispatch(removeModal());
+    }).catch(error => {
+      toast.error(error.message);
+      this.setState({working: false});
+    });
   };
 
   handleModChange = e => {
@@ -159,57 +155,56 @@ class Permission extends Component {
   render() {
     return (
 
-      <Flex sx={{
-        flexDirection: 'column', alignItems: 'center',
-        p: 4,
-        '> span > svg' : { width: '50px', height: '50px' }
-      }}>
-        {icons.unlock}
-        
-        <Text sx={{ fontSize: 22, py: 2,}}>Change Permission</Text>
-        
-        <Table>
-          <thead>
+        <Flex sx={{
+          flexDirection: 'column', alignItems: 'center',
+          p: 4,
+          '> span > svg': {width: '50px', height: '50px'},
+        }}>
+          {icons.unlock}
+
+          <Text sx={{fontSize: 22, py: 2}}>Change Permission</Text>
+
+          <Table>
+            <thead>
             <tr>
               <TH width="80%"/>
               <TH>Read</TH>
               <TH>Write</TH>
               <TH>Execute</TH>
             </tr>
-          </thead>
-          <tbody>
-          {this.getSelectables()}
-          </tbody>
-          <tfoot>
+            </thead>
+            <tbody>
+            {this.getSelectables()}
+            </tbody>
+            <tfoot>
             <tr>
               <td/>
-              <td colSpan={3}><Input type="text" value={this.state.mod} onChange={this.handleModChange} />
+              <td colSpan={3}><Input type="text" value={this.state.mod} onChange={this.handleModChange}/>
               </td>
             </tr>
-          </tfoot>
-        </Table>
+            </tfoot>
+          </Table>
 
-        <Button 
-          sx={{ 
-            py: 2, 
-            px: 5, 
-            marginTop: 3, 
-            alignSelf: 'stretch',
-            mx: '10%'
-          }}
-          onClick={this.handleSave} 
-          disabled={this.state.working}>
-          { this.state.working ? 'Updating...' : 'Update' }
-        </Button>
-        
-      </Flex>
+          <Button
+              sx={{
+                py: 2,
+                px: 5,
+                marginTop: 3,
+                alignSelf: 'stretch',
+                mx: '10%',
+              }}
+              onClick={this.handleSave}
+              disabled={this.state.working}>
+            {this.state.working ? 'Updating...' : 'Update'}
+          </Button>
+
+        </Flex>
 
     );
   }
 }
 
 export default Permission;
-
 
 const Table = styled.table`
   border: 1px solid #dcdcdc;
