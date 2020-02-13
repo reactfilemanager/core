@@ -81,7 +81,7 @@ class Upload extends Component {
 
   upload = (file) => {
     getApi().
-        upload(this.props.state.general.path, file._file, file.option, this.handleProgress(file)).
+        upload(this.props.state.core.path, file._file, file.option, this.handleProgress(file)).
         then(response => {
           this.setUploadStatus(file, response.message, true, response);
         }).
@@ -166,7 +166,7 @@ class Upload extends Component {
   mapFile = fileInfo => {
     const file = new FileInfo(
         fileInfo.name,
-        this.props.state.general.path,
+        this.props.state.core.path,
         false,
         true,
         false,

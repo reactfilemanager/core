@@ -36,8 +36,7 @@ class SelectableDirectoryTree extends Component {
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return this.props.path !== nextProps.path
-        || this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree
-        || (this.state.working && !nextState.working)
+        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree)
         || this.state.expandedKeys.length !== nextState.expandedKeys.length;
   }
 
@@ -120,8 +119,7 @@ class SelectableDirectoryTree extends Component {
 
     // check if we hit the end
     if (_path_ === _path) {
-      const _children = _dir.children || [];
-
+      const _children = cloneDeep(_dir.children) || [];
       _dir.children = _dirs_.map(dir => {
         dir.key = dir.path;
         dir.isLeaf = false;

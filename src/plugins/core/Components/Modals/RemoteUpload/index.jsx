@@ -16,7 +16,7 @@ class RemoteUpload extends Component {
       return false;
     }
     this.setState({working: true});
-    getApi().remote_download(this.props.state.general.path, url).then(response => {
+    getApi().remote_download(this.props.state.core.path, url).then(response => {
       toast.success(response.message);
       this.props.dispatch(setShouldReload(true, entries => {
         const last = entries.files.reduce((prev, curr) => prev.last_modified > curr.last_modified ? prev : curr);

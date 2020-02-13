@@ -25,8 +25,8 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
   }
 
   const {item} = trigger;
-  const menu_items = getContextMenu(item, state.general);
-  const handlers = getHandlers(item, state.general).filter(item => !!item.menu_item);
+  const menu_items = getContextMenu(item, state.core);
+  const handlers = getHandlers(item, state.core).filter(item => !!item.menu_item);
 
   return (
       <ContextMenu

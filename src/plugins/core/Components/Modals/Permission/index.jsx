@@ -102,7 +102,7 @@ class Permission extends Component {
 
     this.setState({working: true, mod});
     const item = this.props.item;
-    getApi().chmod(this.props.state.general.path, item.name, mod).then(response => {
+    getApi().chmod(this.props.state.core.path, item.name, mod).then(response => {
       toast.success(response.message);
       this.props.dispatch(setShouldReload(true));
       this.props.dispatch(removeModal());

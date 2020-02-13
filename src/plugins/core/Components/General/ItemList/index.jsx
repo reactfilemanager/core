@@ -16,12 +16,46 @@ import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../ContextMenu';
 import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../../models/FileInfo';
+import debounce from 'lodash.debounce';
 
 class ItemList extends Component {
 
+  state = {max: 20, total: 0};
+  max = 20;
+  increment = 10;
+
   componentDidMount() {
     this.setWorkingPath('/');
+    this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
+
+  componentWillUnmount() {
+    this.getMain().removeEventListener('scroll', this.infiniteLoader);
+  }
+
+  getMain = () => {
+    const main = this.refs.bottom.parentElement.parentElement;
+    if (main.tagName !== 'MAIN') {
+      throw new Error('Container could not be detected');
+    }
+    return main;
+  };
+
+  infiniteLoader = debounce(e => {
+    const offsetTop = this.refs.bottom.getBoundingClientRect().top;
+    const clientHeight = this.getMain().clientHeight;
+    if (offsetTop - 100 > clientHeight) {
+      return;
+    }
+
+    if (this.state.max < this.state.total) {
+      let max = this.state.max + this.increment;
+      if (max > this.state.total) {
+        max = this.state.total;
+      }
+      this.setState({max});
+    }
+  }, 100);
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.state.shouldReload) {
@@ -41,6 +75,10 @@ class ItemList extends Component {
     getApi().list(this.props.state.path).then(response => {
       if (callback) {
         response = callback(response);
+      }
+      const total = response.dirs.length + response.files.length;
+      if (total > this.max) {
+        this.setState({max: this.max, total});
       }
       this.props.dispatch(setEntries(response));
       this.props.dispatch(resetDirectoryTree(true));
@@ -175,10 +213,20 @@ class ItemList extends Component {
   };
 
   getItems = () => {
-    const entries = cloneDeep(this.props.state.entries);
-    return Object.values(this.props.state.filters).reduce((entries, fn) => {
+    let entries = cloneDeep(this.props.state.entries);
+    entries = Object.values(this.props.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, entries);
+    const maxDirs = entries.dirs.length <= this.state.max ? entries.dirs.length : this.state.max;
+    let maxFiles = this.state.max - maxDirs;
+    if(maxFiles < 0) {
+      maxFiles = 0;
+    }
+    entries = {
+      dirs: entries.dirs.slice(0, maxDirs),
+      files: entries.files.slice(0, maxFiles),
+    };
+    return entries;
   };
 
   handleClick = e => {
@@ -201,7 +249,7 @@ class ItemList extends Component {
       style: {padding: '16px', userSelect: 'none'},
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
-      id: "fm-content-holder",
+      id: 'fm-content-holder',
     };
   };
 
@@ -219,6 +267,7 @@ class ItemList extends Component {
 
     return (
         <ContextMenuTrigger
+            ref="root"
             key={this.props.state.path}
             id={CONTEXT_MENU_ID}
             holdToDisplay={1000}
@@ -231,6 +280,7 @@ class ItemList extends Component {
               ? this.getItemsBlockForGridViewMode(items)
               : this.getItemsBlockForListViewMode(items)
           }
+          <div ref="bottom"/>
         </ContextMenuTrigger>
     );
   }

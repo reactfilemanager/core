@@ -40,8 +40,7 @@ class ImagePreview extends Component {
     window.document.addEventListener('keydown', this.handleEscPress, false);
     window.document.addEventListener('mousemove', this.move, false);
     window.document.addEventListener('mouseup', this.stopMove, false);
-    window.document.addEventListener('wheel', this.handleScroll,
-        {passive: false});
+    window.document.addEventListener('wheel', this.handleScroll, {passive: false});
   };
 
   detachEvent = () => {

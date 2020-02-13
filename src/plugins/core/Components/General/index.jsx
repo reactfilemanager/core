@@ -18,17 +18,17 @@ export default function() {
 
   setAccessor({
     getSelectedItems() {
-      return getSelectedItems(state.general.entries);
+      return getSelectedItems(state.core.entries);
     },
   });
 
   const defaultConfig = getDefaultConfig();
   const config = getConfig();
-  const sidebar_components = state.general.sidebar_components;
+  const sidebar_components = state.core.sidebar_components;
   const hasSidebarComponent = Object.keys(sidebar_components).length;
-  const Modal = state.general.modal;
+  const Modal = state.core.modal;
   const hasModal = !!Modal;
-  const InjectedComponent = state.general.injected_component;
+  const InjectedComponent = state.core.injected_component;
   const hasInjectedComponent = !!InjectedComponent;
 
   const goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
@@ -58,14 +58,14 @@ export default function() {
               }}>
             <Flex>
               <Toolbar
-                  state={state.general}
+                  state={state.core}
                   dispatch={dispatch}
                   children={defaultConfig.toolbar}
               />
 
               {config.toolbar ?
                   <Toolbar
-                      state={state.general}
+                      state={state.core}
                       dispatch={dispatch}
                       children={config.toolbar}
                   />
@@ -77,7 +77,7 @@ export default function() {
                 {
                   defaultConfig.utility ?
                       <Toolbar
-                          state={state.general}
+                          state={state.core}
                           dispatch={dispatch}
                           children={defaultConfig.utility}/>
                       : null
@@ -87,7 +87,7 @@ export default function() {
                 {
                   defaultConfig.search ?
                       <Toolbar
-                          state={state.general}
+                          state={state.core}
                           dispatch={dispatch}
                           children={defaultConfig.search}/> : null
                 }
@@ -108,7 +108,7 @@ export default function() {
               overflow: 'auto',
             }}>
 
-            <DirectoryTree state={state.general} dispatch={dispatch}/>
+            <DirectoryTree state={state.core} dispatch={dispatch}/>
 
             <Flex sx={{
               position: 'fixed',
@@ -151,10 +151,10 @@ export default function() {
               py: 2, px: 3, 
               borderBottom: '1px solid #ddd'
             }}>
-              <Breadcrumb path={state.general.path} dispatch={dispatch} />
+              <Breadcrumb path={state.core.path} dispatch={dispatch} />
             </div>
 
-            <ItemList state={state.general} dispatch={dispatch}/>
+            <ItemList state={state.core} dispatch={dispatch}/>
 
             {hasSidebarComponent
                 ? <div>

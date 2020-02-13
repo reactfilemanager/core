@@ -32,6 +32,14 @@ class InfoPanel extends Component {
       return;
     }
 
+    this._remove();
+  };
+
+  _remove = e => {
+    if(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     this.setState({ isOpen: false });
     setTimeout(() => {
       this.componentWillUnmount();
@@ -89,7 +97,7 @@ class InfoPanel extends Component {
           top: '10px',
           right: '10px',
           cursor: 'pointer'
-        }} onClick={this.closePanel} />
+        }} onClick={this._remove} />
       </div>
 
         // <table>

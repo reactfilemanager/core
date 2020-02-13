@@ -3,11 +3,27 @@ import {render} from 'react-dom';
 import FileManager, {setConfig, Pluggable} from './src/file-manager';
 import icons from './src/assets/icons';
 import {toast} from 'react-toastify';
+import Core, {CORE_PLUGIN_KEY} from './src/plugins/core';
+import ImagePreview from './src/plugins/image_preview/Components/ImagePreview';
+import AudioPlayer, {injection as AudioPlayerInjection} from './src/plugins/audio_player';
 
 const ROOT_URL = 'http://127.0.0.1:8000/tmp/storage';
 
-const generalPlugin = Pluggable.plugin('general');
-generalPlugin.addContextMenu(
+// core
+const core = Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
+
+// image preview
+core.inject(ImagePreview);
+
+// audio player
+const audio_player = Pluggable.registerPlugin('audio_player', AudioPlayer);
+audio_player.accessor().setPathResolver(item => {
+  return ROOT_URL + item.path;
+});
+core.inject(AudioPlayerInjection);
+
+// Copy URL context menu
+core.addContextMenu(
     'copy_url',
     (item, state) => {
       return item.is_file;
@@ -21,7 +37,8 @@ generalPlugin.addContextMenu(
       title: 'Copy URL',
     },
 );
-//
+
+// Selection handler on file select mode
 // generalPlugin.addHandler(
 //     'default',
 //     (item, state) => {

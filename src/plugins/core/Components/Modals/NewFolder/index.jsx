@@ -19,7 +19,7 @@ class NewFolder extends Component {
 
     this.setState({working: true});
     getApi()
-        .new_dir(this.props.state.general.path, name)
+        .new_dir(this.props.state.core.path, name)
         .then(response => {
           toast.success('Folder created successfully');
           // reload

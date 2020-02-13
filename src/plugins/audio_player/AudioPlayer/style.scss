@@ -1,0 +1,87 @@
+.audio-player {
+  width: 470px;
+  padding: 35px 20px;
+  margin: auto;
+  background-color: white;
+  border: 1px solid black;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+
+  span {
+    top: 3px;
+    right: 3px;
+    position: absolute;
+    border: 1px solid #ccc;
+    border-radius: 140px;
+    font-size: 1px;
+
+    &:hover {
+      background: #3490dc;
+      cursor: pointer;
+    }
+  }
+
+  .player-controls {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #radioIcon {
+    width: 30px;
+    height: 30px;
+    background: url('https://image.flaticon.com/icons/svg/149/149429.svg') no-repeat center;
+  }
+
+  #playAudio {
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background: url('https://image.flaticon.com/icons/svg/149/149125.svg') no-repeat center;
+    background-size: contain;
+
+    &.pause {
+      background: url('https://image.flaticon.com/icons/svg/149/149127.svg') no-repeat center;
+      background-size: contain;
+    }
+  }
+
+  p {
+    margin: 0 0 0 5px;
+    line-height: 1;
+    display: inline-flex;
+
+    small {
+      font-size: 10px;
+    }
+  }
+
+  #seekObjContainer {
+    position: relative;
+    width: 300px;
+    margin: 0 5px;
+    height: 5px;
+
+    #seekObj {
+      position:relative;
+      width: 100%;
+      height: 100%;
+      background-color: #e3e3e3;
+      border: 1px solid black;
+
+      #percentage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background-color: coral;
+      }
+    }
+  }
+}

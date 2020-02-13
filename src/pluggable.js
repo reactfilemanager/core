@@ -163,7 +163,10 @@ const addToConfig = (pluginKey, configKey, itemKey, item) => {
 
 export const Pluggable = {
   registerPlugins,
-  registerPlugin,
+  registerPlugin(pluginKey, plugin) {
+    registerPlugin(pluginKey, plugin);
+    return this.plugin(pluginKey);
+  },
   addTabs,
   addTab,
   addReducer,
@@ -192,6 +195,9 @@ export const Pluggable = {
             config[pluginKey][key] = _config[key];
           }
         }
+      },
+      inject(config) {
+        inject(pluginKey, config);
       },
       accessor() {
         return this._plugin.accessor ? this._plugin.accessor() : null;

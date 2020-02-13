@@ -10,8 +10,8 @@ class Delete extends Component {
 
   getSelected = () => {
     return [
-      ...this.props.state.general.entries.dirs,
-      ...this.props.state.general.entries.files,
+      ...this.props.state.core.entries.dirs,
+      ...this.props.state.core.entries.files,
     ]
         .filter(item => item.selected);
   };

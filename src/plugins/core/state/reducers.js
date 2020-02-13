@@ -4,8 +4,8 @@ export default {
   [types.SET_WORKING_PATH]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         path: payload.replace(/\/\//g, '/').replace(/\/$/, ''),
         shouldReload: true,
       },
@@ -14,8 +14,8 @@ export default {
   [types.SET_ENTRIES]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         entries: payload,
       },
     };
@@ -23,8 +23,8 @@ export default {
   [types.RESET_DIRECTORY_TREE]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         resetDirectoryTree: payload,
       },
     };
@@ -32,15 +32,15 @@ export default {
   [types.SET_DIRECTORY_TREE]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         directoryTree: payload,
         resetDirectoryTree: true,
       },
     };
   },
   [types.TOGGLE_SELECT]: (state, {payload}) => {
-    const entries = state.general.entries;
+    const entries = state.core.entries;
     if (payload.is_file) {
       entries.files = toggleSelect(entries.files, payload);
     }
@@ -50,8 +50,8 @@ export default {
 
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         entries,
       },
     };
@@ -59,11 +59,11 @@ export default {
   [types.UPDATE]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         entries: {
-          files: findAndReplace(state.general.entries.files, payload),
-          dirs: findAndReplace(state.general.entries.dirs, payload),
+          files: findAndReplace(state.core.entries.files, payload),
+          dirs: findAndReplace(state.core.entries.dirs, payload),
         },
         resetDirectoryTree: payload.is_dir === true,
       },
@@ -72,8 +72,8 @@ export default {
   [types.SHOULD_RELOAD]: (state, {payload, callback}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         shouldReload: payload,
         callback,
       },
@@ -82,8 +82,8 @@ export default {
   [types.RELOADING]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         reloading: payload,
       },
     };
@@ -91,11 +91,11 @@ export default {
   [types.REMOVE]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         entries: {
-          files: findAndRemove(state.general.entries.files, payload),
-          dirs: findAndRemove(state.general.entries.dirs, payload),
+          files: findAndRemove(state.core.entries.files, payload),
+          dirs: findAndRemove(state.core.entries.dirs, payload),
         },
       },
     };
@@ -103,8 +103,8 @@ export default {
   [types.SET_VIEWMODE]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         viewmode: payload,
       },
     };
@@ -112,10 +112,10 @@ export default {
   [types.SET_QUERY]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         search: {
-          ...state.general.search,
+          ...state.core.search,
           query: payload,
         },
         resetDirectoryTree: true,
@@ -125,10 +125,10 @@ export default {
   [types.SET_SORT]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         search: {
-          ...state.general.search,
+          ...state.core.search,
           sort: payload,
         },
         resetDirectoryTree: true,
@@ -138,10 +138,10 @@ export default {
   [types.SET_SORT_BY]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         search: {
-          ...state.general.search,
+          ...state.core.search,
           sortBy: payload,
         },
         resetDirectoryTree: true,
@@ -151,8 +151,8 @@ export default {
   [types.SET_TYPE_FILTER]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         type: payload,
       },
     };
@@ -160,10 +160,10 @@ export default {
   [types.ADD_FILTER]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         filters: {
-          ...state.general.filters,
+          ...state.core.filters,
           ...payload,
         },
       },
@@ -172,25 +172,25 @@ export default {
   [types.INJECT_SIDE_PANEL]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         sidebar_components: {
-          ...state.general.sidebar_components,
+          ...state.core.sidebar_components,
           ...payload,
         },
       },
     };
   },
   [types.REMOVE_SIDE_PANEL]: (state, {payload}) => {
-    const sidebar_components = state.general.sidebar_components;
+    const sidebar_components = state.core.sidebar_components;
     if (sidebar_components[payload]) {
       delete sidebar_components[payload];
     }
 
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         sidebar_components: {},
       },
     };
@@ -198,8 +198,8 @@ export default {
   [types.INJECT_MODAL]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         modal: payload,
       },
     };
@@ -207,8 +207,8 @@ export default {
   [types.REMOVE_MODAL]: (state) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         modal: null,
       },
     };
@@ -216,8 +216,8 @@ export default {
   [types.INJECT_COMPONENT]: (state, {payload}) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         injected_component: payload,
       },
     };
@@ -225,8 +225,8 @@ export default {
   [types.REMOVE_INJECTED_COMPONENT]: (state) => {
     return {
       ...state,
-      general: {
-        ...state.general,
+      core: {
+        ...state.core,
         injected_component: null,
       },
     };

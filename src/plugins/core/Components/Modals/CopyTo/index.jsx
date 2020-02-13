@@ -13,7 +13,7 @@ class CopyTo extends Component {
   state = {path: '', working: false};
 
   componentDidMount() {
-    this.setState({path: this.props.state.general.path || '/'});
+    this.setState({path: this.props.state.core.path || '/'});
   }
 
   onSelect = e => {
@@ -27,7 +27,7 @@ class CopyTo extends Component {
   handleCopy = () => {
     this.setState({working: true});
     const promises = [];
-    getSelectedItems(this.props.state.general.entries).forEach(item => {
+    getSelectedItems(this.props.state.core.entries).forEach(item => {
       promises.push(this.props.move
           ? getApi().move('/', item.path, this.state.path)
           : getApi().copy('/', item.path, this.state.path),
@@ -76,7 +76,7 @@ class CopyTo extends Component {
           <div className="fm-modal-overflow-content" bg={'muted'}
                style={{borderRadius: '3px', paddingBottom: '3px'}}>
             <SelectableDirectoryTree onSelect={this.onSelect}
-                                     state={this.props.state.general}
+                                     state={this.props.state.core}
                                      path={this.state.path}
                                      dispatch={this.props.dispatch}/>
           </div>
