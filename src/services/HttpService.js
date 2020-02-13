@@ -3,14 +3,23 @@ import ResponseMapperService from '../mappers/ResponseMapper';
 
 export function setBaseUrl(url) {
   Axios.defaults.baseURL = url;
-  window.thumb = _url => `${url}?thumb=${encodeURIComponent(_url)}`;
-  window.download = _url => `${url}?download=${encodeURIComponent(_url)}`;
-  window.preview = _url => `${url}?preview=${encodeURIComponent(_url)}`;
+  window.thumb = _url => getUrl(url, {thumb: _url});
+  window.download = _url => getUrl(url, {download: _url});
+  window.preview = _url => getUrl(url, {preview: _url});
 }
 
 const config = {
   query_params: {},
   post_data: {},
+};
+
+const getUrl = (url, data) => {
+  const args = [];
+  const _args = {...data, ...config.query_params};
+  for (const key of Object.keys(_args)) {
+    args.push(`${encodeURIComponent(key)}=${encodeURIComponent(_args[key])}`);
+  }
+  return `${url}?${args.join('&')}`;
 };
 
 export function setQueryParams(query) {
