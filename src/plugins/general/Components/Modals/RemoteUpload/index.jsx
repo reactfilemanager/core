@@ -54,7 +54,7 @@ class RemoteUpload extends Component {
           onClick={this.handleUpload}
           disabled={this.state.working}
         >
-        { this.state.working ? <Spinner/> : 'Upload Now' }
+        { this.state.working ? <Spinner/> : 'Download Now' }
         </Button>
 
       </Flex>

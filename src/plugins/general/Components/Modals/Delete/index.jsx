@@ -23,7 +23,7 @@ class Delete extends Component {
       getApi()
           .delete('/', item.path)
           .then(response => {
-            toast.success('Deleted Successfully');
+            toast.success('Deleted successfully');
             this.props.dispatch(remove(item));
             if (item.is_dir) {
               this.props.dispatch(resetDirectoryTree(true));
@@ -44,7 +44,7 @@ class Delete extends Component {
       <Flex sx={{
         flexDirection: 'column', alignItems: 'center',
         p: 4,
-        'svg' : { width: '50px', height: '50px' }
+        '> span > svg' : { width: '50px', height: '50px' }
       }}>
         {icons.trash}
         
@@ -84,8 +84,10 @@ class Delete extends Component {
         }}>
           <strong>Are you absolutely sure?</strong> This action cannot be undone!
         </div>
-        <Button
-        sx={{ py: 2, px: 5, marginTop: 3 }}
+        <Button sx={{ 
+          py: 2, px: 5, marginTop: 3,
+          'svg': { width: '20px', height: '20px' }
+        }}
           onClick={this.handleDelete}
           disabled={this.state.working}
         >

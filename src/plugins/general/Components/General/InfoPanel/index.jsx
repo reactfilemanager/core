@@ -40,8 +40,9 @@ class InfoPanel extends Component {
     return (
       <div sx={{
         position: 'fixed',
-        top: 0,
+        top: '52px',
         right: 0,
+        zIndex: 8,
         width: '320px',
         height: '100%',
         bg: 'white',

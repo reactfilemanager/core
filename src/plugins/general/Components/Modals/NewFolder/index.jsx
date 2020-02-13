@@ -13,7 +13,7 @@ class NewFolder extends Component {
   handleSave = () => {
     const name = this.refs.name.value.trim();
     if (name === '') {
-      toast.warning('You should enter a folder name');
+      toast.warning('Folder name required');
       return;
     }
 
@@ -21,7 +21,7 @@ class NewFolder extends Component {
     getApi()
         .new_dir(this.props.state.general.path, name)
         .then(response => {
-          toast.success(response.message);
+          toast.success('Folder created successfully');
           // reload
           this.props.dispatch(setShouldReload(true));
           this.props.dispatch(removeModal());
@@ -46,7 +46,7 @@ class NewFolder extends Component {
       <Flex sx={{
         flexDirection: 'column', alignItems: 'center',
         p: 4,
-        'svg' : { width: '50px', height: '50px' }
+        '> span > svg' : { width: '50px', height: '50px' }
       }}>
         {icons.folder_add}
         
@@ -59,12 +59,14 @@ class NewFolder extends Component {
           ref="name"
           onKeyDown={this.handleKeyDown}
         />
-        <Button
-        sx={{ py: 2, px: 5, marginTop: 3 }}
+        <Button sx={{ 
+          py: 2, px: 5, marginTop: 3,
+          'svg': { width: '20px', height: '20px' }
+        }}
           onClick={this.handleSave}
           disabled={this.state.working}
         >
-        { this.state.working ? <Spinner/> : 'New Folder' }
+        { this.state.working ? <Spinner title="Creating new folder"/> : 'New Folder' }
         </Button>
       </Flex>
     );
