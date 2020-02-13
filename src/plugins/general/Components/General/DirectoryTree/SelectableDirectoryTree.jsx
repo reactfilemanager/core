@@ -6,6 +6,7 @@ import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import './style.scss';
 import cloneDeep from 'lodash.clonedeep';
+import clone from 'lodash.clone';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -120,8 +121,7 @@ class SelectableDirectoryTree extends Component {
 
     // check if we hit the end
     if (_path_ === _path) {
-      const _children = _dir.children || [];
-
+      const _children = cloneDeep(_dir.children) || [];
       _dir.children = _dirs_.map(dir => {
         dir.key = dir.path;
         dir.isLeaf = false;

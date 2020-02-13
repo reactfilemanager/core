@@ -38,5 +38,8 @@
     "sass-loader": "^7.1.0",
     "theme-ui": "^0.3.1",
     "webpack-bundle-analyzer": "^3.6.0"
+  },
+  "dependencies": {
+    "lodash.clone": "^4.5.0"
   }
 }
