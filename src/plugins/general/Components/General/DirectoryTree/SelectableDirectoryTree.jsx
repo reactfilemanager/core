@@ -6,7 +6,6 @@ import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import './style.scss';
 import cloneDeep from 'lodash.clonedeep';
-import clone from 'lodash.clone';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -37,7 +36,7 @@ class SelectableDirectoryTree extends Component {
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return this.props.path !== nextProps.path
-        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree && nextProps.state.resetDirectoryTree)
+        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree)
         || this.state.expandedKeys.length !== nextState.expandedKeys.length;
   }
 
