@@ -8,18 +8,19 @@ import ImagePreview from './src/plugins/image_preview/Components/ImagePreview';
 import AudioPlayer, {injection as AudioPlayerInjection} from './src/plugins/audio_player';
 
 const ROOT_URL = 'http://127.0.0.1:8000/tmp/storage';
-
-// core
-const core = Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
+const core = Pluggable.plugin(CORE_PLUGIN_KEY);
 
 // image preview
 core.inject(ImagePreview);
 
-// audio player
+// register audio player
 const audio_player = Pluggable.registerPlugin('audio_player', AudioPlayer);
+// set audio path resolver
 audio_player.accessor().setPathResolver(item => {
   return ROOT_URL + item.path;
 });
+
+// inject audio player into core
 core.inject(AudioPlayerInjection);
 
 // Copy URL context menu

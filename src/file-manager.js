@@ -9,6 +9,10 @@ import {
   setQueryParams,
 } from './services/HttpService';
 import {Pluggable} from './pluggable';
+import Core, {CORE_PLUGIN_KEY} from './plugins/core';
+
+// core
+Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
 
 const setConfig = (config = {}) => {
   setBaseUrl(config.url);
