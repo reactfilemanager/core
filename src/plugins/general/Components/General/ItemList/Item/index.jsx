@@ -168,7 +168,8 @@ class Item extends Component {
 
   getGridItem = (item) => {
     return (
-        <Card className={this.className}
+        <Card id={item.id}
+              className={this.className}
               onDoubleClick={this.handleDoubleClick}
               onClick={this.handleClick}>
           <ContextMenuTrigger

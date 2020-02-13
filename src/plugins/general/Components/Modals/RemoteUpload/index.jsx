@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Button, Text, Input, Flex, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import {setShouldReload} from '../../../state/actions';
+import {removeModal, setShouldReload} from '../../../state/actions';
 import {toast} from 'react-toastify';
-import icons from '../../../../../assets/icons'
+import icons from '../../../../../assets/icons';
+import {SmoothScroll} from '../../../../../helpers/Utils';
 
 class RemoteUpload extends Component {
   state = {working: false};
@@ -15,49 +16,51 @@ class RemoteUpload extends Component {
       return false;
     }
     this.setState({working: true});
-    getApi()
-        .remote_download(this.props.state.general.path, url)
-        .then(response => {
-          toast.success(response.message);
-          this.props.dispatch(setShouldReload(true));
-          this.refs.remote_url.value = '';
-        })
-        .catch(error => {
-          toast.error(error.message);
-        })
-        .finally(() => {
-          this.setState({working: false});
-        });
+    getApi().remote_download(this.props.state.general.path, url).then(response => {
+      toast.success(response.message);
+      this.props.dispatch(setShouldReload(true, entries => {
+        const last = entries.files.reduce((prev, curr) => prev.last_modified > curr.last_modified ? prev : curr);
+        last.selected = true;
+        setTimeout(() => {
+          SmoothScroll.scrollTo(last.id);
+        }, 300);
+        return entries;
+      }));
+      this.props.dispatch(removeModal());
+    }).catch(error => {
+      toast.error(error.message);
+      this.setState({working: false});
+    });
   };
 
   render() {
     return (
-      <Flex sx={{
-        flexDirection: 'column', alignItems: 'center',
-        p: 4,
-        'svg' : { width: '50px', height: '50px' }
-      }}>
-        {icons.cloud_upload}
+        <Flex sx={{
+          flexDirection: 'column', alignItems: 'center',
+          p: 4,
+          'svg': {width: '50px', height: '50px'},
+        }}>
+          {icons.cloud_upload}
 
-        <Text sx={{ fontSize: 22, py: 2,}}>Upload From URL</Text>
+          <Text sx={{fontSize: 22, py: 2}}>Upload From URL</Text>
 
-        <Input 
-          sx={{ lineHeight: 2 }}
-          placeholder="Enter remote file url here"
-          autoFocus
-          ref="remote_url"
-          onKeyDown={this.handleKeyDown}
-        />
+          <Input
+              sx={{lineHeight: 2}}
+              placeholder="Enter remote file url here"
+              autoFocus
+              ref="remote_url"
+              onKeyDown={this.handleKeyDown}
+          />
 
-        <Button
-          sx={{ py: 2, px: 5, marginTop: 3 }}
-          onClick={this.handleUpload}
-          disabled={this.state.working}
-        >
-        { this.state.working ? <Spinner/> : 'Download Now' }
-        </Button>
+          <Button
+              sx={{py: 2, px: 5, marginTop: 3}}
+              onClick={this.handleUpload}
+              disabled={this.state.working}
+          >
+            {this.state.working ? <Spinner/> : 'Download Now'}
+          </Button>
 
-      </Flex>
+        </Flex>
     );
   }
 }

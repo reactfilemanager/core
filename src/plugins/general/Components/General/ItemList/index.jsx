@@ -25,9 +25,10 @@ class ItemList extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.state.shouldReload) {
+      const callback = this.props.state.callback;
       this.props.dispatch(setShouldReload(false));
 
-      this.readPath();
+      this.readPath(callback);
     }
   }
 
@@ -35,9 +36,12 @@ class ItemList extends Component {
     this.props.dispatch(setWorkingPath(path));
   };
 
-  readPath = () => {
+  readPath = (callback) => {
     this.props.dispatch(setReloading(true));
     getApi().list(this.props.state.path).then(response => {
+      if (callback) {
+        response = callback(response);
+      }
       this.props.dispatch(setEntries(response));
       this.props.dispatch(resetDirectoryTree(true));
     }).catch(error => {
@@ -197,6 +201,7 @@ class ItemList extends Component {
       style: {padding: '16px'},
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
+      id: "fm-content-holder",
     };
   };
 

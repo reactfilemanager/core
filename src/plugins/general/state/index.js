@@ -4,6 +4,7 @@ export default {
     dirs: [],
   },
   resetDirectoryTree: false,
+  directoryTree: [],
   shouldReload: true,
   reloading: false,
   filters: {},

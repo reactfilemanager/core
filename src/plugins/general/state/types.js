@@ -8,6 +8,7 @@ export const REMOVE = 'REMOVE';
 export const RELOADING = 'RELOADING';
 export const SET_CLIPBOARD = 'SET_CLIPBOARD';
 export const RESET_DIRECTORY_TREE = 'RESET_DIRECTORY_TREE';
+export const SET_DIRECTORY_TREE = 'SET_DIRECTORY_TREE';
 export const SET_VIEWMODE = 'SET_VIEWMODE';
 export const SET_QUERY = 'SET_QUERY';
 export const SET_SORT = 'SET_SORT';

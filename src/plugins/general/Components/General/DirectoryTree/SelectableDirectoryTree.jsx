@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree, setWorkingPath} from '../../../state/actions';
+import {resetDirectoryTree, setDirectoryTree, setWorkingPath} from '../../../state/actions';
 import {getApi} from '../../../tools/config';
 import icons from '../../../../../assets/icons';
 import './style.scss';
+import cloneDeep from 'lodash.clonedeep';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -18,6 +19,7 @@ class SelectableDirectoryTree extends Component {
     dirs: [],
     path: null,
     expandedKeys: [],
+    working: false,
   };
 
   componentDidMount() {
@@ -32,23 +34,30 @@ class SelectableDirectoryTree extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.props.path !== nextProps.path
+        || this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree
+        || (this.state.working && !nextState.working)
+        || this.state.expandedKeys.length !== nextState.expandedKeys.length;
+  }
+
   populateDirs = () => {
     if (this.props.path === null) {
       return;
     }
-    this.props.dispatch(resetDirectoryTree(false));
-    let path = this.props.path;
+
+    let path = this.props.state.path;
     let _path = path;
     if (_path === '') {
       _path = '/';
     }
     path = path.split('/');
 
-    const _dirs = this.state.dirs;
-    const dirs = this.loopDir(_dirs, path, '', _path,
-        this.props.state.entries.dirs);
+    const _dirs = this.props.state.directoryTree;
+    const dirs = this.loopDir(_dirs, path, '', _path, this.props.state.entries.dirs);
 
-    this.setState({dirs});
+    this.props.dispatch(setDirectoryTree(dirs));
+    this.props.dispatch(resetDirectoryTree(false));
   };
 
   setOpenDirs = () => {
@@ -57,7 +66,7 @@ class SelectableDirectoryTree extends Component {
     }
     let expandedKeys = [];
 
-    const path = this.props.path.split('/');
+    const path = this.props.state.path.split('/');
     let __dir = '';
     for (const _dir of path) {
       if (__dir === '/') {
@@ -73,6 +82,15 @@ class SelectableDirectoryTree extends Component {
     this.setState({expandedKeys});
   };
 
+  /**
+   *
+   * @param dirs - current directories in tree
+   * @param path - the path array
+   * @param _path - upper directory
+   * @param _path_ - current directory
+   * @param _dirs_ - new dirs
+   * @returns {*[]|*}
+   */
   loopDir = (dirs, path, _path = '', _path_, _dirs_) => {
     // get next segment
     const dir = path.shift();
@@ -121,8 +139,7 @@ class SelectableDirectoryTree extends Component {
     }
     else {
       // we didn't hit the end yet, add children
-      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_,
-          _dirs_);
+      _dir.children = this.loopDir(_dir.children || [], path, _path, _path_, _dirs_);
     }
 
     return dirs;
@@ -133,10 +150,14 @@ class SelectableDirectoryTree extends Component {
   };
 
   onLoadData = (treeNode) => {
+    this.setState({working: true});
     if (Array.isArray(treeNode.props.children) &&
         treeNode.props.children.length > 0) {
       // we loaded this before
-      return new Promise((resolve) => resolve());
+      return new Promise((resolve) => {
+        resolve();
+        this.setState({working: false});
+      });
     }
 
     return new Promise((resolve, reject) => {
@@ -147,21 +168,23 @@ class SelectableDirectoryTree extends Component {
           _path = '/';
         }
         path = path.split('/');
-        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
+        dirs = this.loopDir(this.props.state.directoryTree, path, '', _path, dirs);
 
         // setTimeout(() => resolve(), 3000);
         resolve();
-        this.setState({dirs});
+        this.props.dispatch(setDirectoryTree(dirs));
       }).catch(error => {
         console.log(error);
         reject();
+      }).finally(() => {
+        this.setState({working: false});
       });
     });
   };
 
   sendIcon = props => {
     return props.loading ? <Spinner/>
-        : (props.expanded ? icons.folder_open : icons.folder);
+        : (props.path === '/' ? icons.home : (props.expanded ? icons.folder_open : icons.folder));
   };
 
   handleExpand = expandedKeys => {
@@ -170,6 +193,17 @@ class SelectableDirectoryTree extends Component {
       expandedKeys = expandedKeys.filter(key => !key.startsWith(removed[0]));
     }
     this.setState({expandedKeys});
+  };
+
+  getSortedDirs = (dirs = cloneDeep(this.props.state.directoryTree)) => {
+    return Object.values(this.props.state.filters).reduce((entries, fn) => {
+      return fn(entries);
+    }, {files: [], dirs}).dirs.map(dir => {
+      if (dir.children && dir.children.length) {
+        dir.children = this.getSortedDirs(dir.children);
+      }
+      return dir;
+    });
   };
 
   render() {
@@ -195,8 +229,8 @@ class SelectableDirectoryTree extends Component {
         );
       });
     };
-
-    const _dirs = loop(this.state.dirs);
+    const sortedDirs = this.getSortedDirs();
+    const _dirs = loop(sortedDirs);
 
     return (
         <>

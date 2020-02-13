@@ -29,6 +29,16 @@ export default {
       },
     };
   },
+  [types.SET_DIRECTORY_TREE]: (state, {payload}) => {
+    return {
+      ...state,
+      general: {
+        ...state.general,
+        directoryTree: payload,
+        resetDirectoryTree: true,
+      },
+    };
+  },
   [types.TOGGLE_SELECT]: (state, {payload}) => {
     const entries = state.general.entries;
     if (payload.is_file) {
@@ -59,12 +69,13 @@ export default {
       },
     };
   },
-  [types.SHOULD_RELOAD]: (state, {payload}) => {
+  [types.SHOULD_RELOAD]: (state, {payload, callback}) => {
     return {
       ...state,
       general: {
         ...state.general,
         shouldReload: payload,
+        callback,
       },
     };
   },
@@ -107,6 +118,7 @@ export default {
           ...state.general.search,
           query: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },
@@ -119,6 +131,7 @@ export default {
           ...state.general.search,
           sort: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },
@@ -131,6 +144,7 @@ export default {
           ...state.general.search,
           sortBy: payload,
         },
+        resetDirectoryTree: true,
       },
     };
   },

@@ -31,7 +31,7 @@ export default function() {
   const InjectedComponent = state.general.injected_component;
   const hasInjectedComponent = !!InjectedComponent;
 
-  const goToTop = () => SmoothScroll.scrollTo('fm-header');
+  const goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
 
   const closeSidebar = () => {
     dispatch(removeSidePanel());
