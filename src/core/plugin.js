@@ -20,14 +20,6 @@ export default {
       component: General,
     },
   },
-  // add context menu entry
-  context_menu: [],
-  // add toolbar entry
-  toolbar: {},
-  // access to directory tree
-  directory_tree: {},
-  // access to info panel
-  info_panel: {},
   // add reducers
   reducers,
   accessor,
