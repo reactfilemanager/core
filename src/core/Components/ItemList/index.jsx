@@ -117,7 +117,7 @@ class ItemList extends Component {
       );
     }
 
-    return (<div sx={{ p: 3 }}>
+    return (<div sx={{p: 3}}>
       {items.dirs.length
           ? (<>
             <Text sx={{
@@ -161,8 +161,10 @@ class ItemList extends Component {
     </div>);
   };
 
-  handleOnChange = e => {
-    const checked = e.target.checked;
+  toggleCheckAll = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    const checked = !this.refs.allCheck.checked;
     this.markAll(checked);
   };
 
@@ -176,13 +178,17 @@ class ItemList extends Component {
       file.selected = checked === true;
       return file;
     });
+
     this.props.dispatch(setEntries(entries));
   };
 
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
-    const allChecked = items.length &&
-        _items.find(item => item.selected === false) === undefined;
+    let allChecked = false;
+    if (_items.length) {
+      allChecked = _items.find(item => item.selected === false) === undefined;
+    }
+
     return (
         <Table sx={{
           width: '100%',
@@ -191,9 +197,9 @@ class ItemList extends Component {
         }}>
           <thead>
           <tr>
-            <TH width="1%">
+            <TH width="1%" onClick={this.toggleCheckAll}>
               <Label>
-                <Checkbox checked={allChecked} onChange={this.handleOnChange}/>
+                <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
               </Label>
             </TH>
             <TH width="1%"/>
