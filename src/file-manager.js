@@ -9,10 +9,14 @@ import {
   setQueryParams,
 } from './services/HttpService';
 import {Pluggable} from './pluggable';
-import Core, {CORE_PLUGIN_KEY} from './plugins/core';
+import Core, {CORE_PLUGIN_KEY} from './core/plugin';
+import ImagePreview from './plugins/image_preview/Components/ImagePreview';
 
 // core
-Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
+const core = Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
+
+// image preview
+core.inject(ImagePreview);
 
 const setConfig = (config = {}) => {
   setBaseUrl(config.url);

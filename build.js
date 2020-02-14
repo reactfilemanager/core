@@ -3,15 +3,12 @@ import {render} from 'react-dom';
 import FileManager, {setConfig, Pluggable} from './src/file-manager';
 import icons from './src/assets/icons';
 import {toast} from 'react-toastify';
-import Core, {CORE_PLUGIN_KEY} from './src/plugins/core';
+import Core, {CORE_PLUGIN_KEY} from './src/core/plugin';
 import ImagePreview from './src/plugins/image_preview/Components/ImagePreview';
 import AudioPlayer, {injection as AudioPlayerInjection} from './src/plugins/audio_player';
 
 const ROOT_URL = 'http://127.0.0.1:8000/tmp/storage';
 const core = Pluggable.plugin(CORE_PLUGIN_KEY);
-
-// image preview
-core.inject(ImagePreview);
 
 // register audio player
 const audio_player = Pluggable.registerPlugin('audio_player', AudioPlayer);
