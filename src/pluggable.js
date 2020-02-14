@@ -44,7 +44,7 @@ const registerPlugin = (key, plugin) => {
 
   // load the api
   if (plugin.api) {
-    api[key] = APIMapper.mapAPIConfigToMethod(key.toProperCase(), plugin.api);
+    api[key] = APIMapper.mapAPIConfigToMethod(key, plugin.api);
   }
 
   // load the boot manager

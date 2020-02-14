@@ -1,5 +1,5 @@
 import icons from '../../assets/icons';
-import AudioPlayer from './AudioPlayer';
+import AudioPlayer from './VideoPlayer';
 import React from 'react';
 import {FILE_TYPES} from '../../core/Components/Toolbar/FilterByType';
 
@@ -15,7 +15,7 @@ export const injection = {
   handlers: {
     audio_player: {
       handles(item) {
-        return FILE_TYPES.audio.indexOf(item.extension) > -1;
+        return FILE_TYPES.video.indexOf(item.extension) > -1;
       },
       menu_item: {
         icon: icons.play,

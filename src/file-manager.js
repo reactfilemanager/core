@@ -12,6 +12,7 @@ import {Pluggable} from './pluggable';
 import Core, {CORE_PLUGIN_KEY} from './core/plugin';
 import ImagePreview from './plugins/image_preview/Components/ImagePreview';
 import AudioPlayer, {injection as AudioPlayerInjection} from './plugins/audio_player';
+import VideoPlayer, {injection as VideoPlayerInjection} from './plugins/video_player';
 import {toast} from 'react-toastify';
 import icons from './assets/icons';
 
@@ -43,19 +44,33 @@ const setConfig = (config = {}) => {
 };
 
 function registerAudioPlayer(core, ROOT_URL) {
-  // register audio player
-  const audio_player = Pluggable.registerPlugin('audio_player', AudioPlayer);
+  let audio_player = Pluggable.plugin('audio_player');
+  if (!audio_player) {
+    // register audio player
+    audio_player = Pluggable.registerPlugin('audio_player', AudioPlayer);
+
+    // inject audio player into core
+    core.inject(AudioPlayerInjection);
+  }
   // set audio path resolver
   audio_player.accessor().setPathResolver(item => {
     return ROOT_URL + item.path;
   });
-
-  // inject audio player into core
-  core.inject(AudioPlayerInjection);
 }
 
 function registerVideoPlayer(core, ROOT_URL) {
+  let video_player = Pluggable.plugin('video_player');
+  if (!video_player) {
+    // register audio player
+    video_player = Pluggable.registerPlugin('video_player', VideoPlayer);
 
+    // inject audio player into core
+    core.inject(VideoPlayerInjection);
+  }
+  // set audio path resolver
+  video_player.accessor().setPathResolver(item => {
+    return ROOT_URL + item.path;
+  });
 }
 
 function registerCopyURLMenuItem(core, ROOT_URL) {

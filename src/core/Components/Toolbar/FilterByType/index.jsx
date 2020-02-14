@@ -6,7 +6,7 @@ import icons from '../../../../assets/icons';
 
 export const FILE_TYPES = {
   video: ['mp4', 'mkv', 'flv', 'webm', 'fla', 'vob', '3gp'],
-  audio: ['ogg', 'acc', 'mp3', 'm4a'],
+  audio: ['ogg', 'acc', 'mp3', 'm4a', 'wav'],
   image: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'ico', 'svg'],
   docs: ['txt', 'html', 'css', 'js', 'php', 'log', 'inc', 'doc', 'docx', 'rtf', 'pdf'],
 };
