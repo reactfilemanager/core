@@ -37,10 +37,10 @@ export default () => {
     );
     contents.push(
         <div
-            key={tab.key}
-            id={tab.key}
-            aria-selected={activeFirst ? 'false' : 'true'}
-            aria-labelledby={tab.key + '-tab'}
+          key={tab.key}
+          sx={{
+            overflow: 'hidden'
+          }}
         >
           <tab.component/>
         </div>,

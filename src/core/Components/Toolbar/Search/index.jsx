@@ -139,7 +139,7 @@ class Search extends Component {
             position: 'relative',
             fontSize: 13,
             '&:hover': {
-              bg: 'muted',
+              bg: 'primaryLight',
             },
             '> span': {
               position: 'absolute',
@@ -205,7 +205,7 @@ class Search extends Component {
           {this.state.isOpen
               ? <div sx={{
                 position: 'absolute',
-                top: '36px',
+                top: '40px',
                 right: '0px',
                 background: 'white',
                 py: 3,
