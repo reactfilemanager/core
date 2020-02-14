@@ -114,7 +114,7 @@ class ItemList extends Component {
       );
     }
 
-    return (<div>
+    return (<div sx={{ p: 3 }}>
       {items.dirs.length
           ? (<>
             <Text sx={{
@@ -195,7 +195,7 @@ class ItemList extends Component {
             </TH>
             <TH width="1%"/>
             <TH width="75%">Name</TH>
-            <TH>Size</TH>
+            <TH width="3%">Size</TH>
             <TH width="10%">Permission</TH>
             <TH width="10%">Last Modified</TH>
           </tr>
@@ -241,8 +241,7 @@ class ItemList extends Component {
 
   getAttributes = () => {
     return {
-      className: 'files-container',
-      style: {padding: '16px', userSelect: 'none'},
+      style: {userSelect: 'none'},
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
       id: 'fm-content-holder',
@@ -285,7 +284,7 @@ class ItemList extends Component {
 export default ItemList;
 
 const Table = styled.table`
-  border: 1px solid #dcdcdc;
+  // border: 1px solid #dcdcdc;
   //Row
   tr:nth-of-type(odd) td{ background: #fff }
   tr:nth-of-type(even) td{ background: #f5f4f4 }

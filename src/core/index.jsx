@@ -43,7 +43,7 @@ export default function() {
       <header sx={{
         background: 'lightGray',
         position: 'sticky', top: 0, left: 0, right: 0,
-        zIndex: '9',
+        zIndex: '9999',
         width: '100%', height: '100%',
         display: 'flex',
         alignItems: 'center',
@@ -97,7 +97,7 @@ export default function() {
             flexBasis: 'sidebar',
             background: 'gray',
             borderRight: '1px solid #ddd',
-            height: 'calc(100vh - 85px)',
+            height: '100vh',
             width: 'sidebar',
             overflowX: 'hidden',
             overflowY: 'auto',
@@ -105,7 +105,7 @@ export default function() {
 
           <DirectoryTree state={state.core} dispatch={dispatch}/>
 
-          <Flex sx={{
+          {/* <Flex sx={{
             position: 'fixed',
             justifyContent: 'space-between',
             bottom: 0,
@@ -131,7 +131,7 @@ export default function() {
             <Link href="https://www.themexpert.com" target="_blank">
               {icons.info} ThemeXpert
             </Link>
-          </Flex>
+          </Flex> */}
 
         </aside>
         <main

@@ -52,13 +52,14 @@ class InfoPanel extends Component {
     return (
       <div ref="panel" sx={{
         position: 'fixed',
-        top: '52px',
+        top: '0',
         right: 0,
         zIndex: 8,
         width: '320px',
         height: '100%',
         bg: 'white',
         p: 3,
+        paddingTop: 5,
         borderLeft: '1px solid #ddd',
         transition: `transform ${this.timeout}ms ease-out`,
         transform: (this.state.isOpen ? 'translateX(0)' : 'translateX(340px)')
@@ -94,44 +95,11 @@ class InfoPanel extends Component {
 
         <Close sx={{
           position: 'absolute',
-          top: '10px',
+          top: 5,
           right: '10px',
           cursor: 'pointer'
         }} onClick={this._remove} />
       </div>
-
-        // <table>
-        //   <tbody>
-        //   {this.isImage ?
-        //       <>
-        //         <tr>
-        //           <td>Dimension</td>
-        //           <td>
-        //             {`${item.image_info.width}x${item.image_info.width}`}
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>Bits</td>
-        //           <td>
-        //             {item.image_info.bits}
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>Channels</td>
-        //           <td>
-        //             {item.image_info.channels}
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>Mime Type</td>
-        //           <td>
-        //             {item.image_info.mime}
-        //           </td>
-        //         </tr>
-        //       </>
-        //       : null}
-        //   </tbody>
-        // </table>
     );
   }
 }

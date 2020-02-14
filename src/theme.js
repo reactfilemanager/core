@@ -53,7 +53,7 @@ export default {
   buttons: {
     primary: {
       mr: 2,
-      fontSize: 14, 
+      fontSize: 12, 
       cursor: 'pointer',
       color: 'background',
       bg: 'primary',
@@ -77,7 +77,7 @@ export default {
       bg: 'white',
       border: '1px solid #ddd',
       mr: 2,
-      fontSize: 14, 
+      fontSize: 12, 
       textTransform: 'uppercase',
       display: 'flex',
       alignItems: 'center',
