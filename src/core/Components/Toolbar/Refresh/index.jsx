@@ -20,7 +20,11 @@ class Refresh extends Component {
     }
 
     return (
-        <Button variant="secondary" onClick={this.handleClick} disabled={reloading} {...attrs}>
+        <Button 
+          variant="secondary" onClick={this.handleClick} disabled={reloading} {...attrs}
+          sx={{ 'svg':{
+            marginRight: 0
+          }}}>
            {reloading ? 
             <Spinner sx={{ width: '20px', height: '20px'}}/> : 
             <>{icons.refresh}</> }
