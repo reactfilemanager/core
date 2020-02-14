@@ -172,20 +172,18 @@ class Search extends Component {
 
   render() {
     return (
-        <div sx={{position: 'relative'}}>
+        <div sx={{position: 'relative', marginLeft: 1}}>
           <Input
-              type="text"
-              placeholder="Search..."
-              ref="searchInput"
-              className="form-control"
-              onChange={this.handleQueryChange}/>
+            placeholder="Search..."
+            ref="searchInput"
+            onChange={this.handleQueryChange}/>
 
           <Button
               sx={{
                 position: 'absolute',
-                right: '10px',
-                top: '6px',
-                bg: 'muted',
+                right: '8px',
+                top: '8px',
+                bg: '#eee',
                 p: 1,
                 borderRadius: '50px',
                 'svg': {

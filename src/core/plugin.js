@@ -1,6 +1,6 @@
+import Core from './';
 import CoreAPI from './api';
 import config, {accessor} from './tools/config';
-import General from './Components';
 import reducers from './state/reducers';
 import initial_state from './state';
 
@@ -17,7 +17,7 @@ export default {
   tabs: {
     entries: {
       title: 'Entries',
-      component: General,
+      component: Core,
     },
   },
   // add context menu entry

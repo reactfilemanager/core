@@ -31,8 +31,7 @@ class App extends Component {
   render() {
     return (
         <ThemeProvider theme={theme}>
-          <StoreProvider initialState={initialState()}
-                         reducer={createReducer()}>
+          <StoreProvider initialState={ initialState() } reducer={ createReducer() }>
             <FileManager/>
           </StoreProvider>
         </ThemeProvider>
