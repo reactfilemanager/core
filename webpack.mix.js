@@ -20,19 +20,6 @@ mix.react('build.js', 'dist/build.js').sass('style.scss', 'dist/build.css').copy
             test: /\.svg$/,
             loader: 'raw-loader',
           },
-          {
-            test: /\.jsx?$/,
-            // exclude: /node_modules/,
-            loader: 'babel-loader',
-            include: [
-              // fs.realpathSync(path.resolve(__dirname, './node_modules/@reactfilemanager/')),
-              fs.realpathSync(path.resolve(__dirname, './node_modules/@themexpert/')),
-            ],
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
-              plugins: ['@babel/plugin-proposal-class-properties'],
-            },
-          },
         ],
       },
       plugins: [
