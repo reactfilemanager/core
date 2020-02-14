@@ -31,6 +31,6 @@ setConfig({
   },
 });
 
-const element = document.querySelector('#file-manager');
+const element = document.querySelector('#rfm');
 
 render(<FileManager/>, element);

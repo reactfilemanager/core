@@ -1,6 +1,5 @@
 /** @jsx jsx */
-import {jsx, Text, div, Flex, Link} from 'theme-ui';
-import React from 'react';
+import {jsx, Flex, Link} from 'theme-ui';
 import {bootPlugins, getTabs} from '../pluggable';
 import {useStore} from '../state/store';
 import {ToastContainer, Flip} from 'react-toastify';
@@ -17,32 +16,31 @@ export default () => {
   for (const tab of tabs) {
     navs.push(
         <Link
-            id={tab.key + '-tab'}
-            key={tab.key}
-            href={'#' + tab.key}
-            role="tab"
-            aria-controls={tab.key}
-            aria-selected="true"
-            sx={{
-              px: 4,
-              py: 2,
-              bg: '#fafbfb',
-              textDecoration: 'none',
-              color: 'gray',
-              fontSize: 12,
-              textTransform: 'uppercase',
-            }}
+          id={tab.key + '-tab'}
+          key={tab.key}
+          href={'#' + tab.key}
+          role="tab"
+          aria-controls={tab.key}
+          aria-selected="true"
+          sx={{
+            px: 4,
+            py: 2,
+            bg: '#fafbfb',
+            textDecoration: 'none',
+            color: 'gray',
+            fontSize: 12,
+            textTransform: 'uppercase',
+          }}
         >
           {tab.title}
         </Link>,
     );
     contents.push(
         <div
-            key={tab.key}
-            id={tab.key}
-            role="tabpanel"
-            aria-selected={activeFirst ? 'false' : 'true'}
-            aria-labelledby={tab.key + '-tab'}
+          key={tab.key}
+          sx={{
+            overflow: 'hidden'
+          }}
         >
           <tab.component/>
         </div>,
@@ -52,9 +50,7 @@ export default () => {
   return (
       <div>
         {navs.length > 1
-            ? <Flex sx={{
-              bg: '#f5f5f5',
-            }}>
+            ? <Flex sx={{ bg: '#f5f5f5', }}>
               {navs}
             </Flex>
             : null

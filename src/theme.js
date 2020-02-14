@@ -102,7 +102,6 @@ export default {
       }
     },
     utility:{
-      py: 1,
       px: 2,
       mr: 0,
       color: 'text',
@@ -111,13 +110,15 @@ export default {
       border: '1px solid transparent',
       borderRadius: '3px',
       cursor: 'pointer',
-      '&:hover, &:focus, &.active': {
-        background: 'white',
-        borderColor: '#ddd',
+      '&:hover, &.active':{
         color: 'primary',
         'svg *':{
           stroke: 'primary',
         }
+      },
+      '&.active': {
+        background: 'white',
+        borderColor: '#ddd',
       }
     }
   },
@@ -140,8 +141,8 @@ export default {
       bg: 'white',
       borderColor: '#ddd',
       borderRadius: '3px',
-      py: 1,
-      fontSizes: 12,
+      // py: 1,
+      height: '39px',
       color: 'text',
       '&:focus': {
         borderColor: 'primary',
