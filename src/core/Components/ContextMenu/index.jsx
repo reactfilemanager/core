@@ -47,7 +47,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
                     {getIcon(handler.menu_item.icon)} {handler.menu_item.title}
                   </Menu>
               ))}
-              <Divider/>
+              {/* <Divider/> */}
             </>
             : null}
         {
@@ -67,8 +67,8 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
 
 const Menu = styled(MenuItem)`
   cursor: pointer;
-  padding: 8px 10px;
-  font-size: 12px;
+  padding: 6px 10px;
+  font-size: 11px;
   text-transform: uppercase;
   color: #999;
   display: flex;
@@ -78,8 +78,8 @@ const Menu = styled(MenuItem)`
   }
 
   svg{
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     margin-right: 5px;
   }
 `;

@@ -9,7 +9,7 @@ export default {
     },
     menu_item: {
       title: 'Open',
-      icon: null,
+      icon: icons.folder_open,
     },
     handle(item, state, dispatch) {
       dispatch(setWorkingPath(item.path));

@@ -6,7 +6,8 @@ $rt-color-success: #21A453;
 $rt-color-warning: #FFC043;
 $rt-color-error: #DE3618;
 @import "~react-toastify/scss/main";
-
+// Toastify
+.Toastify__toast{ padding-left: 20px !important; }
 
 .file-manager {
   user-select: none;

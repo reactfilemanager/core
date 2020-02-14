@@ -190,7 +190,7 @@ class Permission extends Component {
                 py: 2,
                 px: 5,
                 marginTop: 3,
-                alignSelf: 'stretch',
+                alignSelf: 'center',
                 mx: '10%',
               }}
               onClick={this.handleSave}
