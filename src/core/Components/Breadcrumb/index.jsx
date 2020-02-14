@@ -1,5 +1,6 @@
+/** @jsx jsx */
+import {jsx, NavLink, Flex} from 'theme-ui';
 import React, {Component} from 'react';
-import { NavLink, Flex } from 'theme-ui'
 import {setWorkingPath} from '../../state/actions';
 import icons from '../../../assets/icons';
 class Breadcrumb extends Component {
@@ -31,26 +32,34 @@ class Breadcrumb extends Component {
           return <NavLink
                   href="#!"
                   key={nPath}
-                  onClick={e => this.moveTo(e, '/')}>
+                  onClick={e => this.moveTo(e, '/')}
+                  sx={{
+                    'svg': {
+                      width: '16px',
+                      height: '16px'
+                    }
+                  }}>
                     {icons.home}
                 </NavLink>
         }
 
         return (
-          <NavLink 
-            href='#!' 
-            className={isActive ? 'active' : ''}
-            aria-current={isActive ? 'page' : undefined} 
-            key={nPath}
-            onClick={e => this.moveTo(e, nPath)} 
-            
-            sx={{
-              px: 2,
-              fontSize: 14,
-              fontWeight: 'body'
+          <>
+            <span sx={{ px: 2, color: 'gray'}}> > </span>
+            <NavLink 
+              href='#!' 
+              className={isActive ? 'active' : ''}
+              aria-current={isActive ? 'page' : undefined} 
+              key={nPath}
+              onClick={e => this.moveTo(e, nPath)} 
+              
+              sx={{
+                fontSize: 14,
+                fontWeight: 'body'
             }}>
-            {dir}
-          </NavLink>
+              {dir}
+            </NavLink>
+          </>
         );
       });
     }
@@ -61,7 +70,7 @@ class Breadcrumb extends Component {
     const Breadcrumbs = this.getBreadCrumbs();
 
     return (
-        <Flex as='nav' aria-label="breadcrumb" className="breadcrumb">
+        <Flex as='nav' aria-label="breadcrumb" sx={{ lineHeight: '16px' }}>
           {Breadcrumbs}
         </Flex>
       
