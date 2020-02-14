@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {jsx, Text, Box, Flex, Link} from 'theme-ui';
+import {jsx, Text, div, Flex, Link} from 'theme-ui';
 import React from 'react';
 import {bootPlugins, getTabs} from '../pluggable';
 import {useStore} from '../state/store';
@@ -37,7 +37,7 @@ export default () => {
         </Link>,
     );
     contents.push(
-        <Box
+        <div
             key={tab.key}
             id={tab.key}
             role="tabpanel"
@@ -45,12 +45,12 @@ export default () => {
             aria-labelledby={tab.key + '-tab'}
         >
           <tab.component/>
-        </Box>,
+        </div>,
     );
   }
 
   return (
-      <Box>
+      <div>
         {navs.length > 1
             ? <Flex sx={{
               bg: '#f5f5f5',
@@ -59,9 +59,9 @@ export default () => {
             </Flex>
             : null
         }
-        <Box>
+        <div>
           {contents}
-        </Box>
+        </div>
 
         <ToastContainer
             position="top-right"
@@ -75,6 +75,6 @@ export default () => {
             pauseOnHover
             transition={Flip}
         />
-      </Box>
+      </div>
   );
 }

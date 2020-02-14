@@ -52,8 +52,6 @@ export default {
   },
   buttons: {
     primary: {
-      py: 1,
-      px: 2,
       mr: 2,
       fontSize: 14, 
       cursor: 'pointer',
@@ -61,6 +59,7 @@ export default {
       bg: 'primary',
       display: 'flex',
       alignItems: 'center',
+      textTransform: 'uppercase',
       '> span':{
         display: 'flex'
       },
@@ -77,8 +76,6 @@ export default {
       color: 'gray',
       bg: 'white',
       border: '1px solid #ddd',
-      py: 1,
-      px: 2,
       mr: 2,
       fontSize: 14, 
       textTransform: 'uppercase',
@@ -129,7 +126,7 @@ export default {
       fontFamily: 'body',
       lineHeight: 'body',
       fontWeight: 'body',
-      overflow: 'hidden'
+      // overflow: 'hidden'
     },
     img: {
       maxWidth: '100%'
