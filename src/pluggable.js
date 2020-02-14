@@ -112,9 +112,7 @@ export const getTabs = () => {
 };
 
 const getConfig = key => {
-  return () => {
-    return config[key] ? config[key] : {};
-  };
+  return config[key] ? config[key] : {};
 };
 
 export const bootPlugins = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import FileManager, {Pluggable, setConfig} from './src/file-manager';
-
+window.Pluggable = Pluggable;
 // Selection handler on file select mode
 // generalPlugin.addHandler(
 //     'default',

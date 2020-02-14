@@ -13,7 +13,7 @@ export const pathResolver = {
 
 export const injection = {
   handlers: {
-    audio_player: {
+    video_player: {
       handles(item) {
         return FILE_TYPES.video.indexOf(item.extension) > -1;
       },

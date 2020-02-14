@@ -44,14 +44,13 @@ class Breadcrumb extends Component {
         }
 
         return (
-          <>
-            <span sx={{ px: 2, color: 'gray'}}> > </span>
+          <React.Fragment key={nPath}>
+            <span sx={{ px: 2, color: 'gray'}} > > </span>
             <NavLink 
               href='#!' 
               className={isActive ? 'active' : ''}
               aria-current={isActive ? 'page' : undefined} 
-              key={nPath}
-              onClick={e => this.moveTo(e, nPath)} 
+              onClick={e => this.moveTo(e, nPath)}
               
               sx={{
                 fontSize: 14,
@@ -59,7 +58,7 @@ class Breadcrumb extends Component {
             }}>
               {dir}
             </NavLink>
-          </>
+          </React.Fragment>
         );
       });
     }
