@@ -20,7 +20,7 @@ import debounce from 'lodash.debounce';
 
 class ItemList extends Component {
 
-  state = {max: 20, total: 0};
+  state = {max: 20, total: 0, working: false};
   max = 20;
   increment = 10;
 
@@ -53,7 +53,10 @@ class ItemList extends Component {
       if (max > this.state.total) {
         max = this.state.total;
       }
-      this.setState({max});
+      this.setState({working: true});
+      setTimeout(() => {
+        this.setState({max, working: false});
+      }, 500);
     }
   }, 100);
 
@@ -275,6 +278,7 @@ class ItemList extends Component {
               ? this.getItemsBlockForGridViewMode(items)
               : this.getItemsBlockForListViewMode(items)
           }
+          {this.state.working ? <Spinner/> : null}
           <div ref="bottom"/>
         </ContextMenuTrigger>
     );

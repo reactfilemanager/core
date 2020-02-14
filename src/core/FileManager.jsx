@@ -42,7 +42,7 @@ export default () => {
             overflow: 'hidden'
           }}
         >
-          <tab.component/>
+          <tab.component state={state} dispatch={dispatch}/>
         </div>,
     );
   }

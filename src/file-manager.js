@@ -10,7 +10,7 @@ import {
 } from './services/HttpService';
 import {Pluggable} from './pluggable';
 import Core, {CORE_PLUGIN_KEY} from './core/plugin';
-import ImagePreview from './plugins/image_preview/Components/ImagePreview';
+import ImagePreview from './plugins/image_preview';
 import AudioPlayer, {injection as AudioPlayerInjection} from './plugins/audio_player';
 import VideoPlayer, {injection as VideoPlayerInjection} from './plugins/video_player';
 import {toast} from 'react-toastify';

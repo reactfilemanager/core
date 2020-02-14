@@ -40,6 +40,6 @@
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "dependencies": {
-    "lodash.clone": "^4.5.0"
+
   }
 }
