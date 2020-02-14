@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Text, Input, Flex, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import {removeModal, setShouldReload} from '../../../state/actions';
+import {removeModal, setQuery, setShouldReload, setSort, setSortBy} from '../../../state/actions';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
 import {SmoothScroll} from '../../../../helpers/Utils';
@@ -18,6 +18,9 @@ class RemoteUpload extends Component {
     this.setState({working: true});
     getApi().remote_download(this.props.state.core.path, url).then(response => {
       toast.success(response.message);
+      this.props.dispatch(setSort('desc'));
+      this.props.dispatch(setSortBy('last_modified'));
+      this.props.dispatch(setQuery(''));
       this.props.dispatch(setShouldReload(true, entries => {
         const last = entries.files.reduce((prev, curr) => prev.last_modified > curr.last_modified ? prev : curr);
         last.selected = true;
@@ -31,6 +34,15 @@ class RemoteUpload extends Component {
       toast.error(error.message);
       this.setState({working: false});
     });
+  };
+
+  handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.handleUpload(e);
+    }
   };
 
   render() {

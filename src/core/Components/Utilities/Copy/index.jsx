@@ -34,7 +34,9 @@ export const CopyButton = (move = false) => {
             variant="secondary"
             onClick={handleCopyToClick}
         >
-          {icons.copy} Copy
+          {move
+              ? <> {icons.move} Move</>
+              : <>{icons.copy} Copy</>}
         </Button>
     );
   };

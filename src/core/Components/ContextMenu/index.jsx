@@ -13,6 +13,13 @@ const style = {
   width: '180px',
 };
 
+const getIcon = icon => {
+  if (typeof icon === 'string') {
+    return <span dangerouslySetInnerHTML={{__html: icon}}/>;
+  }
+  return icon;
+};
+
 export default connectMenu(CONTEXT_MENU_ID)(function(props) {
 
   const [state, dispatch] = useStore();
@@ -37,7 +44,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
               {handlers.map(handler => (
                   <Menu key={handler.key}
                         onClick={() => handler.handle(item, state, dispatch)}>
-                    {handler.menu_item.icon} {handler.menu_item.title}
+                    {getIcon(handler.menu_item.icon)} {handler.menu_item.title}
                   </Menu>
               ))}
               <Divider/>
@@ -50,7 +57,7 @@ export default connectMenu(CONTEXT_MENU_ID)(function(props) {
                   onClick={() => menu_items[key].handle(item, state, dispatch)}
                   sx={{}}
               >
-                {menu_items[key].menu_item.icon} {menu_items[key].menu_item.title}
+                {getIcon(menu_items[key].menu_item.icon)} {menu_items[key].menu_item.title}
               </Menu>
           ))
         }
