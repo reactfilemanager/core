@@ -1,6 +1,7 @@
 import * as types from './types';
 import {EventBus} from '../../helpers/Utils';
 import {CORE_PLUGIN_KEY} from '../plugin';
+import {FORCE_RENDER} from './types';
 
 export const getWorkingPath = () => {
   return new Promise((resolve, reject) => {
@@ -68,6 +69,18 @@ export const setFilter = filters => {
   EventBus.$emit(types.SET_FILTER, filters);
 };
 
+export const addFilter = filter => {
+  EventBus.$emit(types.ADD_FILTER, filter);
+};
+
+export const removeFilter = filter => {
+  EventBus.$emit(types.REMOVE_FILTER, filter);
+};
+
+export const forceRender = () => {
+  EventBus.$emit(FORCE_RENDER);
+};
+
 /// ends here
 
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
@@ -81,7 +94,7 @@ export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_T
 export const setDirectoryTree = payload => ({type: types.SET_DIRECTORY_TREE, payload});
 export const setViewmode = viewmode => ({type: types.SET_VIEWMODE, payload: viewmode});
 export const setQuery = query => ({type: types.SET_QUERY, payload: query});
-export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});
+
 export const setSort = sort => ({type: types.SET_SORT, payload: sort});
 export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
 export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});

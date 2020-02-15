@@ -19,9 +19,10 @@ import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
 import {
-  CORE_RELOAD_FILEMANAGER,
+  ADD_FILTER,
+  CORE_RELOAD_FILEMANAGER, FORCE_RENDER,
   ITEMS_SELECTED,
-  REMOVE,
+  REMOVE, REMOVE_FILTER,
   SET_WORKING_PATH,
   TOGGLE_SELECT,
   UPDATE,
@@ -46,37 +47,62 @@ class ItemList extends Component {
       dirs: [],
       files: [],
     },
-    filters: [],
+    filters: {},
     path: '',
     viewmode: 'grid',
+    render: 1,
   };
   selected_entries = {};
   max = 40;
   increment = 20;
 
   componentDidMount() {
+    EventBus.$on(FORCE_RENDER, this.forceRender);
     EventBus.$on(CORE_RELOAD_FILEMANAGER, this.reload);
     EventBus.$on(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$on(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$on(UPDATE, this.onUpdate);
     EventBus.$on(REMOVE, this.onRemove);
     EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
+    EventBus.$on(ADD_FILTER, this.addFilter);
+    EventBus.$on(REMOVE_FILTER, this.removeFilter);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
   componentWillUnmount() {
+    EventBus.$off(FORCE_RENDER, this.forceRender);
     EventBus.$off(CORE_RELOAD_FILEMANAGER, this.reload);
     EventBus.$off(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$off(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$off(UPDATE, this.onUpdate);
     EventBus.$off(REMOVE, this.onRemove);
     EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
+    EventBus.$off(ADD_FILTER, this.addFilter);
+    EventBus.$off(REMOVE_FILTER, this.removeFilter);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
 
+  forceRender = () => {
+    this.forceUpdate();
+  };
+
+  addFilter = (_filters) => {
+    let {filters} = this.state;
+    filters = {...filters, ..._filters};
+    this.setState({filters});
+  };
+
+  removeFilter = (id) => {
+    const {filters} = this.state;
+    if (filters[id]) {
+      delete filters[id];
+      this.setState({filters});
+    }
+  };
+
   onItemsSelected = items => {
     this.selected_entries = {};
-    for(const item of items) {
+    for (const item of items) {
       this.selected_entries[item.id] = item;
     }
   };
@@ -415,7 +441,7 @@ class ItemList extends Component {
   getItems = () => {
     let entries = Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
-    }, this.state.entries);
+    }, cloneDeep(this.state.entries));
     const maxFiles = this.state.max > entries.files.length ? entries.files.length : this.state.max;
     entries = {
       dirs: entries.dirs,

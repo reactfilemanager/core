@@ -1,5 +1,7 @@
-export let SET_FILTER = 'SET_FILTER';
-export let ADD_FILTER = 'ADD_FILTER';
+export const FORCE_RENDER = 'FORCE_RENDER';
+export const SET_FILTER = 'SET_FILTER';
+export const ADD_FILTER = 'ADD_FILTER';
+export const REMOVE_FILTER = 'REMOVE_FILTER';
 export const TOGGLE_SELECT = 'TOGGLE_SELECT';
 export const SET_ENTRIES = 'SET_ENTRIES';
 export const SET_WORKING_PATH = 'SET_WORKING_PATH';

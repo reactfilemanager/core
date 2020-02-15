@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import {jsx, Flex, Button} from 'theme-ui';
 import React, {Component} from 'react';
-import {addFilter, setTypeFilter} from '../../../state/actions';
+import {addFilter, forceRender, removeFilter, setTypeFilter} from '../../../state/actions';
 import icons from '../../../../assets/icons';
 
 export const FILE_TYPES = {
@@ -16,7 +16,16 @@ class FilterByType extends Component {
   state = {type: null};
 
   componentDidMount() {
-    addFilter({filter_by_type: this.filter});
+    //wait for the item list to render first
+    setTimeout(() => addFilter({filter_by_type: this.filter}), 300);
+  }
+
+  componentWillUnmount() {
+    removeFilter('filter_by_type');
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    forceRender();
   }
 
   filter = entries => {
