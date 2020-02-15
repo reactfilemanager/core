@@ -17,8 +17,8 @@ import {CONTEXT_MENU_ID} from '../ContextMenu';
 import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
-import {EventBus} from '../../../helpers/Utils';
-import {CORE_RELOAD_FILEMANAGER, SET_WORKING_PATH, TOGGLE_SELECT} from '../../state/types';
+import {EventBus, uuidv4} from '../../../helpers/Utils';
+import {CORE_RELOAD_FILEMANAGER, SET_WORKING_PATH, TOGGLE_SELECT, UPDATE} from '../../state/types';
 
 class ItemList extends Component {
 
@@ -42,6 +42,7 @@ class ItemList extends Component {
     EventBus.$on(CORE_RELOAD_FILEMANAGER, this.reload);
     EventBus.$on(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$on(TOGGLE_SELECT, this.toggleSelect);
+    EventBus.$on(UPDATE, this.onUpdate);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
@@ -49,8 +50,26 @@ class ItemList extends Component {
     EventBus.$off(CORE_RELOAD_FILEMANAGER, this.reload);
     EventBus.$off(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$off(TOGGLE_SELECT, this.toggleSelect);
+    EventBus.$off(UPDATE, this.onUpdate);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
+
+  onUpdate = item => {
+    const {entries} = this.state;
+    const update = _item => {
+      if (_item.id === item.id) {
+        _item.id = uuidv4();
+        _item.name = item.name;
+        _item.last_modified = new Date;
+      }
+      return _item;
+    };
+
+    entries.dirs = entries.dirs.map(update);
+    entries.files = entries.files.map(update);
+
+    this.setState({entries});
+  };
 
   // region toggle select
   toggleSelect = ({ctrlKey, shiftKey, item_id}) => {

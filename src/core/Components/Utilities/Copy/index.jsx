@@ -41,7 +41,7 @@ class Copy extends Component {
   state = {path: '', working: false};
 
   componentDidMount() {
-    getWorkingPath(path => {
+    getWorkingPath().then(path => {
       console.log('Working Path', path);
     });
   }

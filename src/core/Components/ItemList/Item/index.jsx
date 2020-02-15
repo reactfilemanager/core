@@ -8,23 +8,27 @@ import {CONTEXT_MENU_ID} from '../../ContextMenu';
 import {getDefaultHandler} from '../../../tools/config';
 import {toast} from 'react-toastify';
 import {EventBus} from '../../../../helpers/Utils';
-import {ITEMS_SELECTED} from '../../../state/types';
+import {ITEMS_SELECTED, UPDATE} from '../../../state/types';
 
 class Item extends Component {
 
   state = {selected: false};
 
   componentDidMount() {
-    EventBus.$on(ITEMS_SELECTED, this.onSelect);
     getSelectedItems(items => {
       if(Array.isArray(items)) {
         this.onSelect(items);
       }
-    })
+    });
+    EventBus.$on(ITEMS_SELECTED, this.onSelect);
   }
 
   componentWillUnmount() {
     EventBus.$off(ITEMS_SELECTED, this.onSelect);
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.props.item.id !== nextProps.item.id || this.state.selected !== nextState.selected;
   }
 
   onSelect = items => {

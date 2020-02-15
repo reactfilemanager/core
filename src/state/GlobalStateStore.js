@@ -1,11 +1,6 @@
 import {EventBus} from '../helpers/Utils';
 
 const state = {
-  path: '/',
-  selectedItems: [],
-  sidePanels: {},
-  injectedPanels: {},
-  modal: null,
 };
 
 const reducers = {};
@@ -80,7 +75,13 @@ EventBus.$on('STORE', payload => {
   Store.$dispatch(payload.id, payload.value);
 });
 EventBus.$on('READ', payload => {
-  payload.callback(Store.$get(payload.id));
+  const store = Store.$get(payload.store);
+  if (store[payload.id] !== undefined) {
+    payload.callback(store[payload.id]);
+  }
+  else {
+    payload.callback(null);
+  }
 });
 
 export const Store = {
@@ -91,11 +92,11 @@ export const Store = {
     }
   },
   $dispatch(id, value) {
-    if(reducers[id]) {
+    if (reducers[id]) {
       reducers[id](value);
     }
   },
-  $get(id) {
-    return state[id];
+  $get(store) {
+    return state[store];
   },
 };

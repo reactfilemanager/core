@@ -7,16 +7,12 @@ export default {
       [types.ITEMS_SELECTED]: payload,
     };
   },
-  [types.SET_WORKING_PATH]: (state, {payload}) => {
+  [types.SET_WORKING_PATH]: (state, payload) => {
     return {
       ...state,
-      core: {
-        ...state.core,
-        [types.WORKING_PATH]: payload,
-      },
+      [types.WORKING_PATH]: payload,
     };
   },
-
 
   [types.SET_ENTRIES]: (state, {payload}) => {
     return {
