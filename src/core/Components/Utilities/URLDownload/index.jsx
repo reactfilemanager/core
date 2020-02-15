@@ -1,10 +1,19 @@
 import React, {Component} from 'react';
 import {Button, Text, Input, Flex, Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import {removeModal, setQuery, setShouldReload, setSort, setSortBy} from '../../../state/actions';
+import {
+  getWorkingPath,
+  removeModal,
+  setFilter,
+  setQuery, setSelectedItems,
+  setShouldReload,
+  setSort,
+  setSortBy,
+} from '../../../state/actions';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
 import {SmoothScroll} from '../../../../helpers/Utils';
+import {getSelectedItemProps} from '../../ItemList';
 
 class RemoteUpload extends Component {
   state = {working: false};
@@ -16,23 +25,31 @@ class RemoteUpload extends Component {
       return false;
     }
     this.setState({working: true});
-    getApi().remote_download(this.props.state.core.path, url).then(response => {
-      toast.success(response.message);
-      this.props.dispatch(setSort('desc'));
-      this.props.dispatch(setSortBy('last_modified'));
-      this.props.dispatch(setQuery(''));
-      this.props.dispatch(setShouldReload(true, entries => {
-        const last = entries.files.reduce((prev, curr) => prev.last_modified > curr.last_modified ? prev : curr);
-        last.selected = true;
-        setTimeout(() => {
-          SmoothScroll.scrollTo(last.id);
-        }, 300);
-        return entries;
-      }));
-      this.props.dispatch(removeModal());
-    }).catch(error => {
-      toast.error(error.message);
-      this.setState({working: false});
+    getWorkingPath().then(path => {
+      getApi().remote_download(path, url).then(response => {
+        toast.success(response.message);
+
+        setFilter({
+          sort: 'desc',
+          sort_by: 'last_modified',
+          query: '',
+        });
+
+        setShouldReload(entries => {
+          const last = entries.files.reduce((prev, curr) => prev.last_modified > curr.last_modified ? prev : curr);
+          setSelectedItems([getSelectedItemProps(last)]);
+          console.log(last);
+          setTimeout(() => {
+            SmoothScroll.scrollTo(last.id);
+          }, 300);
+          return entries;
+        });
+
+        removeModal();
+      }).catch(error => {
+        toast.error(error.message);
+        this.setState({working: false});
+      });
     });
   };
 

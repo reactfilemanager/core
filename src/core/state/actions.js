@@ -64,6 +64,10 @@ export const remove = item => {
   EventBus.$emit(types.REMOVE, item);
 };
 
+export const setFilter = filters => {
+  EventBus.$emit(types.SET_FILTER, filters);
+};
+
 /// ends here
 
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});

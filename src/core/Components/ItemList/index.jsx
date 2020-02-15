@@ -18,7 +18,23 @@ import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
-import {CORE_RELOAD_FILEMANAGER, REMOVE, SET_WORKING_PATH, TOGGLE_SELECT, UPDATE} from '../../state/types';
+import {
+  CORE_RELOAD_FILEMANAGER,
+  ITEMS_SELECTED,
+  REMOVE,
+  SET_WORKING_PATH,
+  TOGGLE_SELECT,
+  UPDATE,
+} from '../../state/types';
+
+export const getSelectedItemProps = item => {
+  return {
+    id: item.id,
+    name: item.name,
+    path: item.path,
+    last_modified: new Date,
+  };
+};
 
 class ItemList extends Component {
 
@@ -44,6 +60,7 @@ class ItemList extends Component {
     EventBus.$on(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$on(UPDATE, this.onUpdate);
     EventBus.$on(REMOVE, this.onRemove);
+    EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
@@ -53,8 +70,16 @@ class ItemList extends Component {
     EventBus.$off(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$off(UPDATE, this.onUpdate);
     EventBus.$off(REMOVE, this.onRemove);
+    EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
+
+  onItemsSelected = items => {
+    this.selected_entries = {};
+    for(const item of items) {
+      this.selected_entries[item.id] = item;
+    }
+  };
 
   onRemove = item => {
     const {entries} = this.state;
@@ -169,12 +194,7 @@ class ItemList extends Component {
   };
 
   getSelectedItemProps = item => {
-    return {
-      id: item.id,
-      name: item.name,
-      path: item.path,
-      last_modified: new Date,
-    };
+    return getSelectedItemProps(item);
   };
   // endregion
 

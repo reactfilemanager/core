@@ -1,3 +1,4 @@
+export let SET_FILTER = 'SET_FILTER';
 export let ADD_FILTER = 'ADD_FILTER';
 export const TOGGLE_SELECT = 'TOGGLE_SELECT';
 export const SET_ENTRIES = 'SET_ENTRIES';
