@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {getApi} from '../../../tools/config';
 import FileInfo from '../../../models/FileInfo';
 import icons from '../../../../assets/icons';
-import {setShouldReload} from '../../../state/actions';
+import {getWorkingPath, setShouldReload} from '../../../state/actions';
 
 class Upload extends Component {
   state = {working: false, uploads: [], enable_drop: false};
@@ -68,27 +68,29 @@ class Upload extends Component {
 
   prepareAndUpload = files => {
     let uploads = this.state.uploads;
-    for (const _file of files) {
-      const file = this.mapFile(_file);
-      file._file = _file;
-      file.cancelSource = getApi().getCancelSource();
-      this.upload(file);
-      uploads = [...uploads, file];
-    }
+    getWorkingPath().then(path => {
+      for (const _file of files) {
+        const file = this.mapFile(path, _file);
+        file._file = _file;
+        file.cancelSource = getApi().getCancelSource();
+        this.upload(file);
+        uploads = [...uploads, file];
+      }
 
-    this.setState({uploads});
+      this.setState({uploads});
+    });
   };
 
   upload = (file) => {
-    getApi().
-        upload(this.props.state.core.path, file._file, file.option, this.handleProgress(file)).
-        then(response => {
-          this.setUploadStatus(file, response.message, true, response);
-        }).
-        catch(error => {
-          console.log(error);
-          this.setUploadStatus(file, error.message, false, error);
-        });
+      getApi().
+          upload(file.path, file._file, file.option, this.handleProgress(file)).
+          then(response => {
+            this.setUploadStatus(file, response.message, true, response);
+          }).
+          catch(error => {
+            console.log(error);
+            this.setUploadStatus(file, error.message, false, error);
+          });
   };
 
   retry = (file) => {
@@ -163,10 +165,10 @@ class Upload extends Component {
     };
   };
 
-  mapFile = fileInfo => {
+  mapFile = (path, fileInfo) => {
     const file = new FileInfo(
         fileInfo.name,
-        this.props.state.core.path,
+        path,
         false,
         true,
         false,
@@ -260,7 +262,7 @@ class Upload extends Component {
 
   reloadOnComplete = () => {
     if (!this.uploading) {
-      this.props.dispatch(setShouldReload(true));
+      setShouldReload(true);
     }
   };
 

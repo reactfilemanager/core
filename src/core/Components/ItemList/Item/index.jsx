@@ -12,7 +12,7 @@ import {ITEMS_SELECTED, UPDATE} from '../../../state/types';
 
 class Item extends Component {
 
-  state = {selected: false};
+  state = {selected: false, multipleSelected: false};
 
   componentDidMount() {
     getSelectedItems().then(items => {
@@ -28,15 +28,14 @@ class Item extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.item.id !== nextProps.item.id || this.state.selected !== nextState.selected;
+    return this.props.item.id !== nextProps.item.id || this.state.selected !== nextState.selected ||
+        this.state.multipleSelected !== nextState.multipleSelected;
   }
 
   onSelect = items => {
     const selected = items.find(item => item.id === this.props.item.id) !== undefined;
-    if (this.state.selected === selected) {
-      return;
-    }
-    this.setState({selected});
+    const multipleSelected = items.length > 1;
+    this.setState({selected, multipleSelected});
   };
 
   moveTo = (item) => {
@@ -80,12 +79,8 @@ class Item extends Component {
     this.toggleSelect(true, false);
   };
 
-  getSelectedItems = () => {
-    return [];
-  };
-
   handleContextMenu = e => {
-    if (!this.state.selected || this.getSelectedItems().length < 2) {
+    if (!this.state.selected || !this.state.multipleSelected) {
       this.handleClick(e);
     }
   };

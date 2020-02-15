@@ -39,7 +39,7 @@ export const getSelectedItemProps = item => {
 class ItemList extends Component {
 
   state = {
-    max: 20,
+    max: 40,
     total: 0,
     working: false,
     entries: {
@@ -51,8 +51,8 @@ class ItemList extends Component {
     viewmode: 'grid',
   };
   selected_entries = {};
-  max = 20;
-  increment = 10;
+  max = 40;
+  increment = 20;
 
   componentDidMount() {
     EventBus.$on(CORE_RELOAD_FILEMANAGER, this.reload);
