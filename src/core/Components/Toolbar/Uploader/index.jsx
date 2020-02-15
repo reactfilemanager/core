@@ -20,7 +20,7 @@ class Uploader extends Component {
   }
 
   closeDropdown = e => {
-    if (this.refs.btn.isIn(e.path)) {
+    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path)) {
       return;
     }
     this.setState({isOpen: false});
@@ -32,7 +32,7 @@ class Uploader extends Component {
     };
 
     this.toggleDropdown();
-    this.props.dispatch(injectModal(modal));
+    injectModal(modal);
   };
 
   handleRemoteUploadClick = () => {
@@ -41,7 +41,7 @@ class Uploader extends Component {
     };
 
     this.toggleDropdown();
-    this.props.dispatch(injectModal(modal));
+    injectModal(modal);
   };
 
   toggleDropdown = () => {
@@ -57,7 +57,7 @@ class Uploader extends Component {
           </Button>
           {
             this.state.isOpen ?
-                <div sx={{
+                <div ref="dropdown" sx={{
                   position: 'absolute',
                   left: 0,
                   top: '40px',
