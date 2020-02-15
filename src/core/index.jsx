@@ -1,111 +1,108 @@
 /** @jsx jsx */
 import {jsx, Flex} from 'theme-ui';
-import React from 'react'
+import React from 'react';
 import styled from '@emotion/styled';
 import ItemList from './Components/ItemList';
 import Toolbar from './Components/Toolbar';
 import {getConfig, getDefaultConfig, setAccessor} from './tools/config';
 import DirectoryTree from './Components/DirectoryTree';
 import icons from '../assets/icons';
-import {removeModal, removeSidePanel} from './state/actions';
 import {SkyLightStateless} from 'react-skylight';
 import ContextMenu from './Components/ContextMenu';
-import Breadcrumb from './Components/Breadcrumb'
+import Breadcrumb from './Components/Breadcrumb';
 import {SmoothScroll} from '../helpers/Utils';
-import {getSelectedItems} from './models/FileInfo';
+import {CORE_PLUGIN_KEY} from './plugin';
+import {REMOVE_MODAL, REMOVE_SIDE_PANEL} from './state/types';
+import {setWorkingPath} from './state/actions';
 
-export default function() {
-  const [state, dispatch] = window.useStore();
+export default class FileManagerCore extends React.Component {
 
-  setAccessor({
-    getSelectedItems() {
-      return getSelectedItems(state.core.entries);
-    },
-  });
+  componentDidMount() {
+    setAccessor({
+      getSelectedItems() {
+        return [];
+      },
+    });
+    setWorkingPath('');
+  }
 
-  const defaultConfig = getDefaultConfig();
-  const config = getConfig();
-  const sidebar_components = state.core.sidebar_components;
-  const hasSidebarComponent = Object.keys(sidebar_components).length;
-  const Modal = state.core.modal;
-  const hasModal = !!Modal;
-  const InjectedComponent = state.core.injected_component;
-  const hasInjectedComponent = !!InjectedComponent;
+  goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
 
-  const goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
-
-  const closeSidebar = () => {
-    dispatch(removeSidePanel());
+  closeSidebar = () => {
+    this.props.store.$dispatch(REMOVE_SIDE_PANEL);
   };
 
-  return (
-    <div>
-      <header sx={{
-        background: 'lightGray',
-        position: 'sticky', top: 0, left: 0, right: 0,
-        zIndex: '9999',
-        width: '100%', height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderBottom: '1px solid #ddd',
-        py: 2, px: 3
-      }}>
-        <Flex>
-          <Toolbar
-              state={state.core}
-              dispatch={dispatch}
-              children={defaultConfig.toolbar}
-          />
+  removeModal = () => {
+    this.props.store.$dispatch(REMOVE_MODAL);
+  };
 
-          {config.toolbar ?
-              <Toolbar
-                  state={state.core}
-                  dispatch={dispatch}
-                  children={config.toolbar}
-              />
-              : null}
-        </Flex>
+  render() {
+    const state = this.props.store.$get(CORE_PLUGIN_KEY);
+    const defaultConfig = getDefaultConfig();
+    const config = getConfig();
+    const sidebar_components = state.sidebar_components;
+    const hasSidebarComponent = Object.keys(sidebar_components).length;
+    const Modal = state.modal;
+    const hasModal = !!Modal;
+    const InjectedComponent = state.injected_component;
+    const hasInjectedComponent = !!InjectedComponent;
 
-        <Flex sx={{ alignItems: 'center',}}>
-          <div>
-            {
-            defaultConfig.utility ?
-              <Toolbar
-                state={state.core}
-                dispatch={dispatch}
-                children={defaultConfig.utility}/>
-              : null
-            }
-          </div>
-          <>
-            {
-            defaultConfig.search ?
-              <Toolbar
-                state={state.core}
-                dispatch={dispatch}
-                children={defaultConfig.search}/> : null
-            }
-          </>
-        </Flex>
-      </header>
-
-      <Flex bg="white" sx={{width: '100%'}}>
-        <aside
-          sx={{
-            flexGrow: 1,
-            flexBasis: 'sidebar',
-            background: 'gray',
-            borderRight: '1px solid #ddd',
-            height: '100vh',
-            width: 'sidebar',
-            overflowX: 'hidden',
-            overflowY: 'auto',
+    return (
+        <div>
+          <header sx={{
+            background: 'lightGray',
+            position: 'sticky', top: 0, left: 0, right: 0,
+            zIndex: '9999',
+            width: '100%', height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottom: '1px solid #ddd',
+            py: 2, px: 3,
           }}>
+            <Flex>
+              <Toolbar children={defaultConfig.toolbar}
+              />
 
-          <DirectoryTree state={state.core} dispatch={dispatch}/>
+              {config.toolbar ?
+                  <Toolbar children={config.toolbar}
+                  />
+                  : null}
+            </Flex>
 
-          {/* <Flex sx={{
+            <Flex sx={{alignItems: 'center'}}>
+              <div>
+                {
+                  defaultConfig.utility ?
+                      <Toolbar children={defaultConfig.utility}/>
+                      : null
+                }
+              </div>
+              <>
+                {
+                  defaultConfig.search ?
+                      <Toolbar children={defaultConfig.search}/> : null
+                }
+              </>
+            </Flex>
+          </header>
+
+          <Flex bg="white" sx={{width: '100%'}}>
+            <aside
+                sx={{
+                  flexGrow: 1,
+                  flexBasis: 'sidebar',
+                  background: 'gray',
+                  borderRight: '1px solid #ddd',
+                  height: '100vh',
+                  width: 'sidebar',
+                  overflowX: 'hidden',
+                  overflowY: 'auto',
+                }}>
+
+              <DirectoryTree/>
+
+              {/* <Flex sx={{
             position: 'fixed',
             justifyContent: 'space-between',
             bottom: 0,
@@ -133,60 +130,59 @@ export default function() {
             </Link>
           </Flex> */}
 
-        </aside>
-        <main
-          sx={{
-            flexGrow: 99999,
-            flexBasis: 0,
-            height: 'calc(100vh - 50px)',
-            overflowX: 'hidden',
-            overflowY: 'auto',
-        }}>
-          
-          <div sx={{ 
-            py: 2, px: 3, 
-            borderBottom: '1px solid #ddd'
-          }}>
-            <Breadcrumb path={state.core.path} dispatch={dispatch} />
-          </div>
+            </aside>
+            <main
+                sx={{
+                  flexGrow: 99999,
+                  flexBasis: 0,
+                  height: 'calc(100vh - 50px)',
+                  overflowX: 'hidden',
+                  overflowY: 'auto',
+                }}>
 
-          <ItemList state={state.core} dispatch={dispatch}/>
-
-          {hasSidebarComponent
-              ? <div>
-                <span onClick={closeSidebar}>{icons.close}</span>
-                {Object.keys(sidebar_components).map(key => {
-                  const Component = sidebar_components[key];
-                  return (
-                      <Component key={key} id={key} state={state}
-                                  dispatch={dispatch}/>
-                  );
-                })}
+              <div sx={{
+                py: 2, px: 3,
+                borderBottom: '1px solid #ddd',
+              }}>
+                <Breadcrumb/>
               </div>
-              : null}
-        </main>
-      </Flex>
 
-      <SkyLightStateless
-          afterClose={() => dispatch(removeModal())}
-          closeOnEsc
-          isVisible={hasModal}
-          onCloseClicked={() => dispatch(removeModal())}
-          dialogStyles={ModalDialogStyle}
-      >
-        {hasModal
-            ? <Modal state={state} dispatch={dispatch}/>
-            : null}
-      </SkyLightStateless>
-      {hasInjectedComponent
-          ? <InjectedComponent state={state} dispatch={dispatch}/>
-          : null}
-      <ContextMenu/>
-    </div>
+              <ItemList/>
 
-  );
+          {/*    {hasSidebarComponent*/}
+          {/*        ? <div>*/}
+          {/*          <span onClick={this.closeSidebar}>{icons.close}</span>*/}
+          {/*          {Object.keys(sidebar_components).map(key => {*/}
+          {/*            const Component = sidebar_components[key];*/}
+          {/*            return (*/}
+          {/*                <Component key={key} id={key}/>*/}
+          {/*            );*/}
+          {/*          })}*/}
+          {/*        </div>*/}
+          {/*        : null}*/}
+            </main>
+          </Flex>
+
+          {/*<SkyLightStateless*/}
+          {/*    afterClose={this.removeModal}*/}
+          {/*    closeOnEsc*/}
+          {/*    isVisible={hasModal}*/}
+          {/*    onCloseClicked={this.removeModal}*/}
+          {/*    dialogStyles={ModalDialogStyle}*/}
+          {/*>*/}
+          {/*  {hasModal*/}
+          {/*      ? <Modal/>*/}
+          {/*      : null}*/}
+          {/*</SkyLightStateless>*/}
+          {/*{hasInjectedComponent*/}
+          {/*    ? <InjectedComponent/>*/}
+          {/*    : null}*/}
+          {/*<ContextMenu/>*/}
+        </div>
+
+    );
+  }
 }
-
 const ModalDialogStyle = {
   minHeight: '200px',
 };

@@ -1,76 +1,87 @@
 /** @jsx jsx */
 import {jsx, Flex, Link} from 'theme-ui';
+import React from 'react';
 import {bootPlugins, getTabs} from '../pluggable';
-import {useStore} from '../state/store';
 import {ToastContainer, Flip} from 'react-toastify';
+import {Store} from '../state/GlobalStateStore';
 
-export default () => {
+export default class FileManager extends React.Component {
 
-  const [state, dispatch] = useStore();
-  bootPlugins(state, dispatch);
+  state = {activeTab: null, tabs: []};
 
-  const tabs = getTabs();
-  let navs = [];
-  let contents = [];
-  let activeFirst = false;
-  for (const tab of tabs) {
-    navs.push(
-        <Link
-          id={tab.key + '-tab'}
-          key={tab.key}
-          href={'#' + tab.key}
-          role="tab"
-          aria-controls={tab.key}
-          aria-selected="true"
-          sx={{
-            px: 4,
-            py: 2,
-            bg: '#fafbfb',
-            textDecoration: 'none',
-            color: 'gray',
-            fontSize: 12,
-            textTransform: 'uppercase',
-          }}
-        >
-          {tab.title}
-        </Link>,
-    );
-    contents.push(
-        <div
-          key={tab.key}
-          sx={{
-            overflow: 'hidden'
-          }}
-        >
-          <tab.component state={state} dispatch={dispatch}/>
-        </div>,
-    );
+  componentDidMount() {
+    bootPlugins();
+
+    this.prepare();
   }
 
-  return (
-      <div>
-        {navs.length > 1
-            ? <Flex sx={{ bg: '#f5f5f5', }}>
-              {navs}
-            </Flex>
-            : null
-        }
-        <div>
-          {contents}
-        </div>
+  prepare = () => {
+    const tabs = getTabs();
+    const activeTab = tabs.length ? tabs[0].key : null;
+    this.setState({tabs, activeTab});
+  };
 
-        <ToastContainer
-            position="top-right"
-            autoClose={2500}
-            hideProgressBar
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnVisibilityChange
-            draggable
-            pauseOnHover
-            transition={Flip}
-        />
-      </div>
-  );
+  render() {
+    const navs = [], contents = [];
+    for (const tab of this.state.tabs) {
+      navs.push(
+          <Link
+              id={tab.key + '-tab'}
+              key={tab.key}
+              href={'#' + tab.key}
+              role="tab"
+              aria-controls={tab.key}
+              aria-selected="true"
+              sx={{
+                px: 4,
+                py: 2,
+                bg: '#fafbfb',
+                textDecoration: 'none',
+                color: 'gray',
+                fontSize: 12,
+                textTransform: 'uppercase',
+              }}
+          >
+            {tab.title}
+          </Link>,
+      );
+      contents.push(
+          <div
+              key={tab.key}
+              sx={{
+                overflow: 'hidden',
+              }}
+          >
+            <tab.component store={Store}/>
+          </div>,
+      );
+    }
+
+    return (
+        <div>
+          {navs.length > 1
+              ? <Flex sx={{bg: '#f5f5f5'}}>
+                {navs}
+              </Flex>
+              : null
+          }
+          <div>
+            {contents}
+          </div>
+
+          <ToastContainer
+              position="top-right"
+              autoClose={2500}
+              hideProgressBar
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnVisibilityChange
+              draggable
+              pauseOnHover
+              transition={Flip}
+          />
+        </div>
+    );
+  }
 }

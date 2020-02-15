@@ -1,8 +1,7 @@
 import APIMapper from './mappers/APIMapper';
 import merge from 'lodash.merge';
-import {appendState} from './state/store/initialState';
-import {addReducer} from './state/reducers';
 import HttpService from './services/HttpService';
+import {Store} from './state/GlobalStateStore';
 
 const plugins = {};
 const config = {};
@@ -18,21 +17,9 @@ export const registerPlugins = (_plugins) => {
 };
 
 const registerPlugin = (key, plugin) => {
-  // load state
-  if (plugin.initial_state) {
-    appendState(key, plugin.initial_state);
-  }
-
   // load tabs
   if (plugin.tabs) {
     addTabs(plugin.tabs);
-  }
-
-  // load reducers
-  if (plugin.reducers) {
-    for (const key of Object.keys(plugin.reducers)) {
-      addReducer(key, plugin.reducers[key]);
-    }
   }
 
   // load config
@@ -56,6 +43,10 @@ const registerPlugin = (key, plugin) => {
   // injector
   if (plugin.injects) {
     injects(plugin.injects);
+  }
+
+  if (plugin.state) {
+    Store.$addState(key, plugin.state.initial_state, plugin.state.reducers);
   }
 
   plugins[key] = plugin;
@@ -174,7 +165,6 @@ export const Pluggable = {
   },
   addTabs,
   addTab,
-  addReducer,
   mapApi,
   plugin(pluginKey) {
     if (!plugins[pluginKey]) {

@@ -3,21 +3,39 @@ import {jsx, NavLink, Flex} from 'theme-ui';
 import React, {Component} from 'react';
 import {setWorkingPath} from '../../state/actions';
 import icons from '../../../assets/icons';
+import {EventBus} from '../../../helpers/Utils';
+import {SET_WORKING_PATH} from '../../state/types';
 class Breadcrumb extends Component {
+
+  state = {path: ''};
+
+  componentDidMount() {
+    EventBus.$on(SET_WORKING_PATH, this.setWorkingPath);
+  }
+
+  componentWillUnmount() {
+    EventBus.$off(SET_WORKING_PATH, this.setWorkingPath);
+  }
+
+  setWorkingPath = path => {
+    if(this.state.path !== path) {
+      this.setState({path});
+    }
+  };
 
   moveTo = (e, path) => {
     e.preventDefault();
     e.stopPropagation();
-
-    this.props.dispatch(setWorkingPath(path));
+    this.setState({path});
+    setWorkingPath(path);
   };
 
   getBreadCrumbs = () => {
     let Breadcrumbs = [];
-    if (this.props.path !== null) {
-      const cleanPath = this.props.path;
+    if (this.state.path !== null) {
+      const cleanPath = this.state.path;
       const _path = cleanPath.split('/');
-      const sPath = this.props.path === '' ? '/' : this.props.path;
+      const sPath = this.state.path === '' ? '/' : this.state.path;
       let path = '';
 
       Breadcrumbs = _path.map(dir => {
@@ -46,12 +64,12 @@ class Breadcrumb extends Component {
         return (
           <React.Fragment key={nPath}>
             <span sx={{ px: 2, color: 'gray'}} > > </span>
-            <NavLink 
-              href='#!' 
+            <NavLink
+              href='#!'
               className={isActive ? 'active' : ''}
-              aria-current={isActive ? 'page' : undefined} 
+              aria-current={isActive ? 'page' : undefined}
               onClick={e => this.moveTo(e, nPath)}
-              
+
               sx={{
                 fontSize: 14,
                 fontWeight: 'body'
@@ -72,7 +90,7 @@ class Breadcrumb extends Component {
         <Flex as='nav' aria-label="breadcrumb" sx={{ lineHeight: '16px' }}>
           {Breadcrumbs}
         </Flex>
-      
+
     );
   }
 }

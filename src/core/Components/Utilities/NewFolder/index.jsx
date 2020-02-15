@@ -13,7 +13,7 @@ export const NewFolderButton = props => {
       return <NewFolder {...props}/>;
     };
 
-    props.dispatch(injectModal(modal));
+    injectModal(modal);
   };
 
   return (

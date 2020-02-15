@@ -11,8 +11,6 @@ export default {
   api: CoreAPI,
   // load time function calls
   boot: config,
-  // add initial state
-  initial_state,
   // add a tab entry
   tabs: {
     entries: {
@@ -20,7 +18,11 @@ export default {
       component: Core,
     },
   },
-  // add reducers
-  reducers,
+  // add initial state
+  state: {
+    initial_state,
+    // add reducers
+    reducers,
+  },
   accessor,
 };

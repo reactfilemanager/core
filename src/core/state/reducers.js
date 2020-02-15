@@ -1,16 +1,23 @@
 import * as types from './types';
 
 export default {
+  [types.SET_SELECTED_ITEMS]: (state, payload) => {
+    return {
+      ...state,
+      [types.ITEMS_SELECTED]: payload,
+    };
+  },
   [types.SET_WORKING_PATH]: (state, {payload}) => {
     return {
       ...state,
       core: {
         ...state.core,
-        path: payload.replace(/\/\//g, '/').replace(/\/$/, ''),
-        shouldReload: true,
+        [types.WORKING_PATH]: payload,
       },
     };
   },
+
+
   [types.SET_ENTRIES]: (state, {payload}) => {
     return {
       ...state,

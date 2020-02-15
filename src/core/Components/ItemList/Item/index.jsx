@@ -2,20 +2,44 @@
 import {jsx, Card, Text, Image, Link, Flex, Checkbox, Label} from 'theme-ui';
 import {Component} from 'react';
 import styled from '@emotion/styled';
-import {setEntries} from '../../../state/actions';
+import {getSelectedItems, setWorkingPath, toggleSelect} from '../../../state/actions';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../ContextMenu';
-import cloneDeep from 'lodash.clonedeep';
-import {getDefaultHandler, getHandlers} from '../../../tools/config';
+import {getDefaultHandler} from '../../../tools/config';
 import {toast} from 'react-toastify';
-import {getSelectedItems} from '../../../models/FileInfo';
+import {EventBus} from '../../../../helpers/Utils';
+import {ITEMS_SELECTED} from '../../../state/types';
 
 class Item extends Component {
+
+  state = {selected: false};
+
+  componentDidMount() {
+    EventBus.$on(ITEMS_SELECTED, this.onSelect);
+    getSelectedItems(items => {
+      if(Array.isArray(items)) {
+        this.onSelect(items);
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    EventBus.$off(ITEMS_SELECTED, this.onSelect);
+  }
+
+  onSelect = items => {
+    const selected = items.find(item => item.id === this.props.item.id) !== undefined;
+    if(this.state.selected === selected) {
+      return;
+    }
+    this.setState({selected});
+  };
 
   moveTo = (item) => {
     if (item.is_dir) {
       const path = item.path.replace(/\/$/, '');
       this.props.moveTo(path);
+      setWorkingPath(path);
     }
   };
 
@@ -27,66 +51,16 @@ class Item extends Component {
       return this.moveTo(this.props.item);
     }
 
-    const handlers = getDefaultHandler(this.props.item, this.props.state);
+    const handlers = getDefaultHandler(this.props.item);
     if (!handlers) {
       toast.info('Unsupported file type.');
       return;
     }
-    handlers.handle(this.props.item, this.props.state, this.props.dispatch);
+    handlers.handle(this.props.item);
   };
 
   toggleSelect = (ctrlKey, shiftKey) => {
-
-    let shouldMark = false;
-    const lastSelectedItem = this.findLastSelected();
-    if (shiftKey && lastSelectedItem) {
-      const self = this;
-
-      function mark(item) {
-        let skip = false;
-        if (!shouldMark && (item.id === lastSelectedItem.id || item.id ===
-            self.props.item.id)) {
-          // marking start
-          shouldMark = true;
-          skip = true;
-        }
-
-        if (shouldMark) {
-          item.selected = true;
-          item.selection_time = new Date();
-        }
-        else {
-          item.selected = false;
-          item.selection_time = null;
-        }
-
-        if (!skip && shouldMark &&
-            (item.id === lastSelectedItem.id || item.id ===
-                self.props.item.id)) {
-          // marking end
-          shouldMark = false;
-        }
-        return item;
-      }
-
-      const entries = cloneDeep(this.props.state.entries);
-      const items = Object.values(this.props.state.filters).
-          reduce((entries, fn) => {
-            return fn(entries);
-          }, entries);
-
-      const dirs = items.dirs.map(dir => mark(dir));
-      const files = items.files.map(file => mark(file));
-
-      this.props.dispatch(setEntries({dirs, files}));
-    }
-    else {
-      const dirs = this.props.state.entries.dirs.map(
-          dir => this.markItemSelected(dir, ctrlKey, shiftKey));
-      const files = this.props.state.entries.files.map(
-          file => this.markItemSelected(file, ctrlKey, shiftKey));
-      this.props.dispatch(setEntries({dirs, files}));
-    }
+    toggleSelect(ctrlKey, shiftKey, this.props.item.id);
   };
 
   handleClick = (e) => {
@@ -103,33 +77,11 @@ class Item extends Component {
   };
 
   getSelectedItems = () => {
-    return getSelectedItems(this.props.state.entries);
-  };
-
-  findLastSelected = () => {
-    const items = this.getSelectedItems().
-        sort((a, b) => a.selection_time < b.selection_time ? 1 : -1);
-    if (items.length) {
-      return items.shift();
-    }
-    return null;
-  };
-
-  markItemSelected = (item, ctrlKey) => {
-    item.selection_time = null;
-    if (!ctrlKey) {
-      item.selected = false;
-    }
-
-    if (this.props.item.id === item.id) {
-      item.selected = !item.selected;
-      item.selection_time = new Date();
-    }
-    return item;
+    return [];
   };
 
   handleContextMenu = e => {
-    if (!this.props.item.selected || this.getSelectedItems().length < 2) {
+    if (!this.state.selected || this.getSelectedItems().length < 2) {
       this.handleClick(e);
     }
   };
@@ -154,7 +106,7 @@ class Item extends Component {
   getAttributes = (item, withHandlers = false) => {
     let attrs = {
       onContextMenu: this.handleContextMenu,
-      className: item.selected ? 'selected' : '',
+      className: this.state.selected ? 'selected' : '',
     };
 
     if (withHandlers) {
@@ -170,7 +122,7 @@ class Item extends Component {
 
   get className() {
     const className = ['fm-item'];
-    if (this.props.item.selected) {
+    if (this.state.selected) {
       className.push('fm-item-selected');
     }
     return className.join(' ');
@@ -284,7 +236,7 @@ class Item extends Component {
         >
           <TD onClick={this.toggleCheck}>
             <Label>
-              <Checkbox checked={item.selected} onChange={e => e}/>
+              <Checkbox checked={this.state.selected} onChange={e => e}/>
             </Label>
           </TD>
           <TD><Image src={thumb(item.path)}
@@ -314,7 +266,7 @@ class Item extends Component {
   };
 
   render() {
-    const viewmode = this.props.state.viewmode;
+    const viewmode = this.props.viewmode;
     const item = this.props.item;
 
     if (viewmode === 'grid') {

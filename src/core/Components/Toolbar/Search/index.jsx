@@ -8,10 +8,10 @@ import icons from '../../../../assets/icons';
 
 class Search extends Component {
 
-  state = {isOpen: false};
+  state = {isOpen: false, sort: 'asc', sortBy: 'name'};
 
   componentDidMount() {
-    this.props.dispatch(addFilter({search: this.filter}));
+    addFilter({search: this.filter});
     EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
   }
 
@@ -28,27 +28,27 @@ class Search extends Component {
   };
 
   sort = sort => {
-    this.props.dispatch(setSort(sort));
+    setSort(sort);
     this.toggleDropdown();
   };
-  isEnabled = key => this.props.state.search.sortBy === key;
+  isEnabled = key => this.state.sortBy === key;
   sortBy = sortBy => {
-    this.props.dispatch(setSortBy(sortBy));
+    setSortBy(sortBy);
     this.toggleDropdown();
   };
-  isSort = key => this.props.state.search.sort === key;
+  isSort = key => this.state.sort === key;
 
   filter = entries => {
     if (!entries) {
       return entries;
     }
-    if (this.props.state.search.query) {
+    if (this.state.query) {
       entries.files = entries.files.filter(file => {
-        return fuzzySearch(this.props.state.search.query, file.name);
+        return fuzzySearch(this.state.query, file.name);
       });
 
       entries.dirs = entries.dirs.filter(dir => {
-        return fuzzySearch(this.props.state.search.query, dir.name);
+        return fuzzySearch(this.state.query, dir.name);
       });
     }
 
@@ -67,7 +67,7 @@ class Search extends Component {
   compare = (item, _item) => {
     let result = 0;
 
-    switch (this.props.state.search.sortBy) {
+    switch (this.state.sortBy) {
       case 'name':
         const name1 = item.name.toLowerCase();
         const name2 = _item.name.toLowerCase();
@@ -105,7 +105,7 @@ class Search extends Component {
         break;
     }
 
-    if (this.props.state.search.sort === 'desc') {
+    if (this.state.sort === 'desc') {
       return result * -1;
     }
     return result;
@@ -163,7 +163,7 @@ class Search extends Component {
   };
 
   handleQueryChange = debounce(() => {
-    this.props.dispatch(setQuery(this.refs.searchInput.value));
+    setQuery(this.refs.searchInput.value);
   }, 200);
 
   toggleDropdown = () => {
@@ -174,9 +174,9 @@ class Search extends Component {
     return (
         <div sx={{position: 'relative', marginLeft: 1}}>
           <Input
-            placeholder="Search..."
-            ref="searchInput"
-            onChange={this.handleQueryChange}/>
+              placeholder="Search..."
+              ref="searchInput"
+              onChange={this.handleQueryChange}/>
 
           <Button
               sx={{

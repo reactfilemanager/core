@@ -11,8 +11,8 @@ export default {
       title: 'Open',
       icon: null,
     },
-    handle(item, state, dispatch) {
-      dispatch(setWorkingPath(item.path));
+    handle(item) {
+      setWorkingPath(item.path);
     },
   },
 };

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import {
   resetDirectoryTree,
   setEntries,
-  setReloading,
+  setReloading, setSelectedItems,
   setShouldReload,
   setWorkingPath,
 } from '../../state/actions';
@@ -17,22 +17,137 @@ import {CONTEXT_MENU_ID} from '../ContextMenu';
 import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
+import {EventBus} from '../../../helpers/Utils';
+import {CORE_RELOAD_FILEMANAGER, SET_WORKING_PATH, TOGGLE_SELECT} from '../../state/types';
 
 class ItemList extends Component {
 
-  state = {max: 20, total: 0, working: false};
+  state = {
+    max: 20,
+    total: 0,
+    working: false,
+    entries: {
+      dirs: [],
+      files: [],
+    },
+    filters: [],
+    path: '',
+    viewmode: 'grid',
+  };
+  selected_entries = {};
   max = 20;
   increment = 10;
 
   componentDidMount() {
-    this.setWorkingPath('/');
+    EventBus.$on(CORE_RELOAD_FILEMANAGER, this.reload);
+    EventBus.$on(SET_WORKING_PATH, this.setWorkingPath);
+    EventBus.$on(TOGGLE_SELECT, this.toggleSelect);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
   componentWillUnmount() {
+    EventBus.$off(CORE_RELOAD_FILEMANAGER, this.reload);
+    EventBus.$off(SET_WORKING_PATH, this.setWorkingPath);
+    EventBus.$off(TOGGLE_SELECT, this.toggleSelect);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
 
+  // region toggle select
+  toggleSelect = ({ctrlKey, shiftKey, item_id}) => {
+    let shouldMark = false;
+    let selected_entries = this.selected_entries;
+    const lastSelectedItem = this.findLastSelected();
+
+    const {dirs, files} = this.state.entries;
+
+    if (shiftKey && lastSelectedItem && lastSelectedItem.id !== item_id) {
+      const mark = item => {
+        let skip = false;
+        if (!shouldMark && (item.id === lastSelectedItem.id || item.id === item_id)) {
+          // marking start
+          shouldMark = true;
+          skip = true;
+        }
+
+        if (shouldMark) {
+          selected_entries[item.id] = {
+            id: item.id,
+            selection_time: lastSelectedItem.selection_time - (lastSelectedItem.id !== item.id ? 100 : 0),
+          };
+        }
+        else {
+          delete selected_entries[item.id];
+        }
+
+        if (!skip && shouldMark && (item.id === lastSelectedItem.id || item.id === item_id)) {
+          // marking end
+          shouldMark = false;
+        }
+      };
+
+      dirs.map(mark);
+      files.map(mark);
+    }
+    else {
+      selected_entries = {};
+      const mark = item => {
+        if (item.selected) {
+          selected_entries[item.id] = {
+            id: item.id,
+            selection_time: new Date(),
+          };
+        }
+      };
+
+      dirs.map(dir => this.markItemSelected(item_id, dir, ctrlKey, shiftKey)).map(mark);
+      files.map(file => this.markItemSelected(item_id, file, ctrlKey, shiftKey)).map(mark);
+    }
+    this.selected_entries = selected_entries;
+    setSelectedItems(Object.values(selected_entries));
+  };
+
+  findLastSelected = () => {
+    const items = this.getSelectedItems().sort((a, b) => a.selection_time < b.selection_time ? 1 : -1);
+    if (items.length) {
+      return items.shift();
+    }
+    return null;
+  };
+
+  markItemSelected = (item_id, item, ctrlKey) => {
+    if (item_id !== item.id && !ctrlKey) {
+      return {selected: false};
+    }
+
+    let selected = this.selected_entries[item.id] !== undefined;
+    if (item_id === item.id) {
+      return {
+        id: item.id,
+        selected: ctrlKey ? !selected : true,
+      };
+    }
+
+    return {
+      id: item.id,
+      selected,
+    };
+  };
+  // endregion
+
+  // region handler
+
+  // endregion
+
+  setWorkingPath = path => {
+    this.setState({path});
+    this.readPath(path);
+  };
+
+  reload = callback => {
+    this.readPath(this.state.path, callback);
+  };
+
+  // region infinite loader
   getMain = () => {
     const main = this.refs.bottom.parentElement.parentElement;
     if (main.tagName !== 'MAIN') {
@@ -60,44 +175,76 @@ class ItemList extends Component {
     }
   }, 100);
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.state.shouldReload) {
-      const callback = this.props.state.callback;
-      this.props.dispatch(setShouldReload(false));
+  // endregion
 
-      this.readPath(callback);
-    }
-  }
-
-  setWorkingPath = (path) => {
-    this.props.dispatch(setWorkingPath(path));
-  };
-
-  readPath = (callback) => {
-    this.props.dispatch(setReloading(true));
-    getApi().list(this.props.state.path).then(response => {
-      if (callback) {
-        response = callback(response);
+  // region utilities
+  readPath = (path, callback) => {
+    setReloading(true);
+    getApi().list(path).then(entries => {
+      if (callback && typeof callback === 'function') {
+        entries = callback(entries);
       }
-      const total = response.dirs.length + response.files.length;
+      const total = entries.dirs.length + entries.files.length;
+      let state = {entries};
       if (total > this.max) {
-        this.setState({max: this.max, total});
+        state = {...state, max: this.max, total};
       }
-      this.props.dispatch(setEntries(response));
-      this.props.dispatch(resetDirectoryTree(true));
+
+      this.setState(state);
     }).catch(error => {
       console.log(error);
       toast.error(error.message);
     }).finally(() => {
-      this.props.dispatch(setReloading(false));
+      setReloading(false);
     });
   };
 
+  toggleCheckAll = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    const checked = !this.refs.allCheck.checked;
+    this.markAll(checked);
+  };
+
+  markAll = checked => {
+    let selected_entries = this.selected_entries;
+    if (checked) {
+      const mark = item => {
+        selected_entries[item.id] = {
+          id: item.id,
+          selection_time: new Date(),
+        };
+      };
+      this.state.entries.dirs.forEach(mark);
+      this.state.entries.files.forEach(mark);
+    }
+    else {
+      this.selected_entries = {};
+      setSelectedItems([]);
+    }
+  };
+
+  handleClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.markAll(false);
+  };
+
+  getSelectedItems = () => {
+    return Object.values(this.selected_entries);
+  };
+
+  handleContextMenu = e => {
+    this.markAll(false);
+  };
+
+  // endregion
+
+  // region rendering
+
   getItemBlock = (item) => {
     return (
-        <Item key={item.id} item={item} state={this.props.state}
-              moveTo={this.setWorkingPath}
-              dispatch={this.props.dispatch}/>
+        <Item key={item.id} item={item} viewmode={this.state.viewmode} moveTo={this.setWorkingPath}/>
     );
   };
 
@@ -110,7 +257,7 @@ class ItemList extends Component {
             justifyContent: 'center',
           }}>
             {
-              this.props.state.reloading ?
+              this.state.reloading ?
                   <Spinner/> :
                   <Text>No entry in this directory</Text>}
           </Flex>
@@ -161,27 +308,6 @@ class ItemList extends Component {
     </div>);
   };
 
-  toggleCheckAll = e => {
-    e.preventDefault();
-    e.stopPropagation();
-    const checked = !this.refs.allCheck.checked;
-    this.markAll(checked);
-  };
-
-  markAll = checked => {
-    const entries = cloneDeep(this.props.state.entries);
-    entries.dirs = entries.dirs.map(dir => {
-      dir.selected = checked === true;
-      return dir;
-    });
-    entries.files = entries.files.map(file => {
-      file.selected = checked === true;
-      return file;
-    });
-
-    this.props.dispatch(setEntries(entries));
-  };
-
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
     let allChecked = false;
@@ -222,30 +348,15 @@ class ItemList extends Component {
   };
 
   getItems = () => {
-    let entries = cloneDeep(this.props.state.entries);
-    entries = Object.values(this.props.state.filters).reduce((entries, fn) => {
+    let entries = Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
-    }, entries);
+    }, this.state.entries);
     const maxFiles = this.state.max > entries.files.length ? entries.files.length : this.state.max;
     entries = {
       dirs: entries.dirs,
       files: entries.files.slice(0, maxFiles),
     };
     return entries;
-  };
-
-  handleClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.markAll(false);
-  };
-
-  getSelectedItems = () => {
-    return getSelectedItems(this.props.state.entries);
-  };
-
-  handleContextMenu = e => {
-    this.markAll(false);
   };
 
   getAttributes = () => {
@@ -260,7 +371,7 @@ class ItemList extends Component {
   collect = () => {
     return {
       item: {
-        path: this.props.state.path,
+        path: this.state.path,
         isCurrentDir: true,
       },
     };
@@ -272,15 +383,15 @@ class ItemList extends Component {
     return (
         <ContextMenuTrigger
             ref="root"
-            key={this.props.state.path}
+            key={this.state.path}
             id={CONTEXT_MENU_ID}
             holdToDisplay={1000}
-            name={this.props.state.path}
+            name={this.state.path}
             collect={this.collect}
             attributes={this.getAttributes()}
             renderTag="div"
         >
-          {this.props.state.viewmode === 'grid'
+          {this.state.viewmode === 'grid'
               ? this.getItemsBlockForGridViewMode(items)
               : this.getItemsBlockForListViewMode(items)
           }
@@ -289,6 +400,8 @@ class ItemList extends Component {
         </ContextMenuTrigger>
     );
   }
+
+  // endregion
 }
 
 export default ItemList;

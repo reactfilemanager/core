@@ -5,13 +5,16 @@ import {setViewmode} from '../../../state/actions';
 import icons from '../../../../assets/icons';
 
 class ViewMode extends Component {
+
+  state = {viewmode: 'grid'};
+
   handleClick = e => {
     const viewmode = e.currentTarget.getAttribute('data-viewmode');
-    this.props.dispatch(setViewmode(viewmode));
+    setViewmode(viewmode);
   };
 
   render() {
-    const viewmode = this.props.state.viewmode;
+    const viewmode = this.state.viewmode;
     return (
         <Flex sx={{float: 'left'}}>
           {viewmode === 'list'

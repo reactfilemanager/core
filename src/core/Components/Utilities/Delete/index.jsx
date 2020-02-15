@@ -6,41 +6,38 @@ import {injectModal, remove, removeModal, resetDirectoryTree} from '../../../sta
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
 
-export const DeleteButton = props => {
-  const handleDeleteClick = () => {
+export class DeleteButton extends React.Component {
+  state = {shouldShow: false};
+  handleDeleteClick = () => {
     const modal = (props) => {
       return <Delete {...props}/>;
     };
 
-    props.dispatch(injectModal(modal));
+    injectModal(modal);
   };
 
-  const shouldShow = [
-    ...props.state.entries.dirs,
-    ...props.state.entries.files,
-  ].filter(item => item.selected).length > 0;
+  render() {
 
-  if (!shouldShow) {
-    return null;
+    if (!this.state.shouldShow) {
+      return null;
+    }
+    return (
+        <Button
+            variant="secondary"
+            onClick={this.handleDeleteClick}
+        >
+          {icons.trash} Delete
+        </Button>
+    );
   }
-  return (
-      <Button
-          variant="secondary"
-          onClick={handleDeleteClick}
-      >
-        {icons.trash} Delete
-      </Button>
-  );
-};
+}
 
 class Delete extends Component {
   state = {working: false};
 
   getSelected = () => {
-    return [
-      ...this.props.state.core.entries.dirs,
-      ...this.props.state.core.entries.files,
-    ].filter(item => item.selected);
+    // TODO: getSelected
+    return [];
   };
 
   handleDelete = () => {
@@ -49,11 +46,11 @@ class Delete extends Component {
     for (const item of items) {
       getApi().delete('/', item.path).then(response => {
         toast.success('Deleted successfully');
-        this.props.dispatch(remove(item));
+        remove(item);
         if (item.is_dir) {
-          this.props.dispatch(resetDirectoryTree(true));
+          resetDirectoryTree(true);
         }
-        this.props.dispatch(removeModal());
+        removeModal();
       }).catch(error => {
         toast.error(error.message);
         this.setState({working: false});

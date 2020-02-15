@@ -6,10 +6,7 @@ class Toolbar extends Component {
 
     const Children = Object.keys(children).map(key => {
       const Child = children[key];
-      return <Child key={key}
-                    state={this.props.state}
-                    dispatch={this.props.dispatch}
-      />;
+      return <Child key={key}/>;
     });
 
     return (

@@ -9,13 +9,11 @@ class DirectoryTree extends Component {
       return;
     }
     // select event, set path
-    this.props.dispatch(setWorkingPath(info[0]));
+    setWorkingPath(info[0]);
   };
 
   render() {
-    return <SelectableDirectoryTree onSelect={this.onSelect}
-                                    path={this.props.state.path}
-                                    {...this.props}/>;
+    return <SelectableDirectoryTree onSelect={this.onSelect}/>;
   }
 }
 

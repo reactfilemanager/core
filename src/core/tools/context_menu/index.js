@@ -25,7 +25,7 @@ export default {
         return <Rename item={item} {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   // copy_to: {
@@ -73,7 +73,7 @@ export default {
         return <Permission item={item} {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   details: {
@@ -89,7 +89,7 @@ export default {
         return <InfoPanel item={item} {...props}/>;
       };
 
-      dispatch(injectSidePanel('info', panel));
+      injectSidePanel('info', panel);
     },
   },
   download: {
@@ -125,7 +125,7 @@ export default {
         return <Delete {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   new_file: {
@@ -153,7 +153,7 @@ export default {
         return <NewFolder {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   upload: {
@@ -169,7 +169,7 @@ export default {
         return <Upload {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   remote_download: {
@@ -185,7 +185,7 @@ export default {
         return <RemoteUpload {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
 };

@@ -89,6 +89,7 @@ const EventBus = {
     if (!this.listeners[type]) {
       return;
     }
+    console.log(type, payload);
     for (const handler of this.listeners[type]) {
       handler(payload);
     }

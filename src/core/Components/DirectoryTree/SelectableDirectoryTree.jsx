@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree, setDirectoryTree, setWorkingPath} from '../../state/actions';
+import {resetDirectoryTree, setDirectoryTree} from '../../state/actions';
 import {getApi} from '../../tools/config';
 import icons from '../../../assets/icons';
 import './style.scss';
@@ -17,28 +17,24 @@ const getSvgIcon = (item) => {
 class SelectableDirectoryTree extends Component {
   state = {
     dirs: [],
+    filters: [],
     path: null,
     expandedKeys: [],
     working: false,
   };
 
   componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  resetDirectoryTree = () => {
     this.populateDirs();
     this.setOpenDirs();
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.state.resetDirectoryTree) {
-      this.populateDirs();
-      this.setOpenDirs();
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.path !== nextProps.path
-        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree)
-        || this.state.expandedKeys.length !== nextState.expandedKeys.length;
-  }
+  };
 
   populateDirs = () => {
     if (this.props.path === null) {
@@ -193,8 +189,8 @@ class SelectableDirectoryTree extends Component {
     this.setState({expandedKeys});
   };
 
-  getSortedDirs = (dirs = cloneDeep(this.props.state.directoryTree)) => {
-    return Object.values(this.props.state.filters).reduce((entries, fn) => {
+  getSortedDirs = (dirs = cloneDeep(this.state.dirs)) => {
+    return Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, {files: [], dirs}).dirs.map(dir => {
       if (dir.children && dir.children.length) {
@@ -205,7 +201,7 @@ class SelectableDirectoryTree extends Component {
   };
 
   render() {
-    const _path = this.props.path;
+    const _path = this.state.path;
     const path = _path === '' ? '/' : _path;
     const loop = (data) => {
       return data.map((item) => {

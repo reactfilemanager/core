@@ -1,9 +1,43 @@
 import * as types from './types';
+import {EventBus} from '../../helpers/Utils';
 
-export const setWorkingPath = path => ({type: types.SET_WORKING_PATH, payload: path});
+export const getWorkingPath = callback => {
+  EventBus.$emit('READ', {
+    id: types.SET_WORKING_PATH,
+    callback,
+  });
+};
+export const setWorkingPath = path => {
+  path = path.replace(/\/\//g, '/').replace(/\/$/, '');
+  EventBus.$emit('STORE', {
+    id: types.WORKING_PATH,
+    value: path,
+  });
+  EventBus.$emit(types.SET_WORKING_PATH, path);
+};
+
+export const setSelectedItems = items => {
+  EventBus.$emit('STORE', {
+    id: types.SET_SELECTED_ITEMS,
+    value: items,
+  });
+  EventBus.$emit(types.ITEMS_SELECTED, items);
+};
+export const getSelectedItems = callback => {
+  EventBus.$emit('READ', {
+    id: types.ITEMS_SELECTED,
+    callback,
+  });
+};
+
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
-export const toggleSelect = item => ({type: types.TOGGLE_SELECT, payload: item});
-export const setShouldReload = (shouldReload, callback) => ({type: types.SHOULD_RELOAD, payload: shouldReload, callback});
+export const toggleSelect = (ctrlKey, shiftKey, item_id) => {
+  EventBus.$emit(types.TOGGLE_SELECT, {ctrlKey, shiftKey, item_id});
+};
+export const setShouldReload = (callback) => {
+  EventBus.$emit(types.CORE_RELOAD_FILEMANAGER, callback);
+};
+
 export const setReloading = reloading => ({type: types.RELOADING, payload: reloading});
 export const update = item => ({type: types.UPDATE, payload: item});
 export const remove = item => ({type: types.REMOVE, payload: item});
