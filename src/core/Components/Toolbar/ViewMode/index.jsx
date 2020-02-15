@@ -10,6 +10,10 @@ class ViewMode extends Component {
 
   handleClick = e => {
     const viewmode = e.currentTarget.getAttribute('data-viewmode');
+    if(viewmode === this.state.viewmode) {
+      return;
+    }
+    this.setState({viewmode});
     setViewmode(viewmode);
   };
 

@@ -28,8 +28,7 @@ class Item extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.item.id !== nextProps.item.id || this.state.selected !== nextState.selected ||
-        this.state.multipleSelected !== nextState.multipleSelected;
+    return this.props.item.id !== nextProps.item.id || this.state.selected !== nextState.selected;
   }
 
   onSelect = items => {

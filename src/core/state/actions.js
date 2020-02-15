@@ -2,6 +2,7 @@ import * as types from './types';
 import {EventBus} from '../../helpers/Utils';
 import {CORE_PLUGIN_KEY} from '../plugin';
 import {FORCE_RENDER} from './types';
+import {SET_VIEWMODE} from './types';
 
 export const getWorkingPath = () => {
   return new Promise((resolve, reject) => {
@@ -81,6 +82,10 @@ export const forceRender = () => {
   EventBus.$emit(FORCE_RENDER);
 };
 
+export const setViewmode = viewmode => {
+  EventBus.$emit(SET_VIEWMODE, viewmode);
+};
+
 /// ends here
 
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
@@ -92,7 +97,6 @@ export const setReloading = reloading => ({type: types.RELOADING, payload: reloa
 export const setClipboard = items => ({type: types.SET_CLIPBOARD, payload: items});
 export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_TREE, payload: shouldReset});
 export const setDirectoryTree = payload => ({type: types.SET_DIRECTORY_TREE, payload});
-export const setViewmode = viewmode => ({type: types.SET_VIEWMODE, payload: viewmode});
 export const setQuery = query => ({type: types.SET_QUERY, payload: query});
 
 export const setSort = sort => ({type: types.SET_SORT, payload: sort});

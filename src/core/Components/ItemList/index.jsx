@@ -22,7 +22,7 @@ import {
   ADD_FILTER,
   CORE_RELOAD_FILEMANAGER, FORCE_RENDER,
   ITEMS_SELECTED,
-  REMOVE, REMOVE_FILTER,
+  REMOVE, REMOVE_FILTER, SET_VIEWMODE,
   SET_WORKING_PATH,
   TOGGLE_SELECT,
   UPDATE,
@@ -66,6 +66,7 @@ class ItemList extends Component {
     EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
     EventBus.$on(ADD_FILTER, this.addFilter);
     EventBus.$on(REMOVE_FILTER, this.removeFilter);
+    EventBus.$on(SET_VIEWMODE, this.setViewMode);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
@@ -79,8 +80,13 @@ class ItemList extends Component {
     EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
     EventBus.$off(ADD_FILTER, this.addFilter);
     EventBus.$off(REMOVE_FILTER, this.removeFilter);
+    EventBus.$off(SET_VIEWMODE, this.setViewMode);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
+
+  setViewMode = viewmode => {
+    this.setState({viewmode});
+  };
 
   forceRender = () => {
     this.forceUpdate();
@@ -127,10 +133,16 @@ class ItemList extends Component {
     const {entries} = this.state;
     const update = _item => {
       if (_item.id === item.id) {
+        const prevId = _item.id;
         _item.id = uuidv4();
         _item.name = item.name;
         _item.perms = item.perms;
         _item.last_modified = new Date;
+
+        if(this.selected_entries[prevId]) {
+          delete this.selected_entries[prevId];
+          this.selected_entries[_item.id] = this.getSelectedItemProps(_item);
+        }
       }
       return _item;
     };
@@ -293,12 +305,13 @@ class ItemList extends Component {
   toggleCheckAll = e => {
     e.preventDefault();
     e.stopPropagation();
+
     const checked = !this.refs.allCheck.checked;
     this.markAll(checked);
   };
 
   markAll = checked => {
-    let selected_entries = this.selected_entries;
+    let selected_entries = {};
     if (checked) {
       const mark = item => {
         selected_entries[item.id] = {
@@ -310,9 +323,11 @@ class ItemList extends Component {
       this.state.entries.files.forEach(mark);
     }
     else {
-      this.selected_entries = {};
-      setSelectedItems([]);
+      selected_entries = [];
     }
+    this.selected_entries = selected_entries;
+    setSelectedItems(Object.values(selected_entries));
+    this.forceUpdate();
   };
 
   handleClick = e => {
@@ -401,10 +416,7 @@ class ItemList extends Component {
 
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
-    let allChecked = false;
-    if (_items.length) {
-      allChecked = _items.find(item => item.selected === false) === undefined;
-    }
+    const allChecked = Object.keys(this.selected_entries).length === this.state.entries.dirs.length + this.state.entries.files.length;
 
     return (
         <Table sx={{
