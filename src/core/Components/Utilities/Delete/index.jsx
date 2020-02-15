@@ -2,12 +2,30 @@
 import {jsx, Button, Text, Flex, Image, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import {getApi} from '../../../tools/config';
-import {injectModal, remove, removeModal, resetDirectoryTree} from '../../../state/actions';
+import {getSelectedItems, injectModal, remove, removeModal, resetDirectoryTree} from '../../../state/actions';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
+import {EventBus} from '../../../../helpers/Utils';
+import {ITEMS_SELECTED} from '../../../state/types';
 
 export class DeleteButton extends React.Component {
   state = {shouldShow: false};
+
+  componentDidMount() {
+    EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
+  }
+
+  componentWillUnmount() {
+    EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
+  }
+
+  onItemsSelected = items => {
+    const shouldShow = items.length > 0;
+    if (this.state.shouldShow !== shouldShow) {
+      this.setState({shouldShow});
+    }
+  };
+
   handleDeleteClick = () => {
     const modal = (props) => {
       return <Delete {...props}/>;
@@ -33,15 +51,16 @@ export class DeleteButton extends React.Component {
 }
 
 class Delete extends Component {
-  state = {working: false};
+  state = {working: false, items: []};
 
-  getSelected = () => {
-    // TODO: getSelected
-    return [];
-  };
+  componentDidMount() {
+    getSelectedItems().then(items => {
+      this.setState({items});
+    });
+  }
 
   handleDelete = () => {
-    let items = this.getSelected();
+    let items = this.state.items;
     this.setState({working: true});
     for (const item of items) {
       getApi().delete('/', item.path).then(response => {
@@ -59,7 +78,7 @@ class Delete extends Component {
   };
 
   render() {
-    const selected = this.getSelected();
+    const selected = this.state.items;
 
     return (
         <Flex sx={{

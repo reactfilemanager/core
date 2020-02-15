@@ -28,11 +28,13 @@ export const setSelectedItems = items => {
   });
   EventBus.$emit(types.ITEMS_SELECTED, items);
 };
-export const getSelectedItems = callback => {
-  EventBus.$emit('READ', {
-    store: CORE_PLUGIN_KEY,
-    id: types.ITEMS_SELECTED,
-    callback,
+export const getSelectedItems = () => {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit('READ', {
+      store: CORE_PLUGIN_KEY,
+      id: types.ITEMS_SELECTED,
+      callback: resolve,
+    });
   });
 };
 
@@ -58,6 +60,11 @@ export const update = item => {
   EventBus.$emit(types.UPDATE, item);
 };
 
+export const remove = item => {
+  EventBus.$emit(types.REMOVE, item);
+};
+
+/// ends here
 
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
 export const setShouldReload = (callback) => {
@@ -65,7 +72,6 @@ export const setShouldReload = (callback) => {
 };
 
 export const setReloading = reloading => ({type: types.RELOADING, payload: reloading});
-export const remove = item => ({type: types.REMOVE, payload: item});
 export const setClipboard = items => ({type: types.SET_CLIPBOARD, payload: items});
 export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_TREE, payload: shouldReset});
 export const setDirectoryTree = payload => ({type: types.SET_DIRECTORY_TREE, payload});

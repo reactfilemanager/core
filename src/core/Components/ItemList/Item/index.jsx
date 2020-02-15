@@ -15,8 +15,8 @@ class Item extends Component {
   state = {selected: false};
 
   componentDidMount() {
-    getSelectedItems(items => {
-      if(Array.isArray(items)) {
+    getSelectedItems().then(items => {
+      if (Array.isArray(items)) {
         this.onSelect(items);
       }
     });
@@ -33,7 +33,7 @@ class Item extends Component {
 
   onSelect = items => {
     const selected = items.find(item => item.id === this.props.item.id) !== undefined;
-    if(this.state.selected === selected) {
+    if (this.state.selected === selected) {
       return;
     }
     this.setState({selected});

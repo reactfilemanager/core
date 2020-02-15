@@ -18,7 +18,7 @@ import {toast} from 'react-toastify';
 import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
-import {CORE_RELOAD_FILEMANAGER, SET_WORKING_PATH, TOGGLE_SELECT, UPDATE} from '../../state/types';
+import {CORE_RELOAD_FILEMANAGER, REMOVE, SET_WORKING_PATH, TOGGLE_SELECT, UPDATE} from '../../state/types';
 
 class ItemList extends Component {
 
@@ -43,6 +43,7 @@ class ItemList extends Component {
     EventBus.$on(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$on(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$on(UPDATE, this.onUpdate);
+    EventBus.$on(REMOVE, this.onRemove);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
@@ -51,8 +52,20 @@ class ItemList extends Component {
     EventBus.$off(SET_WORKING_PATH, this.setWorkingPath);
     EventBus.$off(TOGGLE_SELECT, this.toggleSelect);
     EventBus.$off(UPDATE, this.onUpdate);
+    EventBus.$off(REMOVE, this.onRemove);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
+
+  onRemove = item => {
+    const {entries} = this.state;
+    const remove = _item => {
+      return _item.id !== item.id;
+    };
+
+    entries.dirs = entries.dirs.filter(remove);
+    entries.files = entries.files.filter(remove);
+    this.setState({entries});
+  };
 
   onUpdate = item => {
     const {entries} = this.state;
@@ -91,7 +104,7 @@ class ItemList extends Component {
 
         if (shouldMark) {
           selected_entries[item.id] = {
-            id: item.id,
+            ...this.getSelectedItemProps(item),
             selection_time: lastSelectedItem.selection_time - (lastSelectedItem.id !== item.id ? 100 : 0),
           };
         }
@@ -112,10 +125,7 @@ class ItemList extends Component {
       selected_entries = {};
       const mark = item => {
         if (item.selected) {
-          selected_entries[item.id] = {
-            id: item.id,
-            selection_time: new Date(),
-          };
+          selected_entries[item.id] = this.getSelectedItemProps(item);
         }
       };
 
@@ -142,14 +152,23 @@ class ItemList extends Component {
     let selected = this.selected_entries[item.id] !== undefined;
     if (item_id === item.id) {
       return {
-        id: item.id,
+        ...this.getSelectedItemProps(item),
         selected: ctrlKey ? !selected : true,
       };
     }
 
     return {
-      id: item.id,
+      ...this.getSelectedItemProps(item),
       selected,
+    };
+  };
+
+  getSelectedItemProps = item => {
+    return {
+      id: item.id,
+      name: item.name,
+      path: item.path,
+      last_modified: new Date,
     };
   };
   // endregion
