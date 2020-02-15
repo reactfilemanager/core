@@ -2,6 +2,7 @@ import icons from '../../assets/icons';
 import AudioPlayer from './VideoPlayer';
 import React from 'react';
 import {FILE_TYPES} from '../../core/Components/Toolbar/FilterByType';
+import {EventBus} from '../../helpers/Utils';
 
 let _fn = () => null;
 
@@ -26,7 +27,7 @@ export const injection = {
           return <AudioPlayer item={item} {...props}/>;
         };
 
-        dispatch({type: 'INJECT_COMPONENT', payload: component});
+        EventBus.$emit('INJECT_COMPONENT', component);
       },
       type: 'preview',
     },

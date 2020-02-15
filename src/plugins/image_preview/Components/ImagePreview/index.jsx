@@ -3,7 +3,7 @@ import {jsx, Box, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import throttle from 'lodash.throttle';
 import icons from '../../../../assets/icons';
-import {getImageDimensionAsync, viewport} from '../../../../helpers/Utils';
+import {EventBus, getImageDimensionAsync, viewport} from '../../../../helpers/Utils';
 import {toast} from 'react-toastify';
 
 class ImagePreview extends Component {
@@ -108,7 +108,7 @@ class ImagePreview extends Component {
   close = () => {
     this.setState({closing: true});
     setTimeout(() => {
-      this.props.dispatch({type: 'REMOVE_INJECTED_COMPONENT'});
+      EventBus.$emit('REMOVE_INJECTED_COMPONENT');
     }, 250);
   };
 

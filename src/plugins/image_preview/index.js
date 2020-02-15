@@ -1,6 +1,7 @@
 import ImagePreview from './Components/ImagePreview';
 import React from 'react';
 import icons from '../../assets/icons';
+import {EventBus} from '../../helpers/Utils';
 
 export default {
   handlers: {
@@ -12,12 +13,12 @@ export default {
         icon: icons.preview,
         title: 'Preview',
       },
-      handle(item, state, dispatch) {
+      handle(item) {
         const component = (props) => {
           return <ImagePreview item={item} {...props}/>;
         };
 
-        dispatch({type: 'INJECT_COMPONENT', payload: component});
+        EventBus.$emit('INJECT_COMPONENT', component);
       },
       type: 'preview',
     },
