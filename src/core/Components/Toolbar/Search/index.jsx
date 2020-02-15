@@ -2,25 +2,41 @@
 import {jsx, Divider, Button, Input} from 'theme-ui';
 import React, {Component} from 'react';
 import debounce from 'lodash.debounce';
-import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
+import {addFilter, forceRender, setSort, setSortBy} from '../../../state/actions';
 import {EventBus, fuzzySearch} from '../../../../helpers/Utils';
 import icons from '../../../../assets/icons';
+import {SET_FILTER} from '../../../state/types';
 
 class Search extends Component {
 
-  state = {isOpen: false, sort: 'asc', sortBy: 'name'};
+  state = {isOpen: false, sort: 'asc', sortBy: 'name', query: ''};
 
   componentDidMount() {
-    addFilter({search: this.filter});
+    // wait for the items list to render
+    setTimeout(() => addFilter({search: this.filter}), 300);
     EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
+    EventBus.$on(SET_FILTER, this.setFilter);
   }
 
   componentWillUnmount() {
     EventBus.$off(['click', 'contextmenu'], this.closeDropdown);
+    EventBus.$off(SET_FILTER, this.setFilter);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.sort !== prevState.sort ||
+        this.state.sortBy !== prevState.sortBy
+        || this.state.query !== prevState.query) {
+      forceRender();
+    }
+  }
+
+  setFilter = filters => {
+    this.setState({...filters});
+  };
+
   closeDropdown = e => {
-    if (this.refs.btn.isIn(e.path)) {
+    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path)) {
       return;
     }
 
@@ -28,12 +44,12 @@ class Search extends Component {
   };
 
   sort = sort => {
-    setSort(sort);
+    this.setState({sort});
     this.toggleDropdown();
   };
   isEnabled = key => this.state.sortBy === key;
   sortBy = sortBy => {
-    setSortBy(sortBy);
+    this.setState({sortBy});
     this.toggleDropdown();
   };
   isSort = key => this.state.sort === key;
@@ -163,7 +179,8 @@ class Search extends Component {
   };
 
   handleQueryChange = debounce(() => {
-    setQuery(this.refs.searchInput.value);
+    const query = this.refs.searchInput.value;
+    this.setState({query});
   }, 200);
 
   toggleDropdown = () => {
@@ -203,7 +220,7 @@ class Search extends Component {
             {icons.triangle_down}
           </Button>
           {this.state.isOpen
-              ? <div sx={{
+              ? <div ref="dropdown" sx={{
                 position: 'absolute',
                 top: '40px',
                 right: '0px',
@@ -215,13 +232,11 @@ class Search extends Component {
                 zIndex: 99,
               }}>
 
-                {this.getSortDropdownItems(this.sortByItems, this.isEnabled,
-                    this.sortBy)}
+                {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
 
                 <Divider/>
 
-                {this.getSortDropdownItems(this.sortItems, this.isSort,
-                    this.sort)}
+                {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
               </div>
               : null}
         </div>
