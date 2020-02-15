@@ -35,6 +35,7 @@ export const getSelectedItemProps = item => {
     name: item.name,
     path: item.path,
     last_modified: new Date,
+    is_dir: item.is_dir,
   };
 };
 

@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
 import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
-import {getDirectoryTreeState} from '../../state/actions';
+import {getCurrentDirs, getDirectoryTreeState} from '../../state/actions';
 import {getApi} from '../../tools/config';
 import icons from '../../../assets/icons';
 import './style.scss';
 import cloneDeep from 'lodash.clonedeep';
 import {EventBus} from '../../../helpers/Utils';
-import {ADD_FILTER, DIRS_LOADED, GET_DIRECTORY_TREE_STATE, REMOVE_FILTER, SET_WORKING_PATH} from '../../state/types';
+import {
+  ADD_FILTER,
+  DIRS_LOADED,
+  FORCE_RENDER,
+  GET_DIRECTORY_TREE_STATE,
+  REMOVE_FILTER, RESET_DIRECTORY_TREE,
+} from '../../state/types';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -30,6 +36,8 @@ class SelectableDirectoryTree extends Component {
     EventBus.$on(ADD_FILTER, this.addFilter);
     EventBus.$on(REMOVE_FILTER, this.removeFilter);
     EventBus.$on(GET_DIRECTORY_TREE_STATE, this.sendTreeState);
+    EventBus.$on(RESET_DIRECTORY_TREE, this.removeFromTree);
+    EventBus.$on(FORCE_RENDER, this.forceRender);
 
     this.preload();
   }
@@ -39,7 +47,18 @@ class SelectableDirectoryTree extends Component {
     EventBus.$off(ADD_FILTER, this.addFilter);
     EventBus.$off(REMOVE_FILTER, this.removeFilter);
     EventBus.$off(GET_DIRECTORY_TREE_STATE, this.sendTreeState);
+    EventBus.$off(RESET_DIRECTORY_TREE, this.removeFromTree);
+    EventBus.$off(FORCE_RENDER, this.forceRender);
   }
+
+  removeFromTree = item => {
+    getCurrentDirs().then(({path, dirs}) => {
+      this.resetDirectoryTree({path, dirs});
+      this.setOpenDirs();
+    });
+  };
+
+  forceRender = () => this.forceUpdate();
 
   sendTreeState = callback => {
     if (!this.props.preload && typeof callback === 'function') {

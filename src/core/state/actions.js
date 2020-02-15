@@ -1,8 +1,6 @@
 import * as types from './types';
 import {EventBus} from '../../helpers/Utils';
 import {CORE_PLUGIN_KEY} from '../plugin';
-import {FORCE_RENDER} from './types';
-import {SET_VIEWMODE} from './types';
 
 export const getWorkingPath = () => {
   return new Promise((resolve, reject) => {
@@ -79,11 +77,11 @@ export const removeFilter = filter => {
 };
 
 export const forceRender = () => {
-  EventBus.$emit(FORCE_RENDER);
+  EventBus.$emit(types.FORCE_RENDER);
 };
 
 export const setViewmode = viewmode => {
-  EventBus.$emit(SET_VIEWMODE, viewmode);
+  EventBus.$emit(types.SET_VIEWMODE, viewmode);
 };
 
 export const getCurrentDirs = () => {
@@ -102,21 +100,14 @@ export const dirsLoaded = (path, dirs) => {
   EventBus.$emit(types.DIRS_LOADED, {path, dirs});
 };
 
-/// ends here
-
-export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
 export const setShouldReload = (callback) => {
   EventBus.$emit(types.CORE_RELOAD_FILEMANAGER, callback);
 };
 
-export const setReloading = reloading => ({type: types.RELOADING, payload: reloading});
-export const setClipboard = items => ({type: types.SET_CLIPBOARD, payload: items});
-export const resetDirectoryTree = shouldReset => ({type: types.RESET_DIRECTORY_TREE, payload: shouldReset});
-export const setDirectoryTree = payload => ({type: types.SET_DIRECTORY_TREE, payload});
-export const setQuery = query => ({type: types.SET_QUERY, payload: query});
+export const setReloading = reloading => {
+  EventBus.$emit(types.RELOADING, reloading);
+};
 
-export const setSort = sort => ({type: types.SET_SORT, payload: sort});
-export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
-export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});
-export const injectComponent = component => ({type: types.INJECT_COMPONENT, payload: component});
-export const removeInjectedComponent = () => ({type: types.REMOVE_INJECTED_COMPONENT});
+export const resetDirectoryTree = (item) => {
+  EventBus.$emit(types.RESET_DIRECTORY_TREE, item);
+};

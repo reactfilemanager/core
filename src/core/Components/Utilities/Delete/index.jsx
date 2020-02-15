@@ -67,7 +67,7 @@ class Delete extends Component {
         toast.success('Deleted successfully');
         remove(item);
         if (item.is_dir) {
-          resetDirectoryTree(true);
+          resetDirectoryTree(item);
         }
         removeModal();
       }).catch(error => {
