@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Text, Input, Flex} from 'theme-ui';
 import {Spinner} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import {injectModal, removeModal, setShouldReload} from '../../../state/actions';
+import {getWorkingPath, injectModal, removeModal, setShouldReload} from '../../../state/actions';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
 
@@ -38,14 +38,16 @@ class NewFolder extends Component {
     }
 
     this.setState({working: true});
-    getApi().new_dir(this.props.state.core.path, name).then(response => {
-      toast.success('Folder created successfully');
-      // reload
-      this.props.dispatch(setShouldReload(true));
-      this.props.dispatch(removeModal());
-    }).catch(error => {
-      toast.error(error.message);
-      this.setState({working: false});
+    getWorkingPath().then(path => {
+      getApi().new_dir(path, name).then(response => {
+        toast.success('Folder created successfully');
+        // reload
+        setShouldReload(true);
+        removeModal();
+      }).catch(error => {
+        toast.error(error.message);
+        this.setState({working: false});
+      });
     });
   };
 

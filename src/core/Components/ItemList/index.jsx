@@ -235,6 +235,7 @@ class ItemList extends Component {
       }
 
       this.setState(state);
+      this.selected_entries = {};
     }).catch(error => {
       console.log(error);
       toast.error(error.message);
