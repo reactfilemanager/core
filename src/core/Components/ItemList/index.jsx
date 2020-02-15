@@ -60,6 +60,7 @@ class ItemList extends Component {
       if (_item.id === item.id) {
         _item.id = uuidv4();
         _item.name = item.name;
+        _item.perms = item.perms;
         _item.last_modified = new Date;
       }
       return _item;

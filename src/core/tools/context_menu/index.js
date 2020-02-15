@@ -41,7 +41,7 @@ export default {
   //       return <Copy {...props} move={false}/>;
   //     };
 
-  //     dispatch(injectModal(modal));
+  //     injectModal(modal);
   //   },
   // },
   // move_to: {
@@ -57,7 +57,7 @@ export default {
   //       return <Copy {...props} move={true}/>;
   //     };
 
-  //     dispatch(injectModal(modal));
+  //     injectModal(modal);
   //   },
   // },
   change_permission: {

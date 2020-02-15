@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Text, Input, Checkbox, Label, Flex} from 'theme-ui';
 import styled from '@emotion/styled';
 import {getApi} from '../../../tools/config';
-import {removeModal, setShouldReload} from '../../../state/actions';
+import {getWorkingPath, removeModal, setShouldReload, update} from '../../../state/actions';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons';
 
@@ -16,6 +16,7 @@ class Permission extends Component {
       {title: 'Everyone', read: false, write: false, execute: false},
     ],
     mod: 'xxx',
+    perms: '',
   };
 
   componentDidMount() {
@@ -24,13 +25,13 @@ class Permission extends Component {
 
   prepare = () => {
     const item = this.props.item;
-    const perms = item.perms.split('');
-    perms.shift();
+    const perms_ = item.perms.split('');
+    perms_.shift();
 
     const _perms = {
-      Owner: perms.splice(0, 3),
-      Group: perms.splice(0, 3),
-      Everyone: perms.splice(0, 3),
+      Owner: perms_.splice(0, 3),
+      Group: perms_.splice(0, 3),
+      Everyone: perms_.splice(0, 3),
     };
 
     const users = this.state.users.map(user => {
@@ -42,8 +43,8 @@ class Permission extends Component {
 
       return user;
     });
-    const mod = this.calculateMod(users);
-    this.setState({users, mod});
+    const {mod, perms} = this.calculateMod(users);
+    this.setState({users, mod, perms});
   };
 
   handleCheck = (_user, val, e) => {
@@ -62,26 +63,43 @@ class Permission extends Component {
       }
       return user;
     });
-    const mod = this.calculateMod(users);
-    this.setState({users, mod});
+    const {mod, perms} = this.calculateMod(users);
+    this.setState({users, mod, perms});
   };
 
   calculateMod = (users) => {
     const mod = [];
+    const perms = [this.props.item.perms[0]];
     for (const user of users) {
       let val = 0;
+
       if (user.read) {
         val += 4;
+        perms.push('r');
       }
+      else {
+        perms.push('-');
+      }
+
       if (user.write) {
         val += 2;
+        perms.push('w');
       }
+      else {
+        perms.push('-');
+      }
+
       if (user.execute) {
         val += 1;
+        perms.push('x');
       }
+      else {
+        perms.push('-');
+      }
+
       mod.push(val);
     }
-    return mod.join('');
+    return {mod: mod.join(''), perms: perms.join('')};
   };
 
   getSelectables = () => {
@@ -98,17 +116,20 @@ class Permission extends Component {
   };
 
   handleSave = () => {
-    const mod = this.calculateMod(this.state.users);
+    const {mod, perms} = this.calculateMod(this.state.users);
 
-    this.setState({working: true, mod});
+    this.setState({working: true, mod, perms});
     const item = this.props.item;
-    getApi().chmod(this.props.state.core.path, item.name, mod).then(response => {
-      toast.success(response.message);
-      this.props.dispatch(setShouldReload(true));
-      this.props.dispatch(removeModal());
-    }).catch(error => {
-      toast.error(error.message);
-      this.setState({working: false});
+    getWorkingPath().then(path => {
+      getApi().chmod(path, item.name, mod).then(response => {
+        toast.success(response.message);
+        item.perms = perms;
+        update(item);
+        removeModal();
+      }).catch(error => {
+        toast.error(error.message);
+        this.setState({working: false});
+      });
     });
   };
 
