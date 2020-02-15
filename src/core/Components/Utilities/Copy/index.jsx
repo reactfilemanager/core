@@ -5,10 +5,28 @@ import SelectableDirectoryTree from '../../DirectoryTree/SelectableDirectoryTree
 import {getApi} from '../../../tools/config';
 import {toast} from 'react-toastify';
 import {getWorkingPath, injectModal, removeModal, setShouldReload} from '../../../state/actions';
+import {EventBus} from '../../../../helpers/Utils';
+import {ITEMS_SELECTED} from '../../../state/types';
 
 export const CopyButton = (move = false) => {
   return class extends React.Component {
     state = {shouldShow: false};
+
+    componentDidMount() {
+      EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
+    }
+
+    componentWillUnmount() {
+      EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
+    }
+
+    onItemsSelected = items => {
+      const shouldShow = items.length > 0;
+      if (this.state.shouldShow !== shouldShow) {
+        this.setState({shouldShow});
+      }
+    };
+
     handleCopyToClick = () => {
       const modal = (props) => {
         return <Copy {...props} move={move}/>;
@@ -109,8 +127,7 @@ class Copy extends Component {
 
           <div className="fm-modal-overflow-content" bg={'muted'}
                style={{borderRadius: '3px', paddingBottom: '3px'}}>
-            <SelectableDirectoryTree onSelect={this.onSelect}
-                                     state={this.props.state.core}/>
+            <SelectableDirectoryTree onSelect={this.onSelect} path={this.state.path} preload/>
           </div>
 
           <Button

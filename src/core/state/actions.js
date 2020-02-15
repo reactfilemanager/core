@@ -86,6 +86,22 @@ export const setViewmode = viewmode => {
   EventBus.$emit(SET_VIEWMODE, viewmode);
 };
 
+export const getCurrentDirs = () => {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit(types.GET_CURRENT_DIRS, resolve);
+  });
+};
+
+export const getDirectoryTreeState = () => {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit(types.GET_DIRECTORY_TREE_STATE, resolve);
+  });
+};
+
+export const dirsLoaded = (path, dirs) => {
+  EventBus.$emit(types.DIRS_LOADED, {path, dirs});
+};
+
 /// ends here
 
 export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});

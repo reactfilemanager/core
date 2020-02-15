@@ -1,3 +1,6 @@
+export const GET_CURRENT_DIRS = 'GET_CURRENT_DIRS';
+export const DIRS_LOADED = 'DIRS_LOADED';
+export const GET_DIRECTORY_TREE_STATE = 'GET_DIRECTORY_TREE_STATE';
 export const FORCE_RENDER = 'FORCE_RENDER';
 export const SET_FILTER = 'SET_FILTER';
 export const ADD_FILTER = 'ADD_FILTER';

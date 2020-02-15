@@ -3,6 +3,7 @@ import {jsx, Text, Grid, Checkbox, Label, Flex, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import {
+  dirsLoaded,
   resetDirectoryTree,
   setEntries,
   setReloading, setSelectedItems,
@@ -20,7 +21,7 @@ import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
 import {
   ADD_FILTER,
-  CORE_RELOAD_FILEMANAGER, FORCE_RENDER,
+  CORE_RELOAD_FILEMANAGER, FORCE_RENDER, GET_CURRENT_DIRS,
   ITEMS_SELECTED,
   REMOVE, REMOVE_FILTER, SET_VIEWMODE,
   SET_WORKING_PATH,
@@ -67,6 +68,7 @@ class ItemList extends Component {
     EventBus.$on(ADD_FILTER, this.addFilter);
     EventBus.$on(REMOVE_FILTER, this.removeFilter);
     EventBus.$on(SET_VIEWMODE, this.setViewMode);
+    EventBus.$on(GET_CURRENT_DIRS, this.sendCurrentDirs);
     this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
@@ -81,8 +83,18 @@ class ItemList extends Component {
     EventBus.$off(ADD_FILTER, this.addFilter);
     EventBus.$off(REMOVE_FILTER, this.removeFilter);
     EventBus.$off(SET_VIEWMODE, this.setViewMode);
+    EventBus.$off(GET_CURRENT_DIRS, this.sendCurrentDirs);
     this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
+
+  sendCurrentDirs = callback => {
+    if (typeof callback === 'function') {
+      callback({
+        path: this.state.path,
+        dirs: this.state.entries.dirs,
+      });
+    }
+  };
 
   setViewMode = viewmode => {
     this.setState({viewmode});
@@ -139,7 +151,7 @@ class ItemList extends Component {
         _item.perms = item.perms;
         _item.last_modified = new Date;
 
-        if(this.selected_entries[prevId]) {
+        if (this.selected_entries[prevId]) {
           delete this.selected_entries[prevId];
           this.selected_entries[_item.id] = this.getSelectedItemProps(_item);
         }
@@ -291,7 +303,7 @@ class ItemList extends Component {
       if (total > this.max) {
         state = {...state, max: this.max, total};
       }
-
+      dirsLoaded(path, entries.dirs);
       this.setState(state);
       this.selected_entries = {};
     }).catch(error => {
@@ -416,7 +428,8 @@ class ItemList extends Component {
 
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
-    const allChecked = Object.keys(this.selected_entries).length === this.state.entries.dirs.length + this.state.entries.files.length;
+    const allChecked = Object.keys(this.selected_entries).length === this.state.entries.dirs.length +
+        this.state.entries.files.length;
 
     return (
         <Table sx={{
