@@ -43,7 +43,7 @@ class InfoPanel extends Component {
     this.setState({ isOpen: false });
     setTimeout(() => {
       this.componentWillUnmount();
-      this.props.dispatch(removeSidePanel('info'));
+      removeSidePanel('info');
     }, this.timeout+100);
   };
 
@@ -111,8 +111,8 @@ const Block = styled.div`
   padding: 8px 0;
   font-size: 13px;
   line-height: 20px;
-`
+`;
 const Label = styled.div`
   flex: 0 0 120px;
   color: #999;
-`
+`;

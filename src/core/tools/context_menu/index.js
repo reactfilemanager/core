@@ -20,7 +20,7 @@ export default {
       icon: icons.rename,
       title: 'Rename',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Rename item={item} {...props}/>;
       };
@@ -68,7 +68,7 @@ export default {
       icon: icons.unlock,
       title: 'Change Permission',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Permission item={item} {...props}/>;
       };
@@ -84,7 +84,7 @@ export default {
       icon: icons.info,
       title: 'Details',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const panel = (props) => {
         return <InfoPanel item={item} {...props}/>;
       };
@@ -120,7 +120,7 @@ export default {
       icon: icons.trash,
       title: 'Delete',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = props => {
         return <Delete {...props}/>;
       };
@@ -148,7 +148,7 @@ export default {
       icon: icons.folder_add,
       title: 'New Folder',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <NewFolder {...props}/>;
       };
@@ -164,7 +164,7 @@ export default {
       icon: icons.cloud_upload,
       title: 'Upload Local File',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Upload {...props}/>;
       };
@@ -180,7 +180,7 @@ export default {
       icon: icons.cloud_upload,
       title: 'Upload From Url',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <RemoteUpload {...props}/>;
       };

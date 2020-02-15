@@ -30,10 +30,33 @@ export const getSelectedItems = callback => {
   });
 };
 
-export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
+export const injectModal = modal => {
+  EventBus.$emit(types.INJECT_MODAL, modal);
+};
+export const removeModal = () => {
+  EventBus.$emit(types.REMOVE_MODAL);
+};
+
+
+export const injectSidePanel = (id, panel) => {
+  EventBus.$emit(types.INJECT_SIDE_PANEL, {id, panel});
+};
+export const removeSidePanel = id => {
+  EventBus.$emit(types.REMOVE_SIDE_PANEL, id);
+};
+
+
 export const toggleSelect = (ctrlKey, shiftKey, item_id) => {
   EventBus.$emit(types.TOGGLE_SELECT, {ctrlKey, shiftKey, item_id});
 };
+
+
+
+
+
+
+
+export const setEntries = entries => ({type: types.SET_ENTRIES, payload: entries});
 export const setShouldReload = (callback) => {
   EventBus.$emit(types.CORE_RELOAD_FILEMANAGER, callback);
 };
@@ -50,9 +73,5 @@ export const addFilter = filter => ({type: types.ADD_FILTER, payload: filter});
 export const setSort = sort => ({type: types.SET_SORT, payload: sort});
 export const setSortBy = sort_by => ({type: types.SET_SORT_BY, payload: sort_by});
 export const setTypeFilter = payload => ({type: types.SET_TYPE_FILTER, payload});
-export const injectSidePanel = (id, panel) => ({type: types.INJECT_SIDE_PANEL, payload: {[id]: panel}});
-export const removeSidePanel = payload => ({type: types.REMOVE_SIDE_PANEL, payload});
-export const injectModal = modal => ({type: types.INJECT_MODAL, payload: modal});
-export const removeModal = () => ({type: types.REMOVE_MODAL});
 export const injectComponent = component => ({type: types.INJECT_COMPONENT, payload: component});
 export const removeInjectedComponent = () => ({type: types.REMOVE_INJECTED_COMPONENT});

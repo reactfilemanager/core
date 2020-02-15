@@ -6,14 +6,15 @@ import ItemList from './Components/ItemList';
 import Toolbar from './Components/Toolbar';
 import {getConfig, getDefaultConfig, setAccessor} from './tools/config';
 import DirectoryTree from './Components/DirectoryTree';
-import icons from '../assets/icons';
-import {SkyLightStateless} from 'react-skylight';
 import ContextMenu from './Components/ContextMenu';
 import Breadcrumb from './Components/Breadcrumb';
-import {SmoothScroll} from '../helpers/Utils';
+import {EventBus, SmoothScroll} from '../helpers/Utils';
 import {CORE_PLUGIN_KEY} from './plugin';
-import {REMOVE_MODAL, REMOVE_SIDE_PANEL} from './state/types';
+import * as types from './state/types';
 import {setWorkingPath} from './state/actions';
+import Modal from './Components/Containers/Modal';
+import InjectedComponent from './Components/Containers/InjectedComponent';
+import SidebarComponents from './Components/Containers/SidebarComponents';
 
 export default class FileManagerCore extends React.Component {
 
@@ -23,29 +24,15 @@ export default class FileManagerCore extends React.Component {
         return [];
       },
     });
+    // FIXME: set default dir
     setWorkingPath('');
-  }
 
+  }
   goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
 
-  closeSidebar = () => {
-    this.props.store.$dispatch(REMOVE_SIDE_PANEL);
-  };
-
-  removeModal = () => {
-    this.props.store.$dispatch(REMOVE_MODAL);
-  };
-
   render() {
-    const state = this.props.store.$get(CORE_PLUGIN_KEY);
     const defaultConfig = getDefaultConfig();
     const config = getConfig();
-    const sidebar_components = state.sidebar_components;
-    const hasSidebarComponent = Object.keys(sidebar_components).length;
-    const Modal = state.modal;
-    const hasModal = !!Modal;
-    const InjectedComponent = state.injected_component;
-    const hasInjectedComponent = !!InjectedComponent;
 
     return (
         <div>
@@ -149,43 +136,26 @@ export default class FileManagerCore extends React.Component {
 
               <ItemList/>
 
-          {/*    {hasSidebarComponent*/}
-          {/*        ? <div>*/}
-          {/*          <span onClick={this.closeSidebar}>{icons.close}</span>*/}
-          {/*          {Object.keys(sidebar_components).map(key => {*/}
-          {/*            const Component = sidebar_components[key];*/}
-          {/*            return (*/}
-          {/*                <Component key={key} id={key}/>*/}
-          {/*            );*/}
-          {/*          })}*/}
-          {/*        </div>*/}
-          {/*        : null}*/}
+               {/*injected sidebar components*/}
+              <SidebarComponents/>
+
             </main>
           </Flex>
 
-          {/*<SkyLightStateless*/}
-          {/*    afterClose={this.removeModal}*/}
-          {/*    closeOnEsc*/}
-          {/*    isVisible={hasModal}*/}
-          {/*    onCloseClicked={this.removeModal}*/}
-          {/*    dialogStyles={ModalDialogStyle}*/}
-          {/*>*/}
-          {/*  {hasModal*/}
-          {/*      ? <Modal/>*/}
-          {/*      : null}*/}
-          {/*</SkyLightStateless>*/}
-          {/*{hasInjectedComponent*/}
-          {/*    ? <InjectedComponent/>*/}
-          {/*    : null}*/}
-          {/*<ContextMenu/>*/}
+          {/*injected modals*/}
+          <Modal/>
+
+          {/*injected component*/}
+          <InjectedComponent/>
+
+          {/*context menu*/}
+          <ContextMenu/>
         </div>
 
     );
   }
 }
-const ModalDialogStyle = {
-  minHeight: '200px',
-};
+
 const Link = styled.a`
   text-decoration: none;
 `;
