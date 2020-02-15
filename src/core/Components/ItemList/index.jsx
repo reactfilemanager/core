@@ -62,6 +62,11 @@ class ItemList extends Component {
       return _item.id !== item.id;
     };
 
+    if (this.selected_entries[item.id] !== undefined) {
+      delete this.selected_entries[item.id];
+      setSelectedItems(Object.values(this.selected_entries));
+    }
+
     entries.dirs = entries.dirs.filter(remove);
     entries.files = entries.files.filter(remove);
     this.setState({entries});
