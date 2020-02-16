@@ -20,12 +20,12 @@ export default {
       icon: icons.rename,
       title: 'Rename',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Rename item={item} {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   // copy_to: {
@@ -41,7 +41,7 @@ export default {
   //       return <Copy {...props} move={false}/>;
   //     };
 
-  //     dispatch(injectModal(modal));
+  //     injectModal(modal);
   //   },
   // },
   // move_to: {
@@ -57,7 +57,7 @@ export default {
   //       return <Copy {...props} move={true}/>;
   //     };
 
-  //     dispatch(injectModal(modal));
+  //     injectModal(modal);
   //   },
   // },
   change_permission: {
@@ -68,12 +68,12 @@ export default {
       icon: icons.unlock,
       title: 'Change Permission',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Permission item={item} {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   details: {
@@ -84,12 +84,12 @@ export default {
       icon: icons.info,
       title: 'Details',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const panel = (props) => {
         return <InfoPanel item={item} {...props}/>;
       };
 
-      dispatch(injectSidePanel('info', panel));
+      injectSidePanel('info', panel);
     },
   },
   download: {
@@ -120,12 +120,12 @@ export default {
       icon: icons.trash,
       title: 'Delete',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = props => {
         return <Delete {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   new_file: {
@@ -148,12 +148,12 @@ export default {
       icon: icons.folder_add,
       title: 'New Folder',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <NewFolder {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   upload: {
@@ -164,12 +164,12 @@ export default {
       icon: icons.cloud_upload,
       title: 'Upload Local File',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <Upload {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
   remote_download: {
@@ -180,12 +180,12 @@ export default {
       icon: icons.cloud_upload,
       title: 'Upload From Url',
     },
-    handle(item, state, dispatch) {
+    handle(item) {
       const modal = (props) => {
         return <RemoteUpload {...props}/>;
       };
 
-      dispatch(injectModal(modal));
+      injectModal(modal);
     },
   },
 };

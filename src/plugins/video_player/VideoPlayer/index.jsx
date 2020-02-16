@@ -3,6 +3,7 @@ import {jsx} from 'theme-ui';
 import React, {Component} from 'react';
 import {pathResolver} from '../index';
 import icons from '../../../assets/icons';
+import {EventBus} from '../../../helpers/Utils';
 
 require('./style.scss');
 
@@ -20,7 +21,7 @@ class VideoPlayer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.dispatch({type: 'REMOVE_INJECTED_COMPONENT'});
+    EventBus.$emit('REMOVE_INJECTED_COMPONENT');
   };
 
   render() {
@@ -30,7 +31,7 @@ class VideoPlayer extends Component {
             <span onClick={this.close}>{icons.close}</span>
             <video width="400" controls autoPlay>
               <source src={this.filepath} type="video/mp4"/>
-                  Your browser does not support HTML5 video.
+              Your browser does not support HTML5 video.
             </video>
           </div>
         </div>

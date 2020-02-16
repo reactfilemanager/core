@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import {Label, Spinner} from 'theme-ui';
 import Tree, {TreeNode} from 'rc-tree';
-import {resetDirectoryTree, setDirectoryTree, setWorkingPath} from '../../state/actions';
+import {getCurrentDirs, getDirectoryTreeState} from '../../state/actions';
 import {getApi} from '../../tools/config';
 import icons from '../../../assets/icons';
 import './style.scss';
 import cloneDeep from 'lodash.clonedeep';
+import {EventBus} from '../../../helpers/Utils';
+import {
+  ADD_FILTER,
+  DIRS_LOADED,
+  FORCE_RENDER,
+  GET_DIRECTORY_TREE_STATE,
+  REMOVE_FILTER, RESET_DIRECTORY_TREE,
+} from '../../state/types';
 
 const getSvgIcon = (item) => {
   if (item.loaded && item.children.length === 0) {
@@ -17,46 +25,93 @@ const getSvgIcon = (item) => {
 class SelectableDirectoryTree extends Component {
   state = {
     dirs: [],
-    path: null,
+    filters: {},
+    path: '',
     expandedKeys: [],
     working: false,
   };
 
   componentDidMount() {
-    this.populateDirs();
-    this.setOpenDirs();
+    EventBus.$on(DIRS_LOADED, this.resetDirectoryTree);
+    EventBus.$on(ADD_FILTER, this.addFilter);
+    EventBus.$on(REMOVE_FILTER, this.removeFilter);
+    EventBus.$on(GET_DIRECTORY_TREE_STATE, this.sendTreeState);
+    EventBus.$on(RESET_DIRECTORY_TREE, this.removeFromTree);
+    EventBus.$on(FORCE_RENDER, this.forceRender);
+
+    this.preload();
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.state.resetDirectoryTree) {
-      this.populateDirs();
+  componentWillUnmount() {
+    EventBus.$off(DIRS_LOADED, this.resetDirectoryTree);
+    EventBus.$off(ADD_FILTER, this.addFilter);
+    EventBus.$off(REMOVE_FILTER, this.removeFilter);
+    EventBus.$off(GET_DIRECTORY_TREE_STATE, this.sendTreeState);
+    EventBus.$off(RESET_DIRECTORY_TREE, this.removeFromTree);
+    EventBus.$off(FORCE_RENDER, this.forceRender);
+  }
+
+  removeFromTree = item => {
+    getCurrentDirs().then(({path, dirs}) => {
+      this.resetDirectoryTree({path, dirs});
       this.setOpenDirs();
+    });
+  };
+
+  forceRender = () => this.forceUpdate();
+
+  sendTreeState = callback => {
+    if (!this.props.preload && typeof callback === 'function') {
+      callback({path: this.props.path, dirs: this.state.dirs});
     }
-  }
+  };
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.path !== nextProps.path
-        || (this.props.state.resetDirectoryTree !== nextProps.state.resetDirectoryTree)
-        || this.state.expandedKeys.length !== nextState.expandedKeys.length;
-  }
+  addFilter = (_filters) => {
+    let {filters} = this.state;
+    filters = {...filters, ..._filters};
+    this.setState({filters});
+  };
 
-  populateDirs = () => {
+  removeFilter = (id) => {
+    const {filters} = this.state;
+    if (filters[id]) {
+      delete filters[id];
+      this.setState({filters});
+    }
+  };
+
+  preload = () => {
+    if (!this.props.preload) {
+      return;
+    }
+
+    getDirectoryTreeState().then(({path, dirs}) => {
+      this.setState({path, dirs});
+      this.setOpenDirs();
+    });
+  };
+
+  resetDirectoryTree = ({path, dirs}) => {
+    this.populateDirs(dirs);
+    this.setOpenDirs();
+  };
+
+  populateDirs = (currentDirs) => {
     if (this.props.path === null) {
       return;
     }
 
-    let path = this.props.state.path;
+    let path = this.props.path;
     let _path = path;
     if (_path === '') {
       _path = '/';
     }
     path = path.split('/');
 
-    const _dirs = this.props.state.directoryTree;
-    const dirs = this.loopDir(_dirs, path, '', _path, this.props.state.entries.dirs);
+    const _dirs = this.state.dirs;
+    const dirs = this.loopDir(_dirs, path, '', _path, currentDirs);
 
-    this.props.dispatch(setDirectoryTree(dirs));
-    this.props.dispatch(resetDirectoryTree(false));
+    this.setState({dirs});
   };
 
   setOpenDirs = () => {
@@ -65,7 +120,7 @@ class SelectableDirectoryTree extends Component {
     }
     let expandedKeys = [];
 
-    const path = this.props.state.path.split('/');
+    const path = this.props.path.split('/');
     let __dir = '';
     for (const _dir of path) {
       if (__dir === '/') {
@@ -166,11 +221,11 @@ class SelectableDirectoryTree extends Component {
           _path = '/';
         }
         path = path.split('/');
-        dirs = this.loopDir(this.props.state.directoryTree, path, '', _path, dirs);
+        dirs = this.loopDir(this.state.dirs, path, '', _path, dirs);
 
         // setTimeout(() => resolve(), 3000);
         resolve();
-        this.props.dispatch(setDirectoryTree(dirs));
+        this.setState({dirs});
       }).catch(error => {
         console.log(error);
         reject();
@@ -193,8 +248,8 @@ class SelectableDirectoryTree extends Component {
     this.setState({expandedKeys});
   };
 
-  getSortedDirs = (dirs = cloneDeep(this.props.state.directoryTree)) => {
-    return Object.values(this.props.state.filters).reduce((entries, fn) => {
+  getSortedDirs = (dirs = cloneDeep(this.state.dirs)) => {
+    return Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, {files: [], dirs}).dirs.map(dir => {
       if (dir.children && dir.children.length) {

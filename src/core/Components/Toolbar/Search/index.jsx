@@ -2,25 +2,41 @@
 import {jsx, Divider, Button, Input} from 'theme-ui';
 import React, {Component} from 'react';
 import debounce from 'lodash.debounce';
-import {addFilter, setQuery, setSort, setSortBy} from '../../../state/actions';
+import {addFilter, forceRender, setSort, setSortBy} from '../../../state/actions';
 import {EventBus, fuzzySearch} from '../../../../helpers/Utils';
 import icons from '../../../../assets/icons';
+import {SET_FILTER} from '../../../state/types';
 
 class Search extends Component {
 
-  state = {isOpen: false};
+  state = {isOpen: false, sort: 'asc', sortBy: 'name', query: ''};
 
   componentDidMount() {
-    this.props.dispatch(addFilter({search: this.filter}));
+    // wait for the items list to render
+    setTimeout(() => addFilter({search: this.filter}), 300);
     EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
+    EventBus.$on(SET_FILTER, this.setFilter);
   }
 
   componentWillUnmount() {
     EventBus.$off(['click', 'contextmenu'], this.closeDropdown);
+    EventBus.$off(SET_FILTER, this.setFilter);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.sort !== prevState.sort ||
+        this.state.sortBy !== prevState.sortBy
+        || this.state.query !== prevState.query) {
+      forceRender();
+    }
+  }
+
+  setFilter = filters => {
+    this.setState({...filters});
+  };
+
   closeDropdown = e => {
-    if (this.refs.btn.isIn(e.path)) {
+    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path)) {
       return;
     }
 
@@ -28,27 +44,27 @@ class Search extends Component {
   };
 
   sort = sort => {
-    this.props.dispatch(setSort(sort));
+    this.setState({sort});
     this.toggleDropdown();
   };
-  isEnabled = key => this.props.state.search.sortBy === key;
+  isEnabled = key => this.state.sortBy === key;
   sortBy = sortBy => {
-    this.props.dispatch(setSortBy(sortBy));
+    this.setState({sortBy});
     this.toggleDropdown();
   };
-  isSort = key => this.props.state.search.sort === key;
+  isSort = key => this.state.sort === key;
 
   filter = entries => {
     if (!entries) {
       return entries;
     }
-    if (this.props.state.search.query) {
+    if (this.state.query) {
       entries.files = entries.files.filter(file => {
-        return fuzzySearch(this.props.state.search.query, file.name);
+        return fuzzySearch(this.state.query, file.name);
       });
 
       entries.dirs = entries.dirs.filter(dir => {
-        return fuzzySearch(this.props.state.search.query, dir.name);
+        return fuzzySearch(this.state.query, dir.name);
       });
     }
 
@@ -67,7 +83,7 @@ class Search extends Component {
   compare = (item, _item) => {
     let result = 0;
 
-    switch (this.props.state.search.sortBy) {
+    switch (this.state.sortBy) {
       case 'name':
         const name1 = item.name.toLowerCase();
         const name2 = _item.name.toLowerCase();
@@ -105,7 +121,7 @@ class Search extends Component {
         break;
     }
 
-    if (this.props.state.search.sort === 'desc') {
+    if (this.state.sort === 'desc') {
       return result * -1;
     }
     return result;
@@ -163,7 +179,8 @@ class Search extends Component {
   };
 
   handleQueryChange = debounce(() => {
-    this.props.dispatch(setQuery(this.refs.searchInput.value));
+    const query = this.refs.searchInput.value;
+    this.setState({query});
   }, 200);
 
   toggleDropdown = () => {
@@ -174,9 +191,9 @@ class Search extends Component {
     return (
         <div sx={{position: 'relative', marginLeft: 1}}>
           <Input
-            placeholder="Search..."
-            ref="searchInput"
-            onChange={this.handleQueryChange}/>
+              placeholder="Search..."
+              ref="searchInput"
+              onChange={this.handleQueryChange}/>
 
           <Button
               sx={{
@@ -203,7 +220,7 @@ class Search extends Component {
             {icons.triangle_down}
           </Button>
           {this.state.isOpen
-              ? <div sx={{
+              ? <div ref="dropdown" sx={{
                 position: 'absolute',
                 top: '40px',
                 right: '0px',
@@ -215,13 +232,11 @@ class Search extends Component {
                 zIndex: 99,
               }}>
 
-                {this.getSortDropdownItems(this.sortByItems, this.isEnabled,
-                    this.sortBy)}
+                {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
 
                 <Divider/>
 
-                {this.getSortDropdownItems(this.sortItems, this.isSort,
-                    this.sort)}
+                {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
               </div>
               : null}
         </div>

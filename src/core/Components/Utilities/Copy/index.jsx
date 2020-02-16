@@ -1,44 +1,56 @@
 import React, {Component} from 'react';
 import {Button, Flex, Spinner, Text} from 'theme-ui';
 import icons from '../../../../assets/icons';
-import SelectableDirectoryTree
-  from '../../DirectoryTree/SelectableDirectoryTree';
+import SelectableDirectoryTree from '../../DirectoryTree/SelectableDirectoryTree';
 import {getApi} from '../../../tools/config';
-import {getSelectedItems} from '../../../models/FileInfo';
 import {toast} from 'react-toastify';
-import {injectModal, removeModal, setShouldReload} from '../../../state/actions';
+import {getWorkingPath, injectModal, removeModal, setShouldReload} from '../../../state/actions';
+import {EventBus} from '../../../../helpers/Utils';
+import {ITEMS_SELECTED} from '../../../state/types';
 
 export const CopyButton = (move = false) => {
-  return (props) => {
+  return class extends React.Component {
+    state = {shouldShow: false};
 
-    const handleCopyToClick = () => {
+    componentDidMount() {
+      EventBus.$on(ITEMS_SELECTED, this.onItemsSelected);
+    }
+
+    componentWillUnmount() {
+      EventBus.$off(ITEMS_SELECTED, this.onItemsSelected);
+    }
+
+    onItemsSelected = items => {
+      const shouldShow = items.length > 0;
+      if (this.state.shouldShow !== shouldShow) {
+        this.setState({shouldShow});
+      }
+    };
+
+    handleCopyToClick = () => {
       const modal = (props) => {
         return <Copy {...props} move={move}/>;
       };
 
-      props.dispatch(injectModal(modal));
+      injectModal(modal);
     };
 
-    const shouldShow =
-        [
-          ...props.state.entries.dirs,
-          ...props.state.entries.files,
-        ].filter(item => item.selected).length > 0;
+    render() {
+      if (!this.state.shouldShow) {
+        return null;
+      }
 
-    if (!shouldShow) {
-      return null;
-    }
-
-    return (
-        <Button
-            variant="secondary"
-            onClick={handleCopyToClick}
-        >
-          {move
-              ? <> {icons.move} Move</>
-              : <>{icons.copy} Copy</>}
-        </Button>
-    );
+      return (
+          <Button
+              variant="secondary"
+              onClick={this.handleCopyToClick}
+          >
+            {move
+                ? <> {icons.move} Move</>
+                : <>{icons.copy} Copy</>}
+          </Button>
+      );
+    };
   };
 };
 
@@ -47,7 +59,9 @@ class Copy extends Component {
   state = {path: '', working: false};
 
   componentDidMount() {
-    this.setState({path: this.props.state.core.path || '/'});
+    getWorkingPath().then(path => {
+      console.log('Working Path', path);
+    });
   }
 
   onSelect = e => {
@@ -58,10 +72,14 @@ class Copy extends Component {
     this.setState({path});
   };
 
+  getSelectedItems = () => {
+    return []; // TODO: getSelectedItems
+  };
+
   handleCopy = () => {
     this.setState({working: true});
     const promises = [];
-    getSelectedItems(this.props.state.core.entries).forEach(item => {
+    this.getSelectedItems().forEach(item => {
       promises.push(this.props.move
           ? getApi().move('/', item.path, this.state.path)
           : getApi().copy('/', item.path, this.state.path),
@@ -70,8 +88,8 @@ class Copy extends Component {
 
     Promise.all(promises).then(response => {
       toast.success(`${this.btnText} successful`);
-      this.props.dispatch(setShouldReload(true));
-      this.props.dispatch(removeModal());
+      setShouldReload(true);
+      removeModal();
     }).catch(error => {
       toast.error(`${this.btnText} failed`);
       this.setState({working: false});
@@ -109,10 +127,7 @@ class Copy extends Component {
 
           <div className="fm-modal-overflow-content" bg={'muted'}
                style={{borderRadius: '3px', paddingBottom: '3px'}}>
-            <SelectableDirectoryTree onSelect={this.onSelect}
-                                     state={this.props.state.core}
-                                     path={this.state.path}
-                                     dispatch={this.props.dispatch}/>
+            <SelectableDirectoryTree onSelect={this.onSelect} path={this.state.path} preload/>
           </div>
 
           <Button

@@ -11,8 +11,8 @@ export default {
       title: 'Open',
       icon: icons.folder_open,
     },
-    handle(item, state, dispatch) {
-      dispatch(setWorkingPath(item.path));
+    handle(item) {
+      setWorkingPath(item.path);
     },
   },
 };

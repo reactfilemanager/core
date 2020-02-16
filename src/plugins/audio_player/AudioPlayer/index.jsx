@@ -3,6 +3,7 @@ import {jsx} from 'theme-ui';
 import React, {Component} from 'react';
 import {pathResolver} from '../index';
 import icons from '../../../assets/icons';
+import {EventBus} from '../../../helpers/Utils';
 
 require('./style.scss');
 
@@ -66,7 +67,7 @@ class AudioPlayer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.dispatch({type: 'REMOVE_INJECTED_COMPONENT'});
+    EventBus.$emit('REMOVE_INJECTED_COMPONENT');
   };
 
   render() {

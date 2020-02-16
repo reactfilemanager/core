@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Text, Input, Flex} from 'theme-ui';
 import {getApi} from '../../../tools/config';
-import {removeModal, update} from '../../../state/actions';
+import {getWorkingPath, removeModal, update} from '../../../state/actions';
 import {Spinner } from 'theme-ui';
 import {toast} from 'react-toastify';
 import icons from '../../../../assets/icons'
@@ -23,24 +23,27 @@ class Rename extends Component {
 
     this.setState({working: true});
     const item = this.getSelected();
-    getApi()
-        .rename(this.props.state.core.path, item.name, name)
-        .then(response => {
-          toast.success(response.message);
-          // update name
-          item.name = name;
-          // update path
-          const path = item.path.split('/');
-          path.pop();
-          item.path = [...path, item.name].join('/');
+    getWorkingPath()
+    .then(path => {
+      getApi()
+      .rename(path, item.name, name)
+      .then(response => {
+        toast.success(response.message);
+        // update name
+        item.name = name;
+        // update path
+        const path = item.path.split('/');
+        path.pop();
+        item.path = [...path, item.name].join('/');
 
-          this.props.dispatch(update(item));
-          this.props.dispatch(removeModal());
-        })
-        .catch(error => {
-          toast.error(error.message);
-          this.setState({working: false});
-        });
+        update(item);
+        removeModal();
+      })
+      .catch(error => {
+        toast.error(error.message);
+        this.setState({working: false});
+      });
+    });
   };
 
   handleKeyDown = e => {
@@ -67,7 +70,6 @@ class Rename extends Component {
         <Input 
           sx={{ lineHeight: 2 }}
           placeholder="New Folder"
-          autoFocus
           ref="name"
           defaultValue={selected.name}
           onKeyDown={this.handleKeyDown}

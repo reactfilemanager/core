@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import {jsx, Flex, Button} from 'theme-ui';
 import React, {Component} from 'react';
-import {addFilter, setTypeFilter} from '../../../state/actions';
+import {addFilter, forceRender, removeFilter, setTypeFilter} from '../../../state/actions';
 import icons from '../../../../assets/icons';
 
 export const FILE_TYPES = {
@@ -13,14 +13,25 @@ export const FILE_TYPES = {
 
 class FilterByType extends Component {
 
+  state = {type: null};
+
   componentDidMount() {
-    this.props.dispatch(addFilter({filter_by_type: this.filter}));
+    //wait for the item list to render first
+    setTimeout(() => addFilter({filter_by_type: this.filter}), 300);
+  }
+
+  componentWillUnmount() {
+    removeFilter('filter_by_type');
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    forceRender();
   }
 
   filter = entries => {
-    if (this.props.state.type !== null) {
+    if (this.state.type !== null) {
       entries.files = entries.files.filter(entry => {
-        return FILE_TYPES[this.props.state.type].indexOf(entry.extension) > -1;
+        return FILE_TYPES[this.state.type].indexOf(entry.extension) > -1;
       });
     }
     return entries;
@@ -44,7 +55,7 @@ class FilterByType extends Component {
       return (
           <Button 
             variant="utility"
-            className={this.props.state.type === key ? 'active' : ''}
+            className={this.state.type === key ? 'active' : ''}
             key={key}
             title={this.filterTypes[key].title}
             onClick={() => this.handleClick(key)}
@@ -55,14 +66,14 @@ class FilterByType extends Component {
     });
   };
 
-  handleClick = key => {
-    if (key === 'null') {
-      key = null;
+  handleClick = type => {
+    if (type === 'null') {
+      type = null;
     }
-    if (this.props.state.type === key) {
+    if (this.state.type === type) {
       return;
     }
-    this.props.dispatch(setTypeFilter(key));
+    this.setState({type});
   };
 
   render() {
