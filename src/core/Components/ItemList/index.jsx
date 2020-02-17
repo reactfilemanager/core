@@ -276,7 +276,7 @@ class ItemList extends Component {
   infiniteLoader = debounce(e => {
     const offsetTop = this.refs.bottom.getBoundingClientRect().top;
     const clientHeight = this.getMain().clientHeight;
-    if (offsetTop - 100 > clientHeight) {
+    if (offsetTop - 400 > clientHeight) {
       return;
     }
 
@@ -288,10 +288,8 @@ class ItemList extends Component {
     if (max > this.total) {
       max = this.total;
     }
-    this.setState({working: true});
-    setTimeout(() => {
-      this.setState({max, working: false});
-    }, 500);
+
+    this.setState({max});
   }, 100);
 
   // endregion
