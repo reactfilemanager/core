@@ -56,8 +56,8 @@ class ItemList extends Component {
     viewmode: 'grid',
   };
   selected_entries = {};
-  max = 10;
-  increment = 20;
+  max = 40;
+  increment = 30;
   total = 0;
 
   componentDidMount() {
@@ -304,15 +304,27 @@ class ItemList extends Component {
       if (callback && typeof callback === 'function') {
         entries = callback(entries);
       }
-      const total = entries.dirs.length + entries.files.length;
+      dirsLoaded(path, entries.dirs);
+
+      const total_dirs = entries.dirs.length;
+      const total_files = entries.files.length;
+      this.total = total_dirs + total_files;
+
       let state = {entries};
-      if (total > this.max) {
+      if (total_dirs > 80) {
+        state = {...state, max: 80};
+      }
+      else if (this.total > total_dirs + this.max) {
         state = {...state, max: this.max};
       }
-      this.total = total;
-      dirsLoaded(path, entries.dirs);
+      else {
+        state = {...state, max: total_dirs + this.increment};
+      }
+
       this.setState(state);
       this.selected_entries = {};
+      setSelectedItems([]);
+
     }).catch(error => {
       console.log(error);
       toast.error(error.message);
@@ -478,11 +490,23 @@ class ItemList extends Component {
 
     this.total = entries.dirs.length + entries.files.length;
 
-    const maxFiles = this.state.max > entries.files.length ? entries.files.length : this.state.max;
+    const total_dirs = entries.dirs.length;
+    let maxFiles = 0;
+    let maxDirs = 0;
+
+    if (total_dirs < this.state.max) {
+      maxFiles = total_dirs - this.state.max;
+      maxDirs = total_dirs;
+    }
+    else {
+      maxDirs = this.state.max;
+    }
+
     entries = {
-      dirs: entries.dirs,
+      dirs: entries.dirs.slice(0, maxDirs),
       files: entries.files.slice(0, maxFiles),
     };
+
     return entries;
   };
 
