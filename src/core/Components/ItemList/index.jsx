@@ -20,9 +20,13 @@ import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
 import {
   ADD_FILTER,
-  CORE_RELOAD_FILEMANAGER, FORCE_RENDER, GET_CURRENT_DIRS,
+  CORE_RELOAD_FILEMANAGER,
+  FORCE_RENDER,
+  GET_CURRENT_DIRS,
   ITEMS_SELECTED,
-  REMOVE, REMOVE_FILTER, SET_VIEWMODE,
+  REMOVE,
+  REMOVE_FILTER,
+  SET_VIEWMODE,
   SET_WORKING_PATH,
   TOGGLE_SELECT,
   UPDATE,
@@ -42,7 +46,6 @@ class ItemList extends Component {
 
   state = {
     max: 40,
-    total: 0,
     working: false,
     entries: {
       dirs: [],
@@ -51,11 +54,11 @@ class ItemList extends Component {
     filters: {},
     path: '',
     viewmode: 'grid',
-    render: 1,
   };
   selected_entries = {};
-  max = 40;
+  max = 10;
   increment = 20;
+  total = 0;
 
   componentDidMount() {
     EventBus.$on(FORCE_RENDER, this.forceRender);
@@ -101,7 +104,7 @@ class ItemList extends Component {
   };
 
   forceRender = () => {
-    this.forceUpdate();
+    this.setState({max: this.max});
   };
 
   addFilter = (_filters) => {
@@ -277,16 +280,18 @@ class ItemList extends Component {
       return;
     }
 
-    if (this.state.max < this.state.total) {
-      let max = this.state.max + this.increment;
-      if (max > this.state.total) {
-        max = this.state.total;
-      }
-      this.setState({working: true});
-      setTimeout(() => {
-        this.setState({max, working: false});
-      }, 500);
+    if (this.state.max >= this.total) {
+      return;
     }
+
+    let max = this.state.max + this.increment;
+    if (max > this.total) {
+      max = this.total;
+    }
+    this.setState({working: true});
+    setTimeout(() => {
+      this.setState({max, working: false});
+    }, 500);
   }, 100);
 
   // endregion
@@ -302,8 +307,9 @@ class ItemList extends Component {
       const total = entries.dirs.length + entries.files.length;
       let state = {entries};
       if (total > this.max) {
-        state = {...state, max: this.max, total};
+        state = {...state, max: this.max};
       }
+      this.total = total;
       dirsLoaded(path, entries.dirs);
       this.setState(state);
       this.selected_entries = {};
@@ -469,6 +475,9 @@ class ItemList extends Component {
     let entries = Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, cloneDeep(this.state.entries));
+
+    this.total = entries.dirs.length + entries.files.length;
+
     const maxFiles = this.state.max > entries.files.length ? entries.files.length : this.state.max;
     entries = {
       dirs: entries.dirs,

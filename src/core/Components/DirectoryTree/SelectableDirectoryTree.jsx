@@ -249,14 +249,18 @@ class SelectableDirectoryTree extends Component {
   };
 
   getSortedDirs = (dirs = cloneDeep(this.state.dirs)) => {
-    return Object.values(this.state.filters).reduce((entries, fn) => {
-      return fn(entries);
-    }, {files: [], dirs}).dirs.map(dir => {
+    return dirs.map(dir => {
       if (dir.children && dir.children.length) {
-        dir.children = this.getSortedDirs(dir.children);
+        dir.children = this._getSortedDirs(dir.children);
       }
       return dir;
     });
+  };
+
+  _getSortedDirs = (dirs) => {
+    return Object.values(this.state.filters).reduce((entries, fn) => {
+      return fn(entries);
+    }, {files: [], dirs}).dirs;
   };
 
   render() {
