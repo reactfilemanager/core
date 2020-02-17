@@ -533,7 +533,18 @@ class ItemList extends Component {
                       ? this.getItemsBlockForGridViewMode(items)
                       : this.getItemsBlockForListViewMode(items)
                 }
-                {this.state.working ? <Spinner/> : null}
+                {this.state.working ?
+                    <div sx={{width: '100%', height: '10vh', position: 'relative'}}>
+                      <Spinner
+                          sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                          }}
+                      />
+                    </div>
+                    : null}
               </>
           }
           <div ref="bottom"/>
