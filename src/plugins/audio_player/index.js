@@ -16,7 +16,6 @@ export const injection = {
   handlers: {
     audio_player: {
       handles(item) {
-        console.log(item);
         return FILE_TYPES.audio.indexOf(item.extension) > -1;
       },
       menu_item: {

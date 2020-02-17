@@ -9,6 +9,7 @@ import {getDefaultHandler} from '../../../tools/config';
 import {toast} from 'react-toastify';
 import {EventBus} from '../../../../helpers/Utils';
 import {ITEMS_SELECTED, UPDATE} from '../../../state/types';
+import {image_folder} from '../../../../assets/images';
 
 class Item extends Component {
 
@@ -126,6 +127,15 @@ class Item extends Component {
     return className.join(' ');
   }
 
+  get thumb() {
+    const item = this.props.item;
+    if (item.is_dir) {
+      return image_folder;
+    }
+
+    return thumb(item.path);
+  };
+
   getGridItem = (item) => {
     return (
         <Card id={item.id}
@@ -148,7 +158,7 @@ class Item extends Component {
                         display: 'flex',
                         alignItems: 'center',
                       }}>
-                    <Image src={thumb(item.path)} sx={{
+                    <Image src={this.thumb} sx={{
                       width: 32,
                       maxWidth: 32,
                       mr: 2,
@@ -164,7 +174,8 @@ class Item extends Component {
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
                     }}>{item.name} {item.components}</Text>
-                  </div> :
+                  </div>
+                  :
                   <Flex sx={{
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -189,7 +200,7 @@ class Item extends Component {
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}>
-                        <Image src={thumb(item.path)}/>
+                        <Image src={this.thumb}/>
                       </div>
                     </div>
                     <Text sx={{
@@ -237,7 +248,7 @@ class Item extends Component {
               <Checkbox checked={this.state.selected} onChange={e => e}/>
             </Label>
           </TD>
-          <TD><Image src={thumb(item.path)}
+          <TD><Image src={this.thumb}
                      sx={{maxWidth: '20px', maxHeight: '20px'}}/></TD>
           <TD> {
             item.is_dir ?
