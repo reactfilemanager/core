@@ -1,8 +1,5 @@
 import {uuidv4} from '../../helpers/Utils';
 
-export const getSelectedItems = entries => [
-  ...entries.dirs,
-  ...entries.files].filter(item => item.selected);
 export default class FileInfo {
   name;
   path;

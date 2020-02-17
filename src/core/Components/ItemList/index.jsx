@@ -16,7 +16,6 @@ import cloneDeep from 'lodash.clonedeep';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
 import {toast} from 'react-toastify';
-import {getSelectedItems} from '../../models/FileInfo';
 import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
 import {
@@ -295,6 +294,7 @@ class ItemList extends Component {
   // region utilities
   readPath = (path, callback) => {
     setReloading(true);
+    this.setState({reloading: true});
     getApi().list(path).then(entries => {
       if (callback && typeof callback === 'function') {
         entries = callback(entries);
@@ -312,6 +312,7 @@ class ItemList extends Component {
       toast.error(error.message);
     }).finally(() => {
       setReloading(false);
+      this.setState({reloading: false});
     });
   };
 
@@ -508,11 +509,33 @@ class ItemList extends Component {
             attributes={this.getAttributes()}
             renderTag="div"
         >
-          {this.state.viewmode === 'grid'
-              ? this.getItemsBlockForGridViewMode(items)
-              : this.getItemsBlockForListViewMode(items)
+          {this.state.reloading ?
+              <div sx={{
+                position: 'relative',
+                margin: '0 auto',
+                padding: 0,
+                width: '100%',
+                height: '50vh',
+              }}>
+                <Spinner
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                />
+              </div>
+              :
+              <>
+                {
+                  this.state.viewmode === 'grid'
+                      ? this.getItemsBlockForGridViewMode(items)
+                      : this.getItemsBlockForListViewMode(items)
+                }
+                {this.state.working ? <Spinner/> : null}
+              </>
           }
-          {this.state.working ? <Spinner/> : null}
           <div ref="bottom"/>
         </ContextMenuTrigger>
     );

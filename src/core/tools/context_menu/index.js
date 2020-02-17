@@ -5,7 +5,7 @@ import {injectModal, injectSidePanel} from '../../state/actions';
 import Permission from '../../Components/Utilities/Permission';
 import Rename from '../../Components/Utilities/Rename';
 import Delete from '../../Components/Utilities/Delete';
-import FileInfo, {getSelectedItems} from '../../models/FileInfo';
+import FileInfo from '../../models/FileInfo';
 import Upload from '../../Components/Utilities/Upload';
 import RemoteUpload from '../../Components/Utilities/URLDownload';
 import NewFolder from '../../Components/Utilities/NewFolder';
