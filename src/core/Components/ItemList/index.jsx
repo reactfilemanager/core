@@ -289,7 +289,9 @@ class ItemList extends Component {
       max = this.total;
     }
 
-    this.setState({max});
+    if (max !== this.state.max) {
+      this.setState({max});
+    }
   }, 100);
 
   // endregion
@@ -380,104 +382,104 @@ class ItemList extends Component {
 
   getItemBlock = (item) => {
     return (
-        <Item key={item.id} item={item} viewmode={this.state.viewmode} moveTo={this.setWorkingPath}/>
+      <Item key={item.id} item={item} viewmode={this.state.viewmode} moveTo={this.setWorkingPath}/>
     );
   };
 
   getItemsBlockForGridViewMode = (items) => {
     if (items.dirs.length === 0 && items.files.length === 0) {
       return (
-          <Flex sx={{
-            height: '70vh',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {
-              this.state.reloading ?
-                  <Spinner/> :
-                  <Text>No entry in this directory</Text>}
-          </Flex>
+        <Flex sx={{
+          height: '70vh',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {
+            this.state.reloading ?
+              <Spinner/> :
+              <Text>No entry in this directory</Text>}
+        </Flex>
       );
     }
 
     return (<div sx={{p: 3}}>
       {items.dirs.length
-          ? (<>
-            <Text sx={{
-              p: 2,
-              my: 2,
-              textTransform: 'uppercase',
-              fontSize: 13,
-              color: 'gray',
-            }}>Folders</Text>
-
-            <Grid
-                columns={4}
-                gap={3}
-            >
-              {items.dirs.map(item => this.getItemBlock(item))}
-            </Grid>
-          </>)
-          : null}
-
-      {items.files.length
-          ? (<>      <Text sx={{
-            px: 2,
-            my: 3,
+        ? (<>
+          <Text sx={{
+            p: 2,
+            my: 2,
             textTransform: 'uppercase',
             fontSize: 13,
             color: 'gray',
-          }}>Files</Text>
+          }}>Folders</Text>
 
-            <Grid
-                width={[176]}
-                gap={3}
-                sx={{
-                  '.react-contextmenu-wrapper': {
-                    height: '100%',
-                  },
-                }}>
-              {items.files.map(item => this.getItemBlock(item))}
-            </Grid>
-          </>)
-          : null}
+          <Grid
+            columns={4}
+            gap={3}
+          >
+            {items.dirs.map(item => this.getItemBlock(item))}
+          </Grid>
+        </>)
+        : null}
+
+      {items.files.length
+        ? (<>      <Text sx={{
+          px: 2,
+          my: 3,
+          textTransform: 'uppercase',
+          fontSize: 13,
+          color: 'gray',
+        }}>Files</Text>
+
+          <Grid
+            width={[176]}
+            gap={3}
+            sx={{
+              '.react-contextmenu-wrapper': {
+                height: '100%',
+              },
+            }}>
+            {items.files.map(item => this.getItemBlock(item))}
+          </Grid>
+        </>)
+        : null}
     </div>);
   };
 
   getItemsBlockForListViewMode = items => {
     const _items = [...items.dirs, ...items.files];
     const allChecked = Object.keys(this.selected_entries).length === this.state.entries.dirs.length +
-        this.state.entries.files.length;
+      this.state.entries.files.length;
 
     return (
-        <Table sx={{
-          width: '100%',
-          minWidth: '100%',
-          borderSpacing: 0,
-        }}>
-          <thead>
-          <tr>
-            <TH width="1%" onClick={this.toggleCheckAll}>
-              <Label>
-                <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
-              </Label>
-            </TH>
-            <TH width="1%"/>
-            <TH width="75%">Name</TH>
-            <TH width="3%">Size</TH>
-            <TH width="10%">Permission</TH>
-            <TH width="10%">Last Modified</TH>
+      <Table sx={{
+        width: '100%',
+        minWidth: '100%',
+        borderSpacing: 0,
+      }}>
+        <thead>
+        <tr>
+          <TH width="1%" onClick={this.toggleCheckAll}>
+            <Label>
+              <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
+            </Label>
+          </TH>
+          <TH width="1%"/>
+          <TH width="75%">Name</TH>
+          <TH width="3%">Size</TH>
+          <TH width="10%">Permission</TH>
+          <TH width="10%">Last Modified</TH>
+        </tr>
+        </thead>
+        <tbody>
+        {_items.length
+          ? _items.map(item => this.getItemBlock(item))
+          : <tr>
+            <td colSpan={6} sx={{textAlign: 'center'}}>Empty</td>
           </tr>
-          </thead>
-          <tbody>
-          {_items.length
-              ? _items.map(item => this.getItemBlock(item))
-              : <tr>
-                <td colSpan={6} sx={{textAlign: 'center'}}>Empty</td>
-              </tr>
-          }
-          </tbody>
-        </Table>
+        }
+        </tbody>
+      </Table>
     );
   };
 
@@ -489,11 +491,9 @@ class ItemList extends Component {
     this.total = entries.dirs.length + entries.files.length;
 
     const total_dirs = entries.dirs.length;
-    let maxFiles = 0;
     let maxDirs = 0;
 
     if (total_dirs < this.state.max) {
-      maxFiles = total_dirs - this.state.max;
       maxDirs = total_dirs;
     }
     else {
@@ -502,7 +502,7 @@ class ItemList extends Component {
 
     entries = {
       dirs: entries.dirs.slice(0, maxDirs),
-      files: entries.files.slice(0, maxFiles),
+      files: entries.files.slice(0, this.state.max - maxDirs),
     };
 
     return entries;
@@ -530,56 +530,56 @@ class ItemList extends Component {
     const items = this.getItems();
 
     return (
-        <ContextMenuTrigger
-            ref="root"
-            key={this.state.path}
-            id={CONTEXT_MENU_ID}
-            holdToDisplay={1000}
-            name={this.state.path}
-            collect={this.collect}
-            attributes={this.getAttributes()}
-            renderTag="div"
-        >
-          {this.state.reloading ?
-              <div sx={{
-                position: 'relative',
-                margin: '0 auto',
-                padding: 0,
-                width: '100%',
-                height: '50vh',
-              }}>
+      <ContextMenuTrigger
+        ref="root"
+        key={this.state.path}
+        id={CONTEXT_MENU_ID}
+        holdToDisplay={1000}
+        name={this.state.path}
+        collect={this.collect}
+        attributes={this.getAttributes()}
+        renderTag="div"
+      >
+        {this.state.reloading ?
+          <div sx={{
+            position: 'relative',
+            margin: '0 auto',
+            padding: 0,
+            width: '100%',
+            height: '50vh',
+          }}>
+            <Spinner
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            />
+          </div>
+          :
+          <>
+            {
+              this.state.viewmode === 'grid'
+                ? this.getItemsBlockForGridViewMode(items)
+                : this.getItemsBlockForListViewMode(items)
+            }
+            {this.state.working ?
+              <div sx={{width: '100%', height: '10vh', position: 'relative'}}>
                 <Spinner
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
                 />
               </div>
-              :
-              <>
-                {
-                  this.state.viewmode === 'grid'
-                      ? this.getItemsBlockForGridViewMode(items)
-                      : this.getItemsBlockForListViewMode(items)
-                }
-                {this.state.working ?
-                    <div sx={{width: '100%', height: '10vh', position: 'relative'}}>
-                      <Spinner
-                          sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                          }}
-                      />
-                    </div>
-                    : null}
-              </>
-          }
-          <div ref="bottom"/>
-        </ContextMenuTrigger>
+              : null}
+          </>
+        }
+        <div ref="bottom"/>
+      </ContextMenuTrigger>
     );
   }
 
