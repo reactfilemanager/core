@@ -13,6 +13,7 @@ import Core, {CORE_PLUGIN_KEY} from './core/plugin';
 import ImagePreview from './plugins/image_preview';
 import AudioPlayer, {injection as AudioPlayerInjection} from './plugins/audio_player';
 import VideoPlayer, {injection as VideoPlayerInjection} from './plugins/video_player';
+import PJpeg, {PJPEG, injection as PJpegInjection} from './plugins/progressive_jpeg';
 import {toast} from 'react-toastify';
 import icons from './assets/icons';
 
@@ -21,6 +22,10 @@ const core = Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
 
 // image preview
 core.inject(ImagePreview);
+
+// progressive jpeg
+Pluggable.registerPlugin(PJPEG, PJpeg);
+core.inject(PJpegInjection);
 
 const setConfig = (config = {}) => {
   setBaseUrl(config.url);

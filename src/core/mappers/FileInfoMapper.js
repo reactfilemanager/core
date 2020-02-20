@@ -8,18 +8,19 @@ export default {
       },
       one(fileInfo) {
         const file = new FileInfo(
-            fileInfo.name,
-            fileInfo.path,
-            fileInfo.is_dir,
-            fileInfo.is_file,
-            fileInfo.is_link,
-            fileInfo.is_readable,
-            fileInfo.is_writable,
-            fileInfo.is_executable,
-            fileInfo.perms,
-            fileInfo.size,
-            fileInfo.extension,
-            new Date(fileInfo.last_modified * 1000),
+          fileInfo.name,
+          fileInfo.path,
+          fileInfo.is_dir,
+          fileInfo.is_file,
+          fileInfo.is_link,
+          fileInfo.is_readable,
+          fileInfo.is_writable,
+          fileInfo.is_executable,
+          fileInfo.perms,
+          fileInfo.size,
+          fileInfo.extension,
+          new Date(fileInfo.last_modified * 1000),
+          fileInfo.extra,
         );
         if (fileInfo.image_info) {
           file.image_info = fileInfo.image_info;

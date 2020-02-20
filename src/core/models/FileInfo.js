@@ -15,12 +15,14 @@ export default class FileInfo {
   selected = false;
   _components = {};
 
+  extra = {};
+
   id;
   last_modified;
 
   constructor(
       name, path, is_dir, is_file, is_link, is_readable, is_writable,
-      is_executable, perms, size, extension, last_modified) {
+      is_executable, perms, size, extension, last_modified, extra={}) {
     this.name = name;
     this.path = path;
     this.is_dir = is_dir;
@@ -33,6 +35,7 @@ export default class FileInfo {
     this.size = size;
     this.extension = extension;
     this.last_modified = last_modified;
+    this.extra = extra;
 
     this.id = uuidv4();
   }

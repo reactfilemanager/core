@@ -90,6 +90,12 @@ export const getCurrentDirs = () => {
   });
 };
 
+export const getCurrentDir = () => {
+  return new Promise((resolve, reject) => {
+    EventBus.$emit(types.GET_CURRENT_DIR, resolve);
+  });
+};
+
 export const getDirectoryTreeState = () => {
   return new Promise((resolve, reject) => {
     EventBus.$emit(types.GET_DIRECTORY_TREE_STATE, resolve);

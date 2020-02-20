@@ -7,9 +7,12 @@ import {FILE_TYPES} from '../Toolbar/FilterByType';
 import {removeSidePanel} from '../../state/actions';
 import {EventBus} from '../../../helpers/Utils';
 
+export const INFO_PANEL_SHOWN = 'INFO_PANEL_SHOWN';
+export const ADD_INFO_BLOCK = 'ADD_INFO_BLOCK';
+
 class InfoPanel extends Component {
 
-  state = {isOpen: false};
+  state = {isOpen: false, _blocks: []};
   timeout = 200;
 
   componentDidMount() {
@@ -17,11 +20,18 @@ class InfoPanel extends Component {
     setTimeout(() => {
       EventBus.$on(['click', 'contextmenu'], this.closePanel)
     }, 100);
+    EventBus.$on(ADD_INFO_BLOCK, this.addInfoBlock);
+    EventBus.$emit(INFO_PANEL_SHOWN, this.props.item);
   }
 
   componentWillUnmount() {
     EventBus.$off(['click', 'contextmenu'], this.closePanel);
+    EventBus.$off(ADD_INFO_BLOCK, this.addInfoBlock);
   }
+
+  addInfoBlock = block => {
+    this.setState({_blocks: [...this.state._blocks, block]})
+  };
 
   get isImage() {
     return FILE_TYPES.image.indexOf(this.props.item.extension) >= 0;
@@ -91,6 +101,9 @@ class InfoPanel extends Component {
             <Label>Last Modified</Label>
             <Text>{item.last_modified.toHumanFormat()}</Text>
           </Block>
+          {this.state._blocks.map((_Block, i) => {
+            return <Block key={i}><_Block item={this.props.item}/></Block>
+          })}
         </div>
 
         <Close sx={{
