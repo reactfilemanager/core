@@ -1,7 +1,4 @@
-/** @jsx jsx */
-import {jsx, Text, Grid, Checkbox, Label, Flex, Spinner} from 'theme-ui';
 import React, {Component} from 'react';
-import styled from '@emotion/styled';
 import {
   dirsLoaded,
   setReloading, setSelectedItems,
@@ -394,58 +391,32 @@ class ItemList extends Component {
   getItemsBlockForGridViewMode = (items) => {
     if (items.dirs.length === 0 && items.files.length === 0) {
       return (
-        <Flex sx={{
-          height: '70vh',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+        <div>
           {
             this.state.reloading ?
-              <Spinner/> :
-              <Text>No entry in this directory</Text>}
-        </Flex>
+              <div>Spinner</div> :
+              <h4>No entry in this directory</h4>}
+        </div>
       );
     }
 
-    return (<div sx={{p: 3}}>
+    return (<div>
       {items.dirs.length
         ? (<>
-          <Text sx={{
-            p: 2,
-            my: 2,
-            textTransform: 'uppercase',
-            fontSize: 13,
-            color: 'gray',
-          }}>Folders</Text>
+          <h4>Folders</h4>
 
-          <Grid
-            columns={4}
-            gap={3}
-          >
+          <div>
             {items.dirs.map(item => this.getItemBlock(item))}
-          </Grid>
+          </div>
         </>)
         : null}
 
       {items.files.length
-        ? (<>      <Text sx={{
-          px: 2,
-          my: 3,
-          textTransform: 'uppercase',
-          fontSize: 13,
-          color: 'gray',
-        }}>Files</Text>
+        ? (<>      <h4>Files</h4>
 
-          <Grid
-            width={[176]}
-            gap={3}
-            sx={{
-              '.react-contextmenu-wrapper': {
-                height: '100%',
-              },
-            }}>
+          <div>
             {items.files.map(item => this.getItemBlock(item))}
-          </Grid>
+          </div>
         </>)
         : null}
     </div>);
@@ -457,34 +428,30 @@ class ItemList extends Component {
       this.state.entries.files.length;
 
     return (
-      <Table sx={{
-        width: '100%',
-        minWidth: '100%',
-        borderSpacing: 0,
-      }}>
+      <table>
         <thead>
         <tr>
-          <TH width="1%" onClick={this.toggleCheckAll}>
-            <Label>
-              <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
-            </Label>
-          </TH>
-          <TH width="1%"/>
-          <TH width="75%">Name</TH>
-          <TH width="3%">Size</TH>
-          <TH width="10%">Permission</TH>
-          <TH width="10%">Last Modified</TH>
+          <th width="1%" onClick={this.toggleCheckAll}>
+            <label>
+              <checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
+            </label>
+          </th>
+          <th width="1%"/>
+          <th width="75%">Name</th>
+          <th width="3%">Size</th>
+          <th width="10%">Permission</th>
+          <th width="10%">Last Modified</th>
         </tr>
         </thead>
         <tbody>
         {_items.length
           ? _items.map(item => this.getItemBlock(item))
           : <tr>
-            <td colSpan={6} sx={{textAlign: 'center'}}>Empty</td>
+            <td colSpan={6}>Empty</td>
           </tr>
         }
         </tbody>
-      </Table>
+      </table>
     );
   };
 
@@ -546,21 +513,8 @@ class ItemList extends Component {
         renderTag="div"
       >
         {this.state.reloading ?
-          <div sx={{
-            position: 'relative',
-            margin: '0 auto',
-            padding: 0,
-            width: '100%',
-            height: '50vh',
-          }}>
-            <Spinner
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            />
+          <div>
+            <div>Spinner</div>
           </div>
           :
           <>
@@ -570,15 +524,8 @@ class ItemList extends Component {
                 : this.getItemsBlockForListViewMode(items)
             }
             {this.state.working ?
-              <div sx={{width: '100%', height: '10vh', position: 'relative'}}>
-                <Spinner
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                />
+              <div>
+                Spinner
               </div>
               : null}
           </>
@@ -593,23 +540,23 @@ class ItemList extends Component {
 
 export default ItemList;
 
-const Table = styled.table`
-  // border: 1px solid #dcdcdc;
-  //Row
-  tr:nth-of-type(odd) td{ background: #fff }
-  tr:nth-of-type(even) td{ background: #f5f4f4 }
-  // Hover
-  tr:hover td{ background: #e7e7ff;}
-`;
+// const Table = styled.table`
+//   // border: 1px solid #dcdcdc;
+//   //Row
+//   tr:nth-of-type(odd) td{ background: #fff }
+//   tr:nth-of-type(even) td{ background: #f5f4f4 }
+//   // Hover
+//   tr:hover td{ background: #e7e7ff;}
+// `;
 
-const TH = styled.th`
-  border-bottom: 1px solid #dcdcdc;
-  z-index: 1;
-  padding: 8px;
-  white-space: nowrap;
-  background: #fbfafa;
-  font-size: 11px;
-  text-align: left;
-  font-weight: 500;
-  text-transform: uppercase;
-`;
+// const TH = styled.th`
+//   border-bottom: 1px solid #dcdcdc;
+//   z-index: 1;
+//   padding: 8px;
+//   white-space: nowrap;
+//   background: #fbfafa;
+//   font-size: 11px;
+//   text-align: left;
+//   font-weight: 500;
+//   text-transform: uppercase;
+// `;
