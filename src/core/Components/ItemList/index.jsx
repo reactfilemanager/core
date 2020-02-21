@@ -3,13 +3,11 @@ import {
   dirsLoaded,
   setReloading, setSelectedItems,
 } from '../../state/actions';
-import Item from './Item';
 import {getApi} from '../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
 import {toast} from 'react-toastify';
-import debounce from 'lodash.debounce';
 import {EventBus, uuidv4} from '../../../helpers/Utils';
 import {
   ADD_FILTER,
@@ -24,6 +22,8 @@ import {
   TOGGLE_SELECT,
   UPDATE,
 } from '../../state/types';
+import GridItemListView from './GridItemListView';
+import TableItemListView from './TableItemListView';
 
 export const getSelectedItemProps = item => {
   return {
@@ -38,7 +38,6 @@ export const getSelectedItemProps = item => {
 class ItemList extends Component {
 
   state = {
-    max: 40,
     working: false,
     entries: {
       dirs: [],
@@ -49,9 +48,6 @@ class ItemList extends Component {
     viewmode: 'grid',
   };
   selected_entries = {};
-  max = 40;
-  increment = 30;
-  total = 0;
 
   componentDidMount() {
     EventBus.$on(FORCE_RENDER, this.forceRender);
@@ -66,7 +62,6 @@ class ItemList extends Component {
     EventBus.$on(SET_VIEWMODE, this.setViewMode);
     EventBus.$on(GET_CURRENT_DIR, this.sendCurrentDir);
     EventBus.$on(GET_CURRENT_DIRS, this.sendCurrentDirs);
-    this.getMain().addEventListener('scroll', this.infiniteLoader);
   }
 
   componentWillUnmount() {
@@ -82,7 +77,6 @@ class ItemList extends Component {
     EventBus.$off(SET_VIEWMODE, this.setViewMode);
     EventBus.$off(GET_CURRENT_DIR, this.sendCurrentDir);
     EventBus.$off(GET_CURRENT_DIRS, this.sendCurrentDirs);
-    this.getMain().removeEventListener('scroll', this.infiniteLoader);
   }
 
   sendCurrentDir = callback => {
@@ -266,38 +260,6 @@ class ItemList extends Component {
     this.readPath(this.state.path, callback);
   };
 
-  // region infinite loader
-  getMain = () => {
-    const main = this.refs.bottom.parentElement.parentElement;
-    if (main.tagName !== 'MAIN') {
-      throw new Error('Container could not be detected');
-    }
-    return main;
-  };
-
-  infiniteLoader = debounce(e => {
-    const offsetTop = this.refs.bottom.getBoundingClientRect().top;
-    const clientHeight = this.getMain().clientHeight;
-    if (offsetTop - 400 > clientHeight) {
-      return;
-    }
-
-    if (this.state.max >= this.total) {
-      return;
-    }
-
-    let max = this.state.max + this.increment;
-    if (max > this.total) {
-      max = this.total;
-    }
-
-    if (max !== this.state.max) {
-      this.setState({max});
-    }
-  }, 100);
-
-  // endregion
-
   // region utilities
   readPath = (path, callback) => {
     setReloading(true);
@@ -308,22 +270,7 @@ class ItemList extends Component {
       }
       dirsLoaded(path, entries.dirs);
 
-      const total_dirs = entries.dirs.length;
-      const total_files = entries.files.length;
-      this.total = total_dirs + total_files;
-
-      let state = {entries};
-      if (total_dirs > 80) {
-        state = {...state, max: 80};
-      }
-      else if (this.total > total_dirs + this.max) {
-        state = {...state, max: this.max};
-      }
-      else {
-        state = {...state, max: total_dirs + this.increment};
-      }
-
-      this.setState(state);
+      this.setState({entries});
       this.selected_entries = {};
       setSelectedItems([]);
 
@@ -374,52 +321,15 @@ class ItemList extends Component {
     return Object.values(this.selected_entries);
   };
 
-  handleContextMenu = e => {
+  handleContextMenu = () => {
     this.markAll(false);
   };
 
   // endregion
 
   // region rendering
-
-  getItemBlock = (item) => {
-    return (
-      <Item key={item.id} item={item} viewmode={this.state.viewmode} moveTo={this.setWorkingPath}/>
-    );
-  };
-
-  getItemsBlockForGridViewMode = (items) => {
-    if (items.dirs.length === 0 && items.files.length === 0) {
-      return (
-        <div>
-          {
-            this.state.reloading ?
-              <div>Spinner</div> :
-              <h4>No entry in this directory</h4>}
-        </div>
-      );
-    }
-
-    return (<div>
-      {items.dirs.length
-        ? (<>
-          <h4>Folders</h4>
-
-          <div>
-            {items.dirs.map(item => this.getItemBlock(item))}
-          </div>
-        </>)
-        : null}
-
-      {items.files.length
-        ? (<>      <h4>Files</h4>
-
-          <div>
-            {items.files.map(item => this.getItemBlock(item))}
-          </div>
-        </>)
-        : null}
-    </div>);
+  getListItemBlock = item => {
+    return <li key={item.id} onDoubleClick={() => this.setWorkingPath(item.path)}>{item.name}</li>;
   };
 
   getItemsBlockForListViewMode = items => {
@@ -433,7 +343,7 @@ class ItemList extends Component {
         <tr>
           <th width="1%" onClick={this.toggleCheckAll}>
             <label>
-              <checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
+              <input type="checkbox" checked={allChecked} ref="allCheck" onChange={e => e}/>
             </label>
           </th>
           <th width="1%"/>
@@ -443,41 +353,19 @@ class ItemList extends Component {
           <th width="10%">Last Modified</th>
         </tr>
         </thead>
-        <tbody>
-        {_items.length
-          ? _items.map(item => this.getItemBlock(item))
-          : <tr>
-            <td colSpan={6}>Empty</td>
-          </tr>
-        }
-        </tbody>
+        <TableItemListView
+          selectedItems={this.selectedItems}
+          items={items}
+          moveTo={this.setWorkingPath}
+          reloading={this.state.reloading}/>
       </table>
     );
   };
 
   getItems = () => {
-    let entries = Object.values(this.state.filters).reduce((entries, fn) => {
+    return Object.values(this.state.filters).reduce((entries, fn) => {
       return fn(entries);
     }, cloneDeep(this.state.entries));
-
-    this.total = entries.dirs.length + entries.files.length;
-
-    const total_dirs = entries.dirs.length;
-    let maxDirs = 0;
-
-    if (total_dirs < this.state.max) {
-      maxDirs = total_dirs;
-    }
-    else {
-      maxDirs = this.state.max;
-    }
-
-    entries = {
-      dirs: entries.dirs.slice(0, maxDirs),
-      files: entries.files.slice(0, this.state.max - maxDirs),
-    };
-
-    return entries;
   };
 
   getAttributes = () => {
@@ -498,8 +386,13 @@ class ItemList extends Component {
     };
   };
 
+  get selectedItems() {
+    return Object.keys(this.selected_entries);
+  }
+
   render() {
     const items = this.getItems();
+    const {viewmode, working, reloading} = this.state;
 
     return (
       <ContextMenuTrigger
@@ -512,18 +405,22 @@ class ItemList extends Component {
         attributes={this.getAttributes()}
         renderTag="div"
       >
-        {this.state.reloading ?
+        {reloading ?
           <div>
             <div>Spinner</div>
           </div>
           :
           <>
             {
-              this.state.viewmode === 'grid'
-                ? this.getItemsBlockForGridViewMode(items)
+              viewmode === 'grid'
+                ? <GridItemListView
+                  selectedItems={this.selectedItems}
+                  items={items}
+                  moveTo={this.setWorkingPath}
+                  reloading={reloading}/>
                 : this.getItemsBlockForListViewMode(items)
             }
-            {this.state.working ?
+            {working ?
               <div>
                 Spinner
               </div>
