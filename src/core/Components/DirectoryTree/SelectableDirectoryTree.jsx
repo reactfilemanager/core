@@ -39,6 +39,8 @@ class SelectableDirectoryTree extends Component {
     EventBus.$on(RESET_DIRECTORY_TREE, this.removeFromTree);
     EventBus.$on(FORCE_RENDER, this.forceRender);
 
+    this.addSortByName();
+
     this.preload();
   }
 
@@ -58,6 +60,29 @@ class SelectableDirectoryTree extends Component {
     });
   };
 
+  addSortByName = () => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        tree_sort_by_name: this.sortByName,
+      }
+    });
+  };
+
+  sortByName = entries => {
+    entries.dirs = entries.dirs.sort((dir1, dir2) => {
+      if(dir1.name > dir2.name) {
+        return 1;
+      }
+      if(dir1.name < dir2.name) {
+        return -1;
+      }
+      return 0;
+    });
+
+    return entries;
+  };
+
   forceRender = () => this.forceUpdate();
 
   sendTreeState = callback => {
@@ -69,6 +94,8 @@ class SelectableDirectoryTree extends Component {
   addFilter = (_filters) => {
     let {filters} = this.state;
     filters = {...filters, ..._filters};
+    delete filters.search;
+
     this.setState({filters});
   };
 
