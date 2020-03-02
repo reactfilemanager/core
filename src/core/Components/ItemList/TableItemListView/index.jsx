@@ -53,16 +53,16 @@ class TableItemListView extends ListViewBase {
             : item.name
         }
         </td>
-        <td>
+        <td className="filesize">
           {item.is_file ? item.size.toHumanFileSize() : ''}
         </td>
-        <td>
+        <td className="filepermission">
           {item.perms}
         </td>
-        <td>
+        <td className="modified">
           {item.last_modified.toHumanFormat()}
         </td>
-        <td/>
+        {/*<td/>*/}
       </ContextMenuTrigger>
     );
   };

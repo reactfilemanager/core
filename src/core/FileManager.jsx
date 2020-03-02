@@ -58,7 +58,7 @@ export default class FileManager extends React.Component {
     }
 
     return (
-        <div>
+        <div className="reactfilemanager-wrapper">
           {navs.length > 1
               ? <Flex sx={{bg: '#f5f5f5'}}>
                 {navs}
