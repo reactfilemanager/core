@@ -87,7 +87,7 @@ export default class FileManagerCore extends React.Component {
                   overflowY: 'auto',
                 }}>
 
-              {/*<DirectoryTree/>*/}
+              <DirectoryTree/>
 
               {/* <Flex sx={{
             position: 'fixed',
