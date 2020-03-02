@@ -26,6 +26,9 @@ class Breadcrumb extends Component {
   moveTo = (e, path) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if(this.state.path === path) return;
+
     this.setState({path});
     setWorkingPath(path);
   };
@@ -50,7 +53,7 @@ class Breadcrumb extends Component {
           return <NavLink
                   href="#!"
                   key={nPath}
-                  onClick={e => this.moveTo(e, '/')}
+                  onClick={e => this.moveTo(e, '')}
                   sx={{
                     'svg': {
                       width: '16px',
