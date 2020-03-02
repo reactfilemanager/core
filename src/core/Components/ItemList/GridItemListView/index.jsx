@@ -23,7 +23,7 @@ class GridItemListView extends ListViewBase {
         ? (<>
           <h4>Folders</h4>
 
-          <div>
+          <div className="folder-items">
             {items.dirs.map(item => (
               <div key={item.id} className={this.className(item)}>
                 {this.getFolderBlock(item)}
@@ -36,7 +36,7 @@ class GridItemListView extends ListViewBase {
       {items.files.length
         ? (<>      <h4>Files</h4>
 
-          <div>
+          <div className="file-items">
             {items.files.map(item => (
               <div key={item.id} className={this.className(item)}>
                 {this.getFileBlock(item)}
