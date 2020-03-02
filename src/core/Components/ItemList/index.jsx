@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Checkbox} from 'theme-ui'
 import {
   dirsLoaded,
   setReloading, setSelectedItems,
@@ -391,7 +392,7 @@ class ItemList extends Component {
   getItemsBlockForGridViewMode = (items) => {
     if (items.dirs.length === 0 && items.files.length === 0) {
       return (
-        <div>
+        <div className="fm-flex fm-flex-center fm-height-100">
           {
             this.state.reloading ?
               <div>Spinner</div> :
@@ -400,21 +401,22 @@ class ItemList extends Component {
       );
     }
 
-    return (<div>
+    return (<div className="fm-p-3">
       {items.dirs.length
         ? (<>
           <h4>Folders</h4>
 
-          <div>
+          <div className="fm-grid-4">
             {items.dirs.map(item => this.getItemBlock(item))}
           </div>
         </>)
         : null}
 
       {items.files.length
-        ? (<>      <h4>Files</h4>
+        ? (<>      
+          <h4>Files</h4>
 
-          <div>
+          <div className="fm-grid-4">
             {items.files.map(item => this.getItemBlock(item))}
           </div>
         </>)
@@ -433,7 +435,7 @@ class ItemList extends Component {
         <tr>
           <th width="1%" onClick={this.toggleCheckAll}>
             <label>
-              <checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
+              <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
             </label>
           </th>
           <th width="1%"/>
@@ -486,6 +488,7 @@ class ItemList extends Component {
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
       id: 'fm-content-holder',
+      className: 'fm-height-100'
     };
   };
 

@@ -26,3 +26,30 @@ $rt-color-error: #DE3618;
   max-height: 220px;
   overflow: scroll;
 }
+
+#rfm{
+  @import "_table";
+
+  .fm-flex{
+    display: flex;
+  }
+  .fm-flex-center{
+    align-items: center;
+    justify-content: center;
+  }
+  .fm-height-100{
+    height: 100%;
+  }
+  // Padding
+  .fm-p-1{ padding: 4px }
+  .fm-p-2{ padding: 8px; }
+  .fm-p-3{ padding: 16px; }
+  .fm-px-1{ padding-left: 4px; padding-right: 4px; }
+  .fm-px-2{ padding-left: 8px; padding-right: 8px; }
+  .fm-px-3{ padding-left: 16px; padding-right: 16px; }
+
+  // Gird
+  .fm-grid-4{
+    display: grid;
+  }
+}
