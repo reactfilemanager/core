@@ -54,27 +54,23 @@ class Breadcrumb extends Component {
                   href="#!"
                   key={nPath}
                   onClick={e => this.moveTo(e, '')}
-                  sx={{
-                    'svg': {
-                      width: '16px',
-                      height: '16px'
-                    }
-                  }}>
+                  className="fm-br-dir fm-br-dir-root" 
+                  
+                >
                     {icons.home} <span className="rootName">My Drive</span>
                 </NavLink>
         }
 
         return (
           <React.Fragment key={nPath}>
-            <span sx={{ px: 2, color: 'gray'}} > 
-              <svg class="a-s-fa-Ha-pa" width="20px" height="20px" viewBox="0 0 20 20" focusable="false" fill="#000000"><polygon points="8,5 13,10 8,15"></polygon></svg> 
+            <span className="fm-br-arrow" sx={{ px: 2, color: 'gray'}} > 
+              <svg className="a-s-fa-Ha-pa" width="20px" height="20px" viewBox="0 0 20 20" focusable="false" fill="#000000"><polygon points="8,5 13,10 8,15"></polygon></svg> 
             </span>
             <NavLink
               href='#!'
-              className={isActive ? 'active' : ''}
+              className={ 'fm-br-dir ' + (isActive ? 'active' : '')}
               aria-current={isActive ? 'page' : undefined}
               onClick={e => this.moveTo(e, nPath)}
-
               sx={{
                 fontSize: 14,
                 fontWeight: 'body'
@@ -92,7 +88,7 @@ class Breadcrumb extends Component {
     const Breadcrumbs = this.getBreadCrumbs();
 
     return (
-        <Flex as='nav' aria-label="breadcrumb" sx={{ lineHeight: '16px' }}>
+        <Flex className="fm-breadcrumb" as='nav' aria-label="breadcrumb" sx={{ lineHeight: '16px' }}>
           {Breadcrumbs}
         </Flex>
 

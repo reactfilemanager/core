@@ -64,7 +64,9 @@ class GridItemListView extends ListViewBase {
           attributes={this.getAttributes(item)}
           style={{height: '100%'}}
         >
-          <img src={this.thumb(item)} alt=""/>
+          <div className="folderThumb">
+            <img src={this.thumb(item)} alt=""/>
+          </div>
           <p>{item.name} {item.components}</p>
         </ContextMenuTrigger>
       </div>

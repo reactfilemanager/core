@@ -74,7 +74,7 @@ export default class FileManagerCore extends React.Component {
             </Flex>
           </header>
 
-          <Flex bg="white" sx={{width: '100%'}}>
+          <Flex className="filemanagerBody" bg="white" sx={{width: '100%'}}>
             <aside
                 sx={{
                   flexGrow: 1,
