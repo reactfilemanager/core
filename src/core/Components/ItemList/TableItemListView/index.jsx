@@ -9,12 +9,13 @@ class TableItemListView extends ListViewBase {
     e.preventDefault();
     e.stopPropagation();
 
-    this.toggleSelect(true, false);
+    this.toggleSelect(item, true, false);
   };
 
   render() {
     const {items} = this.props;
     const _items = [...items.dirs, ...items.files];
+
     return (
       <tbody>
       {_items.length
@@ -29,6 +30,8 @@ class TableItemListView extends ListViewBase {
   }
 
   getRow = item => {
+    const checked = this.props.selectedItems.indexOf(item.id) > -1;
+
     return (
       <ContextMenuTrigger
         key={item.id}
@@ -40,12 +43,12 @@ class TableItemListView extends ListViewBase {
         renderTag="tr"
       >
         <td onClick={this.toggleCheck(item)}>
-          <label>
-            <input type="checkbox" checked={item.selected} onChange={e => e}/>
+          <label style={{pointerEvents: 'none'}}>
+            <input type="checkbox" checked={checked} readOnly/>
           </label>
         </td>
         <td>
-          <img src={this.thumb(item)}/>
+          <img src={this.thumb(item)} />
         </td>
         <td> {
           item.is_dir ?
