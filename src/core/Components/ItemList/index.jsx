@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Checkbox} from 'theme-ui'
+import {Checkbox} from 'theme-ui';
 import {
   dirsLoaded,
   setReloading, setSelectedItems,
@@ -47,8 +47,8 @@ class ItemList extends Component {
     filters: {},
     path: '',
     viewmode: 'grid',
+    selected_entries: {}
   };
-  selected_entries = {};
 
   componentDidMount() {
     EventBus.$on(FORCE_RENDER, this.forceRender);
@@ -118,30 +118,31 @@ class ItemList extends Component {
   };
 
   onItemsSelected = items => {
-    this.selected_entries = {};
+    const selected_entries = {};
     for (const item of items) {
-      this.selected_entries[item.id] = item;
+     selected_entries[item.id] = item;
     }
+    this.setState({selected_entries});
   };
 
   onRemove = item => {
-    const {entries} = this.state;
+    const {entries, selected_entries} = this.state;
     const remove = _item => {
       return _item.id !== item.id;
     };
 
-    if (this.selected_entries[item.id] !== undefined) {
-      delete this.selected_entries[item.id];
-      setSelectedItems(Object.values(this.selected_entries));
+    if (selected_entries[item.id] !== undefined) {
+      delete selected_entries[item.id];
+      setSelectedItems(Object.values(selected_entries));
     }
 
     entries.dirs = entries.dirs.filter(remove);
     entries.files = entries.files.filter(remove);
-    this.setState({entries});
+    this.setState({entries, selected_entries});
   };
 
   onUpdate = item => {
-    const {entries} = this.state;
+    const {entries, selected_entries} = this.state;
     const update = _item => {
       if (_item.id === item.id) {
         const prevId = _item.id;
@@ -151,9 +152,9 @@ class ItemList extends Component {
         _item.last_modified = new Date;
         _item.extra = item.extra;
 
-        if (this.selected_entries[prevId]) {
-          delete this.selected_entries[prevId];
-          this.selected_entries[_item.id] = this.getSelectedItemProps(_item);
+        if (selected_entries[prevId]) {
+          delete selected_entries[prevId];
+          selected_entries[_item.id] = this.getSelectedItemProps(_item);
         }
       }
       return _item;
@@ -162,13 +163,13 @@ class ItemList extends Component {
     entries.dirs = entries.dirs.map(update);
     entries.files = entries.files.map(update);
 
-    this.setState({entries});
+    this.setState({entries, selected_entries});
   };
 
   // region toggle select
   toggleSelect = ({ctrlKey, shiftKey, item_id}) => {
     let shouldMark = false;
-    let selected_entries = this.selected_entries;
+    let {selected_entries} = this.state;
     const lastSelectedItem = this.findLastSelected();
 
     const {dirs, files} = this.state.entries;
@@ -212,7 +213,7 @@ class ItemList extends Component {
       dirs.map(dir => this.markItemSelected(item_id, dir, ctrlKey, shiftKey)).map(mark);
       files.map(file => this.markItemSelected(item_id, file, ctrlKey, shiftKey)).map(mark);
     }
-    this.selected_entries = selected_entries;
+    this.setState({selected_entries});
     setSelectedItems(Object.values(selected_entries));
   };
 
@@ -229,7 +230,7 @@ class ItemList extends Component {
       return {selected: false};
     }
 
-    let selected = this.selected_entries[item.id] !== undefined;
+    let selected = this.state.selected_entries[item.id] !== undefined;
     if (item_id === item.id) {
       return {
         ...this.getSelectedItemProps(item),
@@ -271,8 +272,7 @@ class ItemList extends Component {
       }
       dirsLoaded(path, entries.dirs);
 
-      this.setState({entries});
-      this.selected_entries = {};
+      this.setState({entries, selected_entries: {}});
       setSelectedItems([]);
 
     }).catch(error => {
@@ -307,9 +307,8 @@ class ItemList extends Component {
     else {
       selected_entries = [];
     }
-    this.selected_entries = selected_entries;
+    this.setState({selected_entries});
     setSelectedItems(Object.values(selected_entries));
-    this.forceUpdate();
   };
 
   handleClick = e => {
@@ -319,7 +318,7 @@ class ItemList extends Component {
   };
 
   getSelectedItems = () => {
-    return Object.values(this.selected_entries);
+    return Object.values(this.state.selected_entries);
   };
 
   handleContextMenu = () => {
@@ -329,54 +328,8 @@ class ItemList extends Component {
   // endregion
 
   // region rendering
-
-  getItemBlock = (item) => {
-    return (
-      <Item key={item.id} item={item} viewmode={this.state.viewmode} moveTo={this.setWorkingPath}/>
-    );
-  };
-
-  getItemsBlockForGridViewMode = (items) => {
-    if (items.dirs.length === 0 && items.files.length === 0) {
-      return (
-        <div className="fm-flex fm-flex-center fm-height-100">
-          {
-            this.state.reloading ?
-              <div>Spinner</div> :
-              <h4>No entry in this directory</h4>}
-        </div>
-      );
-    }
-
-    return (<div className="fm-p-3">
-      {items.dirs.length
-        ? (<>
-          <h4>Folders</h4>
-
-          <div className="fm-grid-4">
-            {items.dirs.map(item => this.getItemBlock(item))}
-          </div>
-        </>)
-        : null}
-
-      {items.files.length
-        ? (<>      
-          <h4>Files</h4>
-
-          <div className="fm-grid-4">
-            {items.files.map(item => this.getItemBlock(item))}
-          </div>
-        </>)
-        : null}
-    </div>);
-  }
-  getListItemBlock = item => {
-    return <li key={item.id} onDoubleClick={() => this.setWorkingPath(item.path)}>{item.name}</li>;
-  };
-
   getItemsBlockForListViewMode = items => {
-    const _items = [...items.dirs, ...items.files];
-    const allChecked = Object.keys(this.selected_entries).length === this.state.entries.dirs.length +
+    const allChecked = Object.keys(this.state.selected_entries).length === this.state.entries.dirs.length +
       this.state.entries.files.length;
 
     return (
@@ -385,10 +338,10 @@ class ItemList extends Component {
         <tr>
           <th width="1%" onClick={this.toggleCheckAll}>
             <label>
-              <Checkbox checked={allChecked} ref="allCheck" onChange={e => e}/>
+              <Checkbox checked={allChecked} ref="allCheck" onChange={e => e} />
             </label>
           </th>
-          <th width="1%"/>
+          <th width="1%" />
           <th width="75%">Name</th>
           <th width="3%">Size</th>
           <th width="10%">Permission</th>
@@ -399,7 +352,7 @@ class ItemList extends Component {
           selectedItems={this.selectedItems}
           items={items}
           moveTo={this.setWorkingPath}
-          reloading={this.state.reloading}/>
+          reloading={this.state.reloading} />
       </table>
     );
   };
@@ -416,7 +369,7 @@ class ItemList extends Component {
       onClick: this.handleClick,
       onContextMenu: this.handleContextMenu,
       id: 'fm-content-holder',
-      className: 'fm-height-100'
+      className: 'fm-height-100',
     };
   };
 
@@ -430,7 +383,7 @@ class ItemList extends Component {
   };
 
   get selectedItems() {
-    return Object.keys(this.selected_entries);
+    return Object.keys(this.state.selected_entries);
   }
 
   render() {
@@ -460,7 +413,7 @@ class ItemList extends Component {
                   selectedItems={this.selectedItems}
                   items={items}
                   moveTo={this.setWorkingPath}
-                  reloading={reloading}/>
+                  reloading={reloading} />
                 : this.getItemsBlockForListViewMode(items)
             }
             {working ?
@@ -470,7 +423,7 @@ class ItemList extends Component {
               : null}
           </>
         }
-        <div ref="bottom"/>
+        <div ref="bottom" />
       </ContextMenuTrigger>
     );
   }
