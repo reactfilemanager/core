@@ -47,7 +47,7 @@ class ItemList extends Component {
     filters: {},
     path: '',
     viewmode: 'grid',
-    selected_entries: {}
+    selected_entries: {},
   };
 
   componentDidMount() {
@@ -120,7 +120,7 @@ class ItemList extends Component {
   onItemsSelected = items => {
     const selected_entries = {};
     for (const item of items) {
-     selected_entries[item.id] = item;
+      selected_entries[item.id] = item;
     }
     this.setState({selected_entries});
   };
