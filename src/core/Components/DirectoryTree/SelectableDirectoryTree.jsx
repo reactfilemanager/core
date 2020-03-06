@@ -190,7 +190,7 @@ class SelectableDirectoryTree extends Component {
     if (!_dir) {
       // not found? add it
       _dir = {
-        name: dir === '' ? '/' : dir,
+        name: dir === '' ? 'My Drive' : dir,
         path: _path,
         key: _path,
         loaded: false,
