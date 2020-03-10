@@ -20,7 +20,7 @@ class Uploader extends Component {
   }
 
   closeDropdown = e => {
-    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path)) {
+    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path) || this.refs.btn.isIn(e.path)) {
       return;
     }
     this.setState({isOpen: false});

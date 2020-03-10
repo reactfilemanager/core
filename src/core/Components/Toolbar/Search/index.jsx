@@ -25,8 +25,8 @@ class Search extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.sort !== prevState.sort ||
-        this.state.sortBy !== prevState.sortBy
-        || this.state.query !== prevState.query) {
+      this.state.sortBy !== prevState.sortBy
+      || this.state.query !== prevState.query) {
       forceRender();
     }
   }
@@ -36,7 +36,7 @@ class Search extends Component {
   };
 
   closeDropdown = e => {
-    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path)) {
+    if (!this.refs.dropdown || this.refs.dropdown.isIn(e.path) || this.refs.btn.isIn(e.path)) {
       return;
     }
 
@@ -146,34 +146,34 @@ class Search extends Component {
   getSortDropdownItems = (items, check, callback) => {
     return Object.keys(items).map(key => {
       return (
-          <a sx={{
-            display: 'block',
-            color: 'gray',
-            textDecoration: 'none',
-            pl: 4,
-            py: 1,
-            position: 'relative',
-            fontSize: 13,
-            '&:hover': {
-              bg: 'primaryLight',
-            },
-            '> span': {
-              position: 'absolute',
-              top: '4px',
-              left: '6px',
-            },
-            'svg': {
-              width: 18,
-              height: 18,
-            },
-            'svg *': {
-              stroke: 'primary',
-            },
-          }}
-             key={key}
-             href="#"
-             onClick={() => callback(key)}
-          >{check(key) ? icons.check : null} {items[key]}</a>
+        <a sx={{
+          display: 'block',
+          color: 'gray',
+          textDecoration: 'none',
+          pl: 4,
+          py: 1,
+          position: 'relative',
+          fontSize: 13,
+          '&:hover': {
+            bg: 'primaryLight',
+          },
+          '> span': {
+            position: 'absolute',
+            top: '4px',
+            left: '6px',
+          },
+          'svg': {
+            width: 18,
+            height: 18,
+          },
+          'svg *': {
+            stroke: 'primary',
+          },
+        }}
+           key={key}
+           href="#"
+           onClick={() => callback(key)}
+        >{check(key) ? icons.check : null} {items[key]}</a>
       );
     });
   };
@@ -189,57 +189,57 @@ class Search extends Component {
 
   render() {
     return (
-        <div sx={{position: 'relative', marginLeft: 1}}>
-          <Input
-              placeholder="Search..."
-              ref="searchInput"
-              onChange={this.handleQueryChange}/>
+      <div sx={{position: 'relative', marginLeft: 1}}>
+        <Input
+          placeholder="Search..."
+          ref="searchInput"
+          onChange={this.handleQueryChange} />
 
-          <Button
-              sx={{
-                position: 'absolute',
-                right: '8px',
-                top: '8px',
-                bg: '#eee',
-                p: 1,
-                borderRadius: '50px',
-                'svg': {
-                  width: 14,
-                  height: 14,
-                },
-                transition: 'transform 300ms',
-                transform: this.state.isOpen
-                    ? 'rotateZ(180deg)'
-                    : 'rotateZ(0deg)',
-              }}
-              variant="utility"
-              type="button"
-              aria-expanded="false"
-              onClick={this.toggleDropdown}
-              ref="btn">
-            {icons.triangle_down}
-          </Button>
-          {this.state.isOpen
-              ? <div ref="dropdown" sx={{
-                position: 'absolute',
-                top: '40px',
-                right: '0px',
-                background: 'white',
-                py: 3,
-                boxShadow: '0 0 4px #ccc',
-                width: '100%',
-                borderRadius: '3px',
-                zIndex: 99,
-              }}>
+        <Button
+          sx={{
+            position: 'absolute',
+            right: '8px',
+            top: '8px',
+            bg: '#eee',
+            p: 1,
+            borderRadius: '50px',
+            'svg': {
+              width: 14,
+              height: 14,
+            },
+            transition: 'transform 300ms',
+            transform: this.state.isOpen
+              ? 'rotateZ(180deg)'
+              : 'rotateZ(0deg)',
+          }}
+          variant="utility"
+          type="button"
+          aria-expanded="false"
+          onClick={this.toggleDropdown}
+          ref="btn">
+          {icons.triangle_down}
+        </Button>
+        {this.state.isOpen
+          ? <div ref="dropdown" sx={{
+            position: 'absolute',
+            top: '40px',
+            right: '0px',
+            background: 'white',
+            py: 3,
+            boxShadow: '0 0 4px #ccc',
+            width: '100%',
+            borderRadius: '3px',
+            zIndex: 99,
+          }}>
 
-                {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
+            {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
 
-                <Divider/>
+            <Divider />
 
-                {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
-              </div>
-              : null}
-        </div>
+            {this.getSortDropdownItems(this.sortItems, this.isSort, this.sort)}
+          </div>
+          : null}
+      </div>
     );
   }
 }
