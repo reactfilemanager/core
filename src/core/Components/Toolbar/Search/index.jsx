@@ -189,8 +189,12 @@ class Search extends Component {
 
   render() {
     return (
-      <div sx={{position: 'relative', marginLeft: 1}}>
-        <Input
+      <div className="search-wrapper" sx={{position: 'relative', marginLeft: 1}}>
+        
+        <span className="tag">Image <span className="remove" data-role="remove">x</span></span>
+
+        <input
+          className="search"
           placeholder="Search..."
           ref="searchInput"
           onChange={this.handleQueryChange} />

@@ -21,7 +21,7 @@ class GridItemListView extends ListViewBase {
     return (<div>
       {items.dirs.length
         ? (<>
-          <h4>Folders</h4>
+          <h4 className="heading-title">Folders</h4>
 
           <div className="folder-items">
             {items.dirs.map(item => (
@@ -34,7 +34,7 @@ class GridItemListView extends ListViewBase {
         : null}
 
       {items.files.length
-        ? (<>      <h4>Files</h4>
+        ? (<><h4 className="heading-title">Files</h4>
 
           <div className="file-items">
             {items.files.map(item => (

@@ -84,6 +84,7 @@ class FilterByType extends Component {
             // flex: '56%',
             // maxWidth: '56%'
           }}
+          className="typeFilter"
         >
           {this.getFilters()}
         </Flex>

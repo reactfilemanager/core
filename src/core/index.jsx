@@ -47,7 +47,7 @@ export default class FileManagerCore extends React.Component {
             borderBottom: '1px solid #ddd',
             py: 2, px: 3,
           }}>
-            <Flex>
+            <Flex className="header-left">
               <Toolbar children={defaultConfig.toolbar}
               />
 
@@ -57,20 +57,22 @@ export default class FileManagerCore extends React.Component {
                   : null}
             </Flex>
 
-            <Flex sx={{alignItems: 'center'}}>
-              <div>
+            <Flex className="header-right" sx={{alignItems: 'center'}}>
+              <div className="header-filter" sx={{
+                marginRight: '10px'
+              }}>
                 {
                   defaultConfig.utility ?
                       <Toolbar children={defaultConfig.utility}/>
                       : null
                 }
               </div>
-              <>
+              <div className="header-search">
                 {
                   defaultConfig.search ?
                       <Toolbar children={defaultConfig.search}/> : null
                 }
-              </>
+              </div>
             </Flex>
           </header>
 

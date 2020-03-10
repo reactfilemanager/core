@@ -1,0 +1,21 @@
+// breadcrumb
+.fm-breadcrumb{
+  .fm-br-dir{
+
+  }
+  .fm-br-dir-root *,
+  .fm-br-dir-root{
+    display: flex;
+    height: 19px;
+    line-height: 19px;
+  }
+  .rootName{
+    margin-left: 6px;
+  }
+  .fm-br-dir,
+  .fm-br-arrow{
+    height: 19px;
+    line-height: 19px;
+    font-weight: bold;
+  }
+}
