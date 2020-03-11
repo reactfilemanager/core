@@ -2,6 +2,7 @@ import React from 'react';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../../ContextMenu';
 import ListViewBase from '../ListViewBase';
+import {Checkbox} from 'theme-ui';
 
 class TableItemListView extends ListViewBase {
 
@@ -22,7 +23,11 @@ class TableItemListView extends ListViewBase {
         ?
         _items.map(item => this.getRow(item))
         : <tr>
-          <td colSpan={6}>Empty</td>
+          <td colSpan={6}>
+            <div className="fm-alert empty">
+                <p>This folder is empty. Add some files or create folder.</p>
+              </div>
+          </td>
         </tr>
       }
       </tbody>
@@ -43,19 +48,20 @@ class TableItemListView extends ListViewBase {
         renderTag="tr"
       >
         <td onClick={this.toggleCheck(item)}>
-          <label style={{pointerEvents: 'none'}}>
-            <input type="checkbox" checked={checked} readOnly/>
+          <label className="checkbox" style={{pointerEvents: 'none'}}>
+            {/*<input type="checkbox" checked={checked} readOnly/>*/}
+            <Checkbox checked={checked} readOnly/>
           </label>
         </td>
         <td>
-          <img src={this.thumb(item)} />
+          <div className="d-flex">
+          <img src={this.thumb(item)} width="20px"/>
+          {
+            <p className="file-name">{item.name}</p>
+          }
+          </div>
         </td>
-        <td> {
-          item.is_dir ?
-            <p>{item.name}</p>
-            : item.name
-        }
-        </td>
+        
         <td className="filesize">
           {item.is_file ? item.size.toHumanFileSize() : ''}
         </td>
@@ -65,7 +71,6 @@ class TableItemListView extends ListViewBase {
         <td className="modified">
           {item.last_modified.toHumanFormat()}
         </td>
-        {/*<td/>*/}
       </ContextMenuTrigger>
     );
   };

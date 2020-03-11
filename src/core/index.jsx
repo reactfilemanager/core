@@ -36,17 +36,7 @@ export default class FileManagerCore extends React.Component {
 
     return (
         <div>
-          <header sx={{
-            background: 'lightGray',
-            position: 'sticky', top: 0, left: 0, right: 0,
-            zIndex: '9999',
-            width: '100%', height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            borderBottom: '1px solid #ddd',
-            py: 2, px: 3,
-          }}>
+          <header>
             <Flex className="header-left">
               <Toolbar children={defaultConfig.toolbar}
               />
@@ -57,10 +47,8 @@ export default class FileManagerCore extends React.Component {
                   : null}
             </Flex>
 
-            <Flex className="header-right" sx={{alignItems: 'center'}}>
-              <div className="header-filter" sx={{
-                marginRight: '10px'
-              }}>
+            <Flex className="header-right">
+              <div className="header-filter">
                 {
                   defaultConfig.utility ?
                       <Toolbar children={defaultConfig.utility}/>
@@ -76,18 +64,8 @@ export default class FileManagerCore extends React.Component {
             </Flex>
           </header>
 
-          <Flex className="filemanagerBody" bg="white" sx={{width: '100%'}}>
-            <aside
-                sx={{
-                  flexGrow: 1,
-                  flexBasis: 'sidebar',
-                  background: 'gray',
-                  borderRight: '1px solid #ddd',
-                  height: '100vh',
-                  width: 'sidebar',
-                  overflowX: 'hidden',
-                  overflowY: 'auto',
-                }}>
+          <Flex className="filemanagerBody" bg="white">
+            <aside className="aside-content">
 
               <DirectoryTree/>
 
@@ -120,16 +98,10 @@ export default class FileManagerCore extends React.Component {
           </Flex> */}
 
             </aside>
-            <main
-                sx={{
-                  flexGrow: 99999,
-                  flexBasis: 0,
-                  height: 'calc(100vh - 50px)',
-                  overflowX: 'hidden',
-                  overflowY: 'auto',
-                }}>
-
-              <div sx={{
+            <main className="main-content">
+              <div 
+                className="fm-breadcrumb-wrapper"
+              sx={{
                 py: 2, px: 3,
                 borderBottom: '1px solid #ddd',
               }}>

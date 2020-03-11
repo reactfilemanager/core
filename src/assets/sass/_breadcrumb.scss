@@ -1,8 +1,8 @@
 // breadcrumb
 .fm-breadcrumb{
-  .fm-br-dir{
+  width: 100%;
+  overflow: auto;
 
-  }
   .fm-br-dir-root *,
   .fm-br-dir-root{
     display: flex;
@@ -17,5 +17,6 @@
     height: 19px;
     line-height: 19px;
     font-weight: bold;
+    min-width: fit-content;
   }
 }

@@ -74,6 +74,8 @@ class FilterByType extends Component {
       return;
     }
     this.setState({type});
+
+    document.getElementById('files-heading').scrollIntoView({behavior: 'smooth'});
   };
 
   render() {

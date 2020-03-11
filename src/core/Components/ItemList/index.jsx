@@ -333,7 +333,7 @@ class ItemList extends Component {
       this.state.entries.files.length;
 
     return (
-      <table>
+      <table className="fm-list-table">
         <thead>
         <tr>
           <th width="1%" onClick={this.toggleCheckAll}>
@@ -341,7 +341,6 @@ class ItemList extends Component {
               <Checkbox checked={allChecked} ref="allCheck" onChange={e => e} />
             </label>
           </th>
-          <th width="1%" />
           <th width="75%">Name</th>
           <th width="3%">Size</th>
           <th width="10%">Permission</th>
@@ -403,7 +402,10 @@ class ItemList extends Component {
       >
         {reloading ?
           <div>
-            <div>Spinner</div>
+            <div style={{
+              textAlign: 'center',
+              marginTop: '50px'
+            }}><svg viewBox="0 0 32 32" width="48" height="48" stroke-width="4" fill="none" stroke="currentcolor" role="img" className="css-qhckx3"><title>Loading...</title><circle cx="16" cy="16" r="12" opacity="0.125"></circle><circle cx="16" cy="16" r="12" stroke-dasharray="75.39822368615503" stroke-dashoffset="56.548667764616276" className="svg-spin"></circle></svg></div>
           </div>
           :
           <>
@@ -417,9 +419,7 @@ class ItemList extends Component {
                 : this.getItemsBlockForListViewMode(items)
             }
             {working ?
-              <div>
-                Spinner
-              </div>
+              <svg viewBox="0 0 32 32" width="48" height="48" stroke-width="4" fill="none" stroke="currentcolor" role="img" className="css-qhckx3"><title>Loading...</title><circle cx="16" cy="16" r="12" opacity="0.125"></circle><circle cx="16" cy="16" r="12" stroke-dasharray="75.39822368615503" stroke-dashoffset="56.548667764616276" className="svg-spin"></circle></svg>
               : null}
           </>
         }

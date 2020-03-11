@@ -12,17 +12,20 @@ class GridItemListView extends ListViewBase {
         <div>
           {
             this.props.reloading ?
-              <div>Spinner</div> :
-              <h4>No entry in this directory</h4>}
+              <svg viewBox="0 0 32 32" width="48" height="48" stroke-width="4" fill="none" stroke="currentcolor" role="img" class="css-qhckx3"><title>Loading...</title><circle cx="16" cy="16" r="12" opacity="0.125"></circle><circle cx="16" cy="16" r="12" stroke-dasharray="75.39822368615503" stroke-dashoffset="56.548667764616276" class="css-wpcq6n"></circle></svg> :
+              <div className="fm-alert empty">
+                <p>This folder is empty. Add some files or create folder.</p>
+              </div>
+          }
         </div>
       );
     }
 
     return (<div>
+      <h4 id="folders-heading" className="heading-title">Folders</h4>
+
       {items.dirs.length
         ? (<>
-          <h4 className="heading-title">Folders</h4>
-
           <div className="folder-items">
             {items.dirs.map(item => (
               <div key={item.id} className={this.className(item)}>
@@ -31,11 +34,13 @@ class GridItemListView extends ListViewBase {
             ))}
           </div>
         </>)
-        : null}
+        : <div className="fm-alert">
+          <p>No sub directory found.</p>
+        </div>}
 
+      <h4 id="files-heading" className="heading-title">Files</h4>
       {items.files.length
-        ? (<><h4 className="heading-title">Files</h4>
-
+        ? (<>
           <div className="file-items">
             {items.files.map(item => (
               <div key={item.id} className={this.className(item)}>
@@ -44,7 +49,9 @@ class GridItemListView extends ListViewBase {
             ))}
           </div>
         </>)
-        : null}
+        : <div className="fm-alert">
+          <p>No items match your search</p>
+        </div>}
     </div>);
   }
 

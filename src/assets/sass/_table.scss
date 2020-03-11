@@ -2,20 +2,53 @@ table{
   border-collapse: collapse;
   thead{
     tr th{
-      background: #efeffe;
+      // background: #efeffe;
       text-align: left;
       font-size: 13px;
       padding: 8px;
+      text-align: center;
     }
   }
   tbody{
     tr{
-      &:nth-child(even){
-        background: #f5f5f5;
-      }
+      // &:nth-child(even){
+      //   background: #f5f5f5;
+      // }
       &:hover{
         background: #efeffe;
       }
     }
   }
+}
+.reactfilemanager-wrapper{
+  table.fm-list-table{
+    position: relative;
+    border-collapse: collapse;
+
+    th{
+      background: white;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    }
+  }
+  table .react-contextmenu-wrapper{
+    .checkbox{
+      width: 15px;
+      padding: 0px;
+    }
+    &.selected{
+      background: #efeffe; 
+    }
+    td, 
+    th {
+      padding: .75rem;
+      vertical-align: top;
+      border-top: 1px solid #dee2e6;
+    }
+    .file-name{
+      margin-left: 10px;
+      font-weight: bold;
+    }
+  }  
 }

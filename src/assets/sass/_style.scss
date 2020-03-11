@@ -50,12 +50,35 @@
       width: 100%;
       height: auto;
       z-index: 1;
+
+      background: #f0f0f0;
+      
+      top: 0;
+      left: 0;
+      right: 0;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 16px;
+      padding-right: 16px;
   }
   .heading-title{
-    border-bottom: 1px solid #3334ee;
-    padding: 10px;
-    margin: 20px 0 20px;
-    background: #e8f0fe;
+    padding: 10px 0;
+    margin: 10px 0 0;
+    font-size: 22px;
+    font-weight: 300;
   }
   .filemanagerBody{
     position: absolute;
@@ -63,17 +86,49 @@
     bottom: 0px;
     left: 0;
     right: 0;
+    width: 100%;
   }
-  aside{
+  aside.aside-content{
       height: 100%;
       overflow: auto;
       flex-basis: 350px;
-
       background: transparent;
+
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      -webkit-flex-basis: 350px;
+      -ms-flex-preferred-size: 350px;
+      flex-basis: 350px;
+      border-right: 1px solid #ddd;
+      width: 350px;
+
   }
 
-  main{
-      height: 100%
+  main.main-content{
+      height: 100%;
+
+      -webkit-box-flex: 99999;
+    -webkit-flex-grow: 99999;
+    -ms-flex-positive: 99999;
+    flex-grow: 99999;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  .fm-alert{
+    color: #868585;
+    &.empty{
+      text-align: center;
+      padding: 16px 16px 0 16px;
+      font-size: 21px;
+      font-weight: 100;
+      margin: 0 auto;
+    }
   }
   .fm-file-block-root{
     margin: 0px !important;
@@ -118,7 +173,12 @@
     display: grid;
     grid-gap: 0;
     grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
-    margin: 0 -0.5rem 50px;
+    margin: 0 -0.5rem 30px;
+
+    .item-center{
+      display: flex;
+      align-items: center;
+    }
 
     .fm-item{
       display: -webkit-box;
@@ -294,6 +354,7 @@
   }
   td.modified {
       text-align: center;
+      min-width: 150px;
   }
 
   td.filepermission {
@@ -312,5 +373,15 @@
        border: 1px solid $primary;
        box-shadow: 0 0 10px lighten($primary, 40%);
     }
+  }
+
+  .header-right{
+    align-items: center;
+  }
+  .header-filter{
+    margin-right: 10px;
+  }
+  .d-flex{
+    display: flex;
   }
 }
