@@ -157,10 +157,39 @@
 
   ul.rc-tree{
       width: fit-content;
+
+      .rc-tree-treenode-selected .rc-tree-treenode-switcher-close.rc-tree-treenode-selected{
+        span.rc-tree-switcher_close{
+          stroke: #3333ee;
+          fill: #3333ee;
+        }
+      }
+
+      .rc-tree-treenode-selected > .rc-tree-node-content-wrapper *{
+        color: #3333ee;
+        stroke: #3333ee;
+        fill: #3333ee;
+      }
+
+      .rc-tree-treenode-selected > span.rc-tree-switcher.rc-tree-switcher_open {
+          fill: #595ef2;
+          background: #e8f0fe;
+      }
+
+      .rc-tree-switcher {
+        width: 28px;
+      }
+
+      .rc-tree-node-content-wrapper {
+        width: calc(100% - 28px);
+      }
   }
-  
+  .rc-tree-treenode-selected > .rc-tree-switcher-noop,
+  .rc-tree-treenode-selected > .rc-tree-switcher_close{
+    background-color: #e8f0fe;
+  }  
   .rc-tree-node-content-wrapper{
-    padding: 6px 10px;
+    padding: 4px 10px;
 
     &.rc-tree-node-selected {
         background-color: #e8f0fe;
@@ -307,7 +336,7 @@
     }
 
     .fm-file-info {
-        background: #f1f1f1;
+        background: transparent;
         padding: 5px;
         border-top: 1px solid #ddd;
         font-size: 12px;
@@ -327,6 +356,7 @@
     .fm-file-thumb img,
     .fm-file-thumb{
         height: 100%;
+        width: 100%;
     }
   }
   .file-items div.react-contextmenu-wrapper{

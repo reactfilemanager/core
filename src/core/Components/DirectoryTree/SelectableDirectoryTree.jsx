@@ -318,14 +318,9 @@ class SelectableDirectoryTree extends Component {
 
     return (
         <>
-          <Label sx={{
-            px: 3,
-            py: 3,
-            paddingBottom: 2,
-            textTransform: 'uppercase',
-            fontWeight: 'heading',
-            fontSize: 11,
-          }}>Folders</Label>
+          <h4 id="folders-heading" className="heading-title" style={{padding: '10px 20px', marginBottom: '10px'}}>
+            Folders
+          </h4>
           <Tree
               loadData={this.onLoadData}
               onSelect={this.onSelect}

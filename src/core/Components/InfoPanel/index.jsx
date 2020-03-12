@@ -61,7 +61,7 @@ class InfoPanel extends Component {
     const item = this.props.item;
     return (
       <div ref="panel" sx={{
-        position: 'fixed',
+        position: 'absolute',
         top: '0',
         right: 0,
         zIndex: 8,
@@ -69,12 +69,21 @@ class InfoPanel extends Component {
         height: '100%',
         bg: 'white',
         p: 3,
-        paddingTop: 5,
+        overflow: 'auto',
         borderLeft: '1px solid #ddd',
         transition: `transform ${this.timeout}ms ease-out`,
         transform: (this.state.isOpen ? 'translateX(0)' : 'translateX(340px)')
       }}>
-        <Heading as='h2'>{icons.info} Details</Heading>
+        <Heading as='h2' sx={{
+          borderBottom: '1px solid #f1f1f1',
+          paddingBottom: '10px'
+        }}>{icons.info} Details</Heading>
+        <Close sx={{
+          position: 'absolute',
+          top: 1,
+          right: '10px',
+          cursor: 'pointer'
+        }} onClick={this._remove} />
         <div sx={{ marginTop: 4 }}>
           <Block>
             <Image src={thumb(item.path)}/>
@@ -105,13 +114,6 @@ class InfoPanel extends Component {
             return <Block key={i}><_Block item={this.props.item}/></Block>
           })}
         </div>
-
-        <Close sx={{
-          position: 'absolute',
-          top: 5,
-          right: '10px',
-          cursor: 'pointer'
-        }} onClick={this._remove} />
       </div>
     );
   }
