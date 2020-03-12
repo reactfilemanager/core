@@ -195,36 +195,37 @@ class Upload extends Component {
   getUploadProgress = file => {
     return (
         <li key={`${file.name}_${file.size}`}>
-          <Flex>
-        <span sx={{
-          p: 2,
-          display: 'flex',
-          flex: '1',
-          borderRadius: 1,
-          '&:hover': {
-            bg: '#f4f4fe',
-          },
-          'svg': {marginRight: 2},
-        }}>
-          {
-            file.upload_complete ? file.upload_success ? icons.check : icons.warning : null
-          }
-          {file.name}
-        </span>
-            <span sx={{p: 2, width: '15%'}}>
-          {
-            file.upload_complete ? file.upload_success
-                ? file.size.toHumanFileSize()
-                : 'Failed' : <Progress max={1} value={file.progress}/>
-          }
-              {file.upload_complete && file.upload_error ? <div
-                  sx={{fontSize: 12, color: 'gray', marginTop: 2}}>{file.message}</div> : null}
-        </span>
+          <Flex sx={{
+            '&:hover': {
+              bg: '#f4f4fe',
+            },
+          }}>
+            <span sx={{
+              display: 'flex',
+              flex: '1',
+              borderRadius: 1,
+              'svg': {marginRight: 2},
+            }}>
+              {
+                file.upload_complete ? file.upload_success ? icons.check : icons.warning : null
+              }
+              {file.name}
+            </span>
+            <span>
+              {
+                file.upload_complete ? file.upload_success
+                    ? file.size.toHumanFileSize()
+                    : '' : <Progress max={1} value={file.progress}/>
+              }
+              {
+                file.upload_complete && file.upload_error ? <span style={{color: 'red'}}>{file.message }</span> : null
+              }
+            </span>
 
             {
               file.upload_success
                   ?
-                  <span sx={{p: 2, width: '5%'}}
+                  <span sx={{width: '5%'}}
                         onClick={() => this.removeFromUploads(file)}>
                   {icons.close}
                 </span> : ''
@@ -239,7 +240,6 @@ class Upload extends Component {
                       </>
                       : <span
                           sx={{
-                            p: 2,
                             width: '10%',
                             fontWeight: 'bold',
                             fontSize: 14,
@@ -268,8 +268,10 @@ class Upload extends Component {
 
   render() {
     return (
-        <div>
-          <Text>File Uploader</Text>
+        <div className="fm-uploadwindow">
+          <h3 className="folders-heading" sx={{
+            fontWeight: '300'
+          }}>File Uploader</h3>
           <Flex sx={{
             my: 3,
             p: 4,
@@ -284,6 +286,7 @@ class Upload extends Component {
             <strong
                 onClick={this.openFileInput}
                 sx={{
+                  alignItems: 'center',
                   color: 'primary',
                   cursor: 'pointer',
                   display: 'flex',
@@ -296,6 +299,14 @@ class Upload extends Component {
             p: 0,
             maxHeight: '200px',
             overflow: 'scroll',
+            margin: '0px',
+            'li' : {
+              position: 'relative',
+              display: 'block',
+              padding: '0px',
+              backgroundColor: '#fff',
+              borderBottom: '1px solid rgba(0,0,0,.125)'
+            }
           }}>
             {this.getUploads()}
           </ul>

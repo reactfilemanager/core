@@ -51,10 +51,35 @@ class Uploader extends Component {
   render() {
     return (
         <div sx={{position: 'relative'}}>
+          <div className="fm-btn-group" sx={{
+                  position: 'relative',
+                  display: 'inline-flex',
+                  verticalAlign: 'middle',
+          }}>
+            <Button onClick={this.handleUploadClick} ref="btn" sx={{
+              marginRight:'0px'
+            }}>
+              {icons.cloud_upload} Upload
+            </Button>
+            <Button
+              ref="btn"
+              sx={{
+                marginLeft: '-4px',
+                padding: '2px',
+                borderLeft: '2px solid #0001fb',
 
-          <Button onClick={this.toggleDropdown} ref="btn">
-            {icons.cloud_upload} Upload
-          </Button>
+                'svg': {
+                  width: 14,
+                  height: 14,
+                },
+                transition: 'transform 300ms'
+              }}
+              aria-expanded="false"
+              onClick={this.toggleDropdown}
+              ref="btn">
+              {icons.triangle_down}
+            </Button>
+          </div>
           {
             this.state.isOpen ?
                 <div ref="dropdown" sx={{
