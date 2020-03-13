@@ -7,13 +7,23 @@ import {EventBus, fuzzySearch} from '../../../../helpers/Utils';
 import icons from '../../../../assets/icons';
 import {SET_FILTER} from '../../../state/types';
 
+export const FILE_TYPES = {
+  video: ['mp4', 'mkv', 'flv', 'webm', 'fla', 'vob', '3gp'],
+  audio: ['ogg', 'acc', 'mp3', 'm4a', 'wav'],
+  image: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'ico', 'svg'],
+  docs: ['txt', 'html', 'css', 'js', 'php', 'log', 'inc', 'doc', 'docx', 'rtf', 'pdf'],
+};
+
 class Search extends Component {
 
-  state = {isOpen: false, sort: 'asc', sortBy: 'name', query: ''};
+  state = {isOpen: false, sort: 'asc', sortBy: 'name', query: '', type: null};
 
   componentDidMount() {
     // wait for the items list to render
-    setTimeout(() => addFilter({search: this.filter}), 300);
+    setTimeout(() => addFilter({
+      search: this.searchFilter,
+      type_filter: this.typeFilter,
+    }), 300);
     EventBus.$on(['click', 'contextmenu'], this.closeDropdown);
     EventBus.$on(SET_FILTER, this.setFilter);
   }
@@ -24,9 +34,10 @@ class Search extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.sort !== prevState.sort ||
-      this.state.sortBy !== prevState.sortBy
-      || this.state.query !== prevState.query) {
+    if (this.state.sort !== prevState.sort
+      || this.state.sortBy !== prevState.sortBy
+      || this.state.query !== prevState.query
+      || this.state.type !== prevState.type) {
       forceRender();
     }
   }
@@ -54,7 +65,15 @@ class Search extends Component {
   };
   isSort = key => this.state.sort === key;
 
-  filter = entries => {
+  isType = type => this.state.type === type;
+  setType = (type, noToggle = false) => {
+    this.setState({type});
+    if (!noToggle) {
+      this.toggleDropdown();
+    }
+  };
+
+  searchFilter = entries => {
     if (!entries) {
       return entries;
     }
@@ -72,6 +91,19 @@ class Search extends Component {
       dirs: this.performSort(entries.dirs),
       files: this.performSort(entries.files),
     };
+
+    return entries;
+  };
+
+  typeFilter = entries => {
+    if (!entries) {
+      return entries;
+    }
+    if (this.state.type !== null) {
+      entries.files = entries.files.filter(entry => {
+        return FILE_TYPES[this.state.type].indexOf(entry.extension) > -1;
+      });
+    }
 
     return entries;
   };
@@ -143,6 +175,15 @@ class Search extends Component {
     };
   }
 
+  get filterByTypeItems() {
+    return {
+      image: 'Image',
+      video: 'Video',
+      audio: 'Audio',
+      docs: 'Document',
+    };
+  }
+
   getSortDropdownItems = (items, check, callback) => {
     return Object.keys(items).map(key => {
       return (
@@ -190,8 +231,10 @@ class Search extends Component {
   render() {
     return (
       <div className="search-wrapper" sx={{position: 'relative', marginLeft: 1}}>
-        
-        <span className="tag">Image <span className="remove" data-role="remove">x</span></span>
+
+        {this.state.type &&
+        <span className="tag">{this.filterByTypeItems[this.state.type]}
+          <span className="remove" onClick={() => this.setType(null, false)} data-role="remove">x</span></span>}
 
         <input
           className="search"
@@ -235,6 +278,10 @@ class Search extends Component {
             borderRadius: '3px',
             zIndex: 99,
           }}>
+
+            {this.getSortDropdownItems(this.filterByTypeItems, this.isType, this.setType)}
+
+            <Divider />
 
             {this.getSortDropdownItems(this.sortByItems, this.isEnabled, this.sortBy)}
 

@@ -1,9 +1,9 @@
 /** @jsx jsx*/
-import {jsx, Box, Heading, Text, Close, Image } from 'theme-ui';
+import {jsx, Heading, Text, Close, Image } from 'theme-ui';
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 import icons from '../../../assets/icons';
-import {FILE_TYPES} from '../Toolbar/FilterByType';
+import {FILE_TYPES} from '../Toolbar/Search';
 import {removeSidePanel} from '../../state/actions';
 import {EventBus} from '../../../helpers/Utils';
 

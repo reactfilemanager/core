@@ -1,7 +1,7 @@
 import icons from '../../assets/icons';
 import AudioPlayer from './AudioPlayer';
 import React from 'react';
-import {FILE_TYPES} from '../../core/Components/Toolbar/FilterByType';
+import {FILE_TYPES} from '../../core/Components/Toolbar/Search';
 import {EventBus} from '../../helpers/Utils';
 
 let _fn = () => null;
