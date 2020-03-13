@@ -4,7 +4,7 @@ import icons from '../../../../assets/icons';
 import SelectableDirectoryTree from '../../DirectoryTree/SelectableDirectoryTree';
 import {getApi} from '../../../tools/config';
 import {toast} from 'react-toastify';
-import {getWorkingPath, injectModal, removeModal, setShouldReload} from '../../../state/actions';
+import {getSelectedItems, getWorkingPath, injectModal, removeModal, setShouldReload} from '../../../state/actions';
 import {EventBus} from '../../../../helpers/Utils';
 import {ITEMS_SELECTED} from '../../../state/types';
 
@@ -29,7 +29,7 @@ export const CopyButton = (move = false) => {
 
     handleCopyToClick = () => {
       const modal = (props) => {
-        return <Copy {...props} move={move}/>;
+        return <Copy {...props} move={move} />;
       };
 
       injectModal(modal);
@@ -41,14 +41,14 @@ export const CopyButton = (move = false) => {
       }
 
       return (
-          <Button
-              variant="secondary"
-              onClick={this.handleCopyToClick}
-          >
-            {move
-                ? <> {icons.move} Move</>
-                : <>{icons.copy} Copy</>}
-          </Button>
+        <Button
+          variant="secondary"
+          onClick={this.handleCopyToClick}
+        >
+          {move
+            ? <> {icons.move} Move</>
+            : <>{icons.copy} Copy</>}
+        </Button>
       );
     };
   };
@@ -72,19 +72,18 @@ class Copy extends Component {
     this.setState({path});
   };
 
-  getSelectedItems = () => {
-    return []; // TODO: getSelectedItems
-  };
-
   handleCopy = () => {
     this.setState({working: true});
     const promises = [];
-    this.getSelectedItems().forEach(item => {
-      promises.push(this.props.move
-          ? getApi().move('/', item.path, this.state.path)
-          : getApi().copy('/', item.path, this.state.path),
-      );
-    });
+    getSelectedItems()
+      .then(items => {
+        items.forEach(item => {
+          promises.push(this.props.move
+            ? getApi().move('/', item.path, this.state.path)
+            : getApi().copy('/', item.path, this.state.path),
+          );
+        });
+      });
 
     Promise.all(promises).then(response => {
       toast.success(`${this.btnText} successful`);
@@ -110,34 +109,34 @@ class Copy extends Component {
 
   render() {
     return (
-        <Flex sx={{
-          flexDirection: 'column', alignItems: 'center',
-          p: 4,
-          '> span > svg': {width: '50px', height: '50px'},
-        }}>
-          {this.icon}
+      <Flex sx={{
+        flexDirection: 'column', alignItems: 'center',
+        p: 4,
+        '> span > svg': {width: '50px', height: '50px'},
+      }}>
+        {this.icon}
 
-          <Text sx={{fontSize: 22, py: 2}}>{this.title}</Text>
+        <Text sx={{fontSize: 22, py: 2}}>{this.title}</Text>
 
-          {/* <input
+        {/* <input
               sx={{lineHeight: 2}}
               value={this.state.path}
               readOnly
           /> */}
 
-          <div className="fm-modal-overflow-content" bg={'muted'}
-               style={{borderRadius: '3px', paddingBottom: '3px'}}>
-            <SelectableDirectoryTree onSelect={this.onSelect} path={this.state.path} preload/>
-          </div>
+        <div className="fm-modal-overflow-content" bg={'muted'}
+             style={{borderRadius: '3px', paddingBottom: '3px'}}>
+          <SelectableDirectoryTree onSelect={this.onSelect} path={this.state.path} preload />
+        </div>
 
-          <Button
-              sx={{py: 2, px: 5, marginTop: 3}}
-              onClick={this.handleCopy}
-              disabled={this.state.working}
-          >
-            {this.state.working ? <Spinner/> : this.btnText}
-          </Button>
-        </Flex>
+        <Button
+          sx={{py: 2, px: 5, marginTop: 3}}
+          onClick={this.handleCopy}
+          disabled={this.state.working}
+        >
+          {this.state.working ? <Spinner /> : this.btnText}
+        </Button>
+      </Flex>
     );
   }
 }
