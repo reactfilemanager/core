@@ -60,22 +60,22 @@ export default {
   //     injectModal(modal);
   //   },
   // },
-  change_permission: {
-    shouldShow(item) {
-      return item instanceof FileInfo;
-    },
-    menu_item: {
-      icon: icons.unlock,
-      title: 'Change Permission',
-    },
-    handle(item) {
-      const modal = (props) => {
-        return <Permission item={item} {...props}/>;
-      };
+  // change_permission: {
+  //   shouldShow(item) {
+  //     return item instanceof FileInfo;
+  //   },
+  //   menu_item: {
+  //     icon: icons.unlock,
+  //     title: 'Change Permission',
+  //   },
+  //   handle(item) {
+  //     const modal = (props) => {
+  //       return <Permission item={item} {...props}/>;
+  //     };
 
-      injectModal(modal);
-    },
-  },
+  //     injectModal(modal);
+  //   },
+  // },
   details: {
     shouldShow(item) {
       return item instanceof FileInfo;
@@ -172,20 +172,20 @@ export default {
       injectModal(modal);
     },
   },
-  remote_download: {
-    shouldShow(item) {
-      return !!item.isCurrentDir;
-    },
-    menu_item: {
-      icon: icons.cloud_upload,
-      title: 'Upload From Url',
-    },
-    handle(item) {
-      const modal = (props) => {
-        return <RemoteUpload {...props}/>;
-      };
+  // remote_download: {
+  //   shouldShow(item) {
+  //     return !!item.isCurrentDir;
+  //   },
+  //   menu_item: {
+  //     icon: icons.cloud_upload,
+  //     title: 'Upload From Url',
+  //   },
+  //   handle(item) {
+  //     const modal = (props) => {
+  //       return <RemoteUpload {...props}/>;
+  //     };
 
-      injectModal(modal);
-    },
-  },
+  //     injectModal(modal);
+  //   },
+  // },
 };
