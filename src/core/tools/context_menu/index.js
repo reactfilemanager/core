@@ -2,14 +2,11 @@ import React from 'react';
 import icons from '../../../assets/icons';
 import InfoPanel from '../../Components/InfoPanel';
 import {injectModal, injectSidePanel} from '../../state/actions';
-import Permission from '../../Components/Utilities/Permission';
 import Rename from '../../Components/Utilities/Rename';
 import Delete from '../../Components/Utilities/Delete';
 import FileInfo from '../../models/FileInfo';
 import Upload from '../../Components/Utilities/Upload';
-import RemoteUpload from '../../Components/Utilities/URLDownload';
 import NewFolder from '../../Components/Utilities/NewFolder';
-import CopyTo from '../../Components/Utilities/Copy';
 
 export default {
   rename: {
@@ -28,54 +25,6 @@ export default {
       injectModal(modal);
     },
   },
-  // copy_to: {
-  //   shouldShow(item, state) {
-  //     return getSelectedItems(state.entries).length > 0;
-  //   },
-  //   menu_item: {
-  //     icon: icons.copy,
-  //     title: 'Copy To',
-  //   },
-  //   handle(item, state, dispatch) {
-  //     const modal = (props) => {
-  //       return <Copy {...props} move={false}/>;
-  //     };
-
-  //     injectModal(modal);
-  //   },
-  // },
-  // move_to: {
-  //   shouldShow(item, state) {
-  //     return getSelectedItems(state.entries).length > 0;
-  //   },
-  //   menu_item: {
-  //     icon: icons.move,
-  //     title: 'Move To',
-  //   },
-  //   handle(item, state, dispatch) {
-  //     const modal = (props) => {
-  //       return <Copy {...props} move={true}/>;
-  //     };
-
-  //     injectModal(modal);
-  //   },
-  // },
-  // change_permission: {
-  //   shouldShow(item) {
-  //     return item instanceof FileInfo;
-  //   },
-  //   menu_item: {
-  //     icon: icons.unlock,
-  //     title: 'Change Permission',
-  //   },
-  //   handle(item) {
-  //     const modal = (props) => {
-  //       return <Permission item={item} {...props}/>;
-  //     };
-
-  //     injectModal(modal);
-  //   },
-  // },
   details: {
     shouldShow(item) {
       return item instanceof FileInfo;

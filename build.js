@@ -1,10 +1,13 @@
 import React from 'react';
+import {Button} from 'theme-ui'
 import {render} from 'react-dom';
 import FileManager, {Pluggable, setConfig} from './src/file-manager';
+import {injectSidePanel} from './src/core/state/actions';
 
 window.Pluggable = Pluggable;
 // Selection handler on file select mode
-Pluggable.plugin('core').addContextMenu(
+const core = Pluggable.plugin('core');
+core.addContextMenu(
   'test_pro',
   (item, state) => {
     return item.is_file;
@@ -18,6 +21,28 @@ Pluggable.plugin('core').addContextMenu(
     title: <p>Test This as <strong style={{background: 'blue', color: '#fff'}}>PRO</strong></p>,
   },
 );
+
+// region: button after search
+const injectRocky = () => {
+  const ComponentRocky = (props) => {
+    return (
+      <div style={{position: 'absolute', right: '10px', top: '70px', background: '#ccc', color: '#fff'}}>
+        Hello World
+      </div>
+    );
+  };
+
+  injectSidePanel('rocky', ComponentRocky);
+};
+const buttonRocky = (props) => {
+  return (
+    <Button onClick={injectRocky}>&copy;</Button>
+  );
+};
+
+core.addToolbarButton('rocky', buttonRocky, null, 'search');
+
+// endregion
 
 setConfig({
   // URL of the server installation

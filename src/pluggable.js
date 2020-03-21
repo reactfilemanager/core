@@ -143,8 +143,8 @@ export const addContextMenu = (pluginKey, key, shouldShow, handle, menu_item = n
     order,
   });
 };
-export const addToolbarButton = (pluginKey, key, button, order = 10) => {
-  addToConfig(pluginKey, 'toolbar', key, button, order);
+export const addToolbarButton = (pluginKey, key, button, order = 10, configKey = 'toolbar') => {
+  addToConfig(pluginKey, configKey, key, button, order);
 };
 
 const addToConfig = (pluginKey, configKey, itemKey, item) => {
@@ -178,8 +178,8 @@ export const Pluggable = {
       addContextMenu(key, shouldShow, handler, menuItem, order = 10) {
         addContextMenu(pluginKey, key, shouldShow, handler, menuItem, order);
       },
-      addToolbarButton(key, button, order = 10) {
-        addToolbarButton(pluginKey, key, button, order);
+      addToolbarButton(key, button, order = 10, configKey) {
+        addToolbarButton(pluginKey, key, button, order, configKey);
       },
       mergeConfig(_config) {
         for (const key of _config) {

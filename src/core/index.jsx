@@ -28,7 +28,6 @@ export default class FileManagerCore extends React.Component {
     setWorkingPath('');
 
   }
-  goToTop = () => SmoothScroll.scrollTo('fm-content-holder');
 
   render() {
     const defaultConfig = getDefaultConfig();
@@ -54,11 +53,20 @@ export default class FileManagerCore extends React.Component {
                       <Toolbar children={defaultConfig.utility}/>
                       : null
                 }
+                {
+                  config.utility ?
+                    <Toolbar children={config.utility}/>
+                    : null
+                }
               </div>
               <div className="header-search">
                 {
                   defaultConfig.search ?
                       <Toolbar children={defaultConfig.search}/> : null
+                }
+                {
+                  config.search ?
+                    <Toolbar children={config.search}/> : null
                 }
               </div>
             </Flex>
@@ -99,7 +107,7 @@ export default class FileManagerCore extends React.Component {
 
             </aside>
             <main className="main-content">
-              <div 
+              <div
                 className="fm-breadcrumb-wrapper"
               sx={{
                 py: 2, px: 3,
