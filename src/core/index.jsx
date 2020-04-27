@@ -8,9 +8,6 @@ import {getConfig, getDefaultConfig, setAccessor} from './tools/config';
 import DirectoryTree from './Components/DirectoryTree';
 import ContextMenu from './Components/ContextMenu';
 import Breadcrumb from './Components/Breadcrumb';
-import {EventBus, SmoothScroll} from '../helpers/Utils';
-import {CORE_PLUGIN_KEY} from './plugin';
-import * as types from './state/types';
 import {setWorkingPath} from './state/actions';
 import Modal from './Components/Containers/Modal';
 import InjectedComponent from './Components/Containers/InjectedComponent';
@@ -23,10 +20,9 @@ export default class FileManagerCore extends React.Component {
       getSelectedItems() {
         return [];
       },
+      setWorkingPath,
     });
-    // FIXME: set default dir
     setWorkingPath('');
-
   }
 
   render() {

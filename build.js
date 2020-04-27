@@ -64,4 +64,8 @@ setConfig({
 
 const element = document.querySelector('#rfm');
 
-render(<FileManager />, element);
+render(<FileManager />, element, e => {
+  console.log(e);
+});
+
+core.accessor().setWorkingPath('/Another Folder/Folder/Folder');
