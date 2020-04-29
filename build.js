@@ -7,6 +7,8 @@ import {injectSidePanel} from './src/core/state/actions';
 window.Pluggable = Pluggable;
 // Selection handler on file select mode
 const core = Pluggable.plugin('core');
+
+// region: button after search
 core.addContextMenu(
   'test_pro',
   (item, state) => {
@@ -21,8 +23,6 @@ core.addContextMenu(
     title: <p>Test This as <strong style={{background: 'blue', color: '#fff'}}>PRO</strong></p>,
   },
 );
-
-// region: button after search
 const injectRocky = () => {
   const ComponentRocky = (props) => {
     return (
@@ -30,14 +30,15 @@ const injectRocky = () => {
         Hello World
       </div>
     );
-  };
 
+  };
   injectSidePanel('rocky', ComponentRocky);
 };
 const buttonRocky = (props) => {
   return (
     <Button onClick={injectRocky}>&copy;</Button>
   );
+
 };
 
 core.addToolbarButton('rocky', buttonRocky, null, 'search');
@@ -47,6 +48,8 @@ core.addToolbarButton('rocky', buttonRocky, null, 'search');
 setConfig({
   // URL of the server installation
   url: 'http://127.0.0.1:8000/',
+  // default path to open
+  path: '/Another Folder/Folder/Folder',
   // HTTP request modifiers
   root_url: 'http://127.0.0.1:8000/tmp/storage',
   http: {
@@ -67,5 +70,3 @@ const element = document.querySelector('#rfm');
 render(<FileManager />, element, e => {
   console.log(e);
 });
-
-core.accessor().setWorkingPath('/Another Folder/Folder/Folder');

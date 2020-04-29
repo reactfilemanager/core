@@ -8,8 +8,9 @@ import handlers from './handlers';
 import {CopyButton} from '../Components/Utilities/Copy';
 import {DeleteButton} from '../Components/Utilities/Delete';
 import {NewFolderButton} from '../Components/Utilities/NewFolder';
+import {setWorkingPath} from '../state/actions';
 
-let _api = {}, _instance = null;
+let _api = {};
 let _getConfig = () => {};
 const _defaultConfig = {
   toolbar: {
@@ -107,12 +108,10 @@ export const getHandlers = (item, state) => {
   });
 };
 
-export const setAccessor = instance => {
-  _instance = instance;
-};
-
 export const accessor = () => {
-  return _instance;
+  return {
+    setWorkingPath,
+  };
 };
 
 export default function({api, getConfig}) {

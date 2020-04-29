@@ -17,6 +17,8 @@ import PJpeg, {PJPEG, injection as PJpegInjection} from './plugins/progressive_j
 import {toast} from 'react-toastify';
 import icons from './assets/icons';
 
+let _config = {};
+
 // core
 const core = Pluggable.registerPlugin(CORE_PLUGIN_KEY, Core);
 
@@ -28,6 +30,7 @@ Pluggable.registerPlugin(PJPEG, PJpeg);
 core.inject(PJpegInjection);
 
 const setConfig = (config = {}) => {
+  _config = config;
   setBaseUrl(config.url);
   if (config.root_url) {
     registerAudioPlayer(core, config.root_url);
@@ -81,24 +84,37 @@ function registerVideoPlayer(core, ROOT_URL) {
 function registerCopyURLMenuItem(core, ROOT_URL) {
   // Copy URL context menu
   core.addContextMenu(
-      'copy_url',
-      (item, state) => {
-        return item.is_file;
-      },
-      (item, state, dispatch) => {
-        `${ROOT_URL}${item.path}`.copyToClipboard();
-        toast.info('URL Copied!');
-      },
-      {
-        icon: icons.link,
-        title: 'Copy URL',
-      },
+    'copy_url',
+    (item, state) => {
+      return item.is_file;
+    },
+    (item, state, dispatch) => {
+      `${ROOT_URL}${item.path}`.copyToClipboard();
+      toast.info('URL Copied!');
+    },
+    {
+      icon: icons.link,
+      title: 'Copy URL',
+    },
   );
 }
+
+const getFileManagerConfig = (key = null) => {
+  if (!key) {
+    return _config;
+  }
+
+  if (_config[key] !== undefined) {
+    return _config[key];
+  }
+
+  return null;
+};
 
 export {
   Pluggable,
   setConfig,
+  getFileManagerConfig,
 };
 
 export default FileManager;

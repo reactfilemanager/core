@@ -404,8 +404,16 @@ class ItemList extends Component {
           <div>
             <div style={{
               textAlign: 'center',
-              marginTop: '50px'
-            }}><svg viewBox="0 0 32 32" width="48" height="48" stroke-width="4" fill="none" stroke="currentcolor" role="img" className="css-qhckx3"><title>Loading...</title><circle cx="16" cy="16" r="12" opacity="0.125"></circle><circle cx="16" cy="16" r="12" stroke-dasharray="75.39822368615503" stroke-dashoffset="56.548667764616276" className="svg-spin"></circle></svg></div>
+              marginTop: '50px',
+            }}>
+              <svg viewBox="0 0 32 32" width="48" height="48" strokeWidth="4" fill="none" stroke="currentcolor"
+                   role="img" className="css-qhckx3">
+                <title>Loading...</title>
+                <circle cx="16" cy="16" r="12" opacity="0.125" />
+                <circle cx="16" cy="16" r="12" strokeDasharray="75.39822368615503" strokeDashoffset="56.548667764616276"
+                        className="svg-spin" />
+              </svg>
+            </div>
           </div>
           :
           <>
@@ -419,7 +427,13 @@ class ItemList extends Component {
                 : this.getItemsBlockForListViewMode(items)
             }
             {working ?
-              <svg viewBox="0 0 32 32" width="48" height="48" stroke-width="4" fill="none" stroke="currentcolor" role="img" className="css-qhckx3"><title>Loading...</title><circle cx="16" cy="16" r="12" opacity="0.125"></circle><circle cx="16" cy="16" r="12" stroke-dasharray="75.39822368615503" stroke-dashoffset="56.548667764616276" className="svg-spin"></circle></svg>
+              <svg viewBox="0 0 32 32" width="48" height="48" strokeWidth="4" fill="none" stroke="currentcolor"
+                   role="img" className="css-qhckx3">
+                <title>Loading...</title>
+                <circle cx="16" cy="16" r="12" opacity="0.125" />
+                <circle cx="16" cy="16" r="12" strokeDasharray="75.39822368615503" strokeDashoffset="56.548667764616276"
+                        className="svg-spin" />
+              </svg>
               : null}
           </>
         }

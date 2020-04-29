@@ -65,16 +65,16 @@ class SelectableDirectoryTree extends Component {
       filters: {
         ...this.state.filters,
         tree_sort_by_name: this.sortByName,
-      }
+      },
     });
   };
 
   sortByName = entries => {
     entries.dirs = entries.dirs.sort((dir1, dir2) => {
-      if(dir1.name > dir2.name) {
+      if (dir1.name > dir2.name) {
         return 1;
       }
-      if(dir1.name < dir2.name) {
+      if (dir1.name < dir2.name) {
         return -1;
       }
       return 0;
@@ -114,13 +114,11 @@ class SelectableDirectoryTree extends Component {
 
     getDirectoryTreeState().then(({path, dirs}) => {
       this.setState({path, dirs});
-      this.setOpenDirs();
     });
   };
 
   resetDirectoryTree = ({path, dirs}) => {
     this.populateDirs(dirs);
-    this.setOpenDirs();
   };
 
   populateDirs = (currentDirs) => {
@@ -231,8 +229,7 @@ class SelectableDirectoryTree extends Component {
 
   onLoadData = (treeNode) => {
     this.setState({working: true});
-    if (Array.isArray(treeNode.props.children) &&
-        treeNode.props.children.length > 0) {
+    if (Array.isArray(treeNode.props.children) && treeNode.props.children.length > 0 && treeNode.props.loaded) {
       // we loaded this before
       return new Promise((resolve) => {
         resolve();
@@ -263,8 +260,8 @@ class SelectableDirectoryTree extends Component {
   };
 
   sendIcon = props => {
-    return props.loading ? <Spinner/>
-        : (props.path === '/' ? icons.home : (props.expanded ? icons.folder_open : icons.folder));
+    return props.loading ? <Spinner />
+      : (props.path === '/' ? icons.home : (props.expanded ? icons.folder_open : icons.folder));
   };
 
   handleExpand = expandedKeys => {
@@ -305,11 +302,11 @@ class SelectableDirectoryTree extends Component {
           </TreeNode>;
         }
         return (
-            <TreeNode title={item.name}
-                      key={item.key}
-                      path={item.path}
-                      expanded={path.includes(item.path)}
-            />
+          <TreeNode title={item.name}
+                    key={item.key}
+                    path={item.path}
+                    expanded={path.includes(item.path)}
+          />
         );
       });
     };
@@ -317,26 +314,26 @@ class SelectableDirectoryTree extends Component {
     const _dirs = loop(sortedDirs);
 
     return (
-        <>
-          <h4 id="folders-heading" className="heading-title" style={{padding: '10px 20px', marginBottom: '10px'}}>
-            Folders
-          </h4>
-          <Tree
-              loadData={this.onLoadData}
-              onSelect={this.onSelect}
-              checkable={false}
-              selectedKeys={[path]}
-              defaultExpandedKeys={['/']}
-              expandedKeys={this.state.expandedKeys}
-              onExpand={this.handleExpand}
-              icon={this.sendIcon}
-              switcherIcon={getSvgIcon}
-              autoExpandParent
-              showLine
-          >
-            {_dirs}
-          </Tree>
-        </>
+      <>
+        <h4 id="folders-heading" className="heading-title" style={{padding: '10px 20px', marginBottom: '10px'}}>
+          Folders
+        </h4>
+        <Tree
+          loadData={this.onLoadData}
+          onSelect={this.onSelect}
+          checkable={false}
+          selectedKeys={[path]}
+          defaultExpandedKeys={['/']}
+          expandedKeys={this.state.expandedKeys}
+          onExpand={this.handleExpand}
+          icon={this.sendIcon}
+          switcherIcon={getSvgIcon}
+          autoExpandParent
+          showLine
+        >
+          {_dirs}
+        </Tree>
+      </>
     );
   }
 }

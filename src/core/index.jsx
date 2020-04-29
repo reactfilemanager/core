@@ -4,25 +4,20 @@ import React from 'react';
 import styled from '@emotion/styled';
 import ItemList from './Components/ItemList';
 import Toolbar from './Components/Toolbar';
-import {getConfig, getDefaultConfig, setAccessor} from './tools/config';
+import {getConfig, getDefaultConfig} from './tools/config';
 import DirectoryTree from './Components/DirectoryTree';
 import ContextMenu from './Components/ContextMenu';
 import Breadcrumb from './Components/Breadcrumb';
-import {setWorkingPath} from './state/actions';
 import Modal from './Components/Containers/Modal';
 import InjectedComponent from './Components/Containers/InjectedComponent';
 import SidebarComponents from './Components/Containers/SidebarComponents';
+import {getFileManagerConfig} from '../file-manager';
+import {setWorkingPath} from './state/actions';
 
 export default class FileManagerCore extends React.Component {
 
   componentDidMount() {
-    setAccessor({
-      getSelectedItems() {
-        return [];
-      },
-      setWorkingPath,
-    });
-    setWorkingPath('');
+    setWorkingPath(getFileManagerConfig('path') || '');
   }
 
   render() {
@@ -30,50 +25,50 @@ export default class FileManagerCore extends React.Component {
     const config = getConfig();
 
     return (
-        <div>
-          <header>
-            <Flex className="header-left">
-              <Toolbar children={defaultConfig.toolbar}
+      <div>
+        <header>
+          <Flex className="header-left">
+            <Toolbar children={defaultConfig.toolbar}
+            />
+
+            {config.toolbar ?
+              <Toolbar children={config.toolbar}
               />
+              : null}
+          </Flex>
 
-              {config.toolbar ?
-                  <Toolbar children={config.toolbar}
-                  />
-                  : null}
-            </Flex>
+          <Flex className="header-right">
+            <div className="header-filter">
+              {
+                defaultConfig.utility ?
+                  <Toolbar children={defaultConfig.utility} />
+                  : null
+              }
+              {
+                config.utility ?
+                  <Toolbar children={config.utility} />
+                  : null
+              }
+            </div>
+            <div className="header-search">
+              {
+                defaultConfig.search ?
+                  <Toolbar children={defaultConfig.search} /> : null
+              }
+              {
+                config.search ?
+                  <Toolbar children={config.search} /> : null
+              }
+            </div>
+          </Flex>
+        </header>
 
-            <Flex className="header-right">
-              <div className="header-filter">
-                {
-                  defaultConfig.utility ?
-                      <Toolbar children={defaultConfig.utility}/>
-                      : null
-                }
-                {
-                  config.utility ?
-                    <Toolbar children={config.utility}/>
-                    : null
-                }
-              </div>
-              <div className="header-search">
-                {
-                  defaultConfig.search ?
-                      <Toolbar children={defaultConfig.search}/> : null
-                }
-                {
-                  config.search ?
-                    <Toolbar children={config.search}/> : null
-                }
-              </div>
-            </Flex>
-          </header>
+        <Flex className="filemanagerBody" bg="white">
+          <aside className="aside-content">
 
-          <Flex className="filemanagerBody" bg="white">
-            <aside className="aside-content">
+            <DirectoryTree />
 
-              <DirectoryTree/>
-
-              {/* <Flex sx={{
+            {/* <Flex sx={{
             position: 'fixed',
             justifyContent: 'space-between',
             bottom: 0,
@@ -101,34 +96,34 @@ export default class FileManagerCore extends React.Component {
             </Link>
           </Flex> */}
 
-            </aside>
-            <main className="main-content">
-              <div
-                className="fm-breadcrumb-wrapper"
+          </aside>
+          <main className="main-content">
+            <div
+              className="fm-breadcrumb-wrapper"
               sx={{
                 py: 2, px: 3,
                 borderBottom: '1px solid #ddd',
               }}>
-                <Breadcrumb/>
-              </div>
+              <Breadcrumb />
+            </div>
 
-              <ItemList/>
+            <ItemList />
 
-               {/*injected sidebar components*/}
-              <SidebarComponents/>
+            {/*injected sidebar components*/}
+            <SidebarComponents />
 
-            </main>
-          </Flex>
+          </main>
+        </Flex>
 
-          {/*injected modals*/}
-          <Modal/>
+        {/*injected modals*/}
+        <Modal />
 
-          {/*injected component*/}
-          <InjectedComponent/>
+        {/*injected component*/}
+        <InjectedComponent />
 
-          {/*context menu*/}
-          <ContextMenu/>
-        </div>
+        {/*context menu*/}
+        <ContextMenu />
+      </div>
 
     );
   }
