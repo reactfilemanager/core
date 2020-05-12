@@ -19,7 +19,12 @@ mix.react('build.js', 'dist/build.js').sass('style.scss', 'dist/build.css').copy
           {
             test: /\.svg$/,
             loader: 'raw-loader',
-          },
+          },                {
+            test: /\.jsx?$/,
+            loader: 'babel-loader',
+            query: {presets:['@babel/react']},
+            include: [fs.realpathSync(path.resolve(__dirname, './node_modules/@reactfilemanager'))]
+          }
         ],
       },
       plugins: [

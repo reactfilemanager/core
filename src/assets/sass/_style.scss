@@ -46,13 +46,13 @@
   border: 1px solid #ddd;
 
   header{
-      position: absolute;
+      //position: absolute; // TODO: fix this
       width: 100%;
       height: auto;
       z-index: 1;
 
       background: #f0f0f0;
-      
+
       top: 0;
       left: 0;
       right: 0;
@@ -81,7 +81,7 @@
     font-weight: 300;
   }
   .filemanagerBody{
-    position: absolute;
+    //position: absolute; // TODO: fix this
     top: 55px;
     bottom: 0px;
     left: 0;
@@ -119,7 +119,7 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-  
+
   .fm-alert{
     color: #868585;
     &.empty{
@@ -137,7 +137,7 @@
     p{
       background: #f1f1f1;
       padding: 5px;
-      border-top: 1px solid #ddd;    
+      border-top: 1px solid #ddd;
       margin: 0px;
 
       font-size: 13px;
@@ -187,7 +187,7 @@
   .rc-tree-treenode-selected > .rc-tree-switcher-noop,
   .rc-tree-treenode-selected > .rc-tree-switcher_close{
     background-color: #e8f0fe;
-  }  
+  }
   .rc-tree-node-content-wrapper{
     padding: 4px 10px;
 
@@ -197,7 +197,7 @@
         border-radius: 0 66px 66px 0;
     }
   }
-  
+
   .folder-items{
     display: grid;
     grid-gap: 0;
@@ -320,7 +320,7 @@
       -ms-flex-preferred-size: 14%;
       flex-basis: 14%;
       max-width: 14%;
-      
+
       > div{
         box-sizing: border-box;
         flex: 0 0 auto;
@@ -372,8 +372,8 @@
         line-height: 1.5;
     }
   }
-  tr.react-contextmenu-wrapper p, 
-  tr.react-contextmenu-wrapper select, 
+  tr.react-contextmenu-wrapper p,
+  tr.react-contextmenu-wrapper select,
   tr.react-contextmenu-wrapper input {
       padding: 0px;
       margin: 0;

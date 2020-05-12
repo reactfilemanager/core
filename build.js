@@ -1,10 +1,12 @@
 import React from 'react';
 import {Button} from 'theme-ui'
 import {render} from 'react-dom';
+import TxIcons from '@reactfilemanager/plugin-icons';
 import FileManager, {Pluggable, setConfig} from './src/file-manager';
 import {injectSidePanel} from './src/core/state/actions';
 
 window.Pluggable = Pluggable;
+Pluggable.registerPlugin('tx-icons', TxIcons);
 // Selection handler on file select mode
 const core = Pluggable.plugin('core');
 
@@ -41,15 +43,15 @@ const buttonRocky = (props) => {
 
 };
 
-core.addToolbarButton('rocky', buttonRocky, null, 'search');
+// core.addToolbarButton('rocky', buttonRocky, null, 'search');
 
 // endregion
 
 setConfig({
   // URL of the server installation
   url: 'http://127.0.0.1:8000/',
-  // default path to open
-  path: '/Another Folder/Folder/Folder',
+  // default path to open (optional)
+  path: '/',
   // HTTP request modifiers
   root_url: 'http://127.0.0.1:8000/tmp/storage',
   http: {

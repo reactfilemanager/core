@@ -21,6 +21,11 @@ export default class FileManager extends React.Component {
     this.setState({tabs, activeTab});
   };
 
+  activateTab = (e, activeTab) => {
+    e.preventDefault();
+    this.setState({activeTab})
+  }
+
   render() {
     const navs = [], contents = [];
     for (const tab of this.state.tabs) {
@@ -32,6 +37,7 @@ export default class FileManager extends React.Component {
               role="tab"
               aria-controls={tab.key}
               aria-selected="true"
+              onClick={(e) => this.activateTab(e, tab.key)}
               sx={{
                 px: 4,
                 py: 2,
@@ -40,6 +46,7 @@ export default class FileManager extends React.Component {
                 color: 'gray',
                 fontSize: 12,
                 textTransform: 'uppercase',
+                border: tab.key === this.state.activeTab ? '1px solid blue' : undefined,
               }}
           >
             {tab.title}
@@ -50,6 +57,7 @@ export default class FileManager extends React.Component {
               key={tab.key}
               sx={{
                 overflow: 'hidden',
+                display: tab.key === this.state.activeTab ? 'block' : 'none',
               }}
           >
             <tab.component store={Store}/>
