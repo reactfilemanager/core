@@ -40,6 +40,6 @@
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "dependencies": {
-
+    "@reactfilemanager/plugin-icons": "git+https://github.com/reactfilemanager/plugin-icons.git#master"
   }
 }

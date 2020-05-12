@@ -14,21 +14,22 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
  */
 mix.setPublicPath('dist');
 mix.react('build.js', 'dist/build.js').sass('style.scss', 'dist/build.css').copy('index.html', 'dist').webpackConfig({
-      module: {
-        rules: [
-          {
-            test: /\.svg$/,
-            loader: 'raw-loader',
-          },                {
-            test: /\.jsx?$/,
-            loader: 'babel-loader',
-            query: {presets:['@babel/react'], plugins: ['@babel/plugin-proposal-class-properties']},
-            include: [fs.realpathSync(path.resolve(__dirname, './node_modules/@reactfilemanager'))]
-          }
-        ],
-      },
-      plugins: [
-        // new webpackBundleAnalyzer(),
+    module: {
+      rules: [
+        {
+          test: /\.svg$/,
+          loader: 'raw-loader',
+        },
+        {
+          test: /\.jsx?$/,
+          loader: 'babel-loader',
+          query: {presets: ['@babel/react'], plugins: ['@babel/plugin-proposal-class-properties']},
+          include: [fs.realpathSync(path.resolve(__dirname, './node_modules/@reactfilemanager'))],
+        },
       ],
     },
+    plugins: [
+      // new webpackBundleAnalyzer(),
+    ],
+  },
 ).sourceMaps();
