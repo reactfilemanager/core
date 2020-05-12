@@ -75,7 +75,7 @@ export const getHandlers = (item, state) => {
   const _handlers = Object.assign({}, _defaultConfig.handlers, getConfig().handlers || {});
   for (const key of Object.keys(_handlers)) {
     if (_handlers[key].menu_item !== undefined &&
-        _handlers[key].handles(item, state)) {
+      _handlers[key].handles(item, state)) {
       handlers[key] = _handlers[key];
     }
   }
@@ -114,7 +114,7 @@ export const accessor = () => {
   };
 };
 
-export default function({api, getConfig}) {
+export const boot = ({api, getConfig}) => {
   _api = api || {};
   _getConfig = getConfig;
-}
+};

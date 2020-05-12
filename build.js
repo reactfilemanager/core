@@ -1,14 +1,24 @@
 import React from 'react';
-import {Button} from 'theme-ui'
+import {Button} from 'theme-ui';
 import {render} from 'react-dom';
 import TxIcons from '@reactfilemanager/plugin-icons';
 import FileManager, {Pluggable, setConfig} from './src/file-manager';
 import {injectSidePanel} from './src/core/state/actions';
 
 window.Pluggable = Pluggable;
+
+// for development purpose only
+const stylesheet = window.document.createElement('link');
+stylesheet.rel = 'stylesheet';
+stylesheet.href = 'https://try.getquix.net/libraries/quix/assets/css/qxi.css?ver=2.7.4';
+window.document.head.append(stylesheet);
 Pluggable.registerPlugin('tx-icons', TxIcons);
+
 // Selection handler on file select mode
 const core = Pluggable.plugin('core');
+
+// Icon handler/default generic handler
+core.addHandler('icon', item => item.type === 'SVG', svg => console.log('Selected', svg));
 
 // region: button after search
 core.addContextMenu(
@@ -43,7 +53,7 @@ const buttonRocky = (props) => {
 
 };
 
-// core.addToolbarButton('rocky', buttonRocky, null, 'search');
+core.addToolbarButton('rocky', buttonRocky, null, 'search');
 
 // endregion
 
@@ -69,6 +79,4 @@ setConfig({
 
 const element = document.querySelector('#rfm');
 
-render(<FileManager />, element, e => {
-  console.log(e);
-});
+render(<FileManager />, element);

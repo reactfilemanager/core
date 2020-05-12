@@ -22,7 +22,7 @@ mix.react('build.js', 'dist/build.js').sass('style.scss', 'dist/build.css').copy
           },                {
             test: /\.jsx?$/,
             loader: 'babel-loader',
-            query: {presets:['@babel/react']},
+            query: {presets:['@babel/react'], plugins: ['@babel/plugin-proposal-class-properties']},
             include: [fs.realpathSync(path.resolve(__dirname, './node_modules/@reactfilemanager'))]
           }
         ],

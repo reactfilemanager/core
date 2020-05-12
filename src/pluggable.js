@@ -2,6 +2,7 @@ import APIMapper from './mappers/APIMapper';
 import merge from 'lodash.merge';
 import HttpService from './services/HttpService';
 import {Store} from './state/GlobalStateStore';
+import {EventBus} from './helpers/Utils';
 
 const plugins = {};
 const config = {};
@@ -117,6 +118,7 @@ export const bootPlugins = () => {
         return api[key] || null;
       },
       HttpService,
+      EventBus,
     });
   }
   bootRequired = [];

@@ -4,7 +4,7 @@ import {
   dirsLoaded,
   setReloading, setSelectedItems,
 } from '../../state/actions';
-import {getApi} from '../../tools/config';
+import {getApi, getDefaultHandler} from '../../tools/config';
 import cloneDeep from 'lodash.clonedeep';
 import {ContextMenuTrigger} from 'react-contextmenu';
 import {CONTEXT_MENU_ID} from '../ContextMenu';
@@ -17,7 +17,7 @@ import {
   GET_CURRENT_DIRS,
   ITEMS_SELECTED,
   REMOVE,
-  REMOVE_FILTER,
+  REMOVE_FILTER, SELECT_FILE,
   SET_VIEWMODE,
   SET_WORKING_PATH,
   TOGGLE_SELECT,
@@ -63,6 +63,7 @@ class ItemList extends Component {
     EventBus.$on(SET_VIEWMODE, this.setViewMode);
     EventBus.$on(GET_CURRENT_DIR, this.sendCurrentDir);
     EventBus.$on(GET_CURRENT_DIRS, this.sendCurrentDirs);
+    EventBus.$on(SELECT_FILE, this.handleFileSelect);
   }
 
   componentWillUnmount() {
@@ -78,7 +79,16 @@ class ItemList extends Component {
     EventBus.$off(SET_VIEWMODE, this.setViewMode);
     EventBus.$off(GET_CURRENT_DIR, this.sendCurrentDir);
     EventBus.$off(GET_CURRENT_DIRS, this.sendCurrentDirs);
+    EventBus.$off(SELECT_FILE, this.handleFileSelect);
   }
+
+  handleFileSelect = file => {
+    const handler = getDefaultHandler(file);
+    if (!handler) {
+      alert('Unsupported file');
+    }
+    handler.handle(file);
+  };
 
   sendCurrentDir = callback => {
     if (typeof callback === 'function') {

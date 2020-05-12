@@ -54,12 +54,12 @@ class Item extends Component {
       return this.moveTo(this.props.item);
     }
 
-    const handlers = getDefaultHandler(this.props.item);
-    if (!handlers) {
+    const handler = getDefaultHandler(this.props.item);
+    if (!handler) {
       toast.info('Unsupported file type.');
       return;
     }
-    handlers.handle(this.props.item);
+    handler.handle(this.props.item);
   };
 
   toggleSelect = (ctrlKey, shiftKey) => {

@@ -1,6 +1,6 @@
 import Core from './';
 import CoreAPI from './api';
-import config, {accessor} from './tools/config';
+import {boot, accessor} from './tools/config';
 import reducers from './state/reducers';
 import initial_state from './state';
 
@@ -10,7 +10,7 @@ export default {
   // register API
   api: CoreAPI,
   // load time function calls
-  boot: config,
+  boot,
   // add a tab entry
   tabs: {
     entries: {
