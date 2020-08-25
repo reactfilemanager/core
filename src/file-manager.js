@@ -16,7 +16,7 @@ import VideoPlayer, {injection as VideoPlayerInjection} from './plugins/video_pl
 import PJpeg, {PJPEG, injection as PJpegInjection} from './plugins/progressive_jpeg';
 import {toast} from 'react-toastify';
 import icons from './assets/icons';
-
+import {setWorkingPath} from './core/state/actions';
 let _config = {};
 
 // core
@@ -115,6 +115,7 @@ export {
   Pluggable,
   setConfig,
   getFileManagerConfig,
+  setWorkingPath
 };
 
 export default FileManager;
