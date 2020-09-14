@@ -49,6 +49,11 @@ const setConfig = (config = {}) => {
       setPostData(config.http.post_data);
     }
   }
+  
+  if (config.path) {
+    setWorkingPath(config.path);
+  }
+  
 };
 
 function registerAudioPlayer(core, ROOT_URL) {

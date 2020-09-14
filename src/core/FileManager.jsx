@@ -41,12 +41,13 @@ export default class FileManager extends React.Component {
               sx={{
                 px: 4,
                 py: 2,
-                bg: '#fafbfb',
+                bg: tab.key === this.state.activeTab ? '#f0f0f0' : 'transparent',
                 textDecoration: 'none',
-                color: 'gray',
-                fontSize: 12,
+                color: '#666',
+                fontSize: 13,
+                fontWeight: tab.key === this.state.activeTab ? 'bold' : 'null',
                 textTransform: 'uppercase',
-                border: tab.key === this.state.activeTab ? '1px solid blue' : undefined,
+                lineHeight: '26px'
               }}
           >
             {tab.title}
@@ -68,8 +69,8 @@ export default class FileManager extends React.Component {
     return (
         <div className="reactfilemanager-wrapper">
           {navs.length > 1
-              ? <Flex sx={{bg: '#f5f5f5'}}>
-                {navs}
+              ? <Flex sx={{bg: '#fff'}}>
+                  {navs}
               </Flex>
               : null
           }
