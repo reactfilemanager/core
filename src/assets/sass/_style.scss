@@ -19,8 +19,10 @@
 .fm-modal-overflow-content{
   height: 100%;
   max-height: 220px;
-  overflow: scroll;
+  overflow: auto;
   border: 1px solid #f1f1f1;
+  width: 70%;
+  min-height: 150px;
 }
 
 #rfm{
@@ -54,7 +56,7 @@
   position: relative;
   border: 1px solid #ddd;
   z-index: 99;
-  
+
   header{
       //position: absolute; // TODO: fix this
       width: 100%;
@@ -92,17 +94,8 @@
     font-weight: 300;
   }
   .filemanagerBody{
-    //position: absolute; // TODO: fix this
-    // top: 55px;
-    // bottom: 0px;
-    // left: 0;
-    // right: 0;
-    // width: 100%;
-    flex-wrap: wrap;
-    height: 500px;
-    align-items: flex-start;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto 1fr;
   }
   aside.aside-content{
       height: 100%;
@@ -134,6 +127,7 @@
     flex-basis: 0;
     overflow-x: hidden;
     overflow-y: auto;
+    min-height: 545px;
   }
 
   .fm-alert{
@@ -458,9 +452,9 @@ header.fm-toolbar input{
   border-radius: 4px;
 }
 #image-search-base{
-  
+
   #fm-content{
-    column-count: 5;
+    column-count: 4;
     column-gap: 0px;
 
     .fm-item{
@@ -468,6 +462,30 @@ header.fm-toolbar input{
       padding: 0;
       margin: 0;
       display: inline-block;
+      .fm-media--file{
+        position: relative;
+      }
+      .fm-tags{
+        margin: 0px -5px -5px;
+        line-height: 15px;
+        &> * {
+          display: inline-block;
+          padding: 5px;
+          background: #eee;
+          color: #505050;
+          margin: 5px;
+          line-height: 22px;
+          height: 30px;
+          font-weight: 300;
+        }
+      }
+      .fm-image-meta{
+        position: absolute;
+        bottom: 0;
+        background: rgb(238 238 238 / 71%);
+        width: 100%;
+        padding: 5px 10px;
+      }
       &.active .fm-grid-sm {
         border: 1px solid #3235ee;
       }
@@ -480,6 +498,7 @@ header.fm-toolbar input{
       img{
         width: 100%;
         height: auto;
+        background: radial-gradient(rgba(170,170,170,67%), transparent);
       }
     }
   }
@@ -492,18 +511,18 @@ header.fm-toolbar input{
       padding: 8px 16px;
     }
 }
+
 .fm-footer{
-  margin: 50px 0 25px;
   button{
     padding: 8px 16px;
     border-radius: 4px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    text-transform: uppercase;
+    background-color: #007bff;
+    border: 1px solid #007bffeb;
+    color: #fff;
+    transition: all 0.2s;
+    font-size: 18px;
     &:hover{
-      background-color: #efeffe;
-      border-color: #3333ee;
-      color: #000;
+      background-color: #144880;
     }
   }
 }
@@ -514,7 +533,7 @@ header.fm-toolbar input{
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .fm-grid-m {
     max-width: 10%;
     flex: 10%;
