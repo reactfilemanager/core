@@ -18,7 +18,7 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.0.0",
     "@emotion/styled": "^10.0.27",
-    "axios": "^0.19",
+    "axios": "^0.21.1",
     "cross-env": "^5.1",
     "laravel-mix": "^4.0.7",
     "lodash.clonedeep": "^4.5.0",
@@ -38,8 +38,5 @@
     "sass-loader": "^7.1.0",
     "theme-ui": "^0.3.1",
     "webpack-bundle-analyzer": "^3.6.0"
-  },
-  "dependencies": {
-    "@reactfilemanager/plugin-icons": "git+https://github.com/reactfilemanager/plugin-icons.git#master"
   }
 }
