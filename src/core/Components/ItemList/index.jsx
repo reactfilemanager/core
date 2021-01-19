@@ -36,6 +36,15 @@ export const getSelectedItemProps = item => {
   };
 };
 
+const entries = {
+  dirs: [],
+  files: [],
+};
+
+export function getAllEntries () {
+  return entries;
+}
+
 class ItemList extends Component {
 
   state = {
@@ -64,6 +73,11 @@ class ItemList extends Component {
     EventBus.$on(GET_CURRENT_DIR, this.sendCurrentDir);
     EventBus.$on(GET_CURRENT_DIRS, this.sendCurrentDirs);
     EventBus.$on(SELECT_FILE, this.handleFileSelect);
+  }
+  
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    entries.dirs = this.state.entries.dirs;
+    entries.files = this.state.entries.files;
   }
 
   componentWillUnmount() {

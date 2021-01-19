@@ -21,7 +21,7 @@ export const NewFolderButton = props => {
           variant="secondary"
           onClick={handleNewFolderClick}
       >
-        {icons.plus} New Folder
+        {icons.plus} Folder
       </Button>
   );
 };

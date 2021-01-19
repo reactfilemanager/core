@@ -318,21 +318,23 @@ class SelectableDirectoryTree extends Component {
         <h4 id="folders-heading" className="heading-title" style={{padding: '10px 20px', marginBottom: '10px'}}>
           Folders
         </h4>
-        <Tree
-          loadData={this.onLoadData}
-          onSelect={this.onSelect}
-          checkable={false}
-          selectedKeys={[path]}
-          defaultExpandedKeys={['/']}
-          expandedKeys={this.state.expandedKeys}
-          onExpand={this.handleExpand}
-          icon={this.sendIcon}
-          switcherIcon={getSvgIcon}
-          autoExpandParent
-          showLine
-        >
-          {_dirs}
-        </Tree>
+        <div>
+          <Tree
+              loadData={this.onLoadData}
+              onSelect={this.onSelect}
+              checkable={false}
+              selectedKeys={[path]}
+              defaultExpandedKeys={['/']}
+              expandedKeys={this.state.expandedKeys}
+              onExpand={this.handleExpand}
+              icon={this.sendIcon}
+              switcherIcon={getSvgIcon}
+              autoExpandParent
+              showLine
+          >
+            {_dirs}
+          </Tree>
+        </div>
       </>
     );
   }
