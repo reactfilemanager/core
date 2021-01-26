@@ -36,6 +36,12 @@ export const getSelectedItemProps = item => {
   };
 };
 
+const _entries = {dirs: [], files: []};
+
+export function items() {
+  return _entries;
+}
+
 class ItemList extends Component {
 
   state = {
@@ -283,6 +289,8 @@ class ItemList extends Component {
       dirsLoaded(path, entries.dirs);
 
       this.setState({entries, selected_entries: {}});
+      _entries.dirs = entries.dirs;
+      _entries.files = entries.files;
       setSelectedItems([]);
 
     }).catch(error => {
