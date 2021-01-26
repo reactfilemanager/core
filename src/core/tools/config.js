@@ -9,7 +9,6 @@ import {CopyButton} from '../Components/Utilities/Copy';
 import {DeleteButton} from '../Components/Utilities/Delete';
 import {NewFolderButton} from '../Components/Utilities/NewFolder';
 import {setWorkingPath} from '../state/actions';
-import {getAllEntries} from '../Components/ItemList';
 
 let _api = {};
 let _getConfig = () => {};
@@ -112,9 +111,6 @@ export const getHandlers = (item, state) => {
 export const accessor = () => {
   return {
     setWorkingPath,
-    items() {
-      return getAllEntries();
-    }
   };
 };
 

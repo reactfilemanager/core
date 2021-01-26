@@ -131,37 +131,25 @@
 
   .filemanagerBody {
     display: grid;
-    grid-template-columns: 22% 1fr;
-
-    // set height and no overflow
-    height: calc(100vh - 100px);
-    overflow: hidden;
-  }
-
-  @media only screen and (max-width: 800px) {
-    .filemanagerBody {
-      grid-template-columns: 32% 68%;
-    }
-  }
-
-  @media only screen and (max-width: 1024px) {
-    .filemanagerBody {
-      grid-template-columns: 30% 70%;
-    }
+    grid-template-columns: auto 1fr;
   }
 
   aside.aside-content {
-    overflow-x: hidden;
-    overflow-y: auto;
     height: 100%;
+    overflow: auto;
+    flex-basis: 350px;
     background: transparent;
+
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
     -webkit-flex-basis: 350px;
     -ms-flex-preferred-size: 350px;
+    flex-basis: 350px;
     border-right: 1px solid #ddd;
+    width: 350px;
+    resize: horizontal;
   }
 
   main.main-content {
@@ -176,7 +164,6 @@
     flex-basis: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    //min-height: 545px;
   }
 
   .fm-alert {
@@ -428,11 +415,6 @@
     .fm-file-thumb {
       height: 100%;
       width: 100%;
-
-      background-color: #fff;
-      background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%);
-      background-position: 0 0, 10px 10px;
-      background-size: 20px 20px;
     }
   }
 
@@ -537,7 +519,6 @@ header.fm-toolbar input {
       padding: 0;
       margin: 0;
       display: inline-block;
-      position: relative;
 
       .fm-media--file {
         position: relative;
@@ -556,22 +537,6 @@ header.fm-toolbar input {
           line-height: 22px;
           height: 30px;
           font-weight: 300;
-        }
-
-        & > .fm-link-primary {
-          height: auto;
-          line-height: initial;
-          padding: 0px;
-          margin: 0px;
-          border-width: 1px;
-          border-style: solid;
-          border-color: rgb(221, 221, 221);
-          border-image: initial;
-          background: white !important;
-          position: absolute;
-          top: 0px;
-          right: 0px;
-
         }
       }
 
