@@ -4,6 +4,7 @@ import {CONTEXT_MENU_ID} from '../../ContextMenu';
 import ListViewBase from '../ListViewBase';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Files from './files';
+import {PaginatedList} from 'react-paginated-list';
 
 class GridItemListView extends ListViewBase {
 
@@ -54,10 +55,29 @@ class GridItemListView extends ListViewBase {
             <h4 id="files-heading" className="heading-title">Files</h4>
             {items.files.length
                 ? (<>
-                    {
-                        <Files getFileBlock={(item) => this.getFileBlock(item)} files={items.files}
-                               className={(item) => this.className(item)} />
-                    }
+                    {/*{*/}
+                    {/*    <Files getFileBlock={(item) => this.getFileBlock(item)} files={items.files}*/}
+                    {/*           className={(item) => this.className(item)} />*/}
+                    {/*}*/}
+
+                    <PaginatedList
+                        list={items.files}
+                        itemsPerPage={70}
+                        useMinimalControls={true}
+                        displayRange={10}
+                        renderList={(list) => (
+                            <div className="file-items">
+                                {list.map((item, id) => {
+                                    return (
+                                        <div key={item.id} className={this.className(item)}>
+                                            {this.getFileBlock(item)}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    />
+
                 </>)
                 : <div className="fm-alert">
                     <p>No items match your search</p>
