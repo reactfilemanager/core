@@ -13,6 +13,10 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
+  "dependencies": {
+    "react-paginated-list": "^1.1.5",
+    "styled-components": "^5.0.1"
+  },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.7",
@@ -38,7 +42,5 @@
     "sass-loader": "^7.1.0",
     "theme-ui": "^0.3.1",
     "webpack-bundle-analyzer": "^3.6.0",
-    "styled-components": "^5.0.1",
-    "react-paginated-list": "1.1.5"
   }
 }
