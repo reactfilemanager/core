@@ -697,22 +697,22 @@ header.fm-toolbar input {
   }
 
   .fm-grid-m {
-    max-width: 10%;
-    flex: 10%;
+    max-width: 25%;
+    flex: 25%;
 
     &.active .fm-media {
       border: 1px solid #3235ee;
     }
 
     .fm-media {
-      height: 90px;
-      text-align: center;
       border: 1px solid #f1f1f1;
-      margin: 5px;
+      margin: 10px;
+      display: flex;
+      padding: 10px;
+      align-items: center;
 
-      .fm-media__thumb {
-        height: 60px;
-        padding-top: 12px;
+      .fm-media__caption{
+        margin-left: 15px;
       }
     }
   }
