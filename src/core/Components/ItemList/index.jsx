@@ -399,8 +399,48 @@ class ItemList extends Component {
     };
   };
 
+  /*
+  * @param {string} itemKey
+  * */
+  dispatchFileSelectedEvent(itemKey) {
+    const item = this.state.entries.files.find(file => file.id === itemKey);
+    const allowedExtensions = new Set(["jpg", "jpeg", "png", "gif", "bmp", "svg", "webp"]);
+    if(!item || !allowedExtensions.has(item.extension)) {
+      console.log(`File extension ${item.extension} is not allowed. Event will not be dispatched.`);
+      return;
+    }
+
+    try {
+      const detail  = {
+        "type": "file",
+        "name": item.name,
+        "path": `local-images:${item.path}`,
+        "fileType": item.image_info.mime,
+        "extension": item.extension,
+        "width": item.image_info.width,
+        "height": item.image_info.height,
+      };
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          "onMediaFileSelected",
+          {
+            bubbles: true,
+            cancelable: false,
+            detail,
+          },
+        ),
+      );
+      console.log('trying to dispatch the event')
+    } catch (error) {
+      console.error('error dispatching the event', error)
+    }
+  }
+
   get selectedItems() {
-    return Object.keys(this.state.selected_entries);
+    const keys = Object.keys(this.state.selected_entries);
+    const itemKey = keys.length > 0 ? keys[0] : false;
+    if(itemKey) this.dispatchFileSelectedEvent(itemKey);
+    return keys;
   }
 
   render() {
