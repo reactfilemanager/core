@@ -14,6 +14,23 @@ export default class ListViewBase extends React.Component {
     }
   };
 
+  handleModalSelection = (details) => {
+    if (!details) return;
+    const modal = window?.parent?.Joomla.Modal?.getCurrent();
+    if (!modal) return;
+
+    window.parent.Joomla.selectedMediaFile = details;
+    Joomla.selectedMediaFile = details;
+
+    let selectButton = modal.querySelector('.btn.btn-secondary.button-save-selected') ??
+                       modal.querySelector('.button.button-success.btn.btn-success') ??
+                       modal.querySelector('.btn.btn-success.button-save-selected') ??
+                       modal.querySelector('.button-save-selected');
+    if (selectButton) {
+      selectButton.click();
+    }
+  }
+
   handleDoubleClick = item => e => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,7 +44,18 @@ export default class ListViewBase extends React.Component {
       toast.info('Unsupported file type.');
       return;
     }
-    handlers.handle(item);
+
+    let details;
+    if(Joomla.selectedMediaFile || window.parent.Joomla.selectedMediaFile){
+      details = JSON.parse(JSON.stringify(Joomla.selectedMediaFile || window.parent.Joomla.selectedMediaFile || {}));
+    }
+
+    try{
+      handlers.handle(item);
+    }catch (e) {
+      this.handleModalSelection(details);
+      console.log(e);
+    }
   };
 
   toggleSelect = (item, ctrlKey, shiftKey) => {
