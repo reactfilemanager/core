@@ -404,43 +404,50 @@ class ItemList extends Component {
   * */
   dispatchFileSelectedEvent(itemKey) {
     const item = this.state.entries.files.find(file => file.id === itemKey);
-    const allowedExtensions = new Set(["jpg", "jpeg", "png", "gif", "bmp", "svg", "webp"]);
+    const allowedExtensions = new Set(["bmp", "gif", "jpg", "png", "jpeg", "webp", "avif"]);
     if(!item || !allowedExtensions.has(item.extension)) {
-      console.log(`File extension ${item.extension} is not allowed. Event will not be dispatched.`);
+      if(!item) {
+        console.log('item not found')
+      } else {
+        console.log('extension not allowed')
+      }
       return;
     }
 
+    const details  = {
+      "type": "file",
+      "name": item.name,
+      "path": `local-images:${item.path}`,
+      "fileType": item.image_info.mime,
+      "extension": item.extension,
+      "width": item.image_info.width,
+      "height": item.image_info.height,
+    };
     try {
-      const detail  = {
-        "type": "file",
-        "name": item.name,
-        "path": `local-images:${item.path}`,
-        "fileType": item.image_info.mime,
-        "extension": item.extension,
-        "width": item.image_info.width,
-        "height": item.image_info.height,
-      };
       window.parent.document.dispatchEvent(
         new CustomEvent(
           "onMediaFileSelected",
           {
             bubbles: true,
             cancelable: false,
-            detail,
+            detail: details,
           },
         ),
       );
       console.log('trying to dispatch the event')
     } catch (error) {
-      console.error('error dispatching the event', error)
+      if(Joomla.selectedMediaFile) Joomla.selectedMediaFile = details;
+      if (window.parent.Joomla.selectedMediaFile) window.parent.Joomla.selectedMediaFile = details;
+
+      console.error('error dispatching the event', error);
     }
   }
 
   get selectedItems() {
-    const keys = Object.keys(this.state.selected_entries);
-    const itemKey = keys.length > 0 ? keys[0] : false;
-    if(itemKey) this.dispatchFileSelectedEvent(itemKey);
-    return keys;
+    // const keys = Object.keys(this.state.selected_entries);
+    // const itemKey = keys.length > 0 ? keys[0] : false;
+    // if(itemKey && (Joomla.selectedMediaFile || window.parent.Joomla.selectedMediaFile)) this.dispatchFileSelectedEvent(itemKey);
+    return Object.keys(this.state.selected_entries);
   }
 
   render() {
